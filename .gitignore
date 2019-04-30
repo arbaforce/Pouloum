@@ -21,3 +21,45 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/Pouloum-IHM-WEB/nbproject/private/
+/PouloumProject/Pouloum-IHM-WEB/nbproject/private/
+/PouloumProject/Pouloum-Common/nbproject/private/
+/PouloumProject/Pouloum-IHM-WEB/target/
+/Pouloum-SOM-User/nbproject/private/
+/PouloumProject/Pouloum-SOM-User/nbproject/private/
+/PouloumProject/Pouloum-common/target/
+/PouloumProject/Pouloum-SMA/target/
+/PouloumProject/Pouloum-util/target/
+/PouloumProject/Pouloum-SOM-User/target/
+/PouloumProject/Pouloum-SOM-Activity/target/
+/PouloumProject/Pouloum-SOM-Address/target/
+/PouloumProject/Pouloum-SOM-Badge/target/
+/PouloumProject/Pouloum-SOM-Event/target/
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

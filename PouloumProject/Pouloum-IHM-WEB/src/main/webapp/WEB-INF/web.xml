@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    
+    <!-- -/->
+    <filter>
+        <filter-name>MicroCasFilter</filter-name>
+        <filter-class>fr.insalyon.waso.util.MicroCasFilter</filter-class>
+        <init-param>
+            <param-name>MicroCasServerUrl</param-name>
+            <param-value>http://localhost:8080/WASO-microCAS/cas</param-value>
+        </init-param>
+    </filter>
+    <!-/- -->
+    <servlet>
+        <servlet-name>AjaxActionServlet</servlet-name>
+        <servlet-class>com.mycompany.pouloum.ihm.web.AjaxActionServlet</servlet-class>
+        <init-param>
+            <param-name>URL-SMA</param-name>
+            <param-value>http://localhost:8080/PouloumSMA-SMA/PouloumSM</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxActionServlet</servlet-name>
+        <url-pattern>/AjaxAction</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
