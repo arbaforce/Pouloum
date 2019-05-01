@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -23,7 +25,7 @@ public class Event implements Serializable  {
     protected Long id;
     
     // Description
-    protected String name;
+    protected String label;
     protected String description;
     protected boolean cancelled;
     
@@ -78,12 +80,12 @@ public class Event implements Serializable  {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getDescription() {
@@ -188,6 +190,37 @@ public class Event implements Serializable  {
     
     public void setParticipants(List<User> participants) {
         this.participants = participants;
+    }
+    
+    
+    // ...
+    
+    public int getParticipants_num() {
+        return participants.size();
+    }
+    
+    public int getStartHour() {
+        SimpleDateFormat h = new SimpleDateFormat("HH:mm");
+        String heureMinuteEvent = h.format(this.start);
+        String[] infosdate = (heureMinuteEvent.split(":"));
+        int hour = Integer.parseInt(infosdate[0]);
+        return hour;
+    }
+    
+    public void setStart( int year, int month, int day, int hour, int minutes ) {
+        Date datetime = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(datetime);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minutes);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        datetime = cal.getTime();
+        
+        setStart(datetime);
     }
     
 }

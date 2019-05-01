@@ -12,7 +12,7 @@ public class DAOEvent {
     public static void persist( Event i )
         throws Exception
     {
-        EntityManager em = JpaUtil.obtenirEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
         
         try {
             em.persist(i);
@@ -24,7 +24,7 @@ public class DAOEvent {
     public static void removeById( Long id )
         throws Exception
     {
-        EntityManager em=JpaUtil.obtenirEntityManager();
+        EntityManager em=JpaUtil.getEntityManager();
         
         try {
             Event i = (Event) em.find(Event.class,id);
@@ -37,12 +37,12 @@ public class DAOEvent {
     public static Event updateEvent( Event i )
         throws Exception
     {
-        EntityManager em = JpaUtil.obtenirEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
         
-        try{
+        try {
             em.merge(i);
-        }catch(Exception e){           
-            throw e;         
+        } catch (Exception e) {
+            throw e;
         }
         
         return i;
@@ -51,7 +51,7 @@ public class DAOEvent {
     public static Event findById( Long id )
         throws Exception
     {
-        EntityManager em = JpaUtil.obtenirEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
         
         Event found = null;
         try {
@@ -66,16 +66,16 @@ public class DAOEvent {
     public static List<Event> findAll( )
         throws Exception
     {
-        EntityManager em = JpaUtil.obtenirEntityManager();        
+        EntityManager em = JpaUtil.getEntityManager();
         List<Event> found = null;
         try {
-            Query q = em.createQuery("SELECT u FROM User u");
-            found = (List<Event>) q.getResultList();            
+            Query q = em.createQuery("SELECT e FROM Event e");
+            found = (List<Event>) q.getResultList();
         } catch (Exception e) {
-            throw e;         
+            throw e;
         }
         
-        return found;   
+        return found;
     }
     
 }

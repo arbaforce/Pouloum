@@ -16,7 +16,7 @@ public class ServicesApp {
     
     public static void UserRegister(User user) {
         try {
-            JpaUtil.creerEntityManager();
+            JpaUtil.createEntityManager();
             
             User check = DAOUser.findUserByEmail(user.getEmail());
             if(check != null) {
@@ -25,20 +25,20 @@ public class ServicesApp {
             }
             // email available
             
-            JpaUtil.ouvrirTransaction();
+            JpaUtil.openTransaction();
             
             try {
                 DAOUser.persist(user);
-                JpaUtil.validerTransaction();
+                JpaUtil.commitTransaction();
                 ServicesTools.simulateEmailRegisterSuccess(user);
                 
             } catch (Exception e) {
-                JpaUtil.annulerTransaction();
+                JpaUtil.cancelTransaction();
                 ServicesTools.simulateEmailRegisterFailure(user.getFirst_name(), user.getEmail());
                 throw e;
             }
             
-            JpaUtil.fermerEntityManager();
+            JpaUtil.closeEntityManager();
         
         } catch(Exception e) {
             e.printStackTrace();
@@ -51,11 +51,11 @@ public class ServicesApp {
         User authenticated = null;
         
         try {
-            JpaUtil.creerEntityManager();
+            JpaUtil.createEntityManager();
             
             authenticated = DAOUser.findUserByEmailAndPassword(email, password);
             
-            JpaUtil.fermerEntityManager();
+            JpaUtil.closeEntityManager();
         } catch (Exception e) {
             // e.printStackTrace();
         }
@@ -63,157 +63,98 @@ public class ServicesApp {
         return authenticated;
     }
     
-    /*
-    public static User DemandeEvent(Event i){
-        
-        User employeChoisi = null;
-        
-        try{
+    public static void CreateEvent( User u, Event i ) {
+        try {
+            JpaUtil.createEntityManager();
             
-            JpaUtil.creerEntityManager();
-            
-            SimpleDateFormat h = new SimpleDateFormat("HH:mm");
-            String heureMinuteEvent=h.format(i.getDateDeDebut());
-            String [] infosdate=(heureMinuteEvent.split(":"));
-            
-            int heureDebut=Integer.parseInt(infosdate[0]);
-            
-            //System.out.println(heuredebutGMT);
-            List<User> employesDispos=DAOUser.findUsersDispos(heureDebut);
-            double meilleurTemps=9999999999999999.999;
-            for(User employeIter : employesDispos){
-                double tempsTempo=GeoTest.getTripDurationByBicycleInMinute(employeIter.getCoordGPSDomicile(),i.getUser().getCoordGPSDomicile());
-                if(tempsTempo<=meilleurTemps){
-                    meilleurTemps=tempsTempo;
-                    employeChoisi=employeIter;
-                }
-            }
-            if(employeChoisi!=null){
-                                
-                JpaUtil.ouvrirTransaction();
-                
-                try{
-                    
-                    //modifier la disponibilte à false de l'employe via update dans la BD
-                    employeChoisi.setDisponibilite(false);
-                    //affecter l'intervention en cours à l'employe
-                    employeChoisi.setEventEnCours(i);
-                    employeChoisi=DAOUser.updateUser(employeChoisi);
-                    
-                    
-                    //affecter l'intervention à la liste du user
-                    i.getUser().getEventsDemandees().add(i);
-                    DAOUser.updateUser(i.getUser());
-                    
-                    //on fait persister l'intervention
-                    DAOEvent.persist(i);
-                    
-                    JpaUtil.validerTransaction();
-                }catch(Exception e){
-                    JpaUtil.annulerTransaction();
-                    employeChoisi = null; // CHANGE : AJOUTE !!
-                    throw e;
-                }
-                               
-                
-                //envoyer notification SMS
-                System.out.print("SMS envoye a l'employe :");
-                ServicesTools.simulationSmsUser(employeChoisi);
-                
-                System.out.println("L'intervention ("+i.getClass().getSimpleName()+") a ete attribuee à " + employeChoisi.getPrenom() + ".\n"
-                    + "Elle sera realisee sous peu. Vous recevrez un sms bilan.");
-            }
-            else{
-                System.out.println("Aucun employe disponible actuellement.\n"
-                        + "Veuillez reesayer dans quelque minutes.");
-            }
-
-            
-            JpaUtil.fermerEntityManager();
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return employeChoisi;
-    }
-    */
-    
-    /*
-    public static boolean ValiderEvent(User emp, int hour, int minutes, String rapport)
-    {            
-
-        
-        boolean res=false;
-        
-        Date dateFin = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(dateFin);
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minutes);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        dateFin = cal.getTime();
-        
-        Event itempo = emp.getEventEnCours(); 
-        
-        try{
-            
-            JpaUtil.creerEntityManager();
+            JpaUtil.openTransaction();
             
             
-            JpaUtil.ouvrirTransaction();
+            List<Event> is = u.getEvents();
+            is.add(i);
+            u.setEvents(is);
+            u = DAOUser.updateUser(u);
             
-            try{
-                
-                // update employe
-                emp.getEventsRealisees().add(itempo);
-                emp.setEventEnCours(null);
-                emp.setDisponibilite(true);
-               
-                emp = DAOUser.updateUser(emp);
-                 System.out.println(emp);
-                // update objet intervention
-                itempo.setRapport(rapport); // CHANGE !!
-                itempo.setTerminee(true);
-                itempo.setDateDeFin(dateFin);
-                
-                DAOEvent.updateEvent(itempo);
-                
-                res=true;
-                JpaUtil.validerTransaction();
-                
-            }catch(Exception e){
-                System.out.println("test");
-                JpaUtil.annulerTransaction();
+            i.setOrganizer(u);
+            DAOEvent.persist(i);
+            
+            try {
+                JpaUtil.commitTransaction();
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
                 throw e;
             }
             
-            JpaUtil.fermerEntityManager();
+            ServicesTools.simulateSMSCreationSuccess(u, i);
             
-            System.out.print("SMS envoye au user :");
-            ServicesTools.simulationSmsUser(itempo);
+            JpaUtil.closeEntityManager();
+        } catch (Exception e) {
+            ServicesTools.simulateSMSCreationFailure(u, i.getLabel());
+            
+            e.printStackTrace();
+        }
+    }
+    
+    public static boolean JoinEvent( User u, Event i )
+    {
+        List<User> participants = i.getParticipants();
+        
+        if (participants.contains(u)) {
+            return false;
+        }
+        
+        if (i.getParticipants_num() >= i.getParticipants_max()) {
+            return false;
+        }
+            
+        boolean success = false;
+        
+        try {
+            JpaUtil.createEntityManager();
+            
+            JpaUtil.openTransaction();
+            
+            try {
+                List<Event> events = u.getEvents();
+                events.add(i);
+                u.setEvents(events);
+                u = DAOUser.updateUser(u);
                 
-            System.out.println("L'intervention ("+itempo.getClass().getSimpleName()+") est cloturee.\n");
+                participants.add(u);
+                i.setParticipants(participants);
+                DAOEvent.updateEvent(i);
+                
+                JpaUtil.commitTransaction();
+                
+                success = true;
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
+                throw e;
+            }
             
+            JpaUtil.closeEntityManager();
             
-            
-        }catch(Exception e){
+            if (success) {
+                ServicesTools.simulateSMSJoinSuccess(u, i);
+            } else {
+                ServicesTools.simulateSMSJoinFailure(u, i);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         
-        return res;
+        return success;
     }
-    */
     
     public static List<Event> GetEventsToday(){
         List<Event> result = new ArrayList<>();
         
         try {
-            JpaUtil.creerEntityManager();
+            JpaUtil.createEntityManager();
             
             Date todaydate = new Date();
             SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-            String today= sf.format(todaydate);
+            String today = sf.format(todaydate);
             
             List<Event> allInter = DAOEvent.findAll();
             if (allInter!=null && !allInter.isEmpty()) {
@@ -225,7 +166,7 @@ public class ServicesApp {
                 }
             }
             
-            JpaUtil.fermerEntityManager();
+            JpaUtil.closeEntityManager();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -237,7 +178,7 @@ public class ServicesApp {
     
     public static void CreateSampleUsers(){
         try {
-            JpaUtil.creerEntityManager();
+            JpaUtil.createEntityManager();
             
             List<User> users = new ArrayList<>();
             
@@ -273,7 +214,7 @@ public class ServicesApp {
                 }
             }
             
-            JpaUtil.fermerEntityManager();
+            JpaUtil.closeEntityManager();
         
         } catch (Exception e) {
             e.printStackTrace();

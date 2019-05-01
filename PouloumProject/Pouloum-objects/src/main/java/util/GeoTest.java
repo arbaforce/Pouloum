@@ -35,7 +35,7 @@ public class GeoTest {
             GeocodingResult[] results = GeocodingApi.geocode(MON_CONTEXTE_GEOAPI, adresse).await();
 
             return results[0].geometry.location;
-        } catch (Exception ex) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -45,7 +45,6 @@ public class GeoTest {
     }
 
     public static double getFlightDistanceInKm(LatLng origin, LatLng destination) {
-
         // From: http://www.movable-type.co.uk/scripts/latlong.html
         double R = 6371.0; // Average radius of Earth (km)
         double dLat = toRad(destination.lat - origin.lat);
@@ -74,7 +73,6 @@ public class GeoTest {
     }
 
     public static Double getTripDurationOrDistance(TravelMode mode, boolean duration, LatLng origin, LatLng destination, LatLng... steps) {
-
         DirectionsApiRequest request = DirectionsApi.getDirections(MON_CONTEXTE_GEOAPI, origin.toString(), destination.toString());
         request.mode(mode);
         request.region("fr");
@@ -101,8 +99,7 @@ public class GeoTest {
                 cumulDistance += directions[0].legs[legIndex].distance.inMeters / 1000.0;
                 cumulDuration += Math.ceil(directions[0].legs[legIndex].duration.inSeconds / 60.0);
             }
-
-        } catch (Exception ex) {
+        } catch (Exception e) {
             return null;
         }
 
@@ -114,7 +111,6 @@ public class GeoTest {
     }
 
     public static void main(String[] args) {
-
         if (MA_CLÉ_GOOGLE_API.equals("XXXXXXXX-Moodle-Clé")) {
             for (int i=0; i<100; i++) {
                 System.err.println("[ERREUR] VOUS AVEZ OUBLIÉ DE CHANGER LA CLÉ DE L'API !!!!!");

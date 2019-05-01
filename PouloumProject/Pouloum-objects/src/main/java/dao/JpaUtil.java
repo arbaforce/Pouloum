@@ -18,12 +18,14 @@ public class JpaUtil {
     // *************************************************************************************
     // * TODO: IMPORTANT -- Adapter le nom de l'Unité de Persistance (cf. persistence.xml) *
     // *************************************************************************************
+    
     /**
      * Nom de l'unité de persistance utilisée par la Factory de Entity Manager.
      * <br><strong>Vérifier le nom de l'unité de persistance
      * (cf.&nbsp;persistence.xml)</strong>
      */
     public static final String PERSISTENCE_UNIT_NAME = "UP-TP1";
+    
     /**
      * Factory de Entity Manager liée à l'unité de persistance.
      * <br/><strong>Vérifier le nom de l'unité de persistance indiquée dans
@@ -31,13 +33,13 @@ public class JpaUtil {
      * (cf.&nbsp;persistence.xml)</strong>
      */
     private static EntityManagerFactory entityManagerFactory = null;
+    
     /**
      * Gère les instances courantes de Entity Manager liées aux Threads.
      * L'utilisation de ThreadLocal garantie une unique instance courante par
      * Thread.
      */
     private static final ThreadLocal<EntityManager> threadLocalEntityManager = new ThreadLocal<EntityManager>() {
-
         @Override
         protected EntityManager initialValue() {
             return null;
@@ -48,8 +50,8 @@ public class JpaUtil {
     private static void pause(long milliseconds) {
         try {
             Thread.sleep(milliseconds);
-        } catch (InterruptedException ex) {
-            ex.hashCode();
+        } catch (InterruptedException e) {
+            // e.hashCode();
         }
     }
 
@@ -69,7 +71,7 @@ public class JpaUtil {
      * (ActionServlet) [projet Web Application].</strong>
      */
     public static synchronized void init() {
-        log("Initialisation de la factory de contexte de persistance");
+        log("Initializing the entity manager factory");
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
@@ -83,7 +85,7 @@ public class JpaUtil {
      * (ActionServlet) [projet Web Application].</strong>
      */
     public static synchronized void destroy() {
-        log("Libération de la factory de contexte de persistance");
+        log("Destroying the entity manager factory");
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
             entityManagerFactory = null;
@@ -94,19 +96,29 @@ public class JpaUtil {
      * Créée l'instance courante de Entity Manager (liée à ce Thread).
      * <br><strong>À utiliser uniquement au niveau Service.</strong>
      */
-    public static void creerEntityManager() {
-        log("Création du contexte de persistance");
+    public static void createEntityManager() {
+        log("Creating the local entity manager");
         threadLocalEntityManager.set(entityManagerFactory.createEntityManager());
     }
 
     /**
+     * Retourne l'instance courante de Entity Manager.
+     * <br><strong>À utiliser uniquement au niveau DAO.</strong>
+     *
+     * @return instance de Entity Manager
+     */
+    protected static EntityManager getEntityManager() {
+        log("Retrieving the local entity manager");
+        return threadLocalEntityManager.get();
+    }
+    
+    /**
      * Ferme l'instance courante de Entity Manager (liée à ce Thread).
      * <br><strong>À utiliser uniquement au niveau Service.</strong>
      */
-    public static void fermerEntityManager() {
-        log("Fermeture du contexte de persistance");
-        EntityManager em = threadLocalEntityManager.get();
-        em.close();
+    public static void closeEntityManager() {
+        log("Closing the local entity manager");
+        threadLocalEntityManager.get().close();
         threadLocalEntityManager.set(null);
     }
 
@@ -114,14 +126,14 @@ public class JpaUtil {
      * Démarre une transaction sur l'instance courante de Entity Manager.
      * <br><strong>À utiliser uniquement au niveau Service.</strong>
      */
-    public static void ouvrirTransaction() {
-        log("Ouverture de la transaction (begin)");
+    public static void openTransaction() {
+        log("Beginning a transaction");
         try {
             EntityManager em = threadLocalEntityManager.get();
             em.getTransaction().begin();
-        } catch (Exception ex) {
-            log("Erreur lors de l'ouverture de la transaction");
-            throw ex;
+        } catch (Exception e) {
+            log("Error beginning a transaction");
+            throw e;
         }
     }
 
@@ -131,14 +143,14 @@ public class JpaUtil {
      *
      * @exception RollbackException lorsque le <em>commit</em> n'a pas réussi.
      */
-    public static void validerTransaction() throws RollbackException {
-        log("Validation de la transaction (commit)");
+    public static void commitTransaction() throws RollbackException {
+        log("Commiting the transaction");
         try {
             EntityManager em = threadLocalEntityManager.get();
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            log("Erreur lors de la validation (commit) de la transaction");
-            throw ex;
+        } catch (Exception e) {
+            log("Error commiting the transaction");
+            throw e;
         }
     }
 
@@ -148,30 +160,19 @@ public class JpaUtil {
      * aucune opération.
      * <br><strong>À utiliser uniquement au niveau Service.</strong>
      */
-    public static void annulerTransaction() {
+    public static void cancelTransaction() {
         try {
-            log("Annulation de la transaction (rollback)");
+            log("Cancelling the transaction");
 
             EntityManager em = threadLocalEntityManager.get();
             if (em.getTransaction().isActive()) {
-                log("Annulation effective de la transaction (rollback d'une transaction active)");
+                log("Effective cancellation of the transaction");
                 em.getTransaction().rollback();
             }
-
-        } catch (Exception ex) {
-            log("Erreur lors de l'annulation (rollback) de la transaction");
-            throw ex;
+        } catch (Exception e) {
+            log("Error cancelling the transaction");
+            throw e;
         }
     }
 
-    /**
-     * Retourne l'instance courante de Entity Manager.
-     * <br><strong>À utiliser uniquement au niveau DAO.</strong>
-     *
-     * @return instance de Entity Manager
-     */
-    protected static EntityManager obtenirEntityManager() {
-        log("Obtention du contexte de persistance");
-        return threadLocalEntityManager.get();
-    }
 }

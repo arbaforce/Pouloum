@@ -3,7 +3,7 @@ package vue;
 import dao.JpaUtil;
 import model.*;
 import service.ServicesApp;
-import util.Saisie;
+import util.Input;
 
 public class testOrganize {
     /**
@@ -18,15 +18,15 @@ public class testOrganize {
             
             // Inscription client
             System.out.println("MENU INSCRIPTION :");
-            String pseudo = Saisie.lireChaine("Veuillez entrer votre pseudo : ");
-            String nom = Saisie.lireChaine("Veuillez entrer votre nom : ");
-            String prenom = Saisie.lireChaine("Veuillez entrer votre prenom : ");
-            char civilite = (Saisie.lireChaine("Veuillez entrer votre civilite : ") + "?").charAt(0);
-            String dateDeNaissance = Saisie.lireChaine("Veuillez entrer votre date de naissance (jj/mm/aaaa) : ");
-            String tel = Saisie.lireChaine("Veuillez entrer votre telephone : ");
-            String adressePostale = Saisie.lireChaine("Veuillez entrer votre adresse postale : ");
-            String mail = Saisie.lireChaine("Veuillez entrer votre email : ");
-            String mdp = Saisie.lireChaine("Veuillez entrer votre mot de passe : ");
+            String pseudo = Input.readString("Veuillez entrer votre pseudo : ");
+            String nom = Input.readString("Veuillez entrer votre nom : ");
+            String prenom = Input.readString("Veuillez entrer votre prenom : ");
+            char civilite = (Input.readString("Veuillez entrer votre civilite : ") + "?").charAt(0);
+            String dateDeNaissance = Input.readString("Veuillez entrer votre date de naissance (jj/mm/aaaa) : ");
+            String tel = Input.readString("Veuillez entrer votre telephone : ");
+            String adressePostale = Input.readString("Veuillez entrer votre adresse postale : ");
+            String mail = Input.readString("Veuillez entrer votre email : ");
+            String mdp = Input.readString("Veuillez entrer votre mot de passe : ");
             
             Address adresse = new Address("", adressePostale, "", "", "");
             uSignUp = new User(pseudo,prenom,nom,mail,mdp,false,false,civilite,dateDeNaissance,tel,adresse);
@@ -35,13 +35,13 @@ public class testOrganize {
             
             // Authentification client
             System.out.println("MENU AUTHENTIFICATION CLIENT :");
-            mail = Saisie.lireChaine("Veuillez entrer votre email : ");
-            mdp = Saisie.lireChaine("Veuillez entrer votre mdp : ");
+            mail = Input.readString("Veuillez entrer votre email : ");
+            mdp = Input.readString("Veuillez entrer votre mdp : ");
             cSignIn = ServicesApp.UserAuthenticate(mail, mdp);
             
             while (cSignIn == null) {
-                mail = Saisie.lireChaine("Veuillez entrer votre email : ");
-                mdp = Saisie.lireChaine("Veuillez entrer votre mdp : ");
+                mail = Input.readString("Veuillez entrer votre email : ");
+                mdp = Input.readString("Veuillez entrer votre mdp : ");
                 cSignIn = ServicesApp.UserAuthenticate(mail, mdp);
             }
             

@@ -9,7 +9,7 @@ import dao.JpaUtil;
 import java.util.List;
 import model.*;
 import service.ServicesApp;
-import util.Saisie;
+import util.Input;
 
 public class testJoin {
     /**
@@ -24,13 +24,13 @@ public class testJoin {
             // Authentification employe
             System.out.println("MENU AUTHENTIFICATION CLIENT :");
             
-            String mail = Saisie.lireChaine("Veuillez entrer votre email : ");
-            String mdp = Saisie.lireChaine("Veuillez entrer votre mdp : ");
+            String mail = Input.readString("Veuillez entrer votre email : ");
+            String mdp = Input.readString("Veuillez entrer votre mdp : ");
             uSignIn = ServicesApp.UserAuthenticate(mail, mdp);
             
             while (uSignIn == null) {
-                mail = Saisie.lireChaine("Veuillez entrer votre email : ");
-                mdp = Saisie.lireChaine("Veuillez entrer votre mdp : ");
+                mail = Input.readString("Veuillez entrer votre email : ");
+                mdp = Input.readString("Veuillez entrer votre mdp : ");
                 uSignIn = ServicesApp.UserAuthenticate(mail, mdp);
             }
             
