@@ -3,8 +3,10 @@ package model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import util.DateUtil;
 
 
 @Entity
@@ -203,6 +206,15 @@ public class User implements Serializable  {
     
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+    
+    
+    // ...
+    
+    public int getAge() {
+        Date now = DateUtil.DateNow();
+        long ageindays = DateUtil.DateDiff(birth_date, now, TimeUnit.DAYS);
+        return (int) (ageindays / 365);
     }
     
 }

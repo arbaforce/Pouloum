@@ -182,7 +182,7 @@ public class ServicesApp {
             
             List<User> users = new ArrayList<>();
             
-            Address a1 = new Address("6", "Camille Koechlin", "Villeurbanne", "69100", "France");
+            Address a1 = new Address("6", "Rue Camille Koechlin", "Villeurbanne", "69100", "France");
             User u1 = new User("Momo", "Moez", "WOAGNER", "moez.woagner@proactif.com", "mdpmw", false, false, 'M', "16/08/1984","0832205629", a1);
             users.add(u1);
             
@@ -215,7 +215,6 @@ public class ServicesApp {
             }
             
             JpaUtil.closeEntityManager();
-        
         } catch (Exception e) {
             e.printStackTrace();
         }     

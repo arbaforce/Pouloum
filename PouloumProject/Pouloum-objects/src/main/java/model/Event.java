@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
+import util.DateUtil;
 
 
 @Entity
@@ -208,19 +209,24 @@ public class Event implements Serializable  {
     }
     
     public void setStart( int year, int month, int day, int hour, int minutes ) {
-        Date datetime = new Date();
+        Date date = DateUtil.DateNew(year, month, day, hour, minutes, 0);
+        setStart(date);
+    }
+    
+    public boolean isStarted() {
+        return this.start.before(DateUtil.DateNow());
+    }
+    
+    public Date getEnd() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(datetime);
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, day);
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minutes);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        datetime = cal.getTime();
-        
-        setStart(datetime);
+        cal.setTime(this.start);
+        cal.add(Calendar.MINUTE, this.duration);
+        Date datetime = cal.getTime();
+        return datetime;
+    }
+    
+    public boolean isFinished() {
+        return getEnd().before(DateUtil.DateNow());
     }
     
 }

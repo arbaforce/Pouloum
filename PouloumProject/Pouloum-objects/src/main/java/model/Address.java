@@ -14,10 +14,12 @@ public class Address implements Serializable {
     
     // ATTRIBUTES
     
+    // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    // Address components
     private String number;
     private String street;
     private String postal_code;
