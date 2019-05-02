@@ -182,31 +182,39 @@ public class PouloumSOM {
      * @param address, the new address of the event.
      * @param playerMin, the new minimum number of participants of the event.
      * @param playerMax, the new maximum number of participants of the event.
-     * @return 0 if the update is successful, 1 if the transaction is canceled.
+     * @return 0 if the update is successful, 1 if the event does not exist
+     * , 2 if the transaction is canceled.
      * @throws Exception if there's an error trying to access the database.
      */
     public int updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
             throws Exception {
         
+        Event e = DAOEvent.findById(event.getId());
+        
+        if (e!=event) 
+        {
+            return 1;
+        }
+        
         // Update fields
-        event.setStart(date);
-        event.setDuration(duration);
-        event.setLocation(address);
-        event.setParticipants_min(playerMin);
-        event.setParticipants_max(playerMax);
+        e.setStart(date);
+        e.setDuration(duration);
+        e.setLocation(address);
+        e.setParticipants_min(playerMin);
+        e.setParticipants_max(playerMax);
         
         JpaUtil.createEntityManager();
         
         JpaUtil.openTransaction();
 
         try {
-            DAOEvent.persist(event);
+            DAOEvent.persist(e);
             JpaUtil.commitTransaction();
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
             JpaUtil.closeEntityManager();
-            return 1;
+            return 2;
         }
 
         JpaUtil.closeEntityManager();
