@@ -100,7 +100,8 @@ public class PouloumSOM {
      * @param newParticipant is the participant to add to the event.
      * @param idEvent is the id of the event.
      * @return int 0 if the registration is successful, 1 if the event does not
-     * exist, 2 if the pouloumer is already participating in the event.
+     * exist, 2 if the pouloumer is already participating in the event,
+     * 3 if the transaction has been canceled.
      * @throws Exception if there's an error trying to access the database.
      */
     public int addParticipant(Pouloumer newParticipant, Long idEvent)
@@ -113,6 +114,62 @@ public class PouloumSOM {
             return 2;
         }
         e.addParticipant(newParticipant);
+        
+        JpaUtil.createEntityManager();
+
+        JpaUtil.openTransaction();
+
+        try {
+            DAOEvent.updateEvent(e);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 3;
+        }
+        
+        JpaUtil.closeEntityManager();
+        
+        return 0;
+    }
+    
+    /**
+     * Add a commentary to an existing event.
+     *
+     * @param description is the participant to add to the event.
+     * @param idEvent is the id of the event.
+     * @param date is today's date.
+     * @param idPouloumer is the id of the commentor.
+     * @return int 0 if the registration is successful, 1 if the event does not
+     * exist, 2 if the transaction is canceled.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public int addCommentaryToEvent(String description, Date date, Long idEvent, Long idPouloumer)
+            throws Exception
+    {
+        Event e = DAOEvent.findById(idEvent);
+        if(e==null)
+        {
+            return 1;
+        }
+        
+        e.addCommentary(description, date, idPouloumer);
+                
+        JpaUtil.createEntityManager();
+
+        JpaUtil.openTransaction();
+
+        try {
+            DAOEvent.updateEvent(e);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 2;
+        }
+        
+        JpaUtil.closeEntityManager();
+        
         return 0;
     }
 

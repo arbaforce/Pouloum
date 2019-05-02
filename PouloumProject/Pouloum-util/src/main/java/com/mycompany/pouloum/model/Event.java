@@ -16,11 +16,23 @@ import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import javax.persistence.Column;
 
+
+
 @Entity
 public class Event implements Serializable  {
     
     // ATTRIBUTES
-    
+    class Commentary 
+    {
+        public Commentary(String description, Date date, Long idUser) {
+            this.date = date;
+            this.description = description;
+            this.idUser = idUser;
+        }
+        public Date date; 
+        public String description;
+        public Long idUser;
+    }
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,6 +64,7 @@ public class Event implements Serializable  {
     protected List<Pouloumer> participants;
     
     // Grades
+    protected List<Commentary> comments;
     // protected double grade_average;
     // map<Pouloumer,int> participants_gradings
     // map<Pouloumer,list<String>> participants_tonotify
@@ -210,6 +223,9 @@ public class Event implements Serializable  {
         this.participants.add(participant);
     }
     
+    public void addCommentary(String description, Date date, Long idPouloumer) {
+        this.comments.add(new Commentary(description, date, idPouloumer));
+    }
     
     // ...
     
