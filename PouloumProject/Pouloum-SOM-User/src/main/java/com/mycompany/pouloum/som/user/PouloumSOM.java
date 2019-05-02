@@ -11,7 +11,6 @@ import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOPouloumer;
 import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Pouloumer;
-import com.mycompany.pouloum.model.Event;
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +67,7 @@ public class PouloumSOM {
 
         Pouloumer u = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
 
+
         JpaUtil.closeEntityManager();
 
         return u;
@@ -96,6 +96,8 @@ public class PouloumSOM {
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Long idAddress) {
+        throws Exception
+    {
         Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
@@ -119,7 +121,7 @@ public class PouloumSOM {
         try {
             DAOPouloumer.persist(u);
             JpaUtil.commitTransaction();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
         }
@@ -153,6 +155,7 @@ public class PouloumSOM {
         JpaUtil.createEntityManager();
         
         Pouloumer u = DAOPouloumer.findPouloumerByEmail(mail);
+
         
         JpaUtil.closeEntityManager();
         
@@ -168,7 +171,7 @@ public class PouloumSOM {
         JpaUtil.createEntityManager();
         
         Pouloumer u = DAOPouloumer.findPouloumerByNickname(nickname);
-        
+
         JpaUtil.closeEntityManager();
         
         return u;

@@ -18,7 +18,7 @@ import util.DateUtil;
 
 
 @Entity
-public class User implements Serializable  {
+public class Pouloumer implements Serializable  {
 
     // ATTRIBUTES
     
@@ -63,9 +63,9 @@ public class User implements Serializable  {
     
     // CONSTRUCTORS
     
-    public User ( ) { }
+    public Pouloumer ( ) { }
     
-    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -79,7 +79,7 @@ public class User implements Serializable  {
         this.address = address;
     }
     
-    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
         throws ParseException
     {
         this.nickname = nickname;
