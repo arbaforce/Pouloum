@@ -152,6 +152,13 @@ public class PouloumSOM {
         return 0;
     }
     
+    /**
+     * Get the list of events organized by a given user.
+     * 
+     * @param p is the user organizing the events we look for.
+     * @return List, a list of events organized by p.
+     * @throws Exception if there was an error trying to read the database.
+     */
     public List<Event> getOrganizedEvents(Pouloumer p) throws Exception {
         JpaUtil.createEntityManager();
         
