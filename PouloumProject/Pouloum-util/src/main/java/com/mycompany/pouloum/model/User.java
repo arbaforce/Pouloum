@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
@@ -27,12 +28,14 @@ public class User implements Serializable  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
     
-    // Identity
+    // Identity 
+    //TODO : should be unique
     protected String nickname;
     protected String first_name;
     protected String last_name;
     
     // Account info
+    //TODO : should be unique
     protected String email;
     protected String password;
     protected boolean moderator;
