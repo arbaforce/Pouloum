@@ -20,14 +20,13 @@ public class DAOUser {
             throw e;
         }
     }
-    
-    public static void removeById( Long id )
-        throws Exception
-    {
+
+    public static void removeById(Long id)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         try {
-            User u = (User) em.find(User.class,id);
+            User u = (User) em.find(User.class, id);
             em.remove(u);
         } catch (Exception e) {
             throw e;
