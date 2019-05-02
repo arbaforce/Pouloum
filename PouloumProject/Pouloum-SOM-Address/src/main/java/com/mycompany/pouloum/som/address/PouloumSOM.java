@@ -52,14 +52,20 @@ public class PouloumSOM {
     /**
      * Try to login with a given (mail, password) pair.
      *
-     * @param newAddress is the new address to create.
+     * @param number is the address number.
+     * @param street is the address street.
+     * @param postal_code is the address postal code.
+     * @param city is the address city.
+     * @param country is the address country.
      * @return id, the user matching the credentials or null if they are
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public Long createAddress(Address newAddress)
+    public Long createAddress(String number, String street, String postal_code, String city, String country)
             throws Exception
     {
+        Address newAddress = new Address(number, street, postal_code, city, country);
+        
         JpaUtil.createEntityManager();
 
         JpaUtil.openTransaction();
