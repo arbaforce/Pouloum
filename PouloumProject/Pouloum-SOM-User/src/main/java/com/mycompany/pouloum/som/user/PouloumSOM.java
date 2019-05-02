@@ -41,7 +41,8 @@ public class PouloumSOM {
      * @throws Exception if there's an error trying to access the database.
      */
     public Pouloumer loginMail(String mail, String password)
-            throws Exception {
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         Pouloumer u = DAOPouloumer.findUserByEmailAndPassword(mail, password);
@@ -61,7 +62,8 @@ public class PouloumSOM {
      * @throws Exception if there's an error trying to access the database.
      */
     public Pouloumer loginNickname(String nickname, String password)
-            throws Exception {
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         Pouloumer u = DAOPouloumer.findUserByNicknameAndPassword(nickname, password);
@@ -134,10 +136,12 @@ public class PouloumSOM {
      * @param id is the id of the user.
      * @return User, the user matching the given id, or null if there is none.
      */
-    public User getUserByEmail(Long id) {
+    public Pouloumer getUserByEmail(Long id)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findById(id)
+        Pouloumer u = DAOPouloumer.findById(id);
         
         JpaUtil.closeEntityManager();
         
@@ -149,10 +153,12 @@ public class PouloumSOM {
      * @param mail is the e-mail address of the user.
      * @return User, the user matching the given address, or null if there is none.
      */
-    public User getUserByEmail(String mail) {
+    public Pouloumer getUserByEmail(String mail)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findUserByEmail(mail);
+        Pouloumer u = DAOPouloumer.findUserByEmail(mail);
         
         JpaUtil.closeEntityManager();
         
@@ -164,10 +170,12 @@ public class PouloumSOM {
      * @param nickname is the nickname of the user.
      * @return User, the user matching the given nickname, or null if there is none.
      */
-    public User getUserByNickname(String nickname) {
+    public Pouloumer getUserByNickname(String nickname)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findUserByNickname(nickname);
+        Pouloumer u = DAOPouloumer.findUserByNickname(nickname);
         
         JpaUtil.closeEntityManager();
         
