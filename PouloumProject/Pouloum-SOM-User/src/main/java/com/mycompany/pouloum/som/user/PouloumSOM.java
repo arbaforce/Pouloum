@@ -38,8 +38,7 @@ public class PouloumSOM {
      * incorrect.
      */
     public User loginMail(String mail, String password)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
 
         User u = DAOUser.findUserByEmailAndPassword(mail, password);
@@ -58,8 +57,7 @@ public class PouloumSOM {
      * incorrect.
      */
     public User loginNickname(String nickname, String password)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
 
         User u = DAOUser.findUserByNicknameAndPassword(nickname, password);
@@ -69,20 +67,58 @@ public class PouloumSOM {
         return u;
     }
 
-    public User signUp(String lastName, String firstName, String nickname,
-            String mail, String password, char gender, Date birthday, String phoneNumber,
+    /**
+     * Create a new user account. At this stage, the format and existence of all
+     * fields has already been checked by the GUI, so we only need to check if
+     * the new user will fit in the DB (no duplicate mail or nickname).
+     *
+     * @param lastName is the last name of the user.
+     * @param firstName is the first name of the user.
+     * @param nickname is the nickname of the user.
+     * @param mail is the email address of the user.
+     * @param password is the password of the user.
+     * @param isModerator is whether the user is a moderator (default false).
+     * @param isAdmin is whether the user is an adminstrator (default false).
+     * @param gender is the gender of the user.
+     * @param birthdate is the birthdate of the user.
+     * @param phoneNumber is the phone number of the user.
+     * @param address is
+     * @return int, 0 if the registration is successful, 1 if the email is
+     * already used, 2 if the nickname is already used, 3 if there was an error
+     * when trying to process the transaction.
+     */
+    public int signUp(String lastName, String firstName, String nickname,
+            String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address) {
-        User u = new User(nickname, firstName, lastName, mail, password, false, false, gender, birthday, phoneNumber, address);
+        User u = new User(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
+        User check = DAOUser.findUserByEmail(user.getEmail());
+        if (check != null) // email already used
+        {
+            return 1;
+        }
+        // email available
+
+        check = DAOUser.findUserByNickname(user.getNickname());
+        if (check != null) // nickname already used
+        {
+            return 2;
+        }
+        // nickname available
+
+        JpaUtil.openTransaction();
+
         try {
             DAOUser.persist(u);
+            JpaUtil.commitTransaction();
         } catch (Exception e) {
-            u = null; // Registration has failed, return null to let the GUI know
+            // Registration has failed, return null to let the GUI know
+            JpaUtil.cancelTransaction();
         }
 
-        return u;
+        return 0;
     }
 
 }
