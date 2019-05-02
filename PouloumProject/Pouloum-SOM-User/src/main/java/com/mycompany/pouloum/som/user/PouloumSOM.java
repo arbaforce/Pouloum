@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOPouloumer;
+import com.mycompany.pouloum.model.Activity;
+import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
@@ -87,15 +89,15 @@ public class PouloumSOM {
      * @param gender is the gender of the user.
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
-     * @param idAddress is the id of the address of the user.
+     * @param address is the address of the user.
      * @return int, 0 if the registration is successful, 1 if the email is
      * already used, 2 if the nickname is already used, 3 if there was an error
      * when trying to process the transaction.
      */
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Long idAddress) throws Exception {
-        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, idAddress);
+            Address address) throws Exception {
+        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
@@ -212,9 +214,10 @@ public class PouloumSOM {
      * linked interests will not be selectable in the GUI.
      * 
      * @param p
+     * @param interests is the list of interests to add.
      * @return 
      */
-    public int addInterests(Pouloumer p, List<Long> interests) {
+    public int addInterests(Pouloumer p, List<Activity> interests) {
         
         
         return 0;
