@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
+import java.util.ArrayList;
 import javax.persistence.UniqueConstraint;
 
 
@@ -49,14 +50,14 @@ public class Pouloumer implements Serializable  {
     
     // Coordinates
     @OneToOne
-    protected Long idAddress;
+    protected Address address;
     
     // Links
     @OneToMany
-    private List<Long> idEvents;
+    private List<Event> events;
     
     @OneToMany
-    private List<Long> idPassedEvents;
+    private List<Activity> interests;
     
     // To implement later
     
@@ -71,7 +72,7 @@ public class Pouloumer implements Serializable  {
     
     public Pouloumer ( ) { }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Long idAddress) {
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -82,10 +83,13 @@ public class Pouloumer implements Serializable  {
         this.gender = gender;
         this.birth_date = birth_date;
         this.phone_number = phone_number;
-        this.idAddress = idAddress;
+        this.address = address;
+        
+        this.events = new ArrayList<>();
+        this.interests = new ArrayList<>();
     }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Long idAddress)
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
         throws ParseException
     {
         this.nickname = nickname;
@@ -98,7 +102,10 @@ public class Pouloumer implements Serializable  {
         this.gender = gender;
         this.setBirth_date(birth_date);
         this.phone_number = phone_number;
-        this.idAddress = idAddress;
+        this.address = address;
+        
+        this.events = new ArrayList<>();
+        this.interests = new ArrayList<>();
     }
     
     
@@ -168,12 +175,12 @@ public class Pouloumer implements Serializable  {
         this.administrator = administrator;
     }
 
-    public Long getAddress() {
-        return idAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setIdAddress(long idAddress) {
-        this.idAddress = idAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getEmail() {
@@ -206,20 +213,20 @@ public class Pouloumer implements Serializable  {
         this.birth_date = DateUtil.toDate(birth_date);
     }
     
-    public List<Long> getEvents() {
-        return idEvents;
+    public List<Event> getEvents() {
+        return events;
     }
     
-    public void setEvents(List<Long> events) {
-        this.idEvents = events;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
     
-    public List<Long> getPassedEvents() {
-        return idPassedEvents;
+    public List<Activity> getInterests() {
+        return interests;
     }
     
-    public void setPassedEvents(List<Long> passedEvents) {
-        this.idPassedEvents = passedEvents;
+    public void setInterests(List<Activity> interests) {
+        this.interests = interests;
     }
     
     
