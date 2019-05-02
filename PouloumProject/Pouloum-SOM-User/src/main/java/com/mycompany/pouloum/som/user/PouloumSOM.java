@@ -47,11 +47,11 @@ public class PouloumSOM {
             throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
+        Pouloumer p = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
 
         JpaUtil.closeEntityManager();
 
-        return u;
+        return p;
     }
 
     /**
@@ -67,11 +67,11 @@ public class PouloumSOM {
             throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
+        Pouloumer p = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
 
         JpaUtil.closeEntityManager();
 
-        return u;
+        return p;
     }
 
     /**
@@ -97,7 +97,7 @@ public class PouloumSOM {
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address) throws Exception {
-        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
+        Pouloumer p = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
@@ -118,7 +118,7 @@ public class PouloumSOM {
         JpaUtil.openTransaction();
 
         try {
-            DAOPouloumer.persist(u);
+            DAOPouloumer.persist(p);
             JpaUtil.commitTransaction();
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
@@ -210,11 +210,11 @@ public class PouloumSOM {
     public Pouloumer getPouloumerById(Long id) throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findById(id);
+        Pouloumer p = DAOPouloumer.findById(id);
 
         JpaUtil.closeEntityManager();
 
-        return u;
+        return p;
     }
 
     /**
@@ -227,11 +227,11 @@ public class PouloumSOM {
     public Pouloumer getPouloumerByEmail(String mail) throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findPouloumerByEmail(mail);
+        Pouloumer p = DAOPouloumer.findPouloumerByEmail(mail);
 
         JpaUtil.closeEntityManager();
 
-        return u;
+        return p;
     }
 
     /**
@@ -244,11 +244,11 @@ public class PouloumSOM {
     public Pouloumer getPouloumerByNickname(String nickname) throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findPouloumerByNickname(nickname);
+        Pouloumer p = DAOPouloumer.findPouloumerByNickname(nickname);
 
         JpaUtil.closeEntityManager();
 
-        return u;
+        return p;
     }
 
     /**
