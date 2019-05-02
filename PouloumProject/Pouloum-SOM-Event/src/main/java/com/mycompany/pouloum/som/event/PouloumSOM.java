@@ -10,7 +10,7 @@ import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Activity;
-import com.mycompany.pouloum.model.User;
+import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOEvent;
 import java.util.Date;
@@ -65,12 +65,12 @@ public class PouloumSOM {
      * @param organizer is the event creator.
      * @param participants_min is the event minimum number of participants.
      * @param participants_max is the event maximum number of participants.
-     * @param participants is the event list of User attending to it.
+     * @param participants is the event list of Pouloumer attending to it.
      * @return Event, the event matching to the id.
      * @throws Exception if there's an error trying to access the database.
      */
-    public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, User organizer,
-            int participants_min, int participants_max, List<User> participants) 
+    public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
+            int participants_min, int participants_max, List<Pouloumer> participants) 
             throws Exception
     {
         Event newEvent = new Event(label, description, startDate, duration, location, activity, organizer,  participants_min, participants_max, participants);
