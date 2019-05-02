@@ -31,7 +31,7 @@ public class DAOPouloumer {
         }
     }
 
-    public static Pouloumer updateUser(Pouloumer u)
+    public static Pouloumer updatePouloumer(Pouloumer u)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -59,7 +59,7 @@ public class DAOPouloumer {
         return found;
     }
 
-    public static Pouloumer findUserByEmail(String email)
+    public static Pouloumer findPouloumerByEmail(String email)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -79,7 +79,7 @@ public class DAOPouloumer {
         return found;
     }
 
-    public static Pouloumer findUserByNickname(String nickname)
+    public static Pouloumer findPouloumerByNickname(String nickname)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -99,7 +99,7 @@ public class DAOPouloumer {
         return found;
     }
 
-    public static Pouloumer findUserByEmailAndPassword(String email, String password)
+    public static Pouloumer findPouloumerByEmailAndPassword(String email, String password)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -121,7 +121,7 @@ public class DAOPouloumer {
         return found;
     }
     
-    public static Pouloumer findUserByNicknameAndPassword(String nickname, String password)
+    public static Pouloumer findPouloumerByNicknameAndPassword(String nickname, String password)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 

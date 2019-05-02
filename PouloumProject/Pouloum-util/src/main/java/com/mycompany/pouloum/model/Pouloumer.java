@@ -53,7 +53,7 @@ public class Pouloumer implements Serializable  {
     
     // Links
     @OneToMany
-    private List<Event> events;
+    private List<Long> idEvents;
     
     // To implement later
     

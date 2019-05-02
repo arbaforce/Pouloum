@@ -12,6 +12,7 @@ import com.mycompany.pouloum.dao.DAOPouloumer;
 import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -36,7 +37,7 @@ public class PouloumSOM {
      *
      * @param mail is the mail used to login.
      * @param password is the password of the account.
-     * @return User, the user matching the credentials or null if they are
+     * @return Pouloumer, the user matching the credentials or null if they are
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
@@ -44,7 +45,7 @@ public class PouloumSOM {
             throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findUserByEmailAndPassword(mail, password);
+        Pouloumer u = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
 
         JpaUtil.closeEntityManager();
 
@@ -56,7 +57,7 @@ public class PouloumSOM {
      *
      * @param nickname is the nickname used to login.
      * @param password is the password of the account.
-     * @return User, the user matching the credentials or null if they are
+     * @return Pouloumer, the user matching the credentials or null if they are
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
@@ -64,7 +65,8 @@ public class PouloumSOM {
             throws Exception {
         JpaUtil.createEntityManager();
 
-        Pouloumer u = DAOPouloumer.findUserByNicknameAndPassword(nickname, password);
+        Pouloumer u = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
+
 
         JpaUtil.closeEntityManager();
 
@@ -93,21 +95,21 @@ public class PouloumSOM {
      */
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Address address)
+            Long idAddress) {
         throws Exception
     {
         Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
-        Pouloumer check = DAOPouloumer.findUserByEmail(mail);
+        Pouloumer check = DAOPouloumer.findPouloumerByEmail(mail);
         if (check != null) // email already used
         {
             return 1;
         }
         // email available
 
-        check = DAOPouloumer.findUserByNickname(nickname);
+        check = DAOPouloumer.findPouloumerByNickname(nickname);
         if (check != null) // nickname already used
         {
             return 2;
@@ -132,12 +134,12 @@ public class PouloumSOM {
     /**
      * Get a user given their id.
      * @param id is the id of the user.
-     * @return User, the user matching the given id, or null if there is none.
+     * @return Pouloumer, the user matching the given id, or null if there is none.
      */
-    public User getUserByEmail(Long id) {
+    public Pouloumer getPouloumerByEmail(Long id) {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findById(id)
+        Pouloumer u = DAOPouloumer.findById(id)
         
         JpaUtil.closeEntityManager();
         
@@ -147,12 +149,13 @@ public class PouloumSOM {
     /**
      * Get a user given their e-mail address.
      * @param mail is the e-mail address of the user.
-     * @return User, the user matching the given address, or null if there is none.
+     * @return Pouloumer, the user matching the given address, or null if there is none.
      */
-    public User getUserByEmail(String mail) {
+    public Pouloumer getPouloumerByEmail(String mail) {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findUserByEmail(mail);
+        Pouloumer u = DAOPouloumer.findPouloumerByEmail(mail);
+
         
         JpaUtil.closeEntityManager();
         
@@ -162,17 +165,29 @@ public class PouloumSOM {
     /**
      * Get a user given their nickname.
      * @param nickname is the nickname of the user.
-     * @return User, the user matching the given nickname, or null if there is none.
+     * @return Pouloumer, the user matching the given nickname, or null if there is none.
      */
-    public User getUserByNickname(String nickname) {
+    public Pouloumer getPouloumerByNickname(String nickname) {
         JpaUtil.createEntityManager();
         
-        User u = DAOUser.findUserByNickname(nickname);
-        
+        Pouloumer u = DAOPouloumer.findPouloumerByNickname(nickname);
+
         JpaUtil.closeEntityManager();
         
         return u;
     }
     
+    /**
+     * Remove an event from a user's event list.
+     * 
+     * @param p is the user leaving the event.
+     * @param idEvent is the id of the event to leave.
+     * @return int, 0 if the update was successful, 1 if there was a problem updating the database.
+     */
+    public int leaveEvent(Pouloumer p, Long idEvent) {
+        List<Long> pouloumerIdEvents = p.getEvents();
+        
+        JpaUtil.createEntityManager();
+    }
     
 }
