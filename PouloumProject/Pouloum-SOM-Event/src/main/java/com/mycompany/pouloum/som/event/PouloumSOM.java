@@ -84,13 +84,44 @@ public class PouloumSOM {
             JpaUtil.commitTransaction();
         } catch (Exception ex) {
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 1;
         }
 
         JpaUtil.closeEntityManager();
 
         return 0;
     }
+<<<<<<< HEAD
 
+=======
+    
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param newParticipant is the participant to add to the event.
+     * @param idEvent is the id of the event.
+     * @return int 0 if the registration is successful, 1 if the event does not
+     * exist, 2 if the pouloumer is already participating in the event.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public int addParticipant(Pouloumer newParticipant, Long idEvent)
+            throws Exception
+    {
+        Event e = DAOEvent.findById(idEvent);
+        if(e==null)
+        {
+            return 1;
+        }
+        if (e.getParticipants().contains(newParticipant))
+        {
+            return 2;
+        }
+        e.addParticipant(newParticipant);
+        return 0;
+    }
+    
+>>>>>>> ef37386396ca14492025a59c729ea99366950268
     /**
      * Try to login with a given (nickname, password) pair.
      *

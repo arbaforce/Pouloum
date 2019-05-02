@@ -8,13 +8,10 @@ body {
 .textAlign{
     text-align:center;
 }
-.bigAvatarImage{
-    max-width: 200px;	
-    max-height: 200px;
-}
 
 .bottom{
     position:absolute; 
+    width:100%;
     bottom:0;
 }
 
