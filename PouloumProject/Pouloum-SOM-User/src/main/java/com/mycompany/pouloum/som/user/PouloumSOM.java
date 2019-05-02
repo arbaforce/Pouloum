@@ -96,14 +96,14 @@ public class PouloumSOM {
 
         JpaUtil.createEntityManager();
 
-        User check = DAOUser.findUserByEmail(user.getEmail());
+        User check = DAOUser.findUserByEmail(mail);
         if (check != null) // email already used
         {
             return 1;
         }
         // email available
 
-        check = DAOUser.findUserByNickname(user.getNickname());
+        check = DAOUser.findUserByNickname(nickname);
         if (check != null) // nickname already used
         {
             return 2;
