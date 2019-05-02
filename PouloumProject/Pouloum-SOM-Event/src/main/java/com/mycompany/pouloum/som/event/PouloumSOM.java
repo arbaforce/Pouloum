@@ -174,6 +174,47 @@ public class PouloumSOM {
     }
 
     /**
+     * Update an existing event(should only be updated by the creator of the event).
+     * 
+     * @param Event, the event to update.
+     * @param date, the new date of the event.
+     * @param duration, the new duration of the event.
+     * @param address, the new address of the event.
+     * @param playerMin, the new minimum number of participants of the event.
+     * @param playerMax, the new maximum number of participants of the event.
+     * @return 0 if the update is successful, 1 if the transaction is canceled.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public int updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
+            throws Exception {
+        
+        // Update fields
+        event.setStart(date);
+        event.setDuration(duration);
+        event.setLocation(address);
+        event.setParticipants_min(playerMin);
+        event.setParticipants_max(playerMax);
+        
+        JpaUtil.createEntityManager();
+        
+        JpaUtil.openTransaction();
+
+        try {
+            DAOEvent.persist(event);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            // Registration has failed, return null to let the GUI know
+            JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 1;
+        }
+
+        JpaUtil.closeEntityManager();
+        
+        return 0;
+    }
+    
+    /**
      * Get the events matching a list of interests.
      *
      * @param interests, the list containing all activities of the search.
