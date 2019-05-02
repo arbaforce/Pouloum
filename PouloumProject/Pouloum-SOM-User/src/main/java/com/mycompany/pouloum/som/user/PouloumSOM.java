@@ -123,8 +123,7 @@ public class PouloumSOM {
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
-            JpaUtil.closeEntityManager();
-            return 3;
+            throw ex;
         }
 
         JpaUtil.closeEntityManager();
@@ -141,7 +140,7 @@ public class PouloumSOM {
      * @param lastName is the last name of the user.
      * @param firstName is the first name of the user.
      * @param nickname is the nickname of the user.
-     * @param mail is the email address of the user.
+     * @param email is the email address of the user.
      * @param password is the password of the user.
      * @param isModerator is whether the user is a moderator (default false).
      * @param isAdmin is whether the user is an adminstrator (default false).
@@ -154,14 +153,34 @@ public class PouloumSOM {
      * trying to process the transaction.
      */
     public int updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
-            String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
+            String email, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address) throws Exception {
 
+        JpaUtil.createEntityManager();
+
+        if (email != p.getEmail()) {
+            User check = DAOUser.findUserByEmail(email);
+            if (check != null) // email already used
+            {
+                return 1;
+            }
+            // email available
+        }
+        
+        if (nickname != p.getNickname()) {
+            User check = DAOUser.findUserByNickname(nickname);
+            if (check != null) // nickname already used
+            {
+                return 2;
+            }
+            // nickname available
+        }
+        
         // Update fields
         p.setLast_name(lastName);
         p.setFirst_name(firstName);
         p.setNickname(nickname);
-        p.setEmail(mail);
+        p.setEmail(email);
         p.setPassword(password);
         p.setModerator(isModerator);
         p.setAdministrator(isAdmin);
@@ -169,22 +188,6 @@ public class PouloumSOM {
         p.setBirth_date(birthdate);
         p.setPhone_number(phoneNumber);
         p.setAddress(address);
-
-        JpaUtil.createEntityManager();
-
-        Pouloumer check = DAOPouloumer.findPouloumerByEmail(mail);
-        if (check != null) // email already used
-        {
-            return 1;
-        }
-        // email available
-
-        check = DAOPouloumer.findPouloumerByNickname(nickname);
-        if (check != null) // nickname already used
-        {
-            return 2;
-        }
-        // nickname available
 
         JpaUtil.openTransaction();
 
@@ -194,8 +197,7 @@ public class PouloumSOM {
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
-            JpaUtil.closeEntityManager();
-            return 3;
+            throw ex;
         }
 
         JpaUtil.closeEntityManager();
