@@ -7,23 +7,37 @@ package com.mycompany.pouloum.som.badge;
 
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
+import com.mycompany.pouloum.dao.JpaUtil;
+import com.mycompany.pouloum.dao.DAOBadge;
+import com.mycompany.pouloum.model.Badge;
 
 /**
  *
  * @author Martin
  */
 public class PouloumSOM {
-  
-    protected DBConnection dBConnection;
+
     protected JsonObject container;
 
-    public PouloumSOM(DBConnection dBConnection, JsonObject container) {
-        this.dBConnection = dBConnection;
+    public PouloumSOM(JsonObject container) {
         this.container = container;
     }
-    
+
     public void release() {
-        this.dBConnection.close();
     }
-  
+
+    public Badge getBadgeById(long id) {
+        JpaUtil.createEntityManager();
+        Badge b;
+
+        try {
+            b = DAOBadge.findById(id);
+        } catch (Exception e) {
+            b = null;
+        }
+
+        JpaUtil.closeEntityManager();
+        return b;
+    }
+
 }

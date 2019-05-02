@@ -29,7 +29,7 @@ public class BadgeEvolved implements Serializable {
         this.strength = 0;
     }
     
-    public BadgeEvolved( int strength, Badge type ) {
+    public BadgeEvolved(int strength, Badge type) {
         this.strength = strength;
         this.type = type;
     }

@@ -14,16 +14,28 @@ import util.GeoTest;
 
 public class ServicesApp {
     
-    public static void UserRegister(User user) {
+    public static boolean UserRegister(User user) {
+        boolean result = false;
+        
         try {
             JpaUtil.createEntityManager();
             
+            {
             User check = DAOUser.findUserByEmail(user.getEmail());
-            if(check != null) {
+            if (check != null)
                 // email already used
-                return;
+                return false;
             }
+            
             // email available
+            
+            {
+            User check = DAOUser.findUserByNickname(user.getNickname());
+            if (check != null)
+                // nickname already used
+                return false;
+            }
+            // nickname available
             
             JpaUtil.openTransaction();
             
@@ -32,6 +44,7 @@ public class ServicesApp {
                 JpaUtil.commitTransaction();
                 ServicesTools.simulateEmailRegisterSuccess(user);
                 
+                result = true;
             } catch (Exception e) {
                 JpaUtil.cancelTransaction();
                 ServicesTools.simulateEmailRegisterFailure(user.getFirst_name(), user.getEmail());
@@ -39,12 +52,11 @@ public class ServicesApp {
             }
             
             JpaUtil.closeEntityManager();
-        
         } catch(Exception e) {
             e.printStackTrace();
         }
        
-        //return signUpUser;
+        return result;
     }
     
     public static User UserAuthenticate( String email, String password ) {

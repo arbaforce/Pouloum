@@ -53,7 +53,7 @@ public class PouloumSOMServlet extends HttpServlet {
                     this.getInitParameter("JDBC-Pouloum-URL"),
                     this.getInitParameter("JDBC-Pouloum-User"),
                     this.getInitParameter("JDBC-Pouloum-Password"),
-                    "User"    //TODO : specify tables name
+                    "Activity"
             );
             
             JsonObject container = new JsonObject();

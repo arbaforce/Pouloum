@@ -17,6 +17,5 @@
     <module>Pouloum-SOM-Activity</module>
     <module>Pouloum-SOM-Event</module>
     <module>Pouloum-util</module>
-    <module>Pouloum-objects</module>
   </modules>
 </project>
