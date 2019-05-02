@@ -6,7 +6,6 @@
 package com.mycompany.pouloum.som.badge;
 
 import com.google.gson.JsonObject;
-import com.mycompany.pouloum.util.DBConnection;
 
 /**
  *

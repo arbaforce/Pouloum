@@ -6,6 +6,7 @@
 package com.mycompany.pouloum.som.user;
 
 import com.google.gson.JsonObject;
+import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.JsonServletHelper;
 import com.mycompany.pouloum.util.exception.DBException;
@@ -34,7 +35,7 @@ public class PouloumSOMServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding(JsonServletHelper.ENCODING_UTF8);
-
+        
         try {
 
             String som = null;

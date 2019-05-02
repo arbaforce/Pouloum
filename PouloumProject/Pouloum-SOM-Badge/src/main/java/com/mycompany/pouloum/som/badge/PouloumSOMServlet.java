@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.service.ServicesApp;
 import com.mycompany.pouloum.util.JsonServletHelper;
-import com.mycompany.pouloum.util.exception.DBException;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
