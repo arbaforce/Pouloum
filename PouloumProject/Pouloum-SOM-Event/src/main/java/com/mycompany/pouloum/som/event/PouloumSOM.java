@@ -33,7 +33,7 @@ public class PouloumSOM {
         this.container = container;
     }
 
-    public void release() {
+    public void release() { 
         this.dBConnection.close();
     }
 
