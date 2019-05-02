@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,13 +63,41 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    /*
-    public Event( ... )
+    public Event(String label, String description, boolean cancelled, Date start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average) {
+        this.label = label;
+        this.description = description;
+        this.cancelled = cancelled;
+        this.start = start;
+        this.duration = duration;
+        this.location = location;
+        this.activity = activity;
+        this.organizer = organizer;
+        this.participants_min = participants_min;
+        this.participants_max = participants_max;
+        this.participants = participants;
+        this.email = email;
+        this.password = password;
+        this.grade_average = grade_average;
+    }
+    
+    public Event(String label, String description, boolean cancelled, String start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average)
         throws ParseException
     {
+        this.label = label;
+        this.description = description;
+        this.cancelled = cancelled;
         this.setStart(start);
+        this.duration = duration;
+        this.location = location;
+        this.activity = activity;
+        this.organizer = organizer;
+        this.participants_min = participants_min;
+        this.participants_max = participants_max;
+        this.participants = participants;
+        this.email = email;
+        this.password = password;
+        this.grade_average = grade_average;
     }
-    */
     
     
     // SETTERS AND GETTERS
@@ -112,7 +141,13 @@ public class Event implements Serializable  {
     public void setStart(Date start) {
         this.start = start;
     }
-
+    
+    public void setStart( String start )
+        throws ParseException
+    {
+        this.start = DateUtil.toDate(start);
+    }
+    
     public int getDuration() {
         return duration;
     }

@@ -84,6 +84,27 @@ public class DAOUser {
         return found;
     }
     
+    public static User findUserByNickname( String nickname )
+        throws Exception
+    {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        User found = null;
+        try {
+            Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname");
+            q.setParameter("nickname", nickname);
+            try {
+                found = (User) q.getSingleResult();
+            } catch (NoResultException nr) {
+                // throw nr;
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        
+        return found;
+    }
+    
     public static User findUserByEmailAndPassword( String email, String password )
         throws Exception
     {
