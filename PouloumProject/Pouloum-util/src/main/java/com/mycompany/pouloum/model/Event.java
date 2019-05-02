@@ -51,9 +51,6 @@ public class Event implements Serializable  {
     @OneToMany
     protected List<User> participants;
     
-    protected String email;
-    protected String password;
-    
     // Grades
     protected double grade_average;
     // map<User,int> participants_gradings
@@ -64,7 +61,7 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, Date start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average) {
+    public Event(String label, String description, Date start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants) {
         this.label = label;
         this.description = description;
         this.start = start;
@@ -76,12 +73,10 @@ public class Event implements Serializable  {
         this.participants_min = participants_min;
         this.participants_max = participants_max;
         this.participants = participants;
-        this.email = email;
-        this.password = password;
         this.grade_average = grade_average;
     }
 
-    public Event(String label, String description, String start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average)
+    public Event(String label, String description, String start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants)
         throws ParseException
     {
         this.label = label;
@@ -95,8 +90,6 @@ public class Event implements Serializable  {
         this.participants_min = participants_min;
         this.participants_max = participants_max;
         this.participants = participants;
-        this.email = email;
-        this.password = password;
         this.grade_average = grade_average;
     }
     
@@ -195,22 +188,6 @@ public class Event implements Serializable  {
 
     public void setParticipants_max(int participants_max) {
         this.participants_max = participants_max;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public double getGrade_average() {
