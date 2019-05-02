@@ -6,14 +6,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import com.mycompany.pouloum.model.User;
 
-
 public class DAOUser {
-    
-    public static void persist( User u )
-        throws Exception
-    {
+
+    public static void persist(User u)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         try {
             em.persist(u);
         } catch (Exception ex) {
@@ -32,44 +30,41 @@ public class DAOUser {
             throw ex;
         }
     }
-    
-    public static User updateUser( User u )
-        throws Exception
-    {
+
+    public static User updateUser(User u)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
-        try{
+
+        try {
             em.merge(u);
         } catch (Exception ex) {
             throw ex;
         }
-        
+
         return u;
     }
-    
-    public static User findById( Long id )
-        throws Exception
-    {
+
+    public static User findById(Long id)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         User found = null;
-        
+
         try {
             found = em.find(User.class, id);
         } catch (Exception ex) {
             throw ex;
         }
-        
+
         return found;
     }
-    
-    public static User findUserByEmail( String email )
-        throws Exception
-    {
+
+    public static User findUserByEmail(String email)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         User found = null;
-        
+
         try {
             Query q = em.createQuery("SELECT u FROM User u where u.email=:email");
             q.setParameter("email", email);
@@ -80,17 +75,16 @@ public class DAOUser {
         } catch (Exception ex) {
             throw ex;
         }
-        
+
         return found;
     }
-    
-    public static User findUserByNickname( String nickname )
-        throws Exception
-    {
+
+    public static User findUserByNickname(String nickname)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
         User found = null;
-        
+
         try {
             Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname");
             q.setParameter("nickname", nickname);
@@ -104,44 +98,65 @@ public class DAOUser {
 
         return found;
     }
-    
-    public static User findUserByEmailAndPassword( String email, String password )
-        throws Exception
-    {
+
+    public static User findUserByEmailAndPassword(String email, String password)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         User found = null;
-        
+
         try {
             Query q = em.createQuery("SELECT u FROM User u where u.email=:email and u.password=:password");
-            q.setParameter("email",email);
-            q.setParameter("password",password);
+            q.setParameter("email", email);
+            q.setParameter("password", password);
             try {
-                found =(User) q.getSingleResult();
+                found = (User) q.getSingleResult();
             } catch (NoResultException nr) {
+                // Do nothing
             }
         } catch (Exception ex) {
             throw ex;
         }
-        
+
         return found;
     }
     
-    public static List<User> findAll( )
-        throws Exception
-    {
+    public static User findUserByNicknameAndPassword(String nickname, String password)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
+        User found = null;
+
+        try {
+            Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname and u.password=:password");
+            q.setParameter("nickname", nickname);
+            q.setParameter("password", password);
+            try {
+                found = (User) q.getSingleResult();
+            } catch (NoResultException nr) {
+                // Do nothing
+            }
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+        return found;
+    }
+
+    public static List<User> findAll()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+
         List<User> found = null;
-        
+
         try {
             Query q = em.createQuery("SELECT u FROM User u");
             found = (List<User>) q.getResultList();
         } catch (Exception ex) {
             throw ex;
         }
-        
+
         return found;
     }
-    
+
 }
