@@ -37,6 +37,7 @@ public class PouloumSOM {
      *
      * @param idActivity is the id of the activity.
      * @return Activity, the activity matching the id.
+     * @throws Exception if there's an error trying to access the database.
      */
     public Activity getActivityById(Long idActivity) 
             throws Exception 
@@ -54,6 +55,7 @@ public class PouloumSOM {
      * Get the full list of activities.
      *
      * @return availableActivities, which contains all the activities.
+     * @throws Exception if there's an error trying to access the database.
      */
     public List<Activity> findAllActivities() 
             throws Exception 
