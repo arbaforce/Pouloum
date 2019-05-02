@@ -6,11 +6,81 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recherche</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/events_browser.css'>
     </head>
     <body>
-        <div>TODO write content</div>
+        
+        <div id="search_band_container" class="row border padding10down">
+            
+            <div id="first_row_search_band_container" class="row w-100">
+                <div id="activity_filter_container" class="col-6"> 
+                    <div class="row w-100 justify-content-center">
+                        <div class="col-3 padding10up">
+                            <label for="activity_filter">Activité :</label>
+                        </div>
+                        <div class="col-5 padding10up">
+                            <input type="text" class="form-control" id="activity_filter">
+                        </div>
+                    </div>
+                </div><!--#activity_filter_container -->
+                <div id="localisation_filter_container" class="col-6">
+                    <div class="row w-100 justify-content-center">
+                        <div class="col-3 padding10up">
+                            <label for="localisation_filter">Localisation :</label>
+                        </div>
+                        <div class="col-5 padding10up">
+                            <input type="text" class="form-control" id="localisation_filter">
+                        </div>
+                    </div>
+                </div><!--#localisation_filter_container -->
+            </div><!--#first_row_search_band_container -->
+            
+            <div id="second_row_search_band_container" class="row w-100">
+                <div id="date_filter_container" class="col-6 padding10up"> 
+                    <div class="row w-100 justify-content-center">
+                        <div class="col-3">
+                            <label for="date_filter">Date :</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="text" class="form-control" id="date_filter">
+                        </div>
+                    </div>
+                </div><!--#date_filter_container -->
+                <div id="friend_filter_container" class="col-6 padding10up">
+                    <div class="row w-100 justify-content-center">
+                        <div class="col-3">
+                            <label for="friend_filter">Ami participant :</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="text" class="form-control" id="friend_filter">
+                        </div>
+                    </div>
+                </div><!--#friend_filter_container -->
+            </div><!--#second_row_search_band_container -->
+            
+        </div><!--#search_band_container -->
+        
+        <div id="search_result_global_container" class="row h-100">
+            <div id="search_result_list_global_container" class="col-6">
+                
+                
+            </div><!--#search_result_list_global_container -->
+            <div id="search_result_map_global_container" class="col-6">
+                
+            </div><!--#search_result_map_global_container -->
+            
+            
+        </div><!--#search_result_global_container -->
+        
+        
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>
