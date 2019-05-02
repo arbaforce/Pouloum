@@ -9,7 +9,9 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOUser;
+import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.User;
+import java.util.Date;
 
 /**
  *
