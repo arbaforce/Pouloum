@@ -20,7 +20,7 @@ public class Input {
             BufferedReader br = new BufferedReader(isr);
             chaineLue = br.readLine();
         } catch (IOException e) {
-            e.printStackTrace(System.err);
+            ex.printStackTrace(System.err);
         }
         return chaineLue;
     }

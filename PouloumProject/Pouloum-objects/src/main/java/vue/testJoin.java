@@ -69,7 +69,7 @@ public class testJoin {
                 */
             }
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
         
         JpaUtil.destroy();
