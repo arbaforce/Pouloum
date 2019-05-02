@@ -1,10 +1,19 @@
 package com.mycompany.pouloum.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
+    
+    public static Date toDate( String date )
+        throws ParseException
+    {
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+        return sf.parse(date);
+    }
     
     public static Date DateNow() {
         Date now = new Date(System.currentTimeMillis());

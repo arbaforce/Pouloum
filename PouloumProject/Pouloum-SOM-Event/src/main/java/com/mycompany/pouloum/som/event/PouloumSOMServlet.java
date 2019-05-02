@@ -6,6 +6,7 @@
 package com.mycompany.pouloum.som.event;
 
 import com.google.gson.JsonObject;
+import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.JsonServletHelper;
 import com.mycompany.pouloum.util.exception.DBException;
@@ -58,7 +59,7 @@ public class PouloumSOMServlet extends HttpServlet {
             
             JsonObject container = new JsonObject();
 
-            PouloumSOM service = new PouloumSOM(connection, container);
+            PouloumSOM service = new PouloumSOM(container);
 
         } catch (DBException ex) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Exception: " + ex.getMessage());

@@ -14,8 +14,8 @@ public class serverInit {
         
         try {
             ServicesApp.CreateSampleUsers();
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         JpaUtil.destroy();

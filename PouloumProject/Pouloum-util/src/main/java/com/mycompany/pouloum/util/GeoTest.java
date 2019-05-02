@@ -35,7 +35,7 @@ public class GeoTest {
             GeocodingResult[] results = GeocodingApi.geocode(MON_CONTEXTE_GEOAPI, adresse).await();
 
             return results[0].geometry.location;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -99,7 +99,7 @@ public class GeoTest {
                 cumulDistance += directions[0].legs[legIndex].distance.inMeters / 1000.0;
                 cumulDuration += Math.ceil(directions[0].legs[legIndex].duration.inSeconds / 60.0);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             return null;
         }
 

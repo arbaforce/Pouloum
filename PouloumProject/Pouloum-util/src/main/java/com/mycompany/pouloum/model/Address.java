@@ -31,7 +31,7 @@ public class Address implements Serializable {
     
     public Address( ) { }
     
-    public Address( String number, String street, String postal_code, String city, String country )
+    public Address(String number, String street, String postal_code, String city, String country)
     {
         this.number = number;
         this.street = street;

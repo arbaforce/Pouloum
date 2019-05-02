@@ -193,11 +193,11 @@ public class User implements Serializable  {
     public void setBirth_date( Date birth_date ) {
         this.birth_date = birth_date;
     }
+    
     public void setBirth_date( String birth_date )
         throws ParseException
     {
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-        this.birth_date = sf.parse(birth_date);
+        this.birth_date = DateUtil.toDate(birth_date);
     }
     
     public List<Event> getEvents() {

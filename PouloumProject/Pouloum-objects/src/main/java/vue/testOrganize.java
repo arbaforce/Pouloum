@@ -54,8 +54,8 @@ public class testOrganize {
                 ServicesApp.EventOrganize(i);
                 */
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         JpaUtil.destroy();
