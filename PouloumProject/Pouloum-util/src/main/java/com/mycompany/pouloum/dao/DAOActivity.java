@@ -31,17 +31,17 @@ public class DAOActivity {
         }
     }
 
-    public static Activity updateUser(Activity u)
+    public static Activity updateUser(Activity a)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            em.merge(u);
+            em.merge(a);
         } catch (Exception ex) {
             throw ex;
         }
 
-        return u;
+        return a;
     }
 
     public static Activity findById(Long id)

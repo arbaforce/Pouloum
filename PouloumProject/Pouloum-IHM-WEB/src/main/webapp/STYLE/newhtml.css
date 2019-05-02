@@ -2,7 +2,19 @@ body {
     
 }
 
-
+.button{
+    padding:20px;
+}    
 .textAlign{
     text-align:center;
+}
+.bigAvatarImage{
+    max-width: 200px;	
+    max-height: 200px;
+}
+
+#userDetailsGlobalContainer{
+    padding-top:20px;
+    padding-right:40px;
+    padding-left:40px;
 }

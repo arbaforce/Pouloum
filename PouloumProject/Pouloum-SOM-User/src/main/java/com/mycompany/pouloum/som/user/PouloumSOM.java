@@ -8,9 +8,9 @@ package com.mycompany.pouloum.som.user;
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
-import com.mycompany.pouloum.dao.DAOUser;
+import com.mycompany.pouloum.dao.DAOPouloumer;
 import com.mycompany.pouloum.model.Address;
-import com.mycompany.pouloum.model.User;
+import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
 
 /**
@@ -38,12 +38,13 @@ public class PouloumSOM {
      * @param password is the password of the account.
      * @return User, the user matching the credentials or null if they are
      * incorrect.
+     * @throws Exception if there's an error trying to access the database.
      */
-    public User loginMail(String mail, String password)
+    public Pouloumer loginMail(String mail, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
-        User u = DAOUser.findUserByEmailAndPassword(mail, password);
+        Pouloumer u = DAOPouloumer.findUserByEmailAndPassword(mail, password);
 
         JpaUtil.closeEntityManager();
 
@@ -57,12 +58,13 @@ public class PouloumSOM {
      * @param password is the password of the account.
      * @return User, the user matching the credentials or null if they are
      * incorrect.
+     * @throws Exception if there's an error trying to access the database.
      */
-    public User loginNickname(String nickname, String password)
+    public Pouloumer loginNickname(String nickname, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
-        User u = DAOUser.findUserByNicknameAndPassword(nickname, password);
+        Pouloumer u = DAOPouloumer.findUserByNicknameAndPassword(nickname, password);
 
         JpaUtil.closeEntityManager();
 
@@ -91,19 +93,21 @@ public class PouloumSOM {
      */
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Address address) {
-        User u = new User(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
+            Address address)
+        throws Exception
+    {
+        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
-        User check = DAOUser.findUserByEmail(mail);
+        Pouloumer check = DAOPouloumer.findUserByEmail(mail);
         if (check != null) // email already used
         {
             return 1;
         }
         // email available
 
-        check = DAOUser.findUserByNickname(nickname);
+        check = DAOPouloumer.findUserByNickname(nickname);
         if (check != null) // nickname already used
         {
             return 2;
@@ -113,14 +117,62 @@ public class PouloumSOM {
         JpaUtil.openTransaction();
 
         try {
-            DAOUser.persist(u);
+            DAOPouloumer.persist(u);
             JpaUtil.commitTransaction();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
         }
+        
+        JpaUtil.closeEntityManager();
 
         return 0;
     }
+    
+    /**
+     * Get a user given their id.
+     * @param id is the id of the user.
+     * @return User, the user matching the given id, or null if there is none.
+     */
+    public User getUserByEmail(Long id) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findById(id)
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
 
+    /**
+     * Get a user given their e-mail address.
+     * @param mail is the e-mail address of the user.
+     * @return User, the user matching the given address, or null if there is none.
+     */
+    public User getUserByEmail(String mail) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findUserByEmail(mail);
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
+    
+    /**
+     * Get a user given their nickname.
+     * @param nickname is the nickname of the user.
+     * @return User, the user matching the given nickname, or null if there is none.
+     */
+    public User getUserByNickname(String nickname) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findUserByNickname(nickname);
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
+    
+    
 }
