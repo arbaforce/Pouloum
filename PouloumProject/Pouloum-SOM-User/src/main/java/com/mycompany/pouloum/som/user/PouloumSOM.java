@@ -126,6 +126,21 @@ public class PouloumSOM {
 
         return 0;
     }
+    
+    /**
+     * Get a user given their id.
+     * @param id is the id of the user.
+     * @return User, the user matching the given id, or null if there is none.
+     */
+    public User getUserByEmail(Long id) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findById(id)
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
 
     /**
      * Get a user given their e-mail address.
@@ -145,7 +160,7 @@ public class PouloumSOM {
     /**
      * Get a user given their nickname.
      * @param nickname is the nickname of the user.
-     * @return User, the user matching the given address, or null if there is none.
+     * @return User, the user matching the given nickname, or null if there is none.
      */
     public User getUserByNickname(String nickname) {
         JpaUtil.createEntityManager();
