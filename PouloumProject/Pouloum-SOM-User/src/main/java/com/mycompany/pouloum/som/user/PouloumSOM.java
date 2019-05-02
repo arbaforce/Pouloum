@@ -123,6 +123,8 @@ public class PouloumSOM {
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 3;
         }
 
         JpaUtil.closeEntityManager();
@@ -154,7 +156,7 @@ public class PouloumSOM {
     public int updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address) throws Exception {
-        
+
         // Update fields
         p.setLast_name(lastName);
         p.setFirst_name(firstName);
@@ -167,7 +169,6 @@ public class PouloumSOM {
         p.setBirth_date(birthdate);
         p.setPhone_number(phoneNumber);
         p.setAddress(address);
-        
 
         JpaUtil.createEntityManager();
 
@@ -193,6 +194,8 @@ public class PouloumSOM {
         } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 3;
         }
 
         JpaUtil.closeEntityManager();
@@ -270,6 +273,7 @@ public class PouloumSOM {
             JpaUtil.commitTransaction();
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
             return 1;
         }
 
@@ -299,6 +303,7 @@ public class PouloumSOM {
             JpaUtil.commitTransaction();
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
             return 1;
         }
 
@@ -315,7 +320,7 @@ public class PouloumSOM {
      * @return 0 if the update was successful, 1 if there was a problem updating
      * the database.
      */
-    public int rmeoveInterest(Pouloumer p, Activity interest) {
+    public int removeInterest(Pouloumer p, Activity interest) {
         p.getInterests().remove(interest);
 
         JpaUtil.createEntityManager();
@@ -326,6 +331,7 @@ public class PouloumSOM {
             JpaUtil.commitTransaction();
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
             return 1;
         }
 
