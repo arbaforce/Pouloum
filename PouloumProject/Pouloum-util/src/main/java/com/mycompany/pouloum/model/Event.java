@@ -17,11 +17,23 @@ import com.mycompany.pouloum.util.DateUtil;
 
 enum State { ORGANIZED, READY, CANCELLED, FINISHED; }
 
+
+
 @Entity
 public class Event implements Serializable  {
     
     // ATTRIBUTES
-    
+    class Commentary 
+    {
+        public Commentary(String description, Date date, Long idUser) {
+            this.date = date;
+            this.description = description;
+            this.idUser = idUser;
+        }
+        public Date date; 
+        public String description;
+        public Long idUser;
+    }
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,6 +65,7 @@ public class Event implements Serializable  {
     
     // Grades
     protected double grade_average;
+    protected List<Commentary> comments;
     // map<Pouloumer,int> participants_gradings
     // map<Pouloumer,list<String>> participants_tonotify
     
@@ -210,6 +223,9 @@ public class Event implements Serializable  {
         this.participants.add(participant);
     }
     
+    public void addCommentary(String description, Date date, Long idPouloumer) {
+        this.comments.add(new Commentary(description, date, idPouloumer));
+    }
     
     // ...
     
