@@ -14,3 +14,19 @@ body {
     width:100%;
     bottom:0;
 }
+
+#userDetailsGlobalContainer{
+    padding-top:20px;
+    padding-right:40px;
+    padding-left:40px;
+}
+
+#wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+#container_navbar_and_alert {
+    height: 20%;
+}

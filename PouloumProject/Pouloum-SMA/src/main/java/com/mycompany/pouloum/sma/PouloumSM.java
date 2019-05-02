@@ -42,5 +42,9 @@ public class PouloumSM {
             // Ignorer
         }
     }
-  
+ 
+    
+    public Pouloumer loginWithMail(String mail, String password) {
+        
+    }
 }

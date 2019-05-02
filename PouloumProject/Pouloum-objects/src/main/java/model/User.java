@@ -7,18 +7,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import util.DateUtil;
 
 
 @Entity
-public class Pouloumer implements Serializable  {
+@Table(name = "\"USER\"")
+public class User implements Serializable  {
 
     // ATTRIBUTES
     
@@ -28,11 +31,13 @@ public class Pouloumer implements Serializable  {
     protected Long id;
     
     // Identity
+    @Column(unique=true)
     protected String nickname;
     protected String first_name;
     protected String last_name;
     
     // Account info
+    @Column(unique=true)
     protected String email;
     protected String password;
     protected boolean moderator;
@@ -63,9 +68,9 @@ public class Pouloumer implements Serializable  {
     
     // CONSTRUCTORS
     
-    public Pouloumer ( ) { }
+    public User ( ) { }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
+    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -79,7 +84,7 @@ public class Pouloumer implements Serializable  {
         this.address = address;
     }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
+    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
         throws ParseException
     {
         this.nickname = nickname;
