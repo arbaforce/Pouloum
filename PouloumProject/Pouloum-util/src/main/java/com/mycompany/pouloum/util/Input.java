@@ -19,7 +19,7 @@ public class Input {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             chaineLue = br.readLine();
-        } catch (IOException e) {
+        } catch (IOException ex) {
             ex.printStackTrace(System.err);
         }
         return chaineLue;
