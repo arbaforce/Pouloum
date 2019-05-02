@@ -1,16 +1,68 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pouloum - Home Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
     </head>
     <body>
-        <div>TODO write content</div>
+      <div id="wrapper">
+        <div id="container_navbar_and_alert" class="container-fluid h-25">
+            <div id="navbar_row" class="row h-75">
+                <div id="main_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="home_page.html">
+                        P <!-- TODO replace by company logo -->
+                    </a>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="navbar-brand" href="home_page.html">
+                                Accueil
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Profil
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbar_profile_dropdown_links">
+                                <a class="dropdown-item" href="my_profile.html">Mon Profil</a>
+                                <a class="dropdown-item" href="profile_history.html">Historique</a>
+                                <a class="dropdown-item" href="profile_relations.html">Relations</a>
+                            </div>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="events_browser.html">
+                                Chercher
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="modify_event.html?create=1&idEvent=null">
+                                Organiser
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="home_page.html">
+                                Activités
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href=" index.html">
+                                <img src="IMG/navbar_logout_icon.png" class="img-fluid">
+                            </a>
+                        </li>
+                    </ul>
+                </div>  <!--#main_nabar -->
+            </div> <!--#navbar_row-->
+        </div> <!--#container_navbar_and_alert -->
+        
+        
+        
+      </div> <!--#wrapper-->
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>
