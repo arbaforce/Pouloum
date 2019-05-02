@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOPouloumer;
+import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
 import java.util.List;
@@ -182,12 +183,12 @@ public class PouloumSOM {
      * Remove an event from a user's event list.
      *
      * @param p is the user leaving the event.
-     * @param idEvent is the id of the event to leave.
+     * @param event is the event to leave.
      * @return int, 0 if the update was successful, 1 if there was a problem
      * updating the database.
      */
-    public int leaveEvent(Pouloumer p, Long idEvent) {
-        p.getEvents().remove(idEvent);
+    public int leaveEvent(Pouloumer p, Event event) {
+        p.getEvents().remove(event);
 
         JpaUtil.createEntityManager();
         JpaUtil.openTransaction();
@@ -202,6 +203,20 @@ public class PouloumSOM {
 
         JpaUtil.closeEntityManager();
 
+        return 0;
+    }
+    
+    /**
+     * Add activites to a user's interests. There is no need to check whether
+     * the interests to add are already linked to the user's profile as already
+     * linked interests will not be selectable in the GUI.
+     * 
+     * @param p
+     * @return 
+     */
+    public int addInterests(Pouloumer p, List<Long> interests) {
+        
+        
         return 0;
     }
 
