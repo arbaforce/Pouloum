@@ -74,7 +74,7 @@ public class PouloumSOM {
     public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
             int participants_min, int participants_max, List<Pouloumer> participants)
             throws Exception {
-        Event newEvent = new Event(label, description, startDate, duration, location, activity, organizer, participants_min, participants_max, participants);
+        Event newEvent = new Event(label, description, false, startDate, duration, location, activity, organizer, participants_min, participants_max, participants);
 
         JpaUtil.createEntityManager();
 
