@@ -54,6 +54,7 @@ public class DAOEvent {
         EntityManager em = JpaUtil.getEntityManager();
         
         Event found = null;
+        
         try {
             found = em.find(Event.class, id);
         } catch (Exception e) {
@@ -67,7 +68,9 @@ public class DAOEvent {
         throws Exception
     {
         EntityManager em = JpaUtil.getEntityManager();
+        
         List<Event> found = null;
+        
         try {
             Query q = em.createQuery("SELECT e FROM Event e");
             found = (List<Event>) q.getResultList();

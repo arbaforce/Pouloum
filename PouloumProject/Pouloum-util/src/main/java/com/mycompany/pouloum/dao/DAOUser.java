@@ -54,6 +54,7 @@ public class DAOUser {
         EntityManager em = JpaUtil.getEntityManager();
         
         User found = null;
+        
         try {
             found = em.find(User.class, id);
         } catch (Exception e) {
@@ -69,18 +70,39 @@ public class DAOUser {
         EntityManager em = JpaUtil.getEntityManager();
         
         User found = null;
+        
         try {
             Query q = em.createQuery("SELECT u FROM User u where u.email=:email");
             q.setParameter("email", email);
             try {
                 found = (User) q.getSingleResult();
             } catch (NoResultException nr) {
-                // throw nr;
             }
         } catch (Exception e) {
             throw e;
         }
         
+        return found;
+    }
+    
+    public static User findUserByNickname( String nickname )
+        throws Exception
+    {
+        EntityManager em = JpaUtil.getEntityManager();
+
+        User found = null;
+        
+        try {
+            Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname");
+            q.setParameter("nickname", nickname);
+            try {
+                found = (User) q.getSingleResult();
+            } catch (NoResultException nr) {
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+
         return found;
     }
     
@@ -98,7 +120,6 @@ public class DAOUser {
             try {
                 found =(User) q.getSingleResult();
             } catch (NoResultException nr) {
-                throw nr;
             }
         } catch (Exception e) {
             throw e;
@@ -111,7 +132,9 @@ public class DAOUser {
         throws Exception
     {
         EntityManager em = JpaUtil.getEntityManager();
+        
         List<User> found = null;
+        
         try {
             Query q = em.createQuery("SELECT u FROM User u");
             found = (List<User>) q.getResultList();
