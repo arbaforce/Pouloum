@@ -18,6 +18,18 @@ public class DAOBadge {
         }
     }
 
+    public static void removeById(Long id)
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+
+        try {
+            Badge b = (Badge) em.find(Badge.class, id);
+            em.remove(b);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     public static Badge findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
