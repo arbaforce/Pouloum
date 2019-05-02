@@ -19,7 +19,7 @@ public class ServicesTools {
         System.out.println(message);
     }
     
-    public static void simulateEmailRegisterSuccess( User user )
+    public static void simulateEmailRegisterSuccess( Pouloumer user )
     {
         String message = "Your account " + user.getNickname() + " has successfully been registered.";
         simulateEmail(user.getEmail(), message);
@@ -30,23 +30,23 @@ public class ServicesTools {
         simulateEmail(email, message);
     }
     
-    public static void simulateSMSCreationSuccess( User user, Event event )
+    public static void simulateSMSCreationSuccess( Pouloumer user, Event event )
     {
         String message = "Your event " + event.getLabel() + " has successfully been created.";
         simulateSMS(user.getEmail(), message);
     }
-    public static void simulateSMSCreationFailure( User user, String label )
+    public static void simulateSMSCreationFailure( Pouloumer user, String label )
     {
         String message = "Your event " + label + " couldn't be created.";
         simulateSMS(user.getEmail(), message);
     }
     
-    public static void simulateSMSJoinSuccess( User user, Event event )
+    public static void simulateSMSJoinSuccess( Pouloumer user, Event event )
     {
         String message = "You have successfully joined the event " + event.getLabel() + ".";
         simulateSMS(user.getEmail(), message);
     }
-    public static void simulateSMSJoinFailure( User user, Event event )
+    public static void simulateSMSJoinFailure( Pouloumer user, Event event )
     {
         String message = "You couldn't have been added to the event " + event.getLabel() + ".";
         simulateSMS(user.getEmail(), message);

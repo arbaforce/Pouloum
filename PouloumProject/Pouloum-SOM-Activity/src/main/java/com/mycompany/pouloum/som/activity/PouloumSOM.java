@@ -6,7 +6,13 @@
 package com.mycompany.pouloum.som.activity;
 
 import com.google.gson.JsonObject;
+import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.util.DBConnection;
+import com.mycompany.pouloum.model.Activity;
+import com.mycompany.pouloum.dao.DAOActivity;
+import java.util.List;
+
+
 
 /**
  *
@@ -25,5 +31,42 @@ public class PouloumSOM {
     public void release() {
         this.dBConnection.close();
     }
-  
+
+    /**
+     * Get an activity details
+     *
+     * @param idActivity is the id of the activity.
+     * @return Activity, the activity matching the id.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public Activity getActivityById(Long idActivity) 
+            throws Exception 
+    {
+        JpaUtil.createEntityManager();
+
+        Activity a = DAOActivity.findById(idActivity);
+
+        JpaUtil.closeEntityManager();
+
+        return a;
+    }
+    
+    /**
+     * Get the full list of activities.
+     *
+     * @return availableActivities, which contains all the activities.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public List<Activity> findAllActivities() 
+            throws Exception 
+    {
+        JpaUtil.createEntityManager();
+        
+        List<Activity> availableActivites = DAOActivity.findAll();
+        
+        JpaUtil.closeEntityManager();
+
+        return availableActivites;
+    }    
+    
 }
