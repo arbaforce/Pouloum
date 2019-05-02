@@ -8,9 +8,9 @@ package com.mycompany.pouloum.som.user;
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
-import com.mycompany.pouloum.dao.DAOUser;
+import com.mycompany.pouloum.dao.DAOPouloumer;
 import com.mycompany.pouloum.model.Address;
-import com.mycompany.pouloum.model.User;
+import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
 
 /**
@@ -39,11 +39,11 @@ public class PouloumSOM {
      * @return User, the user matching the credentials or null if they are
      * incorrect.
      */
-    public User loginMail(String mail, String password)
+    public Pouloumer loginMail(String mail, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
-        User u = DAOUser.findUserByEmailAndPassword(mail, password);
+        Pouloumer u = DAOPouloumer.findUserByEmailAndPassword(mail, password);
 
         JpaUtil.closeEntityManager();
 
@@ -58,11 +58,11 @@ public class PouloumSOM {
      * @return User, the user matching the credentials or null if they are
      * incorrect.
      */
-    public User loginNickname(String nickname, String password)
+    public Pouloumer loginNickname(String nickname, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
-        User u = DAOUser.findUserByNicknameAndPassword(nickname, password);
+        Pouloumer u = DAOPouloumer.findUserByNicknameAndPassword(nickname, password);
 
         JpaUtil.closeEntityManager();
 
@@ -91,19 +91,21 @@ public class PouloumSOM {
      */
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Address address) {
-        User u = new User(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
+            Address address)
+        throws Exception
+    {
+        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
 
         JpaUtil.createEntityManager();
 
-        User check = DAOUser.findUserByEmail(mail);
+        Pouloumer check = DAOPouloumer.findUserByEmail(mail);
         if (check != null) // email already used
         {
             return 1;
         }
         // email available
 
-        check = DAOUser.findUserByNickname(nickname);
+        check = DAOPouloumer.findUserByNickname(nickname);
         if (check != null) // nickname already used
         {
             return 2;
@@ -113,9 +115,9 @@ public class PouloumSOM {
         JpaUtil.openTransaction();
 
         try {
-            DAOUser.persist(u);
+            DAOPouloumer.persist(u);
             JpaUtil.commitTransaction();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
         }
