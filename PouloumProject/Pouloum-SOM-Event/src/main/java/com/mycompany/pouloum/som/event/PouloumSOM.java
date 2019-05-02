@@ -53,13 +53,45 @@ public class PouloumSOM {
         return e;
     }
     
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param label is the event name.
+     * @param description is the event description.
+     * @param startDate is the event starting date.
+     * @param duration is the event duration.
+     * @param location is the event address.
+     * @param activity is the event corresponding activity.
+     * @param organizer is the event creator.
+     * @param participants_min is the event minimum number of participants.
+     * @param participants_max is the event maximum number of participants.
+     * @param participants is the event list of pouloumer attending to it.
+     * @return Event, the event matching to the id.
+     * @throws Exception if there's an error trying to access the database.
+     */
     public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
-            int participants_min, int participants_max, List<Pouloumer> participants, double grade_average) 
+            int participants_min, int participants_max, List<Pouloumer> participants) 
             throws Exception
     {
-        Event e = new Event(label, description, startDate, duration, location, activity, organizer,  participants_min, participants_max, participants, grade_average);
+        Event newEvent = new Event(label, description, startDate, duration, location, activity, organizer,  participants_min, participants_max, participants);
+        
+        JpaUtil.createEntityManager();
+
+        JpaUtil.openTransaction();
+
+        try {
+            DAOEvent.persist(newEvent);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            JpaUtil.cancelTransaction();
+        }
+        
+        JpaUtil.closeEntityManager();
+        
         return 0;
     }
+    
+    
     
     /**
      * Try to login with a given (nickname, password) pair.
