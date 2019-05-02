@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOPouloumer;
-import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Pouloumer;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +40,7 @@ public class PouloumSOM {
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public Pouloumer loginMail(String mail, String password)
+    public Pouloumer loginWithMail(String mail, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
@@ -61,12 +60,11 @@ public class PouloumSOM {
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public Pouloumer loginNickname(String nickname, String password)
+    public Pouloumer loginWithNickname(String nickname, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
         Pouloumer u = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
-
 
         JpaUtil.closeEntityManager();
 
@@ -88,17 +86,15 @@ public class PouloumSOM {
      * @param gender is the gender of the user.
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
-     * @param address is
+     * @param idAddress is the id of the address of the user.
      * @return int, 0 if the registration is successful, 1 if the email is
      * already used, 2 if the nickname is already used, 3 if there was an error
      * when trying to process the transaction.
      */
     public int signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Long idAddress) {
-        throws Exception
-    {
-        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, address);
+            Long idAddress) throws Exception {
+        Pouloumer u = new Pouloumer(nickname, firstName, lastName, mail, password, isModerator, isAdmin, gender, birthdate, phoneNumber, idAddress);
 
         JpaUtil.createEntityManager();
 
@@ -125,69 +121,88 @@ public class PouloumSOM {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
         }
-        
+
         JpaUtil.closeEntityManager();
 
         return 0;
     }
-    
+
     /**
      * Get a user given their id.
+     *
      * @param id is the id of the user.
-     * @return Pouloumer, the user matching the given id, or null if there is none.
+     * @return Pouloumer, the user matching the given id, or null if there is
+     * none.
      */
-    public Pouloumer getPouloumerById(Long id) {
+    public Pouloumer getPouloumerById(Long id) throws Exception {
         JpaUtil.createEntityManager();
-        
+
         Pouloumer u = DAOPouloumer.findById(id);
-        
+
         JpaUtil.closeEntityManager();
-        
+
         return u;
     }
 
     /**
      * Get a user given their e-mail address.
+     *
      * @param mail is the e-mail address of the user.
-     * @return Pouloumer, the user matching the given address, or null if there is none.
+     * @return Pouloumer, the user matching the given address, or null if there
+     * is none.
      */
-    public Pouloumer getPouloumerByEmail(String mail) {
+    public Pouloumer getPouloumerByEmail(String mail) throws Exception {
         JpaUtil.createEntityManager();
-        
+
         Pouloumer u = DAOPouloumer.findPouloumerByEmail(mail);
 
-        
         JpaUtil.closeEntityManager();
-        
+
         return u;
     }
-    
+
     /**
      * Get a user given their nickname.
+     *
      * @param nickname is the nickname of the user.
-     * @return Pouloumer, the user matching the given nickname, or null if there is none.
+     * @return Pouloumer, the user matching the given nickname, or null if there
+     * is none.
      */
-    public Pouloumer getPouloumerByNickname(String nickname) {
+    public Pouloumer getPouloumerByNickname(String nickname) throws Exception {
         JpaUtil.createEntityManager();
-        
+
         Pouloumer u = DAOPouloumer.findPouloumerByNickname(nickname);
 
         JpaUtil.closeEntityManager();
-        
+
         return u;
     }
-    
+
     /**
      * Remove an event from a user's event list.
-     * 
+     *
      * @param p is the user leaving the event.
      * @param idEvent is the id of the event to leave.
-     * @return int, 0 if the update was successful, 1 if there was a problem updating the database.
+     * @return int, 0 if the update was successful, 1 if there was a problem
+     * updating the database.
      */
     public int leaveEvent(Pouloumer p, Long idEvent) {
-        List<Long> pouloumerIdEvents = p.getEvents();
-        
+        p.getEvents().remove(idEvent);
+
         JpaUtil.createEntityManager();
+        JpaUtil.openTransaction();
+
+        try {
+            DAOPouloumer.updatePouloumer(p);
+            JpaUtil.commitTransaction();
+        } catch (Exception e) {
+            JpaUtil.cancelTransaction();
+            return 1;
+        }
+
+        JpaUtil.closeEntityManager();
+
+        return 0;
     }
-    
+
 }
