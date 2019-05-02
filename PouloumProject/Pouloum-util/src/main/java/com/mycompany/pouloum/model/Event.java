@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 
+enum State { ORGANIZED, READY, CANCELLED, FINISHED; }
 
 @Entity
 public class Event implements Serializable  {
@@ -29,7 +30,7 @@ public class Event implements Serializable  {
     // Description
     protected String label;
     protected String description;
-    protected boolean cancelled;
+    protected State state;
     
     // Time
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -63,12 +64,12 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, boolean cancelled, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average) {
+    public Event(String label, String description, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average) {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.start = start;
         this.duration = duration;
+        this.state = State.ORGANIZED;
         this.location = location;
         this.activity = activity;
         this.organizer = organizer;
@@ -80,14 +81,14 @@ public class Event implements Serializable  {
         this.grade_average = grade_average;
     }
 
-    public Event(String label, String description, boolean cancelled, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average)
+    public Event(String label, String description, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average)
         throws ParseException
     {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.setStart(start);
         this.duration = duration;
+        this.state = State.ORGANIZED;
         this.location = location;
         this.activity = activity;
         this.organizer = organizer;
@@ -126,12 +127,12 @@ public class Event implements Serializable  {
         this.description = description;
     }
 
-    public boolean isCancelled() {
-        return cancelled;
+    public State getState() {
+        return state;
     }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    
+    public void setState(State state) {
+        this.state = state;
     }
 
     public Date getStart() {
