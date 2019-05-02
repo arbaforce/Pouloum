@@ -44,6 +44,18 @@ public class Activity implements Serializable  {
     
     public Activity( ) {}
     
+    public Activity(Activity parent, List<Activity> children, String name, String description, List<Badge> badges, String rules, List<String> resources, int default_participants_min, int default_participants_max) {
+        this.parent = parent;
+        this.children = children;
+        this.name = name;
+        this.description = description;
+        this.badges = badges;
+        this.rules = rules;
+        this.resources = resources;
+        this.default_participants_min = default_participants_min;
+        this.default_participants_max = default_participants_max;
+    }
+    
     
     // GETTERS AND SETTERS
     
