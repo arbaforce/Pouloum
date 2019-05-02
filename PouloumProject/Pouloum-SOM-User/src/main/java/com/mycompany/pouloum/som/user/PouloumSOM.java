@@ -180,12 +180,12 @@ public class PouloumSOM {
     /**
      * Remove an event from a user's event list.
      * 
-     * @param u is the user leaving the event.
+     * @param p is the user leaving the event.
      * @param idEvent is the id of the event to leave.
      * @return int, 0 if the update was successful, 1 if there was a problem updating the database.
      */
-    public int leaveEvent(Pouloumer u, Long idEvent) {
-        List<Event> userEvents = u.getEvents();
+    public int leaveEvent(Pouloumer p, Long idEvent) {
+        List<Long> pouloumerIdEvents = p.getEvents();
         
         JpaUtil.createEntityManager();
     }

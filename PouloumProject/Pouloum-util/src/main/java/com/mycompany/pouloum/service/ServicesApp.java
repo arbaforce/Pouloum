@@ -14,14 +14,14 @@ import com.mycompany.pouloum.util.GeoTest;
 
 public class ServicesApp {
     
-    public static boolean UserRegister(Pouloumer user) {
+    public static boolean PouloumerRegister(Pouloumer user) {
         boolean result = false;
         
         try {
             JpaUtil.createEntityManager();
             
             {
-            Pouloumer check = DAOPouloumer.findUserByEmail(user.getEmail());
+            Pouloumer check = DAOPouloumer.findPouloumerByEmail(user.getEmail());
             if (check != null)
                 // email already used
                 return false;
@@ -29,7 +29,7 @@ public class ServicesApp {
             // email available
             
             {
-            Pouloumer check = DAOPouloumer.findUserByNickname(user.getNickname());
+            Pouloumer check = DAOPouloumer.findPouloumerByNickname(user.getNickname());
             if (check != null)
                 // nickname already used
                 return false;
@@ -59,13 +59,13 @@ public class ServicesApp {
         return result;
     }
     
-    public static Pouloumer UserAuthenticate( String email, String password ) {
+    public static Pouloumer PouloumerAuthenticate( String email, String password ) {
         Pouloumer authenticated = null;
         
         try {
             JpaUtil.createEntityManager();
             
-            authenticated = DAOPouloumer.findUserByEmailAndPassword(email, password);
+            authenticated = DAOPouloumer.findPouloumerByEmailAndPassword(email, password);
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class ServicesApp {
             List<Event> is = u.getEvents();
             is.add(i);
             u.setEvents(is);
-            u = DAOPouloumer.updateUser(u);
+            u = DAOPouloumer.updatePouloumer(u);
             
             i.setOrganizer(u);
             DAOEvent.persist(i);
@@ -130,7 +130,7 @@ public class ServicesApp {
                 List<Event> events = u.getEvents();
                 events.add(i);
                 u.setEvents(events);
-                u = DAOPouloumer.updateUser(u);
+                u = DAOPouloumer.updatePouloumer(u);
                 
                 participants.add(u);
                 i.setParticipants(participants);
@@ -188,7 +188,7 @@ public class ServicesApp {
     
     
     
-    public static void CreateSampleUsers(){
+    public static void CreateSamplePouloumers(){
         try {
             JpaUtil.createEntityManager();
             
@@ -220,7 +220,7 @@ public class ServicesApp {
             
             for (Pouloumer u : users) {
                 try {
-                    UserRegister(u);
+                    PouloumerRegister(u);
                 } catch (Exception ex) {
                     // ex.printStackTrace();
                 }
