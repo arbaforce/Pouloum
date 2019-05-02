@@ -44,10 +44,10 @@ public class ServicesApp {
                 ServicesTools.simulateEmailRegisterSuccess(user);
                 
                 result = true;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 ServicesTools.simulateEmailRegisterFailure(user.getFirst_name(), user.getEmail());
-                throw e;
+                throw ex;
             }
             
             JpaUtil.closeEntityManager();
@@ -68,7 +68,7 @@ public class ServicesApp {
             authenticated = DAOUser.findUserByEmailAndPassword(email, password);
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             // e.printStackTrace();
         }
         
@@ -92,18 +92,18 @@ public class ServicesApp {
             
             try {
                 JpaUtil.commitTransaction();
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                throw e;
+                throw ex;
             }
             
             ServicesTools.simulateSMSCreationSuccess(u, i);
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             ServicesTools.simulateSMSCreationFailure(u, i.getLabel());
             
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
     
@@ -118,7 +118,7 @@ public class ServicesApp {
         if (i.getParticipants_num() >= i.getParticipants_max()) {
             return false;
         }
-            
+        
         boolean success = false;
         
         try {
@@ -139,9 +139,9 @@ public class ServicesApp {
                 JpaUtil.commitTransaction();
                 
                 success = true;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                throw e;
+                throw ex;
             }
             
             JpaUtil.closeEntityManager();
@@ -151,8 +151,8 @@ public class ServicesApp {
             } else {
                 ServicesTools.simulateSMSJoinFailure(u, i);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         return success;
@@ -171,7 +171,7 @@ public class ServicesApp {
             List<Event> allInter = DAOEvent.findAll();
             if (allInter!=null && !allInter.isEmpty()) {
                 for (Event intIter : allInter) {
-                    String dateTempo= sf.format(intIter.getStart());  
+                    String dateTempo= sf.format(intIter.getStart());
                     if (dateTempo.equals(today)) {
                         result.add(intIter);
                     }
@@ -179,8 +179,8 @@ public class ServicesApp {
             }
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         return result;
@@ -216,20 +216,20 @@ public class ServicesApp {
             
             Address a6 = new Address("7", "Rue de la Cloche", "Villeurbanne", "69100", "France");
             User u6 = new User("Olive", "Olivier", "WOSTPHOL", "owostphol@proactif.com", "mdpow", false, false, 'M', "24/05/1983","0860680312", a6);
-            users.add(u6);            
+            users.add(u6);
             
             for (User u : users) {
                 try {
                     UserRegister(u);
-                } catch (Exception e) {
+                } catch (Exception ex) {
                     // e.printStackTrace();
                 }
             }
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }     
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
 }

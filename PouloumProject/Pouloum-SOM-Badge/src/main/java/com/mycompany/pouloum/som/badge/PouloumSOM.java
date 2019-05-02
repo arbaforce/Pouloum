@@ -32,7 +32,7 @@ public class PouloumSOM {
 
         try {
             b = DAOBadge.findById(id);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             b = null;
         }
 

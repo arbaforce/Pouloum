@@ -68,7 +68,7 @@ public class testJoin {
                 }
                 */
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }
         

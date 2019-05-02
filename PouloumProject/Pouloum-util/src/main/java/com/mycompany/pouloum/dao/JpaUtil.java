@@ -131,9 +131,9 @@ public class JpaUtil {
         try {
             EntityManager em = threadLocalEntityManager.get();
             em.getTransaction().begin();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             log("Error beginning a transaction");
-            throw e;
+            throw ex;
         }
     }
 
@@ -148,9 +148,9 @@ public class JpaUtil {
         try {
             EntityManager em = threadLocalEntityManager.get();
             em.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             log("Error commiting the transaction");
-            throw e;
+            throw ex;
         }
     }
 
@@ -169,9 +169,9 @@ public class JpaUtil {
                 log("Effective cancellation of the transaction");
                 em.getTransaction().rollback();
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             log("Error cancelling the transaction");
-            throw e;
+            throw ex;
         }
     }
 

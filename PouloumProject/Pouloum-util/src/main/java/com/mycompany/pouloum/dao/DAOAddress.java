@@ -13,8 +13,8 @@ public class DAOAddress {
 
         try {
             em.persist(i);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
     
@@ -26,8 +26,8 @@ public class DAOAddress {
         try {
             Address a = (Address) em.find(Address.class,id);
             em.remove(a);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
@@ -38,8 +38,8 @@ public class DAOAddress {
         Address found = null;
         try {
             found = em.find(Address.class, id);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
 
         return found;
@@ -52,8 +52,8 @@ public class DAOAddress {
         try {
             Query q = em.createQuery("SELECT e FROM Address e");
             found = (List<Address>) q.getResultList();
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
 
         return found;

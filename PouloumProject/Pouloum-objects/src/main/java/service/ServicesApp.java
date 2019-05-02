@@ -45,10 +45,10 @@ public class ServicesApp {
                 ServicesTools.simulateEmailRegisterSuccess(user);
                 
                 result = true;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 ServicesTools.simulateEmailRegisterFailure(user.getFirst_name(), user.getEmail());
-                throw e;
+                throw ex;
             }
             
             JpaUtil.closeEntityManager();
@@ -68,7 +68,7 @@ public class ServicesApp {
             authenticated = DAOUser.findUserByEmailAndPassword(email, password);
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             // e.printStackTrace();
         }
         
@@ -92,15 +92,15 @@ public class ServicesApp {
             
             try {
                 JpaUtil.commitTransaction();
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                throw e;
+                throw ex;
             }
             
             ServicesTools.simulateSMSCreationSuccess(u, i);
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             ServicesTools.simulateSMSCreationFailure(u, i.getLabel());
             
             e.printStackTrace();
@@ -139,9 +139,9 @@ public class ServicesApp {
                 JpaUtil.commitTransaction();
                 
                 success = true;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                throw e;
+                throw ex;
             }
             
             JpaUtil.closeEntityManager();
@@ -151,7 +151,7 @@ public class ServicesApp {
             } else {
                 ServicesTools.simulateSMSJoinFailure(u, i);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }
         
@@ -179,7 +179,7 @@ public class ServicesApp {
             }
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }
         
@@ -221,13 +221,13 @@ public class ServicesApp {
             for (User u : users) {
                 try {
                     UserRegister(u);
-                } catch (Exception e) {
+                } catch (Exception ex) {
                     // e.printStackTrace();
                 }
             }
             
             JpaUtil.closeEntityManager();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }     
     }

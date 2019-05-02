@@ -54,7 +54,7 @@ public class testOrganize {
                 ServicesApp.EventOrganize(i);
                 */
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }
         

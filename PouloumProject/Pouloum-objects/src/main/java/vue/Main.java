@@ -22,7 +22,7 @@ public class Main {
         
         try {
             ServicesApp.CreateSampleUsers();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             e.printStackTrace();
         }
         

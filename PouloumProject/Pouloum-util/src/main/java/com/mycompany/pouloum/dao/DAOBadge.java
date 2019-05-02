@@ -13,8 +13,8 @@ public class DAOBadge {
 
         try {
             em.persist(b);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
@@ -25,8 +25,8 @@ public class DAOBadge {
         try {
             Badge b = (Badge) em.find(Badge.class, id);
             em.remove(b);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
@@ -37,8 +37,8 @@ public class DAOBadge {
         Badge found = null;
         try {
             found = em.find(Badge.class, id);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
 
         return found;
@@ -51,8 +51,8 @@ public class DAOBadge {
         try {
             Query q = em.createQuery("SELECT e FROM Event e");
             found = (List<Badge>) q.getResultList();
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
 
         return found;
