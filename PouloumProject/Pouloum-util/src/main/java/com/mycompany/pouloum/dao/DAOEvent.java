@@ -6,66 +6,60 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import com.mycompany.pouloum.model.Event;
 
-
 public class DAOEvent {
-    
-    public static void persist( Event i )
-        throws Exception
-    {
+
+    public static void persist(Event e)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         try {
-            em.persist(i);
+            em.persist(e);
         } catch (Exception e) {
             throw e;
         }
     }
-    
-    public static void removeById( Long id )
-        throws Exception
-    {
-        EntityManager em=JpaUtil.getEntityManager();
-        
+
+    public static void removeById(Long id)
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+
         try {
-            Event i = (Event) em.find(Event.class,id);
+            Event i = (Event) em.find(Event.class, id);
             em.remove(i);
         } catch (Exception e) {
             throw e;
         }
     }
-    
-    public static Event updateEvent( Event i )
-        throws Exception
-    {
+
+    public static Event updateEvent(Event e)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         try {
-            em.merge(i);
-        } catch (Exception e) {
-            throw e;
+            em.merge(e);
+        } catch (Exception ex) {
+            throw ex;
         }
-        
-        return i;
+
+        return e;
     }
-    
-    public static Event findById( Long id )
-        throws Exception
-    {
+
+    public static Event findById(Long id)
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        
+
         Event found = null;
         try {
             found = em.find(Event.class, id);
         } catch (Exception e) {
             throw e;
         }
-        
+
         return found;
     }
-    
-    public static List<Event> findAll( )
-        throws Exception
-    {
+
+    public static List<Event> findAll()
+            throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         List<Event> found = null;
         try {
@@ -74,8 +68,8 @@ public class DAOEvent {
         } catch (Exception e) {
             throw e;
         }
-        
+
         return found;
     }
-    
+
 }
