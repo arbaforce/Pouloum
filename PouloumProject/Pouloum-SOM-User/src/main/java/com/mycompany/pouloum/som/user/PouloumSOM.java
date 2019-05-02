@@ -40,7 +40,7 @@ public class PouloumSOM {
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public Pouloumer loginMail(String mail, String password)
+    public Pouloumer loginWithMail(String mail, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
@@ -60,7 +60,7 @@ public class PouloumSOM {
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public Pouloumer loginNickname(String nickname, String password)
+    public Pouloumer loginWithNickname(String nickname, String password)
             throws Exception {
         JpaUtil.createEntityManager();
 
@@ -86,7 +86,7 @@ public class PouloumSOM {
      * @param gender is the gender of the user.
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
-     * @param address is
+     * @param idAddress is the id of the address of the user.
      * @return int, 0 if the registration is successful, 1 if the email is
      * already used, 2 if the nickname is already used, 3 if there was an error
      * when trying to process the transaction.
@@ -137,9 +137,8 @@ public class PouloumSOM {
     public Pouloumer getPouloumerById(Long id) throws Exception {
         JpaUtil.createEntityManager();
 
-
         Pouloumer u = DAOPouloumer.findById(id);
-        
+
         JpaUtil.closeEntityManager();
 
         return u;
@@ -190,10 +189,22 @@ public class PouloumSOM {
     public int leaveEvent(Pouloumer p, Long idEvent) {
         List<Long> pouloumerIdEvents = p.getEvents();
 
+        pouloumerIdEvents.remove(idEvent);
+        p.setEvents(pouloumerIdEvents);
+
         JpaUtil.createEntityManager();
-        
+        JpaUtil.openTransaction();
+
+        try {
+            DAOPouloumer.updatePouloumer(p);
+            JpaUtil.commitTransaction();
+        } catch (Exception e) {
+            JpaUtil.cancelTransaction();
+            return 1;
+        }
+
         JpaUtil.closeEntityManager();
-        
+
         return 0;
     }
 
