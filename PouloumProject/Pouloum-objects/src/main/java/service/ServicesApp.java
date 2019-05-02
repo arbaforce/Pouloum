@@ -52,8 +52,8 @@ public class ServicesApp {
             }
             
             JpaUtil.closeEntityManager();
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
        
         return result;
@@ -69,7 +69,7 @@ public class ServicesApp {
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
-            // e.printStackTrace();
+            // ex.printStackTrace();
         }
         
         return authenticated;
@@ -103,7 +103,7 @@ public class ServicesApp {
         } catch (Exception ex) {
             ServicesTools.simulateSMSCreationFailure(u, i.getLabel());
             
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
     
@@ -152,7 +152,7 @@ public class ServicesApp {
                 ServicesTools.simulateSMSJoinFailure(u, i);
             }
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
         
         return success;
@@ -180,7 +180,7 @@ public class ServicesApp {
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
         
         return result;
@@ -222,13 +222,13 @@ public class ServicesApp {
                 try {
                     UserRegister(u);
                 } catch (Exception ex) {
-                    // e.printStackTrace();
+                    // ex.printStackTrace();
                 }
             }
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }     
     }
     

@@ -55,7 +55,7 @@ public class testOrganize {
                 */
             }
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
         
         JpaUtil.destroy();

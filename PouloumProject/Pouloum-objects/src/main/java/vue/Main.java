@@ -23,7 +23,7 @@ public class Main {
         try {
             ServicesApp.CreateSampleUsers();
         } catch (Exception ex) {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
         
         JpaUtil.destroy();

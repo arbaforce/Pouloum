@@ -37,7 +37,9 @@ public class PouloumSOM {
      * @return User, the user matching the credentials or null if they are
      * incorrect.
      */
-    public User login(String mail, String password) {
+    public User loginMail(String mail, String password)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         User u = DAOUser.findUserByEmailAndPassword(mail, password);
@@ -55,7 +57,9 @@ public class PouloumSOM {
      * @return User, the user matching the credentials or null if they are
      * incorrect.
      */
-    public User login(String nickname, String password) {
+    public User loginNickname(String nickname, String password)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         User u = DAOUser.findUserByNicknameAndPassword(nickname, password);

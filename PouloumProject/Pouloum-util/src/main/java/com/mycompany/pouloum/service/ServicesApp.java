@@ -52,8 +52,8 @@ public class ServicesApp {
             
             JpaUtil.closeEntityManager();
         
-        } catch(Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
        
         return result;
@@ -69,7 +69,7 @@ public class ServicesApp {
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
-            // e.printStackTrace();
+            // ex.printStackTrace();
         }
         
         return authenticated;
@@ -222,7 +222,7 @@ public class ServicesApp {
                 try {
                     UserRegister(u);
                 } catch (Exception ex) {
-                    // e.printStackTrace();
+                    // ex.printStackTrace();
                 }
             }
             
