@@ -55,6 +55,9 @@ public class Pouloumer implements Serializable  {
     @OneToMany
     private List<Long> idEvents;
     
+    @OneToMany
+    private List<Long> idPassedEvents;
+    
     // To implement later
     
     // - badges
@@ -209,6 +212,14 @@ public class Pouloumer implements Serializable  {
     
     public void setEvents(List<Long> events) {
         this.idEvents = events;
+    }
+    
+    public List<Long> getPassedEvents() {
+        return idPassedEvents;
+    }
+    
+    public void setPassedEvents(List<Long> passedEvents) {
+        this.idPassedEvents = passedEvents;
     }
     
     
