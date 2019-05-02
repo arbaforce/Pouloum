@@ -222,7 +222,7 @@ public class ServicesApp {
                 try {
                     UserRegister(u);
                 } catch (Exception ex) {
-                    // ex.printStackTrace();
+                    ex.printStackTrace();
                 }
             }
             
