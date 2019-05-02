@@ -8,8 +8,12 @@ package com.mycompany.pouloum.som.event;
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.model.Event;
+import com.mycompany.pouloum.model.Address;
+import com.mycompany.pouloum.model.Activity;
+import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOEvent;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +53,14 @@ public class PouloumSOM {
         return e;
     }
     
+    public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
+            int participants_min, int participants_max, List<Pouloumer> participants, double grade_average) 
+            throws Exception
+    {
+        Event e = new Event(label, description, startDate, duration, location, activity, organizer,  participants_min, participants_max, participants, grade_average);
+        return 0;
+    }
+    
     /**
      * Try to login with a given (nickname, password) pair.
      *
@@ -62,5 +74,10 @@ public class PouloumSOM {
     {
         // do magical stuff plz
         return null;
-    }    
+    }
+
+    
+
+    
+    
 }
