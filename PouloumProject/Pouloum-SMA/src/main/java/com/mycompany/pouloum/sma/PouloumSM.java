@@ -6,6 +6,7 @@
 package com.mycompany.pouloum.sma;
 
 import com.google.gson.JsonObject;
+import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.JsonHttpClient;
 import java.io.IOException;
 
@@ -15,7 +16,7 @@ import java.io.IOException;
  */
 public class PouloumSM {
   
-    protected final String somUserUrl;
+    protected final String somPouloumerUrl;
     protected final String somBadgeUrl;
     protected final String somAddressUrl;
     protected final String somActivityUrl;
@@ -24,8 +25,8 @@ public class PouloumSM {
 
     protected JsonHttpClient jsonHttpClient;
 
-    public PouloumSM(String somUserUrl, String somBadgeUrl, String somAddressUrl, String somActivityUrl, String somEventUrl, JsonObject container) {
-        this.somUserUrl = somUserUrl;
+    public PouloumSM(String somPouloumerUrl, String somBadgeUrl, String somAddressUrl, String somActivityUrl, String somEventUrl, JsonObject container) {
+        this.somPouloumerUrl = somPouloumerUrl;
         this.somBadgeUrl = somBadgeUrl;
         this.somAddressUrl = somAddressUrl;
         this.somActivityUrl = somActivityUrl;
@@ -42,5 +43,9 @@ public class PouloumSM {
             // Ignorer
         }
     }
-  
+ 
+    
+    public Pouloumer loginWithMail(String mail, String password) {
+        return null;
+    }
 }

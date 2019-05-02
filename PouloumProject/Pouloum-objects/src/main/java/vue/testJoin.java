@@ -19,7 +19,7 @@ public class testJoin {
         JpaUtil.init();
         
         try{
-            Pouloumer uSignIn;
+            User uSignIn;
             
             // Authentification employe
             System.out.println("MENU AUTHENTIFICATION CLIENT :");

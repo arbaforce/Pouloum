@@ -8,21 +8,8 @@ body {
 .textAlign{
     text-align:center;
 }
-.bigAvatarImage{
-    max-width: 200px;	
-    max-height: 200px;
-}
 
-.bottom{
-    position:absolute; 
-    bottom:0;
-}
 
-#pouloumerDetailsGlobalContainer{
-    padding-top:20px;
-    padding-right:40px;
-    padding-left:40px;
-}
 
 #wrapper {
     overflow: hidden;
@@ -34,4 +21,12 @@ body {
 #navbar_img {
     max-width: 90%;
     max-height: 90%;
+}
+   
+
+
+.bottom{
+    position:absolute; 
+    width:100%;
+    bottom:0;
 }

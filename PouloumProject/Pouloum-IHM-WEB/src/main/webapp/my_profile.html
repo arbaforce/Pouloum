@@ -5,81 +5,101 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link rel='stylesheet' type='text/css' href='newhtml.css'>
+      <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+      <link rel='stylesheet' type='text/css' href='STYLE/my_profile.css'>
 
 </head>
   
 <body>
     <div id="my_profile_" class="row">
-    	<div id="pouloumer_details_global_container" class="col-6 border">
+    	<div id="user_details_global_container" class="col-6 border">
         
             <div id="image_avatar_container" class="row justify-content-center">
-              <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="bigAvatarImage rounded textAlign" />
+              <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded textAlign" />
             </div><!--image_avatar_container -->
-            <div id="pouloumer_pseudo_container" class="textAlign">
+            <div id="user_pseudo_container" class="textAlign">
               Gérard
-            </div><!--pouloumer_pseudo_container -->
-            <div id="pouloumer_rank_container" class="textAlign">
+            </div><!--user_pseudo_container -->
+            <div id="user_rank_container" class="textAlign">
               Grand pouloumeur
-            </div><!--pouloumer_rank_container -->
+            </div><!--user_rank_container -->
             
-            <div id="pouloumer_name_container" class="">
+            <div id="user_name_container" class="">
               Nom : Lambert
-            </div><!--pouloumer_name_container -->
-            <div id="pouloumer_surname_container" class="">
+            </div><!--user_name_container -->
+            <div id="user_surname_container" class="">
               Prénom : Gerard
-            </div><!--pouloumer_surname_container -->
-            <div id="pouloumer_genre_container" class="">
+            </div><!--user_surname_container -->
+            <div id="user_genre_container" class="">
               Genre : M
-            </div><!--pouloumer_genre_container -->
-            <div id="pouloumer_address_container" class="">
+            </div><!--user_genre_container -->
+            <div id="user_address_container" class="">
               Adresse : St-Jean le Rotrou
-            </div><!--pouloumer_address_container -->
-            <div id="pouloumer_birthdate_container" class="">
+            </div><!--user_address_container -->
+            <div id="user_birthdate_container" class="">
               Date de naissance : 
-            </div><!--pouloumer_birthdate_container -->
-            <div id="pouloumer_phone_number_container" class="">
+            </div><!--user_birthdate_container -->
+            <div id="user_phone_number_container" class="">
               Téléphone :
-            </div><!--pouloumer_phone_number_container -->
-            <div id="pouloumer_mail_container" class="">
+            </div><!--user_phone_number_container -->
+            <div id="user_mail_container" class="">
               Adresse mail :
-            </div><!--pouloumer_mail_container -->
+            </div><!--user_mail_container -->
             
             <div id="button_modify_profil" class="row justify-content-center button">
                 <button type="button" class="btn btn-light">
                     Modifier le profil
                 </button>
             </div><!--button_modify_profil -->
-        </div><!--pouloumer_details_global_container -->
+        </div><!--user_details_global_container -->
         
         
         
-        <div id="interest_pouloumer_global_container" class="col-3 border">
-            <h4>Centre d'intérêt</h4>
+        <div id="interest_pouloumer_global_container" class="col-3 border ">
+            <div id="interests_header_container" class="row"> 
+                <h4>Centre d'intérêt</h4>
+            </div><!--interests_header_container-->
             <div id="interest_pouloumer_container" class="">
                 Sport d'équipe 
                 	Basketball
-            </div> <!--interest_pouloumer_container-->
+            </div> <!--interest_user_container-->
             
-            <div id="add_interest_button_container" class="row bottom">
-               <div class="col border">
+            <div id="add_interest_button_container" class="row bottom button">
+               <div class="col-8">
                    <input type="text" class="form-control" id="interest">
                </div>
-               <div class="col border">
+               <div class="col-4">
                    <button type="button" class="btn btn-light">
                         Ajouter
                     </button>
                </div>
             </div><!--add_interest_button_container -->
           
-        </div><!--interest_pouloumer_global_container-->
+        </div><!--interest_user_global_container-->
         
         
         
-    	<div id="badges_pouloumer_global_container" class="col-3 border">
-            <h4>Badges</h4>
-            <div id="badges_pouloumer_container" class="">
-                
+    	<div id="badges_pouloumer_global_container" class="col-3 border wrapper">
+            <div id="badges_header_container" class="row">
+                <h4>Badges</h4> 
+            </div><!--badges_header_container-->
+            <div id="badges_pouloumer_container" class="row">
+                <div id="first_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                    <div id="fire_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--fire_badge_pouloumer_container-->
+                    <div id="water_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--water_badge_pouloumer_container-->
+                </div><!--first_row_badges_pouloumer-->
+                <div id="second_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                    <div id="wind_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--wind_badge_pouloumer_container-->
+                    <div id="earth_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--earth_badge_pouloumer_container-->
+                </div><!--second_row_badges_pouloumer-->
             </div> <!--badges_pouloumer_container-->
         </div><!--badges_pouloumer_global_container -->
     </div>

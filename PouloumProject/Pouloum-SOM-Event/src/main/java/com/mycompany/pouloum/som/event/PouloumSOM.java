@@ -7,6 +7,15 @@ package com.mycompany.pouloum.som.event;
 
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
+import com.mycompany.pouloum.model.Event;
+import com.mycompany.pouloum.model.Address;
+import com.mycompany.pouloum.model.Activity;
+import com.mycompany.pouloum.model.Pouloumer;
+import com.mycompany.pouloum.dao.JpaUtil;
+import com.mycompany.pouloum.dao.DAOEvent;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -25,4 +34,107 @@ public class PouloumSOM {
         this.dBConnection.close();
     }
   
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param id is the event id.
+     * @return Event, the event matching to the id.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public Event getEventById(Long id) 
+            throws Exception 
+    {
+        JpaUtil.createEntityManager();
+        
+        Event e = DAOEvent.findById(id);
+        
+        JpaUtil.closeEntityManager();
+        
+        return e;
+    }
+    
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param label is the event name.
+     * @param description is the event description.
+     * @param startDate is the event starting date.
+     * @param duration is the event duration.
+     * @param location is the event address.
+     * @param activity is the event corresponding activity.
+     * @param organizer is the event creator.
+     * @param participants_min is the event minimum number of participants.
+     * @param participants_max is the event maximum number of participants.
+     * @param participants is the event list of Pouloumer attending to it.
+     * @return Event, the event matching to the id.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public int createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
+            int participants_min, int participants_max, List<Pouloumer> participants) 
+            throws Exception
+    {
+        Event newEvent = new Event(label, description, startDate, duration, location, activity, organizer,  participants_min, participants_max, participants);
+        
+        JpaUtil.createEntityManager();
+
+        JpaUtil.openTransaction();
+
+        try {
+            DAOEvent.persist(newEvent);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
+            return 1;
+        }
+        
+        JpaUtil.closeEntityManager();
+        
+        return 0;
+    }
+    
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param newParticipant is the participant to add to the event.
+     * @param idEvent is the id of the event.
+     * @return int 0 if the registration is successful, 1 if the event does not
+     * exist, 2 if the pouloumer is already participating in the event.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public int addParticipant(Pouloumer newParticipant, Long idEvent)
+            throws Exception
+    {
+        Event e = DAOEvent.findById(idEvent);
+        if(e==null)
+        {
+            return 1;
+        }
+        if (e.getParticipants().contains(newParticipant))
+        {
+            return 2;
+        }
+        e.addParticipant(newParticipant);
+        return 0;
+    }
+    
+    /**
+     * Try to login with a given (nickname, password) pair.
+     *
+     * @param interests, the list containing all activities of the search.
+     * @return EventList, a list containing all events and for each event, 
+     * the ids of the participants.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public Map<Event,List<Long>> getEventByInterests(List<Long> interests) 
+            throws Exception
+    {
+        // do magical stuff plz
+        return null;
+    }
+
+    
+
+    
+    
 }
