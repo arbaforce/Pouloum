@@ -16,11 +16,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import java.util.ArrayList;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.Column;
+import javax.persistence.Table;
 
 
 @Entity
-public class Pouloumer implements Serializable  {
+@Table(name = "\"USER\"")
+public class User implements Serializable  {
 
     // ATTRIBUTES
     
@@ -30,13 +32,13 @@ public class Pouloumer implements Serializable  {
     protected Long id;
     
     // Identity 
-    //TODO : should be unique
+    @Column(unique=true)
     protected String nickname;
     protected String first_name;
     protected String last_name;
     
     // Account info
-    //TODO : should be unique
+    @Column(unique=true)
     protected String email;
     protected String password;
     protected boolean moderator;
@@ -70,9 +72,9 @@ public class Pouloumer implements Serializable  {
     
     // CONSTRUCTORS
     
-    public Pouloumer ( ) { }
+    public User ( ) { }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
+    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -89,7 +91,7 @@ public class Pouloumer implements Serializable  {
         this.interests = new ArrayList<>();
     }
     
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
+    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
         throws ParseException
     {
         this.nickname = nickname;

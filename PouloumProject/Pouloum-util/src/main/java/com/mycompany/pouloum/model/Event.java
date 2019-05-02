@@ -45,11 +45,11 @@ public class Event implements Serializable  {
     
     // People
     @OneToOne
-    protected Pouloumer organizer;
+    protected User organizer;
     protected int participants_min;
     protected int participants_max;
     @OneToMany
-    protected List<Pouloumer> participants;
+    protected List<User> participants;
     
     protected String email;
     protected String password;
@@ -64,7 +64,7 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average) {
+    public Event(String label, String description, Date start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average) {
         this.label = label;
         this.description = description;
         this.start = start;
@@ -81,7 +81,7 @@ public class Event implements Serializable  {
         this.grade_average = grade_average;
     }
 
-    public Event(String label, String description, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants, String email, String password, double grade_average)
+    public Event(String label, String description, String start, int duration, Address location, Activity activity, User organizer, int participants_min, int participants_max, List<User> participants, String email, String password, double grade_average)
         throws ParseException
     {
         this.label = label;
@@ -173,11 +173,11 @@ public class Event implements Serializable  {
         this.activity = activity;
     }
 
-    public Pouloumer getOrganizer() {
+    public User getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(Pouloumer organizer) {
+    public void setOrganizer(User organizer) {
         this.organizer = organizer;
     }
 
@@ -221,11 +221,11 @@ public class Event implements Serializable  {
         this.grade_average = grade_average;
     }
     
-    public List<Pouloumer> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
     
-    public void setParticipants(List<Pouloumer> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
     

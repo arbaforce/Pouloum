@@ -14,8 +14,8 @@ public class testOrganize {
         JpaUtil.init();
         
         try{
-            Pouloumer uSignUp = null;
-            Pouloumer cSignIn = null;
+            User uSignUp = null;
+            User cSignIn = null;
             
             // Inscription client
             System.out.println("MENU INSCRIPTION :");
@@ -30,7 +30,7 @@ public class testOrganize {
             String mdp = Input.readString("Veuillez entrer votre mot de passe : ");
             
             Address adresse = new Address("", adressePostale, "", "", "");
-            uSignUp = new Pouloumer(pseudo,prenom,nom,mail,mdp,false,false,civilite,dateDeNaissance,tel,adresse);
+            uSignUp = new User(pseudo,prenom,nom,mail,mdp,false,false,civilite,dateDeNaissance,tel,adresse);
             ServicesApp.UserRegister(uSignUp);
             uSignUp = null;
             
