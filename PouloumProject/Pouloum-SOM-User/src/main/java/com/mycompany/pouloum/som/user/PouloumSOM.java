@@ -38,6 +38,7 @@ public class PouloumSOM {
      * @param password is the password of the account.
      * @return User, the user matching the credentials or null if they are
      * incorrect.
+     * @throws Exception if there's an error trying to access the database.
      */
     public User loginMail(String mail, String password)
             throws Exception {
@@ -57,6 +58,7 @@ public class PouloumSOM {
      * @param password is the password of the account.
      * @return User, the user matching the credentials or null if they are
      * incorrect.
+     * @throws Exception if there's an error trying to access the database.
      */
     public User loginNickname(String nickname, String password)
             throws Exception {
