@@ -5,7 +5,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link rel='stylesheet' type='text/css' href='newhtml.css'>
+      <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+      <link rel='stylesheet' type='text/css' href='STYLE/my_profile.css'>
 
 </head>
   
@@ -14,7 +15,7 @@
     	<div id="pouloumer_details_global_container" class="col-6 border">
         
             <div id="image_avatar_container" class="row justify-content-center">
-              <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="bigAvatarImage rounded textAlign" />
+              <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded textAlign" />
             </div><!--image_avatar_container -->
             <div id="pouloumer_pseudo_container" class="textAlign">
               Gérard
@@ -54,18 +55,20 @@
         
         
         
-        <div id="interest_pouloumer_global_container" class="col-3 border">
-            <h4>Centre d'intérêt</h4>
+        <div id="interest_pouloumer_global_container" class="col-3 border ">
+            <div id="interests_header_container" class="row"> 
+                <h4>Centre d'intérêt</h4>
+            </div><!--interests_header_container-->
             <div id="interest_pouloumer_container" class="">
                 Sport d'équipe 
                 	Basketball
             </div> <!--interest_pouloumer_container-->
             
-            <div id="add_interest_button_container" class="row bottom">
-               <div class="col border">
+            <div id="add_interest_button_container" class="row bottom button">
+               <div class="col-8">
                    <input type="text" class="form-control" id="interest">
                </div>
-               <div class="col border">
+               <div class="col-4">
                    <button type="button" class="btn btn-light">
                         Ajouter
                     </button>
@@ -76,10 +79,27 @@
         
         
         
-    	<div id="badges_pouloumer_global_container" class="col-3 border">
-            <h4>Badges</h4>
-            <div id="badges_pouloumer_container" class="">
-                
+    	<div id="badges_pouloumer_global_container" class="col-3 border wrapper">
+            <div id="badges_header_container" class="row">
+                <h4>Badges</h4> 
+            </div><!--badges_header_container-->
+            <div id="badges_pouloumer_container" class="row">
+                <div id="first_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                    <div id="fire_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--fire_badge_pouloumer_container-->
+                    <div id="water_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--water_badge_pouloumer_container-->
+                </div><!--first_row_badges_pouloumer-->
+                <div id="second_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                    <div id="wind_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--wind_badge_pouloumer_container-->
+                    <div id="earth_badge_pouloumer_container" class="col w-50">
+                        <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                    </div><!--earth_badge_pouloumer_container-->
+                </div><!--second_row_badges_pouloumer-->
             </div> <!--badges_pouloumer_container-->
         </div><!--badges_pouloumer_global_container -->
     </div>
