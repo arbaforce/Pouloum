@@ -136,10 +136,10 @@ public class PouloumSOM {
      * @param id is the id of the user.
      * @return Pouloumer, the user matching the given id, or null if there is none.
      */
-    public Pouloumer getPouloumerByEmail(Long id) {
+    public Pouloumer getPouloumerById(Long id) {
         JpaUtil.createEntityManager();
         
-        Pouloumer u = DAOPouloumer.findById(id)
+        Pouloumer u = DAOPouloumer.findById(id);
         
         JpaUtil.closeEntityManager();
         
