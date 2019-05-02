@@ -187,10 +187,7 @@ public class PouloumSOM {
      * updating the database.
      */
     public int leaveEvent(Pouloumer p, Long idEvent) {
-        List<Long> pouloumerIdEvents = p.getEvents();
-
-        pouloumerIdEvents.remove(idEvent);
-        p.setEvents(pouloumerIdEvents);
+        p.getEvents().remove(idEvent);
 
         JpaUtil.createEntityManager();
         JpaUtil.openTransaction();
