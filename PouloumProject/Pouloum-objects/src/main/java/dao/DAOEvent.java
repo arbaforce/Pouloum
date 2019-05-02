@@ -16,8 +16,8 @@ public class DAOEvent {
         
         try {
             em.persist(i);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
     
@@ -29,8 +29,8 @@ public class DAOEvent {
         try {
             Event i = (Event) em.find(Event.class,id);
             em.remove(i);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
     
@@ -41,8 +41,8 @@ public class DAOEvent {
         
         try {
             em.merge(i);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return i;
@@ -56,8 +56,8 @@ public class DAOEvent {
         Event found = null;
         try {
             found = em.find(Event.class, id);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
@@ -71,8 +71,8 @@ public class DAOEvent {
         try {
             Query q = em.createQuery("SELECT e FROM Event e");
             found = (List<Event>) q.getResultList();
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;

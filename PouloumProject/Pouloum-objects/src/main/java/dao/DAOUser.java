@@ -16,8 +16,8 @@ public class DAOUser {
         
         try {
             em.persist(u);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
     
@@ -29,8 +29,8 @@ public class DAOUser {
         try {
             User u = (User) em.find(User.class,id);
             em.remove(u);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
     
@@ -41,8 +41,8 @@ public class DAOUser {
         
         try{
             em.merge(u);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return u;
@@ -56,8 +56,8 @@ public class DAOUser {
         User found = null;
         try {
             found = em.find(User.class, id);
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
@@ -77,8 +77,8 @@ public class DAOUser {
             } catch (NoResultException nr) {
                 // throw nr;
             }
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
@@ -98,8 +98,8 @@ public class DAOUser {
             } catch (NoResultException nr) {
                 // throw nr;
             }
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
@@ -121,8 +121,8 @@ public class DAOUser {
             } catch (NoResultException nr) {
                 throw nr;
             }
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
@@ -136,8 +136,8 @@ public class DAOUser {
         try {
             Query q = em.createQuery("SELECT u FROM User u");
             found = (List<User>) q.getResultList();
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         
         return found;
