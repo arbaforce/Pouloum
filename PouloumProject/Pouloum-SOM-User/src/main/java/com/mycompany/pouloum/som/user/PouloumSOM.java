@@ -213,12 +213,26 @@ public class PouloumSOM {
      * the interests to add are already linked to the user's profile as already
      * linked interests will not be selectable in the GUI.
      * 
-     * @param p
+     * @param p is the user to which we add interests.
      * @param interests is the list of interests to add.
-     * @return 
+     * @return 0 if the update was successful, 1 if there was a problem
+     * updating the database.
      */
     public int addInterests(Pouloumer p, List<Activity> interests) {
+        p.getInterests().addAll(interests);
         
+        JpaUtil.createEntityManager();
+        JpaUtil.openTransaction();
+
+        try {
+            DAOPouloumer.updatePouloumer(p);
+            JpaUtil.commitTransaction();
+        } catch (Exception e) {
+            JpaUtil.cancelTransaction();
+            return 1;
+        }
+
+        JpaUtil.closeEntityManager();
         
         return 0;
     }
