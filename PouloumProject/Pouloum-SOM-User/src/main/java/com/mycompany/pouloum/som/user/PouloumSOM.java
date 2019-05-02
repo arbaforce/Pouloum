@@ -137,6 +137,7 @@ public class PouloumSOM {
     public Pouloumer getPouloumerById(Long id) throws Exception {
         JpaUtil.createEntityManager();
 
+
         Pouloumer u = DAOPouloumer.findById(id);
         
         JpaUtil.closeEntityManager();
