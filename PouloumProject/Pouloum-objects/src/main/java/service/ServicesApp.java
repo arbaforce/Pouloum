@@ -2,7 +2,7 @@ package service;
 
 import com.google.maps.model.LatLng;
 import dao.DAOEvent;
-import dao.DAOPouloumer;
+import dao.DAOUser;
 import dao.JpaUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,14 +14,14 @@ import util.GeoTest;
 
 public class ServicesApp {
     
-    public static boolean UserRegister(Pouloumer user) {
+    public static boolean UserRegister(User user) {
         boolean result = false;
         
         try {
             JpaUtil.createEntityManager();
             
             {
-            Pouloumer check = DAOPouloumer.findUserByEmail(user.getEmail());
+            User check = DAOUser.findUserByEmail(user.getEmail());
             if (check != null)
                 // email already used
                 return false;
@@ -30,7 +30,7 @@ public class ServicesApp {
             // email available
             
             {
-            Pouloumer check = DAOPouloumer.findUserByNickname(user.getNickname());
+            User check = DAOUser.findUserByNickname(user.getNickname());
             if (check != null)
                 // nickname already used
                 return false;
@@ -40,7 +40,7 @@ public class ServicesApp {
             JpaUtil.openTransaction();
             
             try {
-                DAOPouloumer.persist(user);
+                DAOUser.persist(user);
                 JpaUtil.commitTransaction();
                 ServicesTools.simulateEmailRegisterSuccess(user);
                 
@@ -59,13 +59,13 @@ public class ServicesApp {
         return result;
     }
     
-    public static Pouloumer UserAuthenticate( String email, String password ) {
-        Pouloumer authenticated = null;
+    public static User UserAuthenticate( String email, String password ) {
+        User authenticated = null;
         
         try {
             JpaUtil.createEntityManager();
             
-            authenticated = DAOPouloumer.findUserByEmailAndPassword(email, password);
+            authenticated = DAOUser.findUserByEmailAndPassword(email, password);
             
             JpaUtil.closeEntityManager();
         } catch (Exception ex) {
@@ -75,7 +75,7 @@ public class ServicesApp {
         return authenticated;
     }
     
-    public static void CreateEvent( Pouloumer u, Event i ) {
+    public static void CreateEvent( User u, Event i ) {
         try {
             JpaUtil.createEntityManager();
             
@@ -85,7 +85,7 @@ public class ServicesApp {
             List<Event> is = u.getEvents();
             is.add(i);
             u.setEvents(is);
-            u = DAOPouloumer.updateUser(u);
+            u = DAOUser.updateUser(u);
             
             i.setOrganizer(u);
             DAOEvent.persist(i);
@@ -107,9 +107,9 @@ public class ServicesApp {
         }
     }
     
-    public static boolean JoinEvent( Pouloumer u, Event i )
+    public static boolean JoinEvent( User u, Event i )
     {
-        List<Pouloumer> participants = i.getParticipants();
+        List<User> participants = i.getParticipants();
         
         if (participants.contains(u)) {
             return false;
@@ -130,7 +130,7 @@ public class ServicesApp {
                 List<Event> events = u.getEvents();
                 events.add(i);
                 u.setEvents(events);
-                u = DAOPouloumer.updateUser(u);
+                u = DAOUser.updateUser(u);
                 
                 participants.add(u);
                 i.setParticipants(participants);
@@ -192,33 +192,33 @@ public class ServicesApp {
         try {
             JpaUtil.createEntityManager();
             
-            List<Pouloumer> users = new ArrayList<>();
+            List<User> users = new ArrayList<>();
             
             Address a1 = new Address("6", "Rue Camille Koechlin", "Villeurbanne", "69100", "France");
-            Pouloumer u1 = new Pouloumer("Momo", "Moez", "WOAGNER", "moez.woagner@proactif.com", "mdpmw", false, false, 'M', "16/08/1984","0832205629", a1);
+            User u1 = new User("Momo", "Moez", "WOAGNER", "moez.woagner@proactif.com", "mdpmw", false, false, 'M', "16/08/1984","0832205629", a1);
             users.add(u1);
             
             Address a2 = new Address("9", "Impasse Guillet", "Villeurbanne", "69100", "France");
-            Pouloumer u2 = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@proactif.com", "mdpmh", false, false, 'M', "17/02/1996","0482381862", a1);
+            User u2 = new User("Matty", "Matteo", "HONRY", "matteo.honry@proactif.com", "mdpmh", false, false, 'M', "17/02/1996","0482381862", a1);
             users.add(u2);
             
             Address a3 = new Address("20", "Rue Decomberousse", "Villeurbanne", "69100", "France");
-            Pouloumer u3 = new Pouloumer("Keke", "Kevin", "CECCANI", "kevin.ceccani@proactif.com", "mdpkc", false, false, 'M', "16/02/1982","0664426037", a3);
+            User u3 = new User("Keke", "Kevin", "CECCANI", "kevin.ceccani@proactif.com", "mdpkc", false, false, 'M', "16/02/1982","0664426037", a3);
             users.add(u3);
             
             Address a4 = new Address("1", "Rue d'Alsace", "Villeurbanne", "69100", "France");
-            Pouloumer u4 = new Pouloumer("Valice", "Alice", "VOYRET", "alice.voyret@proactif.com", "mdpav", false, false, 'F', "13/08/1988","0486856520", a4);
+            User u4 = new User("Valice", "Alice", "VOYRET", "alice.voyret@proactif.com", "mdpav", false, false, 'F', "13/08/1988","0486856520", a4);
             users.add(u4);
             
             Address a5 = new Address("4", "Rue de la Jeunesse", "Villeurbanne", "69100", "France");
-            Pouloumer u5 = new Pouloumer("Juju", "Julien", "RINERD", "jrinerd5241@proactif.com", "mdpjr", false, false, 'M', "16/05/1989","0727252485", a5);
+            User u5 = new User("Juju", "Julien", "RINERD", "jrinerd5241@proactif.com", "mdpjr", false, false, 'M', "16/05/1989","0727252485", a5);
             users.add(u5);
             
             Address a6 = new Address("7", "Rue de la Cloche", "Villeurbanne", "69100", "France");
-            Pouloumer u6 = new Pouloumer("Olive", "Olivier", "WOSTPHOL", "owostphol@proactif.com", "mdpow", false, false, 'M', "24/05/1983","0860680312", a6);
+            User u6 = new User("Olive", "Olivier", "WOSTPHOL", "owostphol@proactif.com", "mdpow", false, false, 'M', "24/05/1983","0860680312", a6);
             users.add(u6);            
             
-            for (Pouloumer u : users) {
+            for (User u : users) {
                 try {
                     UserRegister(u);
                 } catch (Exception ex) {
