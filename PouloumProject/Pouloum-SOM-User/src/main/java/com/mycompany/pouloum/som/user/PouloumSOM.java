@@ -46,7 +46,7 @@ public class PouloumSOM {
 
         return u;
     }
-    
+
     /**
      * Try to login with a given (nickname, password) pair.
      *
@@ -61,6 +61,22 @@ public class PouloumSOM {
         User u = DAOUser.findUserByNicknameAndPassword(nickname, password);
 
         JpaUtil.closeEntityManager();
+
+        return u;
+    }
+
+    public User signUp(String lastName, String firstName, String nickname,
+            String mail, String password, char gender, Date birthday, String phoneNumber,
+            Address address) {
+        User u = new User(nickname, firstName, lastName, mail, password, false, false, gender, birthday, phoneNumber, address);
+
+        JpaUtil.createEntityManager();
+
+        try {
+            DAOUser.persist(u);
+        } catch (Exception e) {
+            u = null; // Registration has failed, return null to let the GUI know
+        }
 
         return u;
     }
