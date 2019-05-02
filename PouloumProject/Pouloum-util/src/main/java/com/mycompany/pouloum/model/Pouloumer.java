@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 
 
 @Entity
-public class User implements Serializable  {
+public class Pouloumer implements Serializable  {
 
     // ATTRIBUTES
     
@@ -49,11 +49,11 @@ public class User implements Serializable  {
     
     // Coordinates
     @OneToOne
-    protected Address address;
+    protected Long idAddress;
     
     // Links
     @OneToMany
-    private List<Event> events;
+    private List<Long> idEvents;
     
     // To implement later
     
@@ -66,9 +66,9 @@ public class User implements Serializable  {
     
     // CONSTRUCTORS
     
-    public User ( ) { }
+    public Pouloumer ( ) { }
     
-    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Long idAddress) {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -79,10 +79,10 @@ public class User implements Serializable  {
         this.gender = gender;
         this.birth_date = birth_date;
         this.phone_number = phone_number;
-        this.address = address;
+        this.idAddress = idAddress;
     }
     
-    public User(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
+    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Long idAddress)
         throws ParseException
     {
         this.nickname = nickname;
@@ -95,7 +95,7 @@ public class User implements Serializable  {
         this.gender = gender;
         this.setBirth_date(birth_date);
         this.phone_number = phone_number;
-        this.address = address;
+        this.idAddress = idAddress;
     }
     
     
@@ -165,12 +165,12 @@ public class User implements Serializable  {
         this.administrator = administrator;
     }
 
-    public Address getAddress() {
-        return address;
+    public Long getAddress() {
+        return idAddress;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setIdAddress(long idAddress) {
+        this.idAddress = idAddress;
     }
 
     public String getEmail() {
@@ -203,12 +203,12 @@ public class User implements Serializable  {
         this.birth_date = DateUtil.toDate(birth_date);
     }
     
-    public List<Event> getEvents() {
-        return events;
+    public List<Long> getEvents() {
+        return idEvents;
     }
     
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEvents(List<Long> events) {
+        this.idEvents = events;
     }
     
     

@@ -4,11 +4,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import com.mycompany.pouloum.model.User;
+import com.mycompany.pouloum.model.Pouloumer;
 
-public class DAOUser {
+public class DAOPouloumer {
 
-    public static void persist(User u)
+    public static void persist(Pouloumer u)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -24,14 +24,14 @@ public class DAOUser {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            User u = (User) em.find(User.class, id);
+            Pouloumer u = (Pouloumer) em.find(Pouloumer.class, id);
             em.remove(u);
         } catch (Exception ex) {
             throw ex;
         }
     }
 
-    public static User updateUser(User u)
+    public static Pouloumer updatePouloumer(Pouloumer u)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -44,14 +44,14 @@ public class DAOUser {
         return u;
     }
 
-    public static User findById(Long id)
+    public static Pouloumer findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        User found = null;
+        Pouloumer found = null;
 
         try {
-            found = em.find(User.class, id);
+            found = em.find(Pouloumer.class, id);
         } catch (Exception ex) {
             throw ex;
         }
@@ -59,17 +59,17 @@ public class DAOUser {
         return found;
     }
 
-    public static User findUserByEmail(String email)
+    public static Pouloumer findPouloumerByEmail(String email)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        User found = null;
+        Pouloumer found = null;
 
         try {
-            Query q = em.createQuery("SELECT u FROM User u where u.email=:email");
+            Query q = em.createQuery("SELECT u FROM Pouloumer u where u.email=:email");
             q.setParameter("email", email);
             try {
-                found = (User) q.getSingleResult();
+                found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
             }
         } catch (Exception ex) {
@@ -79,17 +79,17 @@ public class DAOUser {
         return found;
     }
 
-    public static User findUserByNickname(String nickname)
+    public static Pouloumer findPouloumerByNickname(String nickname)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        User found = null;
+        Pouloumer found = null;
 
         try {
-            Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname");
+            Query q = em.createQuery("SELECT u FROM Pouloumer u where u.nickname=:nickname");
             q.setParameter("nickname", nickname);
             try {
-                found = (User) q.getSingleResult();
+                found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
             }
         } catch (Exception ex) {
@@ -99,18 +99,18 @@ public class DAOUser {
         return found;
     }
 
-    public static User findUserByEmailAndPassword(String email, String password)
+    public static Pouloumer findPouloumerByEmailAndPassword(String email, String password)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        User found = null;
+        Pouloumer found = null;
 
         try {
-            Query q = em.createQuery("SELECT u FROM User u where u.email=:email and u.password=:password");
+            Query q = em.createQuery("SELECT u FROM Pouloumer u where u.email=:email and u.password=:password");
             q.setParameter("email", email);
             q.setParameter("password", password);
             try {
-                found = (User) q.getSingleResult();
+                found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
                 // Do nothing
             }
@@ -121,18 +121,18 @@ public class DAOUser {
         return found;
     }
     
-    public static User findUserByNicknameAndPassword(String nickname, String password)
+    public static Pouloumer findPouloumerByNicknameAndPassword(String nickname, String password)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        User found = null;
+        Pouloumer found = null;
 
         try {
-            Query q = em.createQuery("SELECT u FROM User u where u.nickname=:nickname and u.password=:password");
+            Query q = em.createQuery("SELECT u FROM Pouloumer u where u.nickname=:nickname and u.password=:password");
             q.setParameter("nickname", nickname);
             q.setParameter("password", password);
             try {
-                found = (User) q.getSingleResult();
+                found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
                 // Do nothing
             }
@@ -143,15 +143,15 @@ public class DAOUser {
         return found;
     }
 
-    public static List<User> findAll()
+    public static List<Pouloumer> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        List<User> found = null;
+        List<Pouloumer> found = null;
 
         try {
-            Query q = em.createQuery("SELECT u FROM User u");
-            found = (List<User>) q.getResultList();
+            Query q = em.createQuery("SELECT u FROM Pouloumer u");
+            found = (List<Pouloumer>) q.getResultList();
         } catch (Exception ex) {
             throw ex;
         }

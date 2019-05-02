@@ -7,6 +7,10 @@ package com.mycompany.pouloum.som.address;
 
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.DBConnection;
+import com.mycompany.pouloum.model.Address;
+import com.mycompany.pouloum.dao.DAOAddress;
+import com.mycompany.pouloum.dao.JpaUtil;
+
 
 /**
  *
@@ -25,5 +29,52 @@ public class PouloumSOM {
     public void release() {
         this.dBConnection.close();
     }
+    
+    /**
+     * Try to login with a given (mail, password) pair.
+     *
+     * @param idAddress is the id of the Address to find.
+     * @return Address, the matching address.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public Address getAddressById(Long idAddress)
+            throws Exception
+    {
+        JpaUtil.createEntityManager();
+
+        Address a = DAOAddress.findById(idAddress);
+
+        JpaUtil.closeEntityManager();
+
+        return a;
+    }
   
+    /**
+     * Try to login with a given (mail, password) pair.
+     *
+     * @param newAddress is the new address to create.
+     * @return id, the user matching the credentials or null if they are
+     * incorrect.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public Long createAddress(Address newAddress)
+            throws Exception
+    {
+        JpaUtil.createEntityManager();
+
+        JpaUtil.openTransaction();
+
+        try {
+            DAOAddress.persist(newAddress);
+            JpaUtil.commitTransaction();
+        } catch (Exception ex) {
+            JpaUtil.cancelTransaction();
+        }
+        
+        JpaUtil.closeEntityManager();
+
+        return newAddress.getId();
+    }
+    
+    
 }
