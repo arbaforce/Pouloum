@@ -206,6 +206,10 @@ public class Event implements Serializable  {
         this.participants = participants;
     }
     
+    public void addParticipant(Pouloumer participant) {
+        this.participants.add(participant);
+    }
+    
     
     // ...
     
