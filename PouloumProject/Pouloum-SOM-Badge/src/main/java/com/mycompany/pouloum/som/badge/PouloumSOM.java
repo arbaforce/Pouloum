@@ -14,16 +14,13 @@ import com.mycompany.pouloum.util.DBConnection;
  */
 public class PouloumSOM {
   
-    protected DBConnection dBConnection;
     protected JsonObject container;
 
-    public PouloumSOM(DBConnection dBConnection, JsonObject container) {
-        this.dBConnection = dBConnection;
+    public PouloumSOM(JsonObject container) {
         this.container = container;
     }
     
     public void release() {
-        this.dBConnection.close();
     }
   
 }

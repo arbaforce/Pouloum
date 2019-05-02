@@ -49,7 +49,7 @@ public class User implements Serializable  {
     protected Address address;
     
     // Links
-    @OneToMany(mappedBy="user")
+    @OneToMany
     private List<Event> events;
     
     // To implement later

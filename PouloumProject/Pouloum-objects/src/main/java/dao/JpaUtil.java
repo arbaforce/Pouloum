@@ -24,7 +24,7 @@ public class JpaUtil {
      * <br><strong>Vérifier le nom de l'unité de persistance
      * (cf.&nbsp;persistence.xml)</strong>
      */
-    public static final String PERSISTENCE_UNIT_NAME = "UP-TP1";
+    public static final String PERSISTENCE_UNIT_NAME = "Pouloum-objects";
     
     /**
      * Factory de Entity Manager liée à l'unité de persistance.

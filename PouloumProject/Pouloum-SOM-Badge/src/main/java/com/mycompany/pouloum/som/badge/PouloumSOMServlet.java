@@ -6,7 +6,8 @@
 package com.mycompany.pouloum.som.badge;
 
 import com.google.gson.JsonObject;
-import com.mycompany.pouloum.util.DBConnection;
+import com.mycompany.pouloum.dao.JpaUtil;
+import com.mycompany.pouloum.service.ServicesApp;
 import com.mycompany.pouloum.util.JsonServletHelper;
 import com.mycompany.pouloum.util.exception.DBException;
 import java.io.IOException;
@@ -34,9 +35,6 @@ public class PouloumSOMServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding(JsonServletHelper.ENCODING_UTF8);
-
-        try {
-
             String som = null;
 
             String pathInfo = request.getPathInfo();
@@ -49,20 +47,8 @@ public class PouloumSOMServlet extends HttpServlet {
                 som = somParameter;
             }
 
-            DBConnection connection = new DBConnection(
-                    this.getInitParameter("JDBC-Pouloum-URL"),
-                    this.getInitParameter("JDBC-Pouloum-User"),
-                    this.getInitParameter("JDBC-Pouloum-Password"),
-                    "User"    //TODO : specify tables name
-            );
-            
             JsonObject container = new JsonObject();
 
-            PouloumSOM service = new PouloumSOM(connection, container);
-
-        } catch (DBException ex) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Exception: " + ex.getMessage());
-            this.getServletContext().log("DB Exception in " + this.getClass().getName(), ex);
-        }
+            PouloumSOM service = new PouloumSOM(container);
     }
 }

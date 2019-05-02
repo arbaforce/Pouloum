@@ -9,7 +9,7 @@
         <servlet-class>com.mycompany.pouloum.som.user.PouloumSOMServlet</servlet-class>
         <init-param>
             <param-name>JDBC-Pouloum-URL</param-name>
-            <param-value>jdbc:derby://localhost:1527/Pouloum-DB-Activity</param-value>
+            <param-value>jdbc:derby://localhost:1527/Pouloum-DB</param-value>
         </init-param>
         <init-param>
             <param-name>JDBC-Pouloum-User</param-name>

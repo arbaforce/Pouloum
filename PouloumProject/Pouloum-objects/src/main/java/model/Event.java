@@ -46,7 +46,7 @@ public class Event implements Serializable  {
     protected User organizer;
     protected int participants_min;
     protected int participants_max;
-    @OneToMany(mappedBy="event")
+    @OneToMany
     protected List<User> participants;
     
     protected String email;
