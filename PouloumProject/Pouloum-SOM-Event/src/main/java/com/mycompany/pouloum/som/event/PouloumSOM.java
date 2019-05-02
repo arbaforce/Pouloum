@@ -13,6 +13,7 @@ import com.mycompany.pouloum.model.Activity;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.dao.DAOEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class PouloumSOM {
     }
 
     /**
-     * Try to login with a given (nickname, password) pair.
+     * Get an event, given its id.
      *
      * @param id is the event id.
      * @return Event, the event matching to the id.
@@ -55,7 +56,7 @@ public class PouloumSOM {
     }
 
     /**
-     * Try to login with a given (nickname, password) pair.
+     * Create an event.
      *
      * @param label is the event name.
      * @param description is the event description.
@@ -92,12 +93,9 @@ public class PouloumSOM {
 
         return 0;
     }
-<<<<<<< HEAD
 
-=======
-    
     /**
-     * Try to login with a given (nickname, password) pair.
+     * Add a participant to an event.
      *
      * @param newParticipant is the participant to add to the event.
      * @param idEvent is the id of the event.
@@ -106,24 +104,20 @@ public class PouloumSOM {
      * @throws Exception if there's an error trying to access the database.
      */
     public int addParticipant(Pouloumer newParticipant, Long idEvent)
-            throws Exception
-    {
+            throws Exception {
         Event e = DAOEvent.findById(idEvent);
-        if(e==null)
-        {
+        if (e == null) {
             return 1;
         }
-        if (e.getParticipants().contains(newParticipant))
-        {
+        if (e.getParticipants().contains(newParticipant)) {
             return 2;
         }
         e.addParticipant(newParticipant);
         return 0;
     }
-    
->>>>>>> ef37386396ca14492025a59c729ea99366950268
+
     /**
-     * Try to login with a given (nickname, password) pair.
+     * Get the events matching a list of interests.
      *
      * @param interests, the list containing all activities of the search.
      * @return EventList, a list containing all events and for each event, the
@@ -145,8 +139,8 @@ public class PouloumSOM {
      */
     public int deleteEvent(Long id) {
         JpaUtil.createEntityManager();
-            JpaUtil.openTransaction();
-        
+        JpaUtil.openTransaction();
+
         try {
             DAOEvent.removeById(id);
             JpaUtil.commitTransaction();
@@ -154,8 +148,23 @@ public class PouloumSOM {
             JpaUtil.cancelTransaction();
             return 1;
         }
-        
+
         return 0;
+    }
+    
+    public List<Event> getOrganizedEvents(Pouloumer p) throws Exception {
+        JpaUtil.createEntityManager();
+        
+        List<Event> answer = new ArrayList<>();
+        List<Event> allEvents = DAOEvent.findAll();
+        
+        for (Event e : allEvents) {
+            if (e.getOrganizer().getId() == p.getId()) {
+                answer.add(e);
+            }
+        }
+        
+        return answer;
     }
 
 }
