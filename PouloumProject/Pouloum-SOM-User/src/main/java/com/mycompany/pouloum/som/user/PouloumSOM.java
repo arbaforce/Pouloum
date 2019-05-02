@@ -119,8 +119,41 @@ public class PouloumSOM {
             // Registration has failed, return null to let the GUI know
             JpaUtil.cancelTransaction();
         }
+        
+        JpaUtil.closeEntityManager();
 
         return 0;
     }
 
+    /**
+     * Get a user given their e-mail address.
+     * @param mail is the e-mail address of the user.
+     * @return User, the user matching the given address, or null if there is none.
+     */
+    public User getUserByEmail(String mail) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findUserByEmail(mail);
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
+    
+    /**
+     * Get a user given their nickname.
+     * @param nickname is the nickname of the user.
+     * @return User, the user matching the given address, or null if there is none.
+     */
+    public User getUserByNickname(String nickname) {
+        JpaUtil.createEntityManager();
+        
+        User u = DAOUser.findUserByNickname(nickname);
+        
+        JpaUtil.closeEntityManager();
+        
+        return u;
+    }
+    
+    
 }
