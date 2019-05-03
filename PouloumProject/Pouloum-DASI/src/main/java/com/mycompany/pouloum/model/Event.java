@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -70,13 +71,45 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    @ManyToOne
+    // @ManyToOne //FIXME:
+    /*
+[JpaUtil:Log] Initializing the entity manager factory
+Exception in thread "main" Local Exception Stack: 
+Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
+Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
+Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
+Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
+Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
+Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field organizer].
+	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
+	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
+	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
+	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
+    */
     protected Pouloumer organizer;
     
     protected int participants_min;
     protected int participants_max;
     
-    @ManyToMany (mappedBy = "events")
+    // @ManyToMany(mappedBy = "events") //FIXME:
+    /*
+[JpaUtil:Log] Initializing the entity manager factory
+Exception in thread "main" Local Exception Stack: 
+Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
+Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
+Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
+Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
+Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
+Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field participants].
+	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
+	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
+	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
+	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
+    */
     protected List<Pouloumer> participants;
     
     // Grades
@@ -90,7 +123,7 @@ public class Event implements Serializable {
     
     public Event( ) { }
     
-    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
+    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max) {
         this.label = label;
         this.description = description;
         this.start = start;
@@ -101,10 +134,10 @@ public class Event implements Serializable {
         this.organizer = organizer;
         this.participants_min = participants_min;
         this.participants_max = participants_max;
-        this.participants = participants;
+        this.participants = new ArrayList<>();
     }
     
-    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
+    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max)
         throws ParseException
     {
         this.label = label;
@@ -117,7 +150,7 @@ public class Event implements Serializable {
         this.organizer = organizer;
         this.participants_min = participants_min;
         this.participants_max = participants_max;
-        this.participants = participants;
+        this.participants = new ArrayList<>();
     }
     
     
