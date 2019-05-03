@@ -135,7 +135,6 @@ public class ServicesServlet extends HttpServlet {
                 } catch (Exception ex) {
                     container.addProperty("result", "KO");
                     container.addProperty("message", "Error when trying to persist the new user");
-                    throw ex;
                 }
             } //////////
             ////consult home page
@@ -189,22 +188,21 @@ public class ServicesServlet extends HttpServlet {
 
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 // TODO : récupérer les ids d'activity
-                List<Long> idActivities = null; /* = request.getParameter("idActivities"); */
+                List<Long> idActivities = null;
+                /* = request.getParameter("idActivities"); */
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 List<Activity> interests = new ArrayList<>();
-                for (Long idAct : idActivities)
-                {
+                for (Long idAct : idActivities) {
                     interests.add(ServicesActivity.getActivityById(idAct));
                 }
-                
+
                 CRE result;
-                if (p != null)
-                {
+                if (p != null) {
                     result = ServicesPouloumer.addInterests(p, interests);
                 } else {
                     result = CRE.CRE_ERR_INTEREST;
                 }
-                
+
                 if (result == CRE.CRE_OK) {
                     container.addProperty("result", "OK");
                 } else {
@@ -216,15 +214,14 @@ public class ServicesServlet extends HttpServlet {
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Activity a = ServicesActivity.getActivityById(idActivity);
-                
+
                 CRE result;
-                if (p!=null && a!=null)
-                {
+                if (p != null && a != null) {
                     result = ServicesPouloumer.removeInterest(p, a);
                 } else {
                     result = CRE.CRE_ERR_INTEREST;
                 }
-                
+
                 if (result == CRE.CRE_OK) {
                     container.addProperty("result", "OK");
                 } else {
@@ -321,7 +318,26 @@ public class ServicesServlet extends HttpServlet {
             } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
-                
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+
+                Event event = ServicesEvent.getEventById(idEvent);
+
+                CRE result = ServicesEvent.cancelEvent(event);
+
+                switch (result) {
+                    case CRE_OK:
+                        container.addProperty("result", "OK");
+                        break;
+                    case CRE_ERR_EVENT:
+                        container.addProperty("result", "KO");
+                        container.addProperty("message", "Event does not exist");
+                        break;
+                    case CRE_EXC_BD:
+                        container.addProperty("result", "KO");
+                        container.addProperty("message", "Error when trying to process the transaction");
+                        break;
+                }
+
             } else if ("getOrganizedEvents".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
 

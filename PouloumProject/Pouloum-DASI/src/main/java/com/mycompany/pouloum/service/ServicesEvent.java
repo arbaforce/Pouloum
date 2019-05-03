@@ -237,8 +237,7 @@ public class ServicesEvent {
                 DAOEvent.persist(e);
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception ex) {
-                // Registration has failed, return null to let the GUI know
+            } catch (Exception ex) {                
                 JpaUtil.cancelTransaction();
                 return CRE_EXC_BD;
             }
@@ -246,6 +245,43 @@ public class ServicesEvent {
         } finally {
             JpaUtil.closeEntityManager();
         }
+    }
+    
+    /**
+     * Set an event's state to cancelled.
+     * 
+     * @param event is the event to cancel
+     * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
+     * event does not exist, CRE_EXC_BD if the transaction is canceled.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public static CRE cancelEvent(Event event) throws Exception {
+        Event e = DAOEvent.findById(event.getId());
+
+        if (e != event) {
+            return CRE_ERR_EVENT;
+        }
+        
+        e.setCancelled(true);
+        
+        JpaUtil.createEntityManager();
+
+        try {
+            JpaUtil.openTransaction();
+
+            try {
+                DAOEvent.persist(e);
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {                
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+
+        } finally {
+            JpaUtil.closeEntityManager();
+        }     
+        
     }
 
     /**
