@@ -244,7 +244,7 @@ public class Event implements Serializable {
         }
     }
     
-    public void addCommentary(String description, Date date, Long idPouloumer) {
+    public void addComment(String description, Date date, Long idPouloumer) {
         this.comments.add(new Comment(description, date, idPouloumer));
     }
     

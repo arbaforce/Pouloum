@@ -151,7 +151,7 @@ public class ServicesEvent {
     }
 
     /**
-     * Add a commentary to an existing event.
+     * Add a comment to an existing event.
      *
      * @param description is the participant to add to the event.
      * @param idEvent is the id of the event.
@@ -161,14 +161,14 @@ public class ServicesEvent {
      * the event does not exist, CRE_EXC_BD if the transaction is canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static CRE addCommentaryToEvent(String description, Date date, Long idEvent, Long idPouloumer)
+    public static CRE addCommentToEvent(String description, Date date, Long idEvent, Long idPouloumer)
             throws Exception {
         Event e = DAOEvent.findById(idEvent);
         if (e == null) {
             return CRE_ERR_EVENT;
         }
 
-        e.addCommentary(description, date, idPouloumer);
+        e.addComment(description, date, idPouloumer);
 
         JpaUtil.createEntityManager();
 
