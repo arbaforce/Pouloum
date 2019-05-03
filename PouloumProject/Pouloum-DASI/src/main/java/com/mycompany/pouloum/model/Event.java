@@ -1,6 +1,7 @@
 package com.mycompany.pouloum.model;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,13 +24,22 @@ import javax.persistence.Column;
 public class Event implements Serializable {
     
     // ATTRIBUTES
-    class Commentary 
+    class Comment 
     {
-        public Commentary(String description, Date date, Long idUser) {
+        public Comment(String description, Date date, Long idUser) {
             this.date = date;
             this.description = description;
             this.idUser = idUser;
         }
+        
+        public JsonObject toJson() {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("idUser", idUser);
+            obj.addProperty("date", DateUtil.toString(date));
+            obj.addProperty("description", description);
+            return obj;
+        }
+        
         public Date date; 
         public String description;
         public Long idUser;
@@ -66,7 +76,7 @@ public class Event implements Serializable {
     protected List<Pouloumer> participants;
     
     // Grades
-    protected List<Commentary> comments;
+    protected List<Comment> comments;
     // protected double grade_average;
     // map<Pouloumer,int> participants_gradings
     // map<Pouloumer,list<String>> participants_tonotify
@@ -234,8 +244,8 @@ public class Event implements Serializable {
         }
     }
     
-    public void addCommentary(String description, Date date, Long idPouloumer) {
-        this.comments.add(new Commentary(description, date, idPouloumer));
+    public void addComment(String description, Date date, Long idPouloumer) {
+        this.comments.add(new Comment(description, date, idPouloumer));
     }
     
     // ...
@@ -276,22 +286,31 @@ public class Event implements Serializable {
     public JsonObject toJson (){
         JsonObject obj = new JsonObject();
         
+        obj.addProperty("id", id);
         obj.addProperty("label", label);
         obj.addProperty("description", description);
         obj.addProperty("cancelled",cancelled );
         obj.addProperty("startDate",DateUtil.toString(start));
+        obj.addProperty("duration", duration);
+        obj.add("Address", location.toJson());
+        obj.add("Activity", activity.toJson());
+        obj.add("Pouloumer", organizer.toJson());
+        obj.addProperty("participants_min", participants_min);
+        obj.addProperty("participants_max", participants_max);
         
-        /*
-        protected Date start;
-        protected int duration;
-        protected Address location;
-        protected Activity activity;
-        protected Pouloumer organizer;
-        protected int participants_min;
-        protected int participants_max;
-        protected List<Pouloumer> participants;
-        protected List<Commentary> comments;
-        */
+        JsonArray participantsArray = new JsonArray();
+        for (Pouloumer p : participants)
+        {
+            participantsArray.add(p.toJson());
+        }
+        obj.add("participants", participantsArray);
+        
+        JsonArray commentsArray = new JsonArray();
+        for (Comment c : comments)
+        {
+            commentsArray.add(c.toJson());
+        }
+        obj.add("comments", commentsArray);
         
         return obj;
     }
