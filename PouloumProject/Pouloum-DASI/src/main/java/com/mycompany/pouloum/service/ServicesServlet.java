@@ -158,23 +158,6 @@ public class ServicesServlet extends HttpServlet {
             }
         } else if ("getUserBadges".equals(sma)) {
             //TODO when badges are implemented.
-        } else if ("leaveEvent".equals(sma)) {
-            try {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
-
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                Event e = ServicesEvent.getEventById(idEvent);
-                
-                CRE result = ServicesPouloumer.leaveEvent(p, e);
-                //FIXME make use of CRE
-                ServicesEvent.removeParticipant(p, e);
-
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } ///////////
         ////Consult profile
         ///////////
@@ -221,12 +204,39 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.addParticipant(p, e);
-                CRE result = ServicesPouloumer.joinEvent(p,e);
+                CRE result = ServicesPouloumer.joinEvent(p, e);
                 //FIXME make use of result
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ServiceException ex) {
                 container.addProperty("error", ex.getMessage());
+            } catch (Exception ex) {
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if ("leaveEvent".equals(sma)) {
+            try {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Event e = ServicesEvent.getEventById(idEvent);
+
+                CRE pouloumerResult = ServicesPouloumer.leaveEvent(p, e);
+
+                if (pouloumerResult != CRE.CRE_OK) {
+                    // Throw exception to cancel the rest of the removal
+                    throw new Exception("ERROR: Error when processing the transaction to remove event from user.");
+                }
+
+                CRE eventResult = ServicesEvent.removeParticipant(p, e);
+
+                if (eventResult != CRE.CRE_OK) {
+                    throw new Exception("ERROR: Error when processing the transaction to remove user from event.");
+                }
+                //TODO decide which association to keep between event and user to avoid this double transaction problem
+
+            } catch (ParseException ex) {
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
