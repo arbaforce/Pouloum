@@ -73,11 +73,12 @@ public class ServicesServlet extends HttpServlet {
         //TODO : mettre dans le main
         JpaUtil.init();
 
-        //////////
-        ////login
-        //////////
-        if ("login".equals(sma)) {
-            try {
+        
+        try {
+            //////////
+            ////login
+            //////////
+            if ("login".equals(sma)) {
                 String mail = request.getParameter("mail");
                 String nickName = request.getParameter("nickName");
                 String password = request.getParameter("password");
@@ -94,16 +95,11 @@ public class ServicesServlet extends HttpServlet {
                 } else {
                     container.addProperty("error", "there is no match for these identifiants");
                 }
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } //////////
-        ////signUp
-        //////////
-        else if ("signUp".equals(sma)) {
-            try {
+            //////////
+            ////signUp
+            //////////
+            else if ("signUp".equals(sma)) {
                 String lastName = request.getParameter("lastName");
                 String firstName = request.getParameter("firstName");
                 String nickName = request.getParameter("nickName");
@@ -119,23 +115,20 @@ public class ServicesServlet extends HttpServlet {
                 String addressCity = request.getParameter("addressCity");
                 String addressCountry = request.getParameter("addressCountry");
 
-                ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
-                //FIXME make use of result
-                container.addProperty("created", true);
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServiceException ex) {
-                container.addProperty("created", false);
-                container.addProperty("message", ex.getMessage());
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                    CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                    //FIXME make use of result
+                    container.addProperty("created", true);
+                } catch (Exception ex) {
+                    container.addProperty("created", false);
+                    throw ex;
+                }
             }
-        } //////////
-        ////consult home page
-        //////////
-        else if ("getUserEvents".equals(sma)) {
-            try {
+            //////////
+            ////consult home page
+            //////////
+            else if ("getUserEvents".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
@@ -143,7 +136,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     JsonArray array = new JsonArray();
                     for (Event e : p.getEvents()) {
-                        if (!e.isStarted()) {
+                        if (!(e.isCancelled() || e.isFinished())) {
                             array.add(e.toJson());
                         }
                     }
@@ -151,69 +144,49 @@ public class ServicesServlet extends HttpServlet {
                 } else {
                     container.addProperty("error", "id is invalid");
                 }
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else if ("getUserBadges".equals(sma)) {
+                //TODO when badges are implemented.
             }
-        } else if ("getUserBadges".equals(sma)) {
-            //TODO when badges are implemented.
-        } else if ("leaveEvent".equals(sma)) {
-            try {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+            ///////////
+            ////Consult profile
+            ///////////
+            else if ("getUserEventsHistory".equals(sma)) {
 
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                Event e = ServicesEvent.getEventById(idEvent);
-                
-                CRE result = ServicesPouloumer.leaveEvent(p, e);
-                //FIXME make use of CRE
-                ServicesEvent.removeParticipant(p, e);
+            } else if ("getUserFriends".equals(sma)) {
 
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else if ("getUserBlacklist".equals(sma)) {
+
+            } else if ("addInterestsToUser".equals(sma)) {
+
+            } else if ("removeInterestsToUser".equals(sma)) {
+
+            } else if ("getUserInterests".equals(sma)) {
+
+            } else if ("getUserDetails".equals(sma)) {
+
+            } else if ("acceptFriend".equals(sma)) {
+
+            } else if ("removeFriend".equals(sma)) {
+
+            } else if ("removeFromBlackList".equals(sma)) {
+
             }
-        } ///////////
-        ////Consult profile
-        ///////////
-        else if ("getUserEventsHistory".equals(sma)) {
+            ////////////
+            /////Consult someone else profile
+            ////////////
+            else if ("addToBlacklist".equals(sma)) {
 
-        } else if ("getUserFriends".equals(sma)) {
+            } else if ("sendFriendRequest".equals(sma)) {
 
-        } else if ("getUserBlacklist".equals(sma)) {
+            } else if ("reportAbusiveBehaviour".equals(sma)) {
 
-        } else if ("addInterestsToUser".equals(sma)) {
+            }
+            /////////////
+            /////Search for an event
+            /////////////
+            else if ("simpleSearchForUser".equals(sma)) {
 
-        } else if ("removeInterestsToUser".equals(sma)) {
-
-        } else if ("getUserInterests".equals(sma)) {
-
-        } else if ("getUserDetails".equals(sma)) {
-
-        } else if ("acceptFriend".equals(sma)) {
-
-        } else if ("removeFriend".equals(sma)) {
-
-        } else if ("removeFromBlackList".equals(sma)) {
-
-        } ////////////
-        /////Consult someone else profile
-        ////////////
-        else if ("addToBlacklist".equals(sma)) {
-
-        } else if ("sendFriendRequest".equals(sma)) {
-
-        } else if ("reportAbusiveBehaviour".equals(sma)) {
-
-        } /////////////
-        /////Search for an event
-        /////////////
-        else if ("simpleSearchForUser".equals(sma)) {
-
-        } else if ("joinEvent".equals(sma)) {
-            try {
+            } else if ("joinEvent".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
 
@@ -221,20 +194,33 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.addParticipant(p, e);
-                CRE result = ServicesPouloumer.joinEvent(p,e);
+                CRE result = ServicesPouloumer.joinEvent(p, e);
                 //FIXME make use of result
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServiceException ex) {
-                container.addProperty("error", ex.getMessage());
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else if ("leaveEvent".equals(sma)) {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Event e = ServicesEvent.getEventById(idEvent);
+
+                CRE pouloumerResult = ServicesPouloumer.leaveEvent(p, e);
+
+                if (pouloumerResult != CRE.CRE_OK) {
+                    // Throw exception to cancel the rest of the removal
+                    throw new Exception("ERROR: Error when processing the transaction to remove event from user.");
+                }
+
+                CRE eventResult = ServicesEvent.removeParticipant(p, e);
+
+                if (eventResult != CRE.CRE_OK) {
+                    throw new Exception("ERROR: Error when processing the transaction to remove user from event.");
+                }
+                //TODO decide which association to keep between event and user to avoid this double transaction problem
             }
-        } //////////////
-        /////Set up an event
-        //////////////
-        else if ("createEvent".equals(sma)) {
-            try {
+            //////////////
+            /////Set up an event
+            //////////////
+            else if ("createEvent".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 //long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 //long idAddress = Long.parseLong(request.getParameter("idAddress"));
@@ -253,45 +239,50 @@ public class ServicesServlet extends HttpServlet {
                 participants.add(p);
 
                 ServicesEvent.createEvent(name, description, startDate, duration, null, null, p, playerMin, playerMax, participants);
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServiceException ex) {
-                container.addProperty("error", ex.getMessage());
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else if ("updatedEvent".equals(sma)) {
+
+            } else if ("cancelEvent".equals(sma)) {
+
+            } else if ("getOrganizedEvents".equals(sma)) {
+
             }
-        } else if ("updatedEvent".equals(sma)) {
+            ///////////////
+            /////Consult finished event
+            ///////////////
+            else if ("addCommentToEvent".equals(sma)) {
 
-        } else if ("cancelEvent".equals(sma)) {
+            }
+            ///////////////
+            /////Consult an activity
+            ///////////////
+            else if ("findAllActivities".equals(sma)) {
 
-        } else if ("getOrganizedEvents".equals(sma)) {
+            } else if ("getActivityDetails".equals(sma)) {
 
-        } ///////////////
-        /////Consult finished event
-        ///////////////
-        else if ("addCommentToEvent".equals(sma)) {
+            }
+            /////////////////
+            //////Consult an event
+            /////////////////
+            else if ("getEventDetails".equals(sma)) {
 
-        } ///////////////
-        /////Consult an activity
-        ///////////////
-        else if ("findAllActivities".equals(sma)) {
+            }
+            /////////////////
+            //////Update profile
+            /////////////////
+            else if ("updateUserDetails".equals(sma)) {
 
-        } else if ("getActivityDetails".equals(sma)) {
-
-        } /////////////////
-        //////Consult an event
-        /////////////////
-        else if ("getEventDetails".equals(sma)) {
-
-        } /////////////////
-        //////Update profile
-        /////////////////
-        else if ("updateUserDetails".equals(sma)) {
-
-        } else {
-            serviceCalled = false;
+            } else {
+                serviceCalled = false;
+            }
+        } catch (ServiceException ex) {
+            container.addProperty("error", ex.getMessage());
+     // } catch (ParseException ex) {
+     //     Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        
         //TODO : mettre dans le main
         JpaUtil.destroy();
 

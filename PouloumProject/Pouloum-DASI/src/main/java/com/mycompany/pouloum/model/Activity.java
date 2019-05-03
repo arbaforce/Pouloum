@@ -1,5 +1,6 @@
 package com.mycompany.pouloum.model;
 
+import com.google.gson.JsonObject;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -139,4 +140,7 @@ public class Activity implements Serializable  {
         this.default_participants_max = default_participants_max;
     }
     
+    public JsonObject toJson() {
+        return null; //TODO
+    }
 }
