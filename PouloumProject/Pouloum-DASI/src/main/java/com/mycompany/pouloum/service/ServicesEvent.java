@@ -256,8 +256,10 @@ public class ServicesEvent {
             JpaUtil.commitTransaction();
         } catch (Exception ex) {
             JpaUtil.cancelTransaction();
+            JpaUtil.closeEntityManager();
             return 1;
         }
+        JpaUtil.closeEntityManager();
 
         return 0;
     }
@@ -280,6 +282,7 @@ public class ServicesEvent {
                 answer.add(e);
             }
         }
+        JpaUtil.closeEntityManager();
         
         return answer;
     }
