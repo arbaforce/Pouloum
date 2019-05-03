@@ -84,7 +84,6 @@ public class ServicesServlet extends HttpServlet {
                 String password = request.getParameter("password");
 
                 Pouloumer p;
-
                 if (mail != null) {
                     p = ServicesPouloumer.loginWithMail(mail, password);
                 } else {
@@ -93,7 +92,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     container.add("Pouloumer", g.toJsonTree(p, Pouloumer.class));
                 } else {
-                    container.addProperty("error", "there is no match for these identifiants");
+                    container.addProperty("error", "There is no match for these identifiants.");
                 }
             }
             //////////

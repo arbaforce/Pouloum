@@ -27,11 +27,12 @@ public class ServicesAddress {
     {
         JpaUtil.createEntityManager();
 
-        Address a = DAOAddress.findById(idAddress);
-
-        JpaUtil.closeEntityManager();
-
-        return a;
+        try {
+            Address a = DAOAddress.findById(idAddress);
+            return a;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
   
     /**
@@ -52,19 +53,22 @@ public class ServicesAddress {
         Address newAddress = new Address(number, street, postal_code, city, country);
         
         JpaUtil.createEntityManager();
-
-        JpaUtil.openTransaction();
-
-        try {
-            DAOAddress.persist(newAddress);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
-        }
         
-        JpaUtil.closeEntityManager();
-
-        return newAddress.getId();
+        try {
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOAddress.persist(newAddress);
+                
+                JpaUtil.commitTransaction();
+                return newAddress.getId();
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                throw ex;
+            }
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
 }
