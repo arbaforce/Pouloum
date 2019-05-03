@@ -285,7 +285,7 @@ public class ServicesEvent {
         List<Event> allEvents = DAOEvent.findAll();
         
         for (Event e : allEvents) {
-            if (e.getOrganizer().getId() == p.getId()) {
+            if (e.getOrganizer().getId().equals(p.getId())) {
                 answer.add(e);
             }
         }
