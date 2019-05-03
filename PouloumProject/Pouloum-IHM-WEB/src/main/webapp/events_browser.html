@@ -47,10 +47,14 @@ and open the template in the editor.
                                             Chercher
                                         </a>
                                     </li>
-                                    <li class="col-2 nav-item active">
-                                        <a class="nav-link font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">
+                                    <li class="col-2 nav-item dropdown active">
+                                        <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Organiser
                                         </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbar_organize_dropdown_links">
+                                            <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">Nouvel Evènement</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=0">Modifier</a>
+                                        </div>
                                     </li>
                                     <li class="col-2 nav-item active">
                                         <a class="nav-link font-weight-bold text-center" href="activities_browser.html">
