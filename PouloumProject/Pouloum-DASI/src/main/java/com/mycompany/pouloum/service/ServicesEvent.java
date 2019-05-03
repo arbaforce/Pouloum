@@ -255,7 +255,7 @@ public class ServicesEvent {
         Map<Event,List<Pouloumer>> interestsEvents = new HashMap<>();
         
         for (Event e : events) {
-            if(interests.contains(e.getActivity()))
+            if(interests.contains(e.getActivity()) || interests.isEmpty())
             {
                 List<Pouloumer> participants = e.getParticipants();
                 
