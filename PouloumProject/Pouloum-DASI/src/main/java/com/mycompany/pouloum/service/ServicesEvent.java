@@ -54,12 +54,13 @@ public class ServicesEvent {
      * @param organizer is the event creator.
      * @param participants_min is the event minimum number of participants.
      * @param participants_max is the event maximum number of participants.
-     * @return Event, the event matching to the id.
      * @throws Exception if there's an error trying to access the database.
+     * @return Event, the event matching to the id.
      */
     public static CRE createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
             int participants_min, int participants_max)
-            throws Exception {
+        throws Exception
+    {
         Event newEvent = new Event(label, description, startDate, false, duration, location, activity, organizer, participants_min, participants_max);
 
         JpaUtil.createEntityManager();
@@ -74,7 +75,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                throw new DBException("ERROR : Database could not persist entity Event", ex);
+                throw ex;
             }
 
         } finally {
@@ -94,7 +95,8 @@ public class ServicesEvent {
      * @throws Exception if there's an error trying to access the database.
      */
     public static CRE addParticipant(Pouloumer newParticipant, Event event)
-            throws Exception {
+        throws Exception
+    {
         //TODO where is the event's existence checked ?
         /*boolean isAlreadyParticipating = false;*/
         for (Pouloumer p : event.getParticipants()) {
@@ -121,7 +123,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -130,7 +132,8 @@ public class ServicesEvent {
     }
 
     public static CRE removeParticipant(Pouloumer participant, Event event)
-            throws Exception {
+        throws Exception
+    {
         event.removeParticipant(participant);
 
         JpaUtil.createEntityManager();
@@ -144,7 +147,7 @@ public class ServicesEvent {
                 return CRE.CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE.CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -184,7 +187,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -202,9 +205,9 @@ public class ServicesEvent {
      * @param address, the new address of the event.
      * @param playerMin, the new minimum number of participants of the event.
      * @param playerMax, the new maximum number of participants of the event.
+     * @throws Exception if there's an error trying to access the database.
      * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
      * event does not exist, CRE_EXC_BD if the transaction is canceled.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static CRE updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
             throws Exception {
@@ -233,7 +236,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -245,9 +248,9 @@ public class ServicesEvent {
      * Set an event's state to cancelled.
      *
      * @param event is the event to cancel
+     * @throws Exception if there's an error trying to access the database.
      * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
      * event does not exist, CRE_EXC_BD if the transaction is canceled.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static CRE cancelEvent(Event event) throws Exception {
         Event e = DAOEvent.findById(event.getId());
@@ -257,7 +260,9 @@ public class ServicesEvent {
         }
 
         e.setCancelled(true);
-
+        
+        //TODO notify participants that event has been cancelled
+        
         JpaUtil.createEntityManager();
 
         try {
@@ -269,7 +274,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -282,12 +287,13 @@ public class ServicesEvent {
      * Get the events matching a list of interests.
      *
      * @param interests, the list containing all activities of the search.
+     * @throws Exception if there's an error trying to access the database.
      * @return EventList, a list containing all events corresponding to the
      * interests and for each event, the the participants.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static Map<Event, List<Pouloumer>> getEventByInterests(List<Activity> interests)
-            throws Exception {
+        throws Exception
+    {
         // do magical stuff plz
         JpaUtil.createEntityManager();
 
@@ -314,10 +320,13 @@ public class ServicesEvent {
      * Remove an event from the database.
      *
      * @param id is the id of the event to delete.
+     * @throws Exception if there's an error trying to access the database.
      * @return CRE, CRE_OK if the deletion is successful, CRE_EXC_BD if there
      * was an error trying to access the database.
      */
-    public static CRE deleteEvent(Long id) {
+    public static CRE deleteEvent(Long id)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         try {
@@ -330,7 +339,7 @@ public class ServicesEvent {
                 return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
 
         } finally {
@@ -342,9 +351,12 @@ public class ServicesEvent {
      * Get the list of events organized by a given user.
      *
      * @param idPouloumer is the user organizing the events we look for.
+     * @throws Exception if there's an error trying to access the database.
      * @return List, a list of events organized by p.
      */
-    public static List<Event> getOrganizedEvents(Long idPouloumer) {
+    public static List<Event> getOrganizedEvents(Long idPouloumer)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         try {
@@ -358,9 +370,6 @@ public class ServicesEvent {
             }
 
             return answer;
-
-        } catch (Exception e) {
-            return null;
         } finally {
             JpaUtil.closeEntityManager();
         }

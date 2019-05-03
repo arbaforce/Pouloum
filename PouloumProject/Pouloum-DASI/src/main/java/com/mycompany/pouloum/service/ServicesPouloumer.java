@@ -27,7 +27,8 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static Pouloumer loginWithMail(String mail, String password)
-            throws Exception {
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
         try {
@@ -50,7 +51,8 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static Pouloumer loginWithNickname(String nickname, String password)
-            throws Exception {
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
         try {
@@ -78,16 +80,17 @@ public class ServicesPouloumer {
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
      * @param address is the address of the user.
+     * @throws Exception if there's an error trying to access the database.
      * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EMAIL if
      * the email is already used, CRE_ERR_NICKNAME if the nickname is already
-     * used, CRE_EXC_BD if there was an error when trying to process the
-     * transaction.
+     * used.
      */
     public static CRE signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, 
             char gender, Date birthdate, String phoneNumber,
-            Address address) throws Exception {
-        
+            Address address)
+        throws Exception
+    {
         Pouloumer p = new Pouloumer(nickname, firstName, lastName, mail, 
                 password, isModerator, isAdmin, gender, birthdate, phoneNumber, 
                 address);
@@ -95,16 +98,16 @@ public class ServicesPouloumer {
         JpaUtil.createEntityManager();
         
         Pouloumer check = DAOPouloumer.findPouloumerByEmail(mail);
-        if (check != null) // email already used
-        {
-            throw new ServiceException("email is already used");
+        if (check != null) {
+            // email already used
+            return CRE_ERR_EMAIL;
         }
         // email available
         
         check = DAOPouloumer.findPouloumerByNickname(nickname);
-        if (check != null) // nickname already used
-        {
-            throw new ServiceException("nickname is already used");
+        if (check != null) {
+            // nickname already used
+            return CRE_ERR_NICKNAME;
         }
         // nickname available
         
@@ -116,7 +119,7 @@ public class ServicesPouloumer {
                 
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
-                // Registration has failed, return null to let the GUI know
+                // Registration has failed
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
@@ -145,30 +148,32 @@ public class ServicesPouloumer {
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
      * @param address is the address of the user.
+     * @throws Exception if there's an error trying to access the database.
      * @return CRE, CRE_OK if the update is successful, CRE_ERR_EMAIL if the new
      * email is already used, CRE_ERR_NICKNAME if the new nickname is already
-     * used, CRE_EXC_BD if there was an error when trying to process the
-     * transaction.
+     * used.
      */
     public static CRE updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
             String email, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
-            Address address) throws Exception {
+            Address address)
+        throws Exception
+    {
         
         JpaUtil.createEntityManager();
         
-        if (email != p.getEmail()) {
+        if (!email.equals(p.getEmail())) {
             Pouloumer check = DAOPouloumer.findPouloumerByEmail(email);
-            if (check != null) // email already used
-            {
+            if (check != null) {
+                // email already used
                 return CRE_ERR_EMAIL;
             }
             // email available
         }
         
-        if (nickname != p.getNickname()) {
+        if (!nickname.equals(p.getNickname())) {
             Pouloumer check = DAOPouloumer.findPouloumerByNickname(nickname);
-            if (check != null) // nickname already used
-            {
+            if (check != null) {
+                // nickname already used
                 return CRE_ERR_NICKNAME;
             }
             // nickname available
@@ -210,10 +215,13 @@ public class ServicesPouloumer {
      * Get a user given their id.
      *
      * @param id is the id of the user.
+     * @throws Exception if there's an error trying to access the database.
      * @return Pouloumer, the user matching the given id, or null if there is
      * none.
      */
-    public static Pouloumer getPouloumerById(Long id) throws Exception {
+    public static Pouloumer getPouloumerById(Long id)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
         try {
@@ -232,7 +240,9 @@ public class ServicesPouloumer {
      * @return Pouloumer, the user matching the given address, or null if there
      * is none.
      */
-    public static Pouloumer getPouloumerByEmail(String mail) throws Exception {
+    public static Pouloumer getPouloumerByEmail(String mail)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
         try {
@@ -248,10 +258,13 @@ public class ServicesPouloumer {
      * Get a user given their nickname.
      *
      * @param nickname is the nickname of the user.
+     * @throws Exception if there's an error trying to access the database.
      * @return Pouloumer, the user matching the given nickname, or null if there
      * is none.
      */
-    public static Pouloumer getPouloumerByNickname(String nickname) throws Exception {
+    public static Pouloumer getPouloumerByNickname(String nickname)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
         
         try {
@@ -263,7 +276,9 @@ public class ServicesPouloumer {
         }
     }
     
-    public static CRE joinEvent(Pouloumer p, Event event) {
+    public static CRE joinEvent(Pouloumer p, Event event)
+        throws Exception
+    {
         List<Event> events = p.getEvents();
         events.add(event);
         p.setEvents(events);
@@ -277,9 +292,9 @@ public class ServicesPouloumer {
                 DAOPouloumer.updatePouloumer(p);
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
             
         } finally {
@@ -292,10 +307,12 @@ public class ServicesPouloumer {
      *
      * @param p is the user leaving the event.
      * @param event is the event to leave.
-     * @return CRE, CRE_OK if the update was successful, CRE_EXC_BD if there was
-     * a problem updating the database.
+     * @throws Exception if there's an error trying to access the database.
+     * @return CRE, CRE_OK if the update was successful.
      */
-    public static CRE leaveEvent(Pouloumer p, Event event) {
+    public static CRE leaveEvent(Pouloumer p, Event event)
+        throws Exception
+    {
         p.removeEvent(event);
         
         JpaUtil.createEntityManager();
@@ -308,9 +325,9 @@ public class ServicesPouloumer {
                 
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
             
         } finally {
@@ -325,10 +342,12 @@ public class ServicesPouloumer {
      *
      * @param p is the user to which we add interests.
      * @param interests is the list of interests to add.
-     * @return CRE, CRE_OK if the update was successful, CRE_EXC_BD if there
-     * was a problem updating the database.
+     * @throws Exception if there's an error trying to access the database.
+     * @return CRE, CRE_OK if the update was successful.
      */
-    public static CRE addInterests(Pouloumer p, List<Activity> interests) {
+    public static CRE addInterests(Pouloumer p, List<Activity> interests)
+        throws Exception
+    {
         p.getInterests().addAll(interests);
         
         JpaUtil.createEntityManager();
@@ -341,9 +360,9 @@ public class ServicesPouloumer {
                 
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
             
         } finally {
@@ -356,10 +375,12 @@ public class ServicesPouloumer {
      *
      * @param p is the user from which we remove the interest.
      * @param interest is the interest to remove.
-     * @return CRE_OK if the update was successful, CRE_EXC_BD if there was a
-     * problem updating the database.
+     * @throws Exception if there's an error trying to access the database.
+     * @return CRE_OK if the update was successful.
      */
-    public static CRE removeInterest(Pouloumer p, Activity interest) {
+    public static CRE removeInterest(Pouloumer p, Activity interest)
+        throws Exception
+    {
         p.getInterests().remove(interest);
         
         JpaUtil.createEntityManager();
@@ -372,9 +393,9 @@ public class ServicesPouloumer {
                 
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception e) {
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return CRE_EXC_BD;
+                throw ex;
             }
             
         } finally {

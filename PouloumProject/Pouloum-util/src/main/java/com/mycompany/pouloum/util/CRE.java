@@ -8,5 +8,5 @@ public enum CRE {
     CRE_ERR_EVENT,
     CRE_ERR_ACTIVITY,
     
-    CRE_EXC_BD
+    // CRE_EXC_BD
 }
