@@ -12,62 +12,39 @@ public class DAOActivity {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            em.persist(a);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        em.persist(a);
     }
 
     public static void removeById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Activity a = (Activity) em.find(Activity.class, id);
-            em.remove(a);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Activity a = (Activity) em.find(Activity.class, id);
+        em.remove(a);
     }
 
     public static Activity updateActivity(Activity a)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            em.merge(a);
-            return a;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        em.merge(a);
+        return a;
     }
 
     public static Activity findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Activity found = (Activity) em.find(Activity.class, id);
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Activity found = (Activity) em.find(Activity.class, id);
+        return found;
     }
 
     public static List<Activity> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        List<Activity> found = null;
-
-        try {
-            Query q = em.createQuery("SELECT a FROM Activity a");
-            found = (List<Activity>) q.getResultList();
-        } catch (Exception ex) {
-            throw ex;
-        }
-
+        Query q = em.createQuery("SELECT a FROM Activity a");
+        List<Activity> found = (List<Activity>) q.getResultList();
         return found;
     }
 

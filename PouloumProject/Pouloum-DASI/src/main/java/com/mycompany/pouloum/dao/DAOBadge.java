@@ -11,60 +11,40 @@ public class DAOBadge {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            em.persist(b);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        em.persist(b);
     }
 
     public static void removeById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Badge b = (Badge) em.find(Badge.class, id);
-            em.remove(b);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Badge b = (Badge) em.find(Badge.class, id);
+        em.remove(b);
     }
 
     public static Badge updateBadge(Badge b)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            b = em.merge(b);
-            return b;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        b = em.merge(b);
+        return b;
     }
 
     public static Badge findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Badge found = (Badge) em.find(Badge.class, id);
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Badge found = (Badge) em.find(Badge.class, id);
+        return found;
     }
 
     public static List<Badge> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         
-        try {
-            Query q = em.createQuery("SELECT e FROM Event e");
-            List<Badge> found = (List<Badge>) q.getResultList();
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Query q = em.createQuery("SELECT e FROM Event e");
+        List<Badge> found = (List<Badge>) q.getResultList();
+        return found;
     }
 
 }

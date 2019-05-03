@@ -11,11 +11,7 @@ public class DAOAddress {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            em.persist(a);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        em.persist(a);
     }
     
     public static void removeById( Long id )
@@ -23,37 +19,25 @@ public class DAOAddress {
     {
         EntityManager em = JpaUtil.getEntityManager();
         
-        try {
-            Address a = (Address) em.find(Address.class,id);
-            em.remove(a);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Address a = (Address) em.find(Address.class,id);
+        em.remove(a);
     }
 
     public static Address findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Address found = (Address) em.find(Address.class, id);
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Address found = (Address) em.find(Address.class, id);
+        return found;
     }
 
     public static List<Address> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         
-        try {
-            Query q = em.createQuery("SELECT a FROM Address a");
-            List<Address> found = (List<Address>) q.getResultList();
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Query q = em.createQuery("SELECT a FROM Address a");
+        List<Address> found = (List<Address>) q.getResultList();
+        return found;
     }
 
 }

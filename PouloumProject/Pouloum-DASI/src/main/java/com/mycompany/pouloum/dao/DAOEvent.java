@@ -12,62 +12,40 @@ public class DAOEvent {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            em.persist(e);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        em.persist(e);
     }
 
     public static void removeById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            Event e = (Event) em.find(Event.class, id);
-            em.remove(e);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Event e = (Event) em.find(Event.class, id);
+        em.remove(e);
     }
 
     public static Event updateEvent(Event e)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        try {
-            e = em.merge(e);
-            return e;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        e = em.merge(e);
+        return e;
     }
 
     public static Event findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Event found = null;
-        
-        try {
-            found = (Event) em.find(Event.class, id);
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Event found = (Event) em.find(Event.class, id);
+        return found;
     }
 
     public static List<Event> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         
-        try {
-            Query q = em.createQuery("SELECT e FROM Event e");
-            List<Event> found = (List<Event>) q.getResultList();
-            return found;
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Query q = em.createQuery("SELECT e FROM Event e");
+        List<Event> found = (List<Event>) q.getResultList();
+        return found;
     }
 
 }
