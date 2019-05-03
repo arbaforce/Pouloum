@@ -235,9 +235,14 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                ServicesEvent.addParticipant(p, e);
                 CRE result = ServicesPouloumer.joinEvent(p, e);
-                //FIXME make use of result
+                
+                if (result == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
+                }
             } else if ("leaveEvent".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
