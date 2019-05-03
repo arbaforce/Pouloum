@@ -360,7 +360,18 @@ public class ServicesServlet extends HttpServlet {
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
-
+                Date d = DateUtil.DateNow();
+                String description = request.getParameter("description");
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                if (description.isEmpty())
+                {
+                    ServicesEvent.addCommentToEvent(description, d, idEvent, idUser);
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process a transaction");
+                }
             } ///////////////
             /////Consult an activity
             ///////////////
@@ -393,7 +404,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("result", "OK");
                 } else {
                     container.addProperty("result", "KO");
-                    container.addProperty("message", "Error while trying to access the database");
+                    container.addProperty("message", "Error while trying to read the database");
                 }
             } /////////////////
             //////Consult an event
