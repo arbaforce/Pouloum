@@ -190,8 +190,7 @@ public class ServicesEvent {
     }
 
     /**
-     * Update an existing event(should only be updated by the creator of the
-     * event).
+     * Update an existing event (should only be done by its organizer).
      *
      * @param event, the event to update.
      * @param date, the new date of the event.

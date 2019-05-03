@@ -110,7 +110,7 @@ public class ServicesServlet extends HttpServlet {
                 String lastName = request.getParameter("lastName");
                 String firstName = request.getParameter("firstName");
                 String nickName = request.getParameter("nickname");
-                String mail = request.getParameter("mail");
+                String email = request.getParameter("mail");
                 String password = request.getParameter("password");
                 char gender = request.getParameter("gender").charAt(0);
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
@@ -123,7 +123,47 @@ public class ServicesServlet extends HttpServlet {
                 String addressCountry = request.getParameter("addressCountry");
 
                 ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, email, password, false, false, gender, birthDate, phoneNumber, null);
+                if (result != CRE_OK) {
+                    if (result == CRE_ERR_EMAIL) {
+                        resultErrorMessage = "This email is already used.";
+                    } else if (result == CRE_ERR_NICKNAME) {
+                        resultErrorMessage = "This nickname is already used.";
+                    }
+                }
+            }
+            /////////////////
+            //////Update profile
+            /////////////////
+            else if ("updateUserDetails".equals(sma)) {
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                
+                String lastName = request.getParameter("lastName");
+                String firstName = request.getParameter("firstName");
+                
+                String nickname = request.getParameter("nickname");
+                String email = request.getParameter("mail");
+                String password = request.getParameter("password");
+                Date birthdate = DateUtil.toDate(request.getParameter("birthDate"));
+                String phone = request.getParameter("phoneNumber");
+                
+                String addressNumber = request.getParameter("addressNumber");
+                String addressStreet = request.getParameter("addressStreet");
+                String addressPostalCode = request.getParameter("addressPostalCode");
+                String addressCity = request.getParameter("addressCity");
+                String addressCountry = request.getParameter("addressCountry");
+                
+                Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                
+                // char gender = request.getParameter("gender").charAt(0);
+                
+                char gender = p.getGender();
+                boolean isModerator = p.isModerator();
+                boolean isAdministrator = p.isAdministrator();
+                
+                CRE result = ServicesPouloumer.updatePouloumer(p, lastName, firstName, nickname, email, password, isModerator, isAdministrator, gender, birthdate, phone, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
                         resultErrorMessage = "This email is already used.";
@@ -186,11 +226,14 @@ public class ServicesServlet extends HttpServlet {
             ////Add interests
             ///////////
             else if ("addInterestsToUser".equals(sma)) {
-
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                // TODO : récupérer les ids d'activity
-                List<Long> idActivities = null;
-                /* = request.getParameter("idActivities"); */
+                
+                List<Long> idActivities = new ArrayList<>();
+                String[] values = request.getParameterValues("idActivities");
+                for (String value : values) {
+                    idActivities.add(Long.parseLong(value));
+                }
+                
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 List<Activity> interests = new ArrayList<>();
                 for (Long idAct : idActivities) {
@@ -209,7 +252,6 @@ public class ServicesServlet extends HttpServlet {
                 Activity a = ServicesActivity.getActivityById(idActivity);
                 
                 ServicesPouloumer.removeInterest(p, a);
-                
             }
             ///////////
             ////Consult interests
@@ -306,8 +348,6 @@ public class ServicesServlet extends HttpServlet {
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Long idAddress = Long.parseLong(request.getParameter("idAddress"));
                 
-                
-                
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
                 Date startDate = DateUtil.toDate(request.getParameter("date"));
@@ -326,7 +366,22 @@ public class ServicesServlet extends HttpServlet {
             ////Update event
             ///////////
             else if ("updateEvent".equals(sma)) {
-                //TODO
+                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                
+                // TODO maybe allow to update name/description as well
+                // String name = request.getParameter("name");
+                // String description = request.getParameter("description");
+                Date startDate = DateUtil.toDate(request.getParameter("date"));
+                int duration = Integer.parseInt(request.getParameter("duration"));
+                Long idAddress = Long.parseLong(request.getParameter("idAddress"));
+                int playerMin = Integer.parseInt(request.getParameter("playerMin"));
+                int playerMax = Integer.parseInt(request.getParameter("playerMax"));
+                
+                //TODO make sure only the organizer can do this
+                
+                Event event = ServicesEvent.getEventById(idEvent);
+                Address address = ServicesAddress.getAddressById(idAddress);
+                ServicesEvent.updateEvent(event, startDate, duration, address, playerMin, playerMax);
             }
             ///////////
             ////Cancel event
@@ -336,10 +391,9 @@ public class ServicesServlet extends HttpServlet {
 
                 Event event = ServicesEvent.getEventById(idEvent);
 
-                //TODO only the organizer is allowed to cancel an event
+                //TODO make sure only the organizer can do this
                 
                 ServicesEvent.cancelEvent(event);
-                
             }
             ////////////
             /////Consult someone else profile
@@ -404,12 +458,6 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
                 
                 container.add("event", e.toJson());
-            }
-            /////////////////
-            //////Update profile
-            /////////////////
-            else if ("updateUserDetails".equals(sma)) {
-
             }
             /////////////////
             //////SMA name mistake?
