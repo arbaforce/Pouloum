@@ -1,5 +1,7 @@
 package com.mycompany.pouloum.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -242,5 +244,37 @@ public class Pouloumer implements Serializable {
                 break;
             }
         }
+    }
+    
+    public JsonObject toJson() {
+        JsonObject obj = new JsonObject();
+        
+        obj.addProperty("id", id); //TODO consider removing this
+        obj.addProperty("nickname", nickname);
+        obj.addProperty("last_name", last_name);
+        obj.addProperty("first_name", first_name);
+        obj.addProperty("email", email);
+        obj.addProperty("password", password);
+        obj.addProperty("moderator", moderator);
+        obj.addProperty("administrator", administrator);
+        obj.addProperty("gender", gender);
+        obj.addProperty("birth_date", DateUtil.toString(birth_date));
+        obj.addProperty("phone_number", phone_number);
+        obj.add("address", address.toJson());
+        
+        JsonArray eventsArray = new JsonArray();
+        
+        for (Event e : events) {
+            eventsArray.add(e.toJson());
+        }
+        
+        obj.add("events", eventsArray);
+        JsonArray interestsArray = new JsonArray();
+        
+        for (Activity a : interests) {
+            interestsArray.add(a.toJson());
+        }
+        
+        return obj;
     }
 }

@@ -1,5 +1,7 @@
 package com.mycompany.pouloum.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -139,4 +141,41 @@ public class Activity implements Serializable  {
         this.default_participants_max = default_participants_max;
     }
     
+    public JsonObject toJson() {
+        JsonObject obj = new JsonObject();
+        
+        obj.addProperty("id", id);
+        obj.add("parent", parent.toJson());
+        
+        JsonArray childrenArray = new JsonArray();
+        
+        for (Activity a : children) {
+            childrenArray.add(a.toJson());
+        }
+        
+        obj.add("children", childrenArray);
+        obj.addProperty("name", name);
+        obj.addProperty("description", description);
+        
+        JsonArray badgesArray = new JsonArray();
+        
+        for (Badge b : badges) {
+            badgesArray.add(b.toJson());
+        }
+        
+        obj.add("badges", badgesArray);
+        obj.addProperty("rules", rules);
+        
+        JsonArray resourcesArray = new JsonArray();
+        
+        for (String s : resources) {
+            resourcesArray.add(s);
+        }
+        
+        obj.add("resources", resourcesArray);
+        obj.addProperty("min_participants", default_participants_min);
+        obj.addProperty("max_participants", default_participants_max);
+        
+        return obj;
+    }
 }

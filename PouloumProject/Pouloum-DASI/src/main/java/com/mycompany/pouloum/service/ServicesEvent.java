@@ -17,6 +17,8 @@ import com.mycompany.pouloum.util.exception.DBException;
 import com.mycompany.pouloum.util.exception.ServiceException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,7 @@ import java.util.Map;
  * @author Martin
  */
 public class ServicesEvent {
-    
+
     /**
      * Get an event, given its id.
      *
@@ -37,11 +39,12 @@ public class ServicesEvent {
             throws Exception {
         JpaUtil.createEntityManager();
 
-        Event e = DAOEvent.findById(id);
-
-        JpaUtil.closeEntityManager();
-
-        return e;
+        try {
+            Event e = DAOEvent.findById(id);
+            return e;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
 
     /**
@@ -64,23 +67,25 @@ public class ServicesEvent {
             int participants_min, int participants_max, List<Pouloumer> participants)
             throws Exception {
         Event newEvent = new Event(label, description, startDate, false, duration, location, activity, organizer, participants_min, participants_max, participants);
-
-        JpaUtil.createEntityManager();
-
-        JpaUtil.openTransaction();
-
-        try {
-            DAOEvent.persist(newEvent);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
-            JpaUtil.closeEntityManager();
-            throw new DBException("ERROR : Database could not persist entity Event");
-        }
         
-        JpaUtil.closeEntityManager();
-
-        return CRE_OK;
+        JpaUtil.createEntityManager();
+        
+        try {
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOEvent.persist(newEvent);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                throw new DBException("ERROR : Database could not persist entity Event", ex);
+            }
+            
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
 
     /**
@@ -88,20 +93,21 @@ public class ServicesEvent {
      *
      * @param newParticipant is the participant to add to the event.
      * @param event is the event.
-     * @return int 0 if the registration is successful, 1 if the event does not
-     * exist, 2 if the pouloumer is already participating in the event,
-     * 3 if the transaction has been canceled.
+     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EVENT if
+     * the event does not exist, CRE_ERR_POULOUMER if the pouloumer is already
+     * participating in the event, CRE_EXC_BD if the transaction has been
+     * canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static int addParticipant(Pouloumer newParticipant, Event event)
+    public static CRE addParticipant(Pouloumer newParticipant, Event event)
             throws Exception {
         //TODO where is the event's existence checked ?
-        boolean isAlreadyParticipating = false;
-        for (Pouloumer p : event.getParticipants()){
-            if(p.getId().equals(newParticipant.getId())){
+        /*boolean isAlreadyParticipating = false;*/
+        for (Pouloumer p : event.getParticipants()) {
+            if (p.getId().equals(newParticipant.getId())) {
                 /*isAlreadyParticipating = true;
                 break;*/
-                return 2;
+                return CRE_ERR_POULOUMER;
             }
         }
         /*if (isAlreadyParticipating) {
@@ -110,42 +116,50 @@ public class ServicesEvent {
         event.addParticipant(newParticipant);
         
         JpaUtil.createEntityManager();
-
-        JpaUtil.openTransaction();
-
+        
         try {
-            DAOEvent.updateEvent(event);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
-            return 3;
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOEvent.updateEvent(event);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
         } finally {
             JpaUtil.closeEntityManager();
         }
-        
-        return 0;
     }
-    
-    public static void removeParticipant(Pouloumer participant, Event event)
+
+    public static CRE removeParticipant(Pouloumer participant, Event event)
             throws Exception {
         event.removeParticipant(participant);
-        
+
         JpaUtil.createEntityManager();
 
-        JpaUtil.openTransaction();
-
         try {
-            DAOEvent.updateEvent(event);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOEvent.updateEvent(event);
+                JpaUtil.commitTransaction();
+                return CRE.CRE_OK;
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                return CRE.CRE_EXC_BD;
+            }
+            
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
-     * Add a commentary to an existing event.
+     * Add a comment to an existing event.
      *
      * @param description is the participant to add to the event.
      * @param idEvent is the id of the event.
@@ -155,38 +169,39 @@ public class ServicesEvent {
      * the event does not exist, CRE_EXC_BD if the transaction is canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static CRE addCommentaryToEvent(String description, Date date, Long idEvent, Long idPouloumer)
-            throws Exception
-    {
+    public static CRE addCommentToEvent(String description, Date date, Long idEvent, Long idPouloumer)
+            throws Exception {
         Event e = DAOEvent.findById(idEvent);
-        if(e==null)
-        {
+        if (e == null) {
             return CRE_ERR_EVENT;
         }
         
-        e.addCommentary(description, date, idPouloumer);
-                
+        e.addComment(description, date, idPouloumer);
+        
         JpaUtil.createEntityManager();
-
-        JpaUtil.openTransaction();
-
+        
         try {
-            DAOEvent.updateEvent(e);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOEvent.updateEvent(e);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
     }
 
     /**
-     * Update an existing event(should only be updated by the creator of the event).
-     * 
+     * Update an existing event(should only be updated by the creator of the
+     * event).
+     *
      * @param event, the event to update.
      * @param date, the new date of the event.
      * @param duration, the new duration of the event.
@@ -199,52 +214,71 @@ public class ServicesEvent {
      */
     public static CRE updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
             throws Exception {
-        
+
         Event e = DAOEvent.findById(event.getId());
-        
-        if (e!=event) 
-        {
+
+        if (e != event) {
             return CRE_ERR_EVENT;
         }
-        
+
         // Update fields
         e.setStart(date);
         e.setDuration(duration);
         e.setLocation(address);
         e.setParticipants_min(playerMin);
         e.setParticipants_max(playerMax);
-        
+
         JpaUtil.createEntityManager();
-        
-        JpaUtil.openTransaction();
 
         try {
-            DAOEvent.persist(e);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            // Registration has failed, return null to let the GUI know
-            JpaUtil.cancelTransaction();
-            JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
-        }
+            JpaUtil.openTransaction();
 
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
+            try {
+                DAOEvent.persist(e);
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {
+                // Registration has failed, return null to let the GUI know
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
-    
+
     /**
      * Get the events matching a list of interests.
      *
      * @param interests, the list containing all activities of the search.
-     * @return EventList, a list containing all events and for each event, the
-     * ids of the participants.
+     * @return EventList, a list containing all events corresponding to the interests
+     * and for each event, the the participants.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static Map<Event, List<Long>> getEventByInterests(List<Long> interests)
+    public static Map<Event, List<Pouloumer>> getEventByInterests(List<Activity> interests)
             throws Exception {
         // do magical stuff plz
-        return null;
+        JpaUtil.createEntityManager();
+        
+        try {
+            List<Event> events = DAOEvent.findAll();
+
+            Map<Event,List<Pouloumer>> interestsEvents = new HashMap<>();
+
+            for (Event e : events) {
+                if(interests.contains(e.getActivity()) || interests.isEmpty())
+                {
+                    List<Pouloumer> participants = e.getParticipants();
+
+                    interestsEvents.put(e, participants);
+                }
+            }
+            
+            return interestsEvents;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
 
     /**
@@ -256,24 +290,28 @@ public class ServicesEvent {
      */
     public static CRE deleteEvent(Long id) {
         JpaUtil.createEntityManager();
-        JpaUtil.openTransaction();
-
+        
         try {
-            DAOEvent.removeById(id);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOEvent.removeById(id);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception ex) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        JpaUtil.closeEntityManager();
-
-        return CRE_OK;
     }
-    
+
     /**
      * Get the list of events organized by a given user.
-     * 
+     *
      * @param p is the user organizing the events we look for.
      * @return List, a list of events organized by p.
      * @throws Exception if there was an error trying to read the database.
@@ -281,16 +319,19 @@ public class ServicesEvent {
     public static List<Event> getOrganizedEvents(Pouloumer p) throws Exception {
         JpaUtil.createEntityManager();
         
-        List<Event> answer = new ArrayList<>();
-        List<Event> allEvents = DAOEvent.findAll();
-        
-        for (Event e : allEvents) {
-            if (e.getOrganizer().getId().equals(p.getId())) {
-                answer.add(e);
+        try {
+            List<Event> answer = new ArrayList<>();
+            List<Event> allEvents = DAOEvent.findAll();
+
+            for (Event e : allEvents) {
+                if (e.getOrganizer().getId().equals(p.getId())) {
+                    answer.add(e);
+                }
             }
+            
+            return answer;
+        } finally {
+            JpaUtil.closeEntityManager();
         }
-        JpaUtil.closeEntityManager();
-        
-        return answer;
     }
 }
