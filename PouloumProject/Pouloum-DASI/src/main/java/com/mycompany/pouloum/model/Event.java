@@ -22,6 +22,10 @@ import javax.persistence.Column;
 @Entity
 public class Event implements Serializable  {
     
+    enum State {
+        ORGANIZED, READY, CANCELLED, FINISHED;
+    }
+    
     // ATTRIBUTES
     class Commentary 
     {
@@ -42,13 +46,13 @@ public class Event implements Serializable  {
     // Description
     protected String label;
     protected String description;
-    protected boolean cancelled;
     
     // Time
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name="datetime")
     protected Date start;
     protected int duration;
+    protected State state;
     
     // Coordinates
     @OneToOne
@@ -75,11 +79,11 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, boolean cancelled, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
+    public Event(String label, String description, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.start = start;
+        this.state = State.ORGANIZED;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -89,13 +93,13 @@ public class Event implements Serializable  {
         this.participants = participants;
     }
     
-    public Event(String label, String description, boolean cancelled, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
+    public Event(String label, String description, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
         throws ParseException
     {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.setStart(start);
+        this.state = State.ORGANIZED;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -132,12 +136,24 @@ public class Event implements Serializable  {
         this.description = description;
     }
 
-    public boolean getCancelled() {
-        return cancelled;
+    public State getState() {
+        return state;
     }
     
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setState(State state) {
+        this.state = state;
+    }
+    
+    public boolean isFutureEvent() {
+        return (state == State.ORGANIZED || state == State.READY);
+    }
+    
+    public boolean isCancelled() {
+        return (state == State.CANCELLED);
+    }
+    
+    public boolean isFinished() {
+        return (state == State.FINISHED);
     }
 
     public Date getStart() {

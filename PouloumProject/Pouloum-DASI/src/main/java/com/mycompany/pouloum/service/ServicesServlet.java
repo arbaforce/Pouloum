@@ -111,7 +111,7 @@ public class ServicesServlet extends HttpServlet {
                 char gender = request.getParameter("gender").charAt(0);
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
-                
+
                 String addressNumber = request.getParameter("addressNumber");
                 String addressStreet = request.getParameter("addressStreet");
                 String addressPostalCode = request.getParameter("addressPostalCode");
@@ -141,7 +141,9 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     JsonArray array = new JsonArray();
                     for (Event e : p.getEvents()) {
-                        array.add(e.toJson());
+                        if (e.isFutureEvent()) {
+                            array.add(e.toJson());
+                        }
                     }
                     container.add("events", array);
                 } else {
