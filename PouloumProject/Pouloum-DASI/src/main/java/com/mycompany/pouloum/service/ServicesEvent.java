@@ -33,15 +33,15 @@ public class ServicesEvent {
      *
      * @param id is the event id.
      * @return Event, the event matching to the id.
-     * @throws Exception if there's an error trying to access the database.
      */
-    public static Event getEventById(Long id)
-            throws Exception {
+    public static Event getEventById(Long id) {
         JpaUtil.createEntityManager();
 
         try {
             Event e = DAOEvent.findById(id);
             return e;
+        } catch (Exception e) {
+            return null;
         } finally {
             JpaUtil.closeEntityManager();
         }
@@ -237,7 +237,7 @@ public class ServicesEvent {
                 DAOEvent.persist(e);
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception ex) {                
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 return CRE_EXC_BD;
             }
@@ -246,10 +246,10 @@ public class ServicesEvent {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Set an event's state to cancelled.
-     * 
+     *
      * @param event is the event to cancel
      * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
      * event does not exist, CRE_EXC_BD if the transaction is canceled.
@@ -261,9 +261,9 @@ public class ServicesEvent {
         if (e != event) {
             return CRE_ERR_EVENT;
         }
-        
+
         e.setCancelled(true);
-        
+
         JpaUtil.createEntityManager();
 
         try {
@@ -273,15 +273,15 @@ public class ServicesEvent {
                 DAOEvent.persist(e);
                 JpaUtil.commitTransaction();
                 return CRE_OK;
-            } catch (Exception ex) {                
+            } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 return CRE_EXC_BD;
             }
 
         } finally {
             JpaUtil.closeEntityManager();
-        }     
-        
+        }
+
     }
 
     /**
