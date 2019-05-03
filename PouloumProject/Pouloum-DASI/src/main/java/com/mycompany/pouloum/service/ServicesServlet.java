@@ -388,7 +388,20 @@ public class ServicesServlet extends HttpServlet {
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
-
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                
+                Event e = ServicesEvent.getEventById(idEvent);
+                
+                if (e != null) {
+                    container.add("event", e.toJson());
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to read the database");                    
+                }
+                
+                
+                JsonObject obj = new JsonObject();
             } /////////////////
             //////Update profile
             /////////////////
