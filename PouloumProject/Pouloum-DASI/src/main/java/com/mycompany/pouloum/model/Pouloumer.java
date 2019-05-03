@@ -19,60 +19,55 @@ import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-
 @Entity
-public class Pouloumer implements Serializable  {
+public class Pouloumer implements Serializable {
 
     // ATTRIBUTES
-    
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    
+
     // Identity 
-    @Column(unique=true)
+    @Column(unique = true)
     protected String nickname;
     protected String first_name;
     protected String last_name;
-    
+
     // Account info
-    @Column(unique=true)
+    @Column(unique = true)
     protected String email;
     protected String password;
     protected boolean moderator;
     protected boolean administrator;
-    
+
     // Personal information
     protected char gender;
     @Temporal(javax.persistence.TemporalType.DATE)
     protected Date birth_date;
     protected String phone_number;
-    
+
     // Coordinates
     @OneToOne
     protected Address address;
-    
+
     // Links
     @OneToMany
     private List<Event> events;
-    
+
     @OneToMany
     private List<Activity> interests;
-    
+
     // To implement later
-    
     // - badges
     // - rank
     // - interests
     // - friends
     // - blacklist
-    
-    
     // CONSTRUCTORS
-    
-    public Pouloumer ( ) { }
-    
+    public Pouloumer() {
+    }
+
     public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, Date birth_date, String phone_number, Address address) {
         this.nickname = nickname;
         this.first_name = first_name;
@@ -85,14 +80,13 @@ public class Pouloumer implements Serializable  {
         this.birth_date = birth_date;
         this.phone_number = phone_number;
         this.address = address;
-        
+
         this.events = new ArrayList<>();
         this.interests = new ArrayList<>();
     }
-    
+
     public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
-        throws ParseException
-    {
+            throws ParseException {
         this.nickname = nickname;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -104,14 +98,12 @@ public class Pouloumer implements Serializable  {
         this.setBirth_date(birth_date);
         this.phone_number = phone_number;
         this.address = address;
-        
+
         this.events = new ArrayList<>();
         this.interests = new ArrayList<>();
     }
-    
-    
-    // SETTERS AND GETTERS
 
+    // SETTERS AND GETTERS
     public Long getId() {
         return id;
     }
@@ -199,53 +191,50 @@ public class Pouloumer implements Serializable  {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    public Date getBirth_date( ) {
+
+    public Date getBirth_date() {
         return birth_date;
     }
-    
-    public void setBirth_date( Date birth_date ) {
+
+    public void setBirth_date(Date birth_date) {
         this.birth_date = birth_date;
     }
-    
-    public void setBirth_date( String birth_date )
-        throws ParseException
-    {
+
+    public void setBirth_date(String birth_date)
+            throws ParseException {
         this.birth_date = DateUtil.toDate(birth_date);
     }
-    
+
     public List<Event> getEvents() {
         return events;
     }
-    
+
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-    
+
     public List<Activity> getInterests() {
         return interests;
     }
-    
+
     public void setInterests(List<Activity> interests) {
         this.interests = interests;
     }
-    
-    
+
     // ...
-    
     public int getAge() {
         Date now = DateUtil.DateNow();
         long ageindays = DateUtil.DateDiff(birth_date, now, TimeUnit.DAYS);
         return (int) (ageindays / 365);
     }
-    
-    public void addEvent(Event e){
+
+    public void addEvent(Event e) {
         events.add(e);
     }
-    
-    public void removeEvent (Event e){
-        for (Event event : events){
-            if (event.getId()==e.getId()){
+
+    public void removeEvent(Event e) {
+        for (Event event : events) {
+            if (event.getId() == e.getId()) {
                 events.remove(event);
                 break;
             }
