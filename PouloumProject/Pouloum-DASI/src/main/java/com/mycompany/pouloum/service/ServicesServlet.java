@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -181,7 +182,20 @@ public class ServicesServlet extends HttpServlet {
             } else if ("getUserBlacklist".equals(sma)) {
 
             } else if ("addInterestsToUser".equals(sma)) {
-
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                // TODO : récupérer les ids d'activity
+                List<Long> idActivities = null; /* = request.getParameter("idActivities"); */
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                List<Activity> interests = new ArrayList<>();
+                for (Long idAct : idActivities)
+                {
+                    interests.add(ServicesActivity.getActivityById(idAct));
+                }
+                
+                if (p != null)
+                {
+                    ServicesPouloumer.addInterests(p, interests);
+                }
             } else if ("removeInterestsToUser".equals(sma)) {
 
             } else if ("getUserInterests".equals(sma)) {
@@ -266,7 +280,7 @@ public class ServicesServlet extends HttpServlet {
             } else if ("updatedEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
-
+                
             } else if ("getOrganizedEvents".equals(sma)) {
 
             }
