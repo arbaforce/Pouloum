@@ -16,7 +16,7 @@
         <servlet-class>com.mycompany.pouloum.ihm.web.AjaxActionServlet</servlet-class>
         <init-param>
             <param-name>URL-SMA</param-name>
-            <param-value>http://localhost:8080/PouloumSMA-SMA/PouloumSM</param-value>
+            <param-value>http://localhost:8080/Pouloum-DASI/ServicesServlet</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

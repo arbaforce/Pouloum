@@ -10,12 +10,7 @@
     </properties>
   <modules>
     <module>Pouloum-IHM-WEB</module>
-    <module>Pouloum-SMA</module>
-    <module>Pouloum-SOM-User</module>
-    <module>Pouloum-SOM-Badge</module>
-    <module>Pouloum-SOM-Address</module>
-    <module>Pouloum-SOM-Activity</module>
-    <module>Pouloum-SOM-Event</module>
     <module>Pouloum-util</module>
+    <module>Pouloum-DASI</module>
   </modules>
 </project>
