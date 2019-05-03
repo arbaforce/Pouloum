@@ -200,7 +200,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     result = ServicesPouloumer.addInterests(p, interests);
                 } else {
-                    result = CRE.CRE_ERR_INTEREST;
+                    result = CRE.CRE_ERR_ACTIVITY;
                 }
 
                 if (result == CRE.CRE_OK) {
@@ -219,7 +219,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null && a != null) {
                     result = ServicesPouloumer.removeInterest(p, a);
                 } else {
-                    result = CRE.CRE_ERR_INTEREST;
+                    result = CRE.CRE_ERR_ACTIVITY;
                 }
 
                 if (result == CRE.CRE_OK) {
