@@ -75,9 +75,9 @@ public class ServicesServlet extends HttpServlet {
 
         
         try {
-        //////////
-        ////login
-        //////////
+            //////////
+            ////login
+            //////////
             if ("login".equals(sma)) {
                 String mail = request.getParameter("mail");
                 String nickName = request.getParameter("nickName");
@@ -95,7 +95,8 @@ public class ServicesServlet extends HttpServlet {
                 } else {
                     container.addProperty("error", "there is no match for these identifiants");
                 }
-            } //////////
+            }
+            //////////
             ////signUp
             //////////
             else if ("signUp".equals(sma)) {
@@ -123,7 +124,8 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("created", false);
                     throw ex;
                 }
-            } //////////
+            }
+            //////////
             ////consult home page
             //////////
             else if ("getUserEvents".equals(sma)) {
@@ -144,7 +146,8 @@ public class ServicesServlet extends HttpServlet {
                 }
             } else if ("getUserBadges".equals(sma)) {
                 //TODO when badges are implemented.
-            } ///////////
+            }
+            ///////////
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
@@ -167,7 +170,8 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("removeFromBlackList".equals(sma)) {
 
-            } ////////////
+            }
+            ////////////
             /////Consult someone else profile
             ////////////
             else if ("addToBlacklist".equals(sma)) {
@@ -176,7 +180,8 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("reportAbusiveBehaviour".equals(sma)) {
 
-            } /////////////
+            }
+            /////////////
             /////Search for an event
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
@@ -211,7 +216,8 @@ public class ServicesServlet extends HttpServlet {
                     throw new Exception("ERROR: Error when processing the transaction to remove user from event.");
                 }
                 //TODO decide which association to keep between event and user to avoid this double transaction problem
-            } //////////////
+            }
+            //////////////
             /////Set up an event
             //////////////
             else if ("createEvent".equals(sma)) {
@@ -239,24 +245,28 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("getOrganizedEvents".equals(sma)) {
 
-            } ///////////////
+            }
+            ///////////////
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
 
-            } ///////////////
+            }
+            ///////////////
             /////Consult an activity
             ///////////////
             else if ("findAllActivities".equals(sma)) {
 
             } else if ("getActivityDetails".equals(sma)) {
 
-            } /////////////////
+            }
+            /////////////////
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
 
-            } /////////////////
+            }
+            /////////////////
             //////Update profile
             /////////////////
             else if ("updateUserDetails".equals(sma)) {
