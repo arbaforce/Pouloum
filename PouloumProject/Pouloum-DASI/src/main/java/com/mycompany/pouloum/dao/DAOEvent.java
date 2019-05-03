@@ -24,8 +24,8 @@ public class DAOEvent {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            Event i = (Event) em.find(Event.class, id);
-            em.remove(i);
+            Event e = (Event) em.find(Event.class, id);
+            em.remove(e);
         } catch (Exception ex) {
             throw ex;
         }
@@ -36,7 +36,7 @@ public class DAOEvent {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            em.merge(e);
+            e = em.merge(e);
         } catch (Exception ex) {
             throw ex;
         }
@@ -51,7 +51,7 @@ public class DAOEvent {
         Event found = null;
         
         try {
-            found = em.find(Event.class, id);
+            found = (Event) em.find(Event.class, id);
         } catch (Exception ex) {
             throw ex;
         }
