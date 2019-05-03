@@ -1,5 +1,6 @@
 package com.mycompany.pouloum.model;
 
+import com.google.gson.JsonObject;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,6 +60,16 @@ public class BadgeEvolved implements Serializable {
     
     public void setStrength( int strength ) {
         this.strength = strength;
+    }
+    
+    public JsonObject toJson() {
+        JsonObject obj = new JsonObject();
+        
+        obj.addProperty("id", id);
+        obj.add("badge", type.toJson());
+        obj.addProperty("strength", strength);
+        
+        return obj;
     }
     
 }
