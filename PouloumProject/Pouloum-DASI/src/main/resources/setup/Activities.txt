@@ -1,0 +1,442 @@
+Athlétisme
+
+	Marche
+	Marathon
+	Course de fond
+	Demi-fond
+	Course de haies
+	Sprint
+	Course de relais
+	Lancer du disque
+	Lancer du javelot
+	Lancer du marteau
+	Lancer du poids
+	Saut en longueur
+	Saut en hauteur
+	Saut à la perche
+	Triple saut
+	Décathlon
+	Heptathlon
+
+Sports collectifs
+
+	Balai-ballon sur glace
+	Balle au tambourin
+	Ballon au poing
+	Bandy
+	Baseball
+	Basket-ball
+	Beach Volley
+	Beach Soccer
+	Bouzkachi
+	Calcio florentin
+	Camogie
+	Cricket
+	Crosse
+	Crosse ancienne
+	Curling
+	Dodgeball
+	Double dutch
+	Flag football
+	Floorball
+	Foot à 5
+	Football
+	Football américain
+	Football australien
+	Football canadien
+	Football en salle
+	Football gaélique
+	Football universel
+	Jorkyball
+	Handball
+	Hockey en salle
+	Hockey subaquatique
+	Hockey sur gazon
+	Hockey sur glace
+	Horse-ball
+	Hurling
+	Kin-ball
+	Korfbal
+	Longue paume
+	Moto-ball
+	Netball
+	Paintball
+	Pelota P'urhépecha
+	Pelote basque
+	Pesäpallo
+	Plumfoot
+	Polo
+	Rafroball
+	Ringuette
+	Rink hockey
+	Roller derby
+	Roller in line hockey
+	Rollersoccer
+	Rounders
+	Rugby à sept
+	Rugby à XV
+	Rugby à XIII
+	Sepak Takraw
+	Shinty
+	Slamball
+	Softball
+	Stoolball
+	Street-hockey
+	Tchoukball
+	Touch rugby
+	Town ball
+	Ultimate
+	Floorball
+	Vigoro
+	Volley-ball
+	Volata
+	Water polo
+
+Gymnastique
+
+	Acrosport
+	Cheerleading
+	Gymnastique aérobique
+	Gymnastique artistique
+	Gymnastique rythmique
+	Majorette
+	Trampoline
+	Tricking
+	Twirling bâton
+
+Épreuves combinées
+
+	Triathlon
+	Duathlon
+	Aquathlon
+	Pentathlon moderne
+	Micronesian all around
+	Unifight
+
+Sports mécaniques
+
+	Compétition automobile
+		WEC
+		Karting
+		NASCAR
+		DTM
+		WRC (Rallye)
+		Formule 1
+		Course de côte
+		Rallye-raid
+		WTCC
+		Indy Racing League
+		Fol'Car
+		Autocross
+		Rallycross
+	Compétition motocycliste
+		Endurance moto
+		Enduro
+		Freestyle motocross
+		Motocross
+		Supermotard
+		Trial
+		Speedway
+		Stunt
+		Supercross
+		Vitesse moto
+	Compétition aéronautique
+	Moto-ball
+	Motonautisme
+	Motoneige
+
+Sports de raquette
+
+	Badminton
+	Jeu de paume
+	Padel
+	Peloc
+	Pelote basque
+	Racketlon
+	Racquetball
+	Speed Badminton
+	Speed-ball
+	Squash
+	Tennis
+	Tennis de table
+
+Sports avec animaux
+
+	Agility
+	Cani-cross
+	Corrida
+	Courses de lévriers
+	Course de chameaux
+	Course de chars
+	Course de traîneaux
+	Rodéo
+	Sport hippique
+	Sports équestres
+		Amazone
+		Attelage
+		Attelage de tradition
+		Concours complet
+		Doma Vaquera
+		Dressage
+		Endurance
+		Équitation Camargue
+		Équitation islandaise
+		Équitation Western
+		Horse-ball
+		Hunter
+		Oulak
+		Polo
+		Polocrosse
+		Pony games
+		Rodéo chilien
+		Saut d'obstacles
+		Ski joëring
+		TREC
+		Voltige en Cercle
+
+Sports anciens
+
+	Barres
+	Calcio florentin
+	Course de chars
+	Harpastum
+	Jeu de mail
+	Longue paume
+	Pancrace
+	Pentathlon antique
+	Pugilat
+	Soule
+	Town ball
+	Volata
+
+Cyclisme
+
+	BMX
+	Cyclisme artistique
+	Cyclisme sur piste
+	Cyclisme sur route
+	Cyclo-cross
+	Vélo tout terrain
+
+Arts martiaux
+
+	Aïkido
+	Bando et Banshay
+	Capoeira
+	Hapkido
+	Ju-jitsu (jujutsu)
+	Jiu-jitsu brésilien
+	Judo
+	Kalarippayatt
+	Karaté
+	Kendo
+	Kobudo
+	Krabi krabong
+	Muay-boran
+	Ninjutsu
+	Sumo
+	Taekwondo
+	Tai-chi-chuan
+	Unifight
+	Viet vo dao
+	Viet vu dao
+	Wushu (Kung Fu)
+
+Sports de combat
+
+	Boxe
+		Boxe américaine (Full-contact)
+		Boxe anglaise
+		Boxe birmane (Lethwei)
+		Boxe française (Savate)
+		Boxe thaïlandaise
+		Kick-boxing américain
+		Kick-boxing japonais (K1)
+	Canne et Bâton de combat
+	Escrime
+	Lutte
+		Brancaille
+		Catch
+		Grappling
+		Gouren (Lutte bretonne)
+		Lutte gréco-romaine
+		Lutte libre
+		Lutte sénégalaise
+		Lutte mongole
+		Lutte turque
+		Naban (Lutte birmane)
+		Ssirum
+		Sambo
+	Mixed martial art (MMA)
+	Sport chanbara
+	Unifight
+
+Sports de glace
+
+	Bandy
+	Bobsleigh
+	Curling
+	Hockey sur glace
+	Luge
+	Danse sur glace
+	Patinage artistique
+	Patinage de vitesse
+	Ringuette
+	Short-track
+	Skeleton
+
+Sports de force
+
+	Fitness
+	Force basque
+	Haltérophilie
+	Highland Games
+	Powerlifting
+	Tir à la corde
+
+Sports de plein air et de nature
+
+	Alpinisme
+	Canyonisme
+	Course d'orientation
+	Descente en rappel
+	Escalade sportive
+	Bloc (escalade)
+	Grimpe d'arbres
+	Pêche sportive
+	Escalade glaciaire
+	Raid nature
+	Randonnée pédestre
+	Spéléologie
+	Ultra-trail
+
+Sports aériens
+
+	Aéromodélisme
+	Aérostation
+	Base jump
+	Cerf-volant
+	Deltaplane
+	Parachutisme
+	Parapente
+	ULM
+	Vol libre
+	Vol à voile
+	Voltige aérienne
+
+Sports de cible
+
+	Airsoft
+	Ball-trap
+	Billards
+		Billard français
+		Billard américain
+		Billard anglais
+		Snooker
+	Boule bretonne
+	Boulingrin
+	Boomerang
+	Bowling
+	Croquet
+	Curling
+	Eisstock
+	Fléchettes
+	Golf
+	Jukskei
+	Paintball
+	Jeux de palets
+	Pétanque
+	Boule de fort
+	Quilles de neuf
+	Sarbacana
+	Sport boule (boule lyonnaise)
+	Tir
+	Tir à l'arc
+
+Sports nautiques
+
+	Apnée
+	Aviron
+	Barque de Sauvetage
+	Bateau-dragon
+	Canoë-kayak
+	Canyonisme
+	Char à voile
+	Chasse sous-marine
+	Dragon Boat
+	Hockey subaquatique
+	Motomarine
+	Joutes nautiques
+	Kayak-polo
+	Kitesurf
+	Nage avec palmes
+	Nage en eau libre
+	Nage en eau vive
+	Motonautisme
+	Natation
+	Natation synchronisée
+	Pêche sportive
+	Planche à voile
+	Plongée sous-marine
+	Plongeon
+	Rafting
+	Rugby subaquatique
+	Ski nautique
+	Surf
+	Voile
+	Water polo
+	Wakeboard
+	Wakesurf
+
+Sports de glisse
+
+	Ski
+		Biathlon
+		Combiné nordique
+		Saut à ski
+		Snowboard
+		Ski alpin
+		Ski alpinisme
+		Ski acrobatique
+		Ski freestyle
+		Ski de fond
+		Ski de vitesse
+		Ski extrême
+		Ski télémark
+	Nouveaux sports de glisse
+		Bodyboard
+		Freeboard
+		Kayak Surf
+		Kiteski
+		Kitesnow
+		Kitesurf
+		Mountainboard
+		Roller
+		Skateboard
+		Snowboard
+		Streetboard
+		Surf
+		Voile sur glace
+		Longskate
+		Trottinette Freestyle
+
+Autres sports
+
+	Speedcubing
+	Footbag
+	Danse sportive
+	Main à main
+	Marche nordique
+	Parkour
+	Sport stacking
+	Échecs
+	Go
+	Dames
+	Échecs chinois
+	Belote
+	Bridge
+	Poker
+	Sport électronique
+	Scrabble
+
+

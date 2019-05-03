@@ -12,7 +12,6 @@ public class DateUtil {
     public static Date toDate( String date )
         throws ParseException
     {
-        System.out.println(date);
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
         return sf.parse(date);
     }

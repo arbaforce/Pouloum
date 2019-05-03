@@ -200,7 +200,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     result = ServicesPouloumer.addInterests(p, interests);
                 } else {
-                    result = CRE.CRE_ERR_INTEREST;
+                    result = CRE.CRE_ERR_ACTIVITY;
                 }
 
                 if (result == CRE.CRE_OK) {
@@ -219,7 +219,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null && a != null) {
                     result = ServicesPouloumer.removeInterest(p, a);
                 } else {
-                    result = CRE.CRE_ERR_INTEREST;
+                    result = CRE.CRE_ERR_ACTIVITY;
                 }
 
                 if (result == CRE.CRE_OK) {
@@ -298,8 +298,12 @@ public class ServicesServlet extends HttpServlet {
             //////////////
             else if ("createEvent".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                //long idActivity = Long.parseLong(request.getParameter("idActivity"));
-                //long idAddress = Long.parseLong(request.getParameter("idAddress"));
+                
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Long idAddress = Long.parseLong(request.getParameter("idAddress"));
+                
+                
+                
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
                 Date startDate = DateUtil.toDate(request.getParameter("date"));
@@ -308,13 +312,11 @@ public class ServicesServlet extends HttpServlet {
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                //Activity activity = ServicesActivity.getActivityById(idActivity);
-                //Address address = ServicesAddress.getAddressById(idAddress);
+                
+                Activity activity = ServicesActivity.getActivityById(idActivity);
+                Address address = ServicesAddress.getAddressById(idAddress);
 
-                ArrayList<Pouloumer> participants = new ArrayList<Pouloumer>();
-                participants.add(p);
-
-                ServicesEvent.createEvent(name, description, startDate, duration, null, null, p, playerMin, playerMax, participants);
+                ServicesEvent.createEvent(name, description, startDate, duration, address, activity, p, playerMin, playerMax);
             } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
@@ -360,7 +362,18 @@ public class ServicesServlet extends HttpServlet {
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
-
+                Date d = DateUtil.DateNow();
+                String description = request.getParameter("description");
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                if (description.isEmpty())
+                {
+                    ServicesEvent.addCommentToEvent(description, d, idEvent, idUser);
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process a transaction");
+                }
             } ///////////////
             /////Consult an activity
             ///////////////
@@ -393,7 +406,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("result", "OK");
                 } else {
                     container.addProperty("result", "KO");
-                    container.addProperty("message", "Error while trying to access the database");
+                    container.addProperty("message", "Error while trying to read the database");
                 }
             } /////////////////
             //////Consult an event

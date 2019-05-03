@@ -3,6 +3,11 @@ body {
     width:100vw;
 }
 
+.container{
+    max-width: 98vw;
+    max-height: 98vh;
+}
+
 .button{
     padding:20px;
 }    
