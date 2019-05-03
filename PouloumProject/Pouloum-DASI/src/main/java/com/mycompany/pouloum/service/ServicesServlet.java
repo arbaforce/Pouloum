@@ -340,7 +340,18 @@ public class ServicesServlet extends HttpServlet {
             /////Consult an activity
             ///////////////
             else if ("findAllActivities".equals(sma)) {
-
+                JsonArray array = new JsonArray();
+                
+                List<Activity> activities = ServicesActivity.findAllActivities();
+                
+                
+                
+                for (Activity a : activities)
+                {
+                    array.add(a.toJson());
+                }
+                
+                container.add("activities", array);
             } else if ("getActivityDetails".equals(sma)) {
 
             }
