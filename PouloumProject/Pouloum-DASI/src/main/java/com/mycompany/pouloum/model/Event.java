@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
+import java.util.ArrayList;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -90,7 +91,7 @@ public class Event implements Serializable {
     
     public Event( ) { }
     
-    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
+    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max) {
         this.label = label;
         this.description = description;
         this.start = start;
@@ -101,10 +102,10 @@ public class Event implements Serializable {
         this.organizer = organizer;
         this.participants_min = participants_min;
         this.participants_max = participants_max;
-        this.participants = participants;
+        this.participants = new ArrayList<>();
     }
     
-    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
+    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max)
         throws ParseException
     {
         this.label = label;
@@ -117,7 +118,7 @@ public class Event implements Serializable {
         this.organizer = organizer;
         this.participants_min = participants_min;
         this.participants_max = participants_max;
-        this.participants = participants;
+        this.participants = new ArrayList<>();
     }
     
     

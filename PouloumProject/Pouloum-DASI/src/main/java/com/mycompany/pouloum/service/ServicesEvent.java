@@ -59,14 +59,13 @@ public class ServicesEvent {
      * @param organizer is the event creator.
      * @param participants_min is the event minimum number of participants.
      * @param participants_max is the event maximum number of participants.
-     * @param participants is the event list of Pouloumer attending to it.
      * @return Event, the event matching to the id.
      * @throws Exception if there's an error trying to access the database.
      */
     public static CRE createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
-            int participants_min, int participants_max, List<Pouloumer> participants)
+            int participants_min, int participants_max)
             throws Exception {
-        Event newEvent = new Event(label, description, startDate, false, duration, location, activity, organizer, participants_min, participants_max, participants);
+        Event newEvent = new Event(label, description, startDate, false, duration, location, activity, organizer, participants_min, participants_max);
 
         JpaUtil.createEntityManager();
 

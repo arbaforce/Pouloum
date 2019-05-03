@@ -31,7 +31,10 @@ body {
     max-height: 90%;
     min-width: 2vh;
 }
-   
+  
+.pre-scrollable {
+    max-height: 100%;
+}
 
 
 .bottom{
