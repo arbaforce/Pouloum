@@ -194,7 +194,18 @@ public class ServicesServlet extends HttpServlet {
             } else if ("getUserInterests".equals(sma)) {
 
             } else if ("getUserDetails".equals(sma)) {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
+                if (p != null) {                    
+                    container.add("pouloumer", p.toJson());
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "invalid id");
+                }
+                
             } else if ("acceptFriend".equals(sma)) {
 
             } else if ("removeFriend".equals(sma)) {
