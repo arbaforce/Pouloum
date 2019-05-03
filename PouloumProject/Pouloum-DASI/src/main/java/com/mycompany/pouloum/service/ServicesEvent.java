@@ -17,6 +17,8 @@ import com.mycompany.pouloum.util.exception.DBException;
 import com.mycompany.pouloum.util.exception.ServiceException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -239,14 +241,30 @@ public class ServicesEvent {
      * Get the events matching a list of interests.
      *
      * @param interests, the list containing all activities of the search.
-     * @return EventList, a list containing all events and for each event, the
-     * ids of the participants.
+     * @return EventList, a list containing all events corresponding to the interests
+     * and for each event, the the participants.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static Map<Event, List<Long>> getEventByInterests(List<Long> interests)
+    public static Map<Event, List<Pouloumer>> getEventByInterests(List<Activity> interests)
             throws Exception {
         // do magical stuff plz
-        return null;
+        JpaUtil.createEntityManager();
+        
+        List<Event> events = DAOEvent.findAll();
+                
+        Map<Event,List<Pouloumer>> interestsEvents = new HashMap<>();
+        
+        for (Event e : events) {
+            if(interests.contains(e.getActivity()) || interests.isEmpty())
+            {
+                List<Pouloumer> participants = e.getParticipants();
+                
+                interestsEvents.put(e, participants);
+            }
+        }
+        
+        JpaUtil.closeEntityManager();
+        return interestsEvents;
     }
 
     /**
