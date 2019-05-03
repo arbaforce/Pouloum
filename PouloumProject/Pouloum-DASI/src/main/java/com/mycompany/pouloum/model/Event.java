@@ -277,6 +277,21 @@ public class Event implements Serializable {
         JsonObject obj = new JsonObject();
         
         obj.addProperty("label", label);
+        obj.addProperty("description", description);
+        obj.addProperty("cancelled",cancelled );
+        obj.addProperty("startDate",DateUtil.toString(start));
+        
+        /*
+        protected Date start;
+        protected int duration;
+        protected Address location;
+        protected Activity activity;
+        protected Pouloumer organizer;
+        protected int participants_min;
+        protected int participants_max;
+        protected List<Pouloumer> participants;
+        protected List<Commentary> comments;
+        */
         
         return obj;
     }

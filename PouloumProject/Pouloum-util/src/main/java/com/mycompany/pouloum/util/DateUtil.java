@@ -1,5 +1,6 @@
 package com.mycompany.pouloum.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,6 +49,12 @@ public class DateUtil {
    public static long DateDiff(Date oldest, Date newest, TimeUnit timeUnit) {
        long diffInMillies = newest.getTime() - oldest.getTime();
        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+   }
+   
+   public static String toString(Date date) {
+       DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+       String strDate = dateFormat.format(date);  
+       return strDate;         
    }
    
 }
