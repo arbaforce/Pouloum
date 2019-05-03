@@ -1,99 +1,102 @@
 Athlétisme
-
 	Marche
 	Marathon
-	Course de fond
-	Demi-fond
-	Course de haies
-	Sprint
-	Course de relais
-	Lancer du disque
-	Lancer du javelot
-	Lancer du marteau
-	Lancer du poids
-	Saut en longueur
-	Saut en hauteur
-	Saut à la perche
-	Triple saut
+	Course
+		Course de fond
+		Demi-fond
+		Course de haies
+		Sprint
+		Course de relais
+	Lancer
+		Lancer du disque
+		Lancer du javelot
+		Lancer du marteau
+		Lancer du poids
+	Saut
+		Saut en longueur
+		Saut en hauteur
+		Saut à la perche
+		Triple saut
 	Décathlon
 	Heptathlon
 
 Sports collectifs
-
-	Balai-ballon sur glace
-	Balle au tambourin
+//	Balai-ballon sur glace
+//	Balle au tambourin
 	Ballon au poing
-	Bandy
+//	Bandy
 	Baseball
 	Basket-ball
 	Beach Volley
 	Beach Soccer
-	Bouzkachi
-	Calcio florentin
-	Camogie
+//	Bouzkachi
+//	Calcio florentin
+//	Camogie
 	Cricket
 	Crosse
 	Crosse ancienne
 	Curling
-	Dodgeball
-	Double dutch
-	Flag football
-	Floorball
+//	Dodgeball
+//	Double dutch
+//	Flag football
+//	Floorball
 	Foot à 5
 	Football
-	Football américain
-	Football australien
-	Football canadien
-	Football en salle
-	Football gaélique
-	Football universel
-	Jorkyball
+		Football
+		Football américain
+		Football australien
+		Football canadien
+		Football en salle
+		Football gaélique
+		Football universel
+//	Jorkyball
 	Handball
-	Hockey en salle
-	Hockey subaquatique
-	Hockey sur gazon
-	Hockey sur glace
-	Horse-ball
-	Hurling
-	Kin-ball
-	Korfbal
-	Longue paume
-	Moto-ball
-	Netball
+	Hockey
+		Hockey en salle
+		Hockey subaquatique
+		Hockey sur gazon
+		Hockey sur glace
+//	Horse-ball
+//	Hurling
+//	Kin-ball
+//	Korfbal
+//	Longue paume
+//	Moto-ball
+//	Netball
 	Paintball
-	Pelota P'urhépecha
-	Pelote basque
-	Pesäpallo
-	Plumfoot
-	Polo
-	Rafroball
-	Ringuette
-	Rink hockey
-	Roller derby
-	Roller in line hockey
-	Rollersoccer
-	Rounders
-	Rugby à sept
-	Rugby à XV
-	Rugby à XIII
-	Sepak Takraw
-	Shinty
-	Slamball
-	Softball
-	Stoolball
+//	Pelota P'urhépecha
+//	Pelote basque
+//	Pesäpallo
+//	Plumfoot
+//	Polo
+//	Rafroball
+//	Ringuette
+//	Rink hockey
+//	Roller derby
+//	Roller in line hockey
+//	Rollersoccer
+//	Rounders
+	Rugby
+		Rugby à sept
+		Rugby à XV
+		Rugby à XIII
+//	Sepak Takraw
+//	Shinty
+//	Slamball
+//	Softball
+//	Stoolball
 	Street-hockey
-	Tchoukball
+//	Tchoukball
 	Touch rugby
-	Town ball
+//	Town ball
 	Ultimate
-	Floorball
-	Vigoro
+//	Floorball
+//	Vigoro
 	Volley-ball
-	Volata
+//	Volata
 	Water polo
 
 Gymnastique
-
 	Acrosport
 	Cheerleading
 	Gymnastique aérobique
@@ -105,7 +108,6 @@ Gymnastique
 	Twirling bâton
 
 Épreuves combinées
-
 	Triathlon
 	Duathlon
 	Aquathlon
@@ -114,7 +116,6 @@ Gymnastique
 	Unifight
 
 Sports mécaniques
-
 	Compétition automobile
 		WEC
 		Karting
@@ -146,7 +147,6 @@ Sports mécaniques
 	Motoneige
 
 Sports de raquette
-
 	Badminton
 	Jeu de paume
 	Padel
@@ -161,7 +161,6 @@ Sports de raquette
 	Tennis de table
 
 Sports avec animaux
-
 	Agility
 	Cani-cross
 	Corrida
@@ -194,23 +193,21 @@ Sports avec animaux
 		TREC
 		Voltige en Cercle
 
-Sports anciens
-
-	Barres
-	Calcio florentin
-	Course de chars
-	Harpastum
-	Jeu de mail
-	Longue paume
-	Pancrace
-	Pentathlon antique
-	Pugilat
-	Soule
-	Town ball
-	Volata
+//Sports anciens
+//	Barres
+//	Calcio florentin
+//	Course de chars
+//	Harpastum
+//	Jeu de mail
+//	Longue paume
+//	Pancrace
+//	Pentathlon antique
+//	Pugilat
+//	Soule
+//	Town ball
+//	Volata
 
 Cyclisme
-
 	BMX
 	Cyclisme artistique
 	Cyclisme sur piste
@@ -219,31 +216,29 @@ Cyclisme
 	Vélo tout terrain
 
 Arts martiaux
-
 	Aïkido
-	Bando et Banshay
+//	Bando et Banshay
 	Capoeira
-	Hapkido
+//	Hapkido
 	Ju-jitsu (jujutsu)
 	Jiu-jitsu brésilien
 	Judo
-	Kalarippayatt
+//	Kalarippayatt
 	Karaté
-	Kendo
-	Kobudo
-	Krabi krabong
-	Muay-boran
-	Ninjutsu
+//	Kendo
+//	Kobudo
+//	Krabi krabong
+//	Muay-boran
+//	Ninjutsu
 	Sumo
 	Taekwondo
 	Tai-chi-chuan
 	Unifight
-	Viet vo dao
-	Viet vu dao
+//	Viet vo dao
+//	Viet vu dao
 	Wushu (Kung Fu)
 
 Sports de combat
-
 	Boxe
 		Boxe américaine (Full-contact)
 		Boxe anglaise
@@ -255,7 +250,7 @@ Sports de combat
 	Canne et Bâton de combat
 	Escrime
 	Lutte
-		Brancaille
+//		Brancaille
 		Catch
 		Grappling
 		Gouren (Lutte bretonne)
@@ -272,8 +267,7 @@ Sports de combat
 	Unifight
 
 Sports de glace
-
-	Bandy
+//	Bandy
 	Bobsleigh
 	Curling
 	Hockey sur glace
@@ -286,7 +280,6 @@ Sports de glace
 	Skeleton
 
 Sports de force
-
 	Fitness
 	Force basque
 	Haltérophilie
@@ -295,7 +288,6 @@ Sports de force
 	Tir à la corde
 
 Sports de plein air et de nature
-
 	Alpinisme
 	Canyonisme
 	Course d'orientation
@@ -311,7 +303,6 @@ Sports de plein air et de nature
 	Ultra-trail
 
 Sports aériens
-
 	Aéromodélisme
 	Aérostation
 	Base jump
@@ -325,7 +316,6 @@ Sports aériens
 	Voltige aérienne
 
 Sports de cible
-
 	Airsoft
 	Ball-trap
 	Billards
@@ -354,7 +344,6 @@ Sports de cible
 	Tir à l'arc
 
 Sports nautiques
-
 	Apnée
 	Aviron
 	Barque de Sauvetage
@@ -363,18 +352,20 @@ Sports nautiques
 	Canyonisme
 	Char à voile
 	Chasse sous-marine
-	Dragon Boat
+//	Dragon Boat
 	Hockey subaquatique
 	Motomarine
 	Joutes nautiques
 	Kayak-polo
 	Kitesurf
-	Nage avec palmes
-	Nage en eau libre
-	Nage en eau vive
+	Nage
+		Nage avec palmes
+		Nage en eau libre
+		Nage en eau vive
 	Motonautisme
 	Natation
-	Natation synchronisée
+		Natation
+		Natation synchronisée
 	Pêche sportive
 	Planche à voile
 	Plongée sous-marine
@@ -389,7 +380,6 @@ Sports nautiques
 	Wakesurf
 
 Sports de glisse
-
 	Ski
 		Biathlon
 		Combiné nordique
@@ -421,7 +411,6 @@ Sports de glisse
 		Trottinette Freestyle
 
 Autres sports
-
 	Speedcubing
 	Footbag
 	Danse sportive
@@ -438,5 +427,4 @@ Autres sports
 	Poker
 	Sport électronique
 	Scrabble
-
 
