@@ -199,9 +199,19 @@ public class ServicesServlet extends HttpServlet {
                     interests.add(ServicesActivity.getActivityById(idAct));
                 }
                 
+                CRE result;
                 if (p != null)
                 {
-                    ServicesPouloumer.addInterests(p, interests);
+                    result = ServicesPouloumer.addInterests(p, interests);
+                } else {
+                    result = CRE.CRE_ERR_INTEREST;
+                }
+                
+                if (result == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
                 }
             } else if ("removeInterestsToUser".equals(sma)) {
 
