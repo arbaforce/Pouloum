@@ -22,7 +22,7 @@ import javax.persistence.Column;
 @Entity
 public class Event implements Serializable  {
     
-    enum State {
+    public enum State {
         ORGANIZED, READY, CANCELLED, HAPPENING, FINISHED;
     }
     
