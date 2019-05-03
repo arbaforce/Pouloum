@@ -2,7 +2,7 @@
 * To change this license header, choose License Headers in Project Properties.
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
-*/
+ */
 package com.mycompany.pouloum.service;
 
 import com.google.gson.Gson;
@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.model.Activity;
 import com.mycompany.pouloum.model.Address;
+import com.mycompany.pouloum.model.Badge;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.CRE;
@@ -38,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ServicesServlet", urlPatterns = {"/ServicesServlet"})
 public class ServicesServlet extends HttpServlet {
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,48 +53,45 @@ public class ServicesServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding(JsonServletHelper.ENCODING_UTF8);
-        
-        
+
         String sma = null;
-        
+
         String pathInfo = request.getPathInfo();
         if (pathInfo != null) {
             sma = pathInfo.substring(1);
         }
-        
+
         String smaParameter = request.getParameter("SMA");
         if (smaParameter != null) {
             sma = smaParameter;
         }
-        
+
         Gson g = new Gson();
         JsonObject container = new JsonObject();
         boolean serviceCalled = true;
-        
+
         //TODO : mettre dans le main
         JpaUtil.init();
-        
+
         //////////
         ////login
         //////////
-        if ("login".equals(sma)){
+        if ("login".equals(sma)) {
             try {
                 String mail = request.getParameter("mail");
                 String nickName = request.getParameter("nickName");
                 String password = request.getParameter("password");
-                
+
                 Pouloumer p;
-                
-                if (mail != null){
+
+                if (mail != null) {
                     p = ServicesPouloumer.loginWithMail(mail, password);
-                }
-                else {
+                } else {
                     p = ServicesPouloumer.loginWithNickname(nickName, password);
                 }
-                if (p !=null){
-                    container.add("Pouloumer", g.toJsonTree(p,Pouloumer.class));
-                }
-                else{
+                if (p != null) {
+                    container.add("Pouloumer", g.toJsonTree(p, Pouloumer.class));
+                } else {
                     container.addProperty("error", "there is no match for these identifiants");
                 }
             } catch (ParseException ex) {
@@ -101,8 +99,7 @@ public class ServicesServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
-        //////////
+        } //////////
         ////signUp
         //////////
         else if ("signUp".equals(sma)) {
@@ -115,9 +112,14 @@ public class ServicesServlet extends HttpServlet {
                 char gender = request.getParameter("gender").charAt(0);
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
-                //String address = request.getParameter("address");
+                
+                String addressNumber = request.getParameter("addressNumber");
+                String addressStreet = request.getParameter("addressStreet");
+                String addressPostalCode = request.getParameter("addressPostalCode");
+                String addressCity = request.getParameter("addressCity");
+                String addressCountry = request.getParameter("addressCountry");
 
-                //ServicesAddress.createAddress(phoneNumber, address, password, mail, address);
+                ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
                 CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
                 //FIXME make use of result
                 container.addProperty("created", true);
@@ -129,24 +131,22 @@ public class ServicesServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        //////////
+        } //////////
         ////consult home page
         //////////
-        else if ("getUserEvents".equals(sma)){
+        else if ("getUserEvents".equals(sma)) {
             try {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
-                if(p != null){
+
+                if (p != null) {
                     JsonArray array = new JsonArray();
-                    for(Event e : p.getEvents()){
+                    for (Event e : p.getEvents()) {
                         array.add(e.toJson());
                     }
                     container.add("events", array);
-                }
-                else {
+                } else {
                     container.addProperty("error", "id is invalid");
                 }
             } catch (ParseException ex) {
@@ -154,102 +154,84 @@ public class ServicesServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if ("getUserBadges".equals(sma)){
-            
-        }
-        else if ("leaveEvent".equals(sma)){
+        } else if ("getUserBadges".equals(sma)) {
+            //TODO when badges are implemented.
+        } else if ("leaveEvent".equals(sma)) {
             try {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
                 
                 CRE result = ServicesPouloumer.leaveEvent(p, e);
                 //FIXME make use of CRE
                 ServicesEvent.removeParticipant(p, e);
-                
+
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        ///////////
+        } ///////////
         ////Consult profile
         ///////////
-        else if ("getUserEventsHistory".equals(sma)){
-            
-        }
-        else if ("getUserFriends".equals(sma)){
-            
-        }
-        else if ("getUserBlacklist".equals(sma)){
-            
-        }
-        else if ("addInterestsToUser".equals(sma)){
-            
-        }
-        else if ("removeInterestsToUser".equals(sma)){
-            
-        }
-        else if ("getUserInterests".equals(sma)){
-            
-        }
-        else if ("getUserDetails".equals(sma)){
-            
-        }
-        else if ("acceptFriend".equals(sma)){
-            
-        }
-        else if("removeFriend".equals(sma)){
-            
-        }
-        else if ("removeFromBlackList".equals(sma)){
-            
-        }
-        ////////////
+        else if ("getUserEventsHistory".equals(sma)) {
+
+        } else if ("getUserFriends".equals(sma)) {
+
+        } else if ("getUserBlacklist".equals(sma)) {
+
+        } else if ("addInterestsToUser".equals(sma)) {
+
+        } else if ("removeInterestsToUser".equals(sma)) {
+
+        } else if ("getUserInterests".equals(sma)) {
+
+        } else if ("getUserDetails".equals(sma)) {
+
+        } else if ("acceptFriend".equals(sma)) {
+
+        } else if ("removeFriend".equals(sma)) {
+
+        } else if ("removeFromBlackList".equals(sma)) {
+
+        } ////////////
         /////Consult someone else profile
         ////////////
-        else if ("addToBlacklist".equals(sma)){
-            
-        }
-        else if ("sendFriendRequest".equals(sma)){
-            
-        }
-        else if ("reportAbusiveBehaviour".equals(sma)){
-            
-        }
-        /////////////
+        else if ("addToBlacklist".equals(sma)) {
+
+        } else if ("sendFriendRequest".equals(sma)) {
+
+        } else if ("reportAbusiveBehaviour".equals(sma)) {
+
+        } /////////////
         /////Search for an event
         /////////////
-        else if("simpleSearchForUser".equals(sma)){
-            
-        }
-        else if("joinEvent".equals(sma)){
+        else if ("simpleSearchForUser".equals(sma)) {
+
+        } else if ("joinEvent".equals(sma)) {
             try {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
-                
+
                 ServicesEvent.addParticipant(p, e);
                 CRE result = ServicesPouloumer.joinEvent(p,e);
                 //FIXME make use of result
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServiceException ex){
+            } catch (ServiceException ex) {
                 container.addProperty("error", ex.getMessage());
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        //////////////
+        } //////////////
         /////Set up an event
         //////////////
-        else if ("createEvent".equals(sma)){
+        else if ("createEvent".equals(sma)) {
             try {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 //long idActivity = Long.parseLong(request.getParameter("idActivity"));
@@ -260,67 +242,57 @@ public class ServicesServlet extends HttpServlet {
                 int duration = Integer.parseInt(request.getParameter("duration"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 //Activity activity = ServicesActivity.getActivityById(idActivity);
                 //Address address = ServicesAddress.getAddressById(idAddress);
-                
-                ArrayList <Pouloumer> participants = new ArrayList<Pouloumer>();
+
+                ArrayList<Pouloumer> participants = new ArrayList<Pouloumer>();
                 participants.add(p);
-                
+
                 ServicesEvent.createEvent(name, description, startDate, duration, null, null, p, playerMin, playerMax, participants);
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServiceException ex){
+            } catch (ServiceException ex) {
                 container.addProperty("error", ex.getMessage());
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if ("updatedEvent".equals(sma)){
-            
-        }
-        else if ("cancelEvent".equals(sma)){
-            
-        }
-        else if ("getOrganizedEvents".equals(sma)){
-            
-        }
-        ///////////////
+        } else if ("updatedEvent".equals(sma)) {
+
+        } else if ("cancelEvent".equals(sma)) {
+
+        } else if ("getOrganizedEvents".equals(sma)) {
+
+        } ///////////////
         /////Consult finished event
         ///////////////
-        else if ("addCommentToEvent".equals(sma)){
-            
-        }
-        ///////////////
+        else if ("addCommentToEvent".equals(sma)) {
+
+        } ///////////////
         /////Consult an activity
         ///////////////
-        else if ("findAllActivities".equals(sma)){
-            
-        }
-        else if ("getActivityDetails".equals(sma)){
-        
-        }
-        /////////////////
+        else if ("findAllActivities".equals(sma)) {
+
+        } else if ("getActivityDetails".equals(sma)) {
+
+        } /////////////////
         //////Consult an event
         /////////////////
-        else if ("getEventDetails".equals(sma)){
-            
-        }
-        /////////////////
+        else if ("getEventDetails".equals(sma)) {
+
+        } /////////////////
         //////Update profile
         /////////////////
-        else if ("updateUserDetails".equals(sma)){
-            
-        }
-        else {
+        else if ("updateUserDetails".equals(sma)) {
+
+        } else {
             serviceCalled = false;
         }
-        
+
         //TODO : mettre dans le main
         JpaUtil.destroy();
-            
-            
+
         if (serviceCalled) {
             JsonServletHelper.printJsonOutput(response, container);
         } else {
