@@ -1,5 +1,6 @@
 package com.mycompany.pouloum.model;
 
+import com.google.gson.JsonObject;
 import com.google.maps.model.LatLng;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -101,6 +102,10 @@ public class Address implements Serializable {
     
     public LatLng getCoords() {
         return getLatLng(this.toString());
+    }
+    
+    public JsonObject toJson() {
+        return null; //TODO
     }
     
 }
