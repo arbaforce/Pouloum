@@ -157,9 +157,9 @@ public class ServicesServlet extends HttpServlet {
                 
                 Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
                 
-                // char gender = request.getParameter("gender").charAt(0);
+                String temp = request.getParameter("gender");
+                char gender = (temp == null ? p.getGender() : temp.charAt(0));
                 
-                char gender = p.getGender();
                 boolean isModerator = p.isModerator();
                 boolean isAdministrator = p.isAdministrator();
                 
@@ -466,6 +466,9 @@ public class ServicesServlet extends HttpServlet {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unknown SMA: " + sma);
                 serviceCalled = false;
             }
+        } catch (NumberFormatException ex) {
+            // occurs when parseLong on null or String not representing numbers
+            resultErrorMessage = "Incorrect id given.";
         } catch (Exception ex) {
             resultErrorMessage = "Error when trying to process the transaction.";
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);

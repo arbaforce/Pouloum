@@ -17,14 +17,14 @@ public class Address implements Serializable {
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
     
     // Address components
-    private String number;
-    private String street;
-    private String postal_code;
-    private String city;
-    private String country;
+    protected String number;
+    protected String street;
+    protected String postal_code;
+    protected String city;
+    protected String country;
     
     
     // CONSTRUCTORS

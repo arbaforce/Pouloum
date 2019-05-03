@@ -8,15 +8,19 @@ import com.mycompany.pouloum.util.GeoTest;
 
 public class ServicesTools {
     
+    public static void simulateMessage( String type, String recipient, String message )
+    {
+        System.out.println(type + " SENT TO " + recipient + ":");
+        System.out.println(message);
+    }
+    
     public static void simulateEmail( String recipient, String message )
     {
-        System.out.println("EMAIL SENT TO " + recipient + ":");
-        System.out.println(message);
+        simulateMessage("EMAIL", recipient, message);
     }
     public static void simulateSMS( String recipient, String message )
     {
-        System.out.println("SMS SENT TO " + recipient + ":");
-        System.out.println(message);
+        simulateMessage("SMS", recipient, message);
     }
     
     public static void simulateEmailRegisterSuccess( Pouloumer user )

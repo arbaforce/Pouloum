@@ -14,7 +14,7 @@ public class BadgeEvolved implements Serializable {
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
     
     // Base badge
     protected Badge type;

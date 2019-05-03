@@ -55,7 +55,7 @@ public class User implements Serializable  {
     
     // Links
     @OneToMany
-    private List<Event> events;
+    protected List<Event> events;
     
     // To implement later
     

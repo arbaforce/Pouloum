@@ -56,12 +56,12 @@ public class Pouloumer implements Serializable {
 
     // Links
     @OneToMany (mappedBy = "organizer")
-    private List<Event> organizedEvents;
+    protected List<Event> organizedEvents;
     @ManyToMany
-    private List<Event> events;
+    protected List<Event> events;
 
     @OneToMany
-    private List<Activity> interests;
+    protected List<Activity> interests;
 
     // To implement later
     // - badges
