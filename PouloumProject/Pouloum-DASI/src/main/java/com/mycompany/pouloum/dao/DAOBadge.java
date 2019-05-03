@@ -36,39 +36,35 @@ public class DAOBadge {
 
         try {
             b = em.merge(b);
+            return b;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return b;
     }
 
     public static Badge findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Badge found = null;
         try {
-            found = (Badge) em.find(Badge.class, id);
+            Badge found = (Badge) em.find(Badge.class, id);
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
     public static List<Badge> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        List<Badge> found = null;
+        
         try {
             Query q = em.createQuery("SELECT e FROM Event e");
-            found = (List<Badge>) q.getResultList();
+            List<Badge> found = (List<Badge>) q.getResultList();
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
 }

@@ -37,26 +37,22 @@ public class DAOActivity {
 
         try {
             em.merge(a);
+            return a;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return a;
     }
 
     public static Activity findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Activity found = null;
-
         try {
-            found = (Activity) em.find(Activity.class, id);
+            Activity found = (Activity) em.find(Activity.class, id);
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
     public static List<Activity> findAll()

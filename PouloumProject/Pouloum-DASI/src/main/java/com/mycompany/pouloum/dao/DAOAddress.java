@@ -35,28 +35,25 @@ public class DAOAddress {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Address found = null;
         try {
-            found = (Address) em.find(Address.class, id);
+            Address found = (Address) em.find(Address.class, id);
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
     public static List<Address> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
-        List<Address> found = null;
+        
         try {
             Query q = em.createQuery("SELECT a FROM Address a");
-            found = (List<Address>) q.getResultList();
+            List<Address> found = (List<Address>) q.getResultList();
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
 }

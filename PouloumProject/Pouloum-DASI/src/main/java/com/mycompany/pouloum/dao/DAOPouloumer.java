@@ -37,26 +37,22 @@ public class DAOPouloumer {
 
         try {
             u = em.merge(u);
+            return u;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return u;
     }
 
     public static Pouloumer findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Pouloumer found = null;
-
         try {
-            found = (Pouloumer) em.find(Pouloumer.class, id);
+            Pouloumer found = (Pouloumer) em.find(Pouloumer.class, id);
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
     public static Pouloumer findPouloumerByEmail(String email)
@@ -149,16 +145,13 @@ public class DAOPouloumer {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        List<Pouloumer> found = null;
-
         try {
             Query q = em.createQuery("SELECT u FROM Pouloumer u");
-            found = (List<Pouloumer>) q.getResultList();
+            List<Pouloumer> found = (List<Pouloumer>) q.getResultList();
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
 }

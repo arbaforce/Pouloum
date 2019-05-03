@@ -37,11 +37,10 @@ public class DAOEvent {
 
         try {
             e = em.merge(e);
+            return e;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return e;
     }
 
     public static Event findById(Long id)
@@ -52,27 +51,23 @@ public class DAOEvent {
         
         try {
             found = (Event) em.find(Event.class, id);
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
     public static List<Event> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         
-        List<Event> found = null;
-        
         try {
             Query q = em.createQuery("SELECT e FROM Event e");
-            found = (List<Event>) q.getResultList();
+            List<Event> found = (List<Event>) q.getResultList();
+            return found;
         } catch (Exception ex) {
             throw ex;
         }
-
-        return found;
     }
 
 }
