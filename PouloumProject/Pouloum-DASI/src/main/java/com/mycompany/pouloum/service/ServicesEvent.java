@@ -93,20 +93,21 @@ public class ServicesEvent {
      *
      * @param newParticipant is the participant to add to the event.
      * @param event is the event.
-     * @return int 0 if the registration is successful, 1 if the event does not
-     * exist, 2 if the pouloumer is already participating in the event, 3 if the
-     * transaction has been canceled.
+     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EVENT if
+     * the event does not exist, CRE_ERR_POULOUMER if the pouloumer is already
+     * participating in the event, CRE_EXC_BD if the transaction has been
+     * canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static int addParticipant(Pouloumer newParticipant, Event event)
+    public static CRE addParticipant(Pouloumer newParticipant, Event event)
             throws Exception {
         //TODO where is the event's existence checked ?
-        boolean isAlreadyParticipating = false;
+        /*boolean isAlreadyParticipating = false;*/
         for (Pouloumer p : event.getParticipants()) {
             if (p.getId().equals(newParticipant.getId())) {
                 /*isAlreadyParticipating = true;
                 break;*/
-                return 2;
+                return CRE_ERR_POULOUMER;
             }
         }
         /*if (isAlreadyParticipating) {
@@ -123,10 +124,10 @@ public class ServicesEvent {
                 DAOEvent.updateEvent(event);
                 
                 JpaUtil.commitTransaction();
-                return 0;
+                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
-                return 3;
+                return CRE_EXC_BD;
             }
             
         } finally {
