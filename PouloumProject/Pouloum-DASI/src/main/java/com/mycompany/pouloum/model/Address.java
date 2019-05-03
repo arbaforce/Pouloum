@@ -105,7 +105,16 @@ public class Address implements Serializable {
     }
     
     public JsonObject toJson() {
-        return null; //TODO
+        JsonObject obj = new JsonObject();
+        
+        obj.addProperty("id", id);
+        obj.addProperty("number", number);
+        obj.addProperty("street", street);
+        obj.addProperty("postal_code", postal_code);
+        obj.addProperty("city", city);
+        obj.addProperty("country", country);
+        
+        return obj;
     }
     
 }

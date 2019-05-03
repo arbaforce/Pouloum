@@ -14,8 +14,6 @@ body {
     height:100%;
 }
 
-
-
 #wrapper {
     overflow: hidden;
     width: 100%;
@@ -26,6 +24,7 @@ body {
 #navbar_img {
     max-width: 5vh;
     max-height: 90%;
+    min-width: 2vh;
 }
    
 
