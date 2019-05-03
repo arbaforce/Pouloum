@@ -108,8 +108,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("result", "KO");
                     container.addProperty("message", "There is no match for these identifiants.");
                 }
-            }
-            //////////
+            } //////////
             ////signUp
             //////////
             else if ("signUp".equals(sma)) {
@@ -138,8 +137,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("message", "Error when trying to persist the new user");
                     throw ex;
                 }
-            }
-            //////////
+            } //////////
             ////consult home page
             //////////
             else if ("getUserEvents".equals(sma)) {
@@ -162,8 +160,7 @@ public class ServicesServlet extends HttpServlet {
                 }
             } else if ("getUserBadges".equals(sma)) {
                 //TODO when badges are implemented.
-            }
-            ///////////
+            } ///////////
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
@@ -189,6 +186,7 @@ public class ServicesServlet extends HttpServlet {
             } else if ("getUserBlacklist".equals(sma)) {
 
             } else if ("addInterestsToUser".equals(sma)) {
+
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 // TODO : récupérer les ids d'activity
                 List<Long> idActivities = null; /* = request.getParameter("idActivities"); */
@@ -213,7 +211,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("result", "KO");
                     container.addProperty("message", "Error when trying to process the transaction");
                 }
-            } else if ("removeInterestsToUser".equals(sma)) {
+            } else if ("removeInterestFromoUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
@@ -237,25 +235,24 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("getUserDetails".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
-                if (p != null) {                    
+                if (p != null) {
                     container.add("pouloumer", p.toJson());
                     container.addProperty("result", "OK");
                 } else {
                     container.addProperty("result", "KO");
                     container.addProperty("message", "invalid id");
                 }
-                
+
             } else if ("acceptFriend".equals(sma)) {
 
             } else if ("removeFriend".equals(sma)) {
 
             } else if ("removeFromBlackList".equals(sma)) {
 
-            }
-            ////////////
+            } ////////////
             /////Consult someone else profile
             ////////////
             else if ("addToBlacklist".equals(sma)) {
@@ -264,8 +261,7 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("reportAbusiveBehaviour".equals(sma)) {
 
-            }
-            /////////////
+            } /////////////
             /////Search for an event
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
@@ -278,7 +274,7 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 CRE result = ServicesPouloumer.joinEvent(p, e);
-                
+
                 if (result == CRE.CRE_OK) {
                     container.addProperty("result", "OK");
                 } else {
@@ -300,8 +296,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("result", "KO");
                     container.addProperty("message", "Error when trying to process the transaction");
                 }
-            }
-            //////////////
+            } //////////////
             /////Set up an event
             //////////////
             else if ("createEvent".equals(sma)) {
@@ -323,20 +318,34 @@ public class ServicesServlet extends HttpServlet {
                 participants.add(p);
 
                 ServicesEvent.createEvent(name, description, startDate, duration, null, null, p, playerMin, playerMax, participants);
-            } else if ("updatedEvent".equals(sma)) {
+            } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
                 
             } else if ("getOrganizedEvents".equals(sma)) {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
 
-            }
-            ///////////////
+                List<Event> organizedEvents = ServicesEvent.getOrganizedEvents(idUser);
+
+                if (organizedEvents != null) {
+                    JsonArray organizedEventsArray = new JsonArray();
+
+                    for (Event e : organizedEvents) {
+                        organizedEventsArray.add(e.toJson());
+                    }
+
+                    container.add("organizedEvents", organizedEventsArray);
+                    container.addProperty("result", "OK");
+                } else { // Return is null
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to read the database");
+                }
+            } ///////////////
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
 
-            }
-            ///////////////
+            } ///////////////
             /////Consult an activity
             ///////////////
             else if ("findAllActivities".equals(sma)) {
@@ -354,14 +363,12 @@ public class ServicesServlet extends HttpServlet {
                 container.add("activities", array);
             } else if ("getActivityDetails".equals(sma)) {
 
-            }
-            /////////////////
+            } /////////////////
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
 
-            }
-            /////////////////
+            } /////////////////
             //////Update profile
             /////////////////
             else if ("updateUserDetails".equals(sma)) {
@@ -371,8 +378,8 @@ public class ServicesServlet extends HttpServlet {
             }
         } catch (ServiceException ex) {
             container.addProperty("error", ex.getMessage());
-     // } catch (ParseException ex) {
-     //     Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            // } catch (ParseException ex) {
+            //     Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
