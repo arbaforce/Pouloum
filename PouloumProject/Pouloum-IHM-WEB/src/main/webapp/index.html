@@ -47,5 +47,30 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $("#buttonConnexion").button().on("click", function(){
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'login',
+                            'id': $('#usr').val(),
+                            'password': $('#pwd').val()
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        var OK = data.result;
+                        if(OK){
+                            window.location.href = './home_page.html'
+                                $.param(data.Pouloumer)
+                        }
+                        else{
+                            $('#usr').val('ERROR');
+                        }
+                    })
+                })
+            })
+        </script>
     </body>
 </html>

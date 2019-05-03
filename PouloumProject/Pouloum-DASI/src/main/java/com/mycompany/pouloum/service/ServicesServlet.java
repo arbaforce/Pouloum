@@ -86,6 +86,7 @@ public class ServicesServlet extends HttpServlet {
         ////login
         //////////
         try {
+
             //////////
             ////login
             //////////
@@ -101,7 +102,7 @@ public class ServicesServlet extends HttpServlet {
                     p = ServicesPouloumer.loginWithNickname(nickName, password);
                 }
                 if (p != null) {
-                    container.add("Pouloumer", g.toJsonTree(p, Pouloumer.class));
+                    container.add("Pouloumer", p.toJson());
                     container.addProperty("result", "OK");
                 } else {
                     container.addProperty("result", "KO");

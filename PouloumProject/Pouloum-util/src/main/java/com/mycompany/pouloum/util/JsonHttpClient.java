@@ -42,10 +42,11 @@ public class JsonHttpClient {
     public JsonObject post(String url, NameValuePair... parameters) throws IOException {
 
         JsonElement responseElement = null;
-
+        
         HttpPost httpPost = new HttpPost(url);
         httpPost.setEntity(new UrlEncodedFormEntity(Arrays.asList(parameters), JsonServletHelper.ENCODING_UTF8));
         CloseableHttpResponse response = httpclient.execute(httpPost);
+        
         try {
 
             HttpEntity entity = response.getEntity();

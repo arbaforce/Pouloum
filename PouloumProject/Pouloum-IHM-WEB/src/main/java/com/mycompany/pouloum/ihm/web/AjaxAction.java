@@ -5,8 +5,12 @@
  */
 package com.mycompany.pouloum.ihm.web;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mycompany.pouloum.util.JsonHttpClient;
+import com.mycompany.pouloum.util.JsonServletHelper;
+import com.mycompany.pouloum.util.exception.ServiceException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -38,5 +42,60 @@ public class AjaxAction {
             // Ignorer
         }
     }
+    
+    public void loginByMail (String mail, String password) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "login"),
+                    new JsonHttpClient.Parameter("mail", mail),
+                    new JsonHttpClient.Parameter("password", password)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByMail");
+            }
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+                this.container.add("user", smaResultContainer.get("Pouloumer"));
+            }
+            else{
+                this.container.addProperty("error", "Les identifiants n'ont pas été trouvés");
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("rechercherClientParNumero", ex);
+        }
+    }
   
+    public void loginByNickName (String nickName, String password) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "login"),
+                    new JsonHttpClient.Parameter("nickname", nickName),
+                    new JsonHttpClient.Parameter("password", password)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByNickName");
+            }
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+                this.container.add("user", smaResultContainer.get("Pouloumer"));
+            }
+            else{
+                this.container.addProperty("error", "Les identifiants n'ont pas été trouvés");
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("loginByNickName", ex);
+        }
+    }
 }

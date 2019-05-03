@@ -260,7 +260,8 @@ public class Pouloumer implements Serializable {
         obj.addProperty("gender", gender);
         obj.addProperty("birth_date", DateUtil.toString(birth_date));
         obj.addProperty("phone_number", phone_number);
-        obj.add("address", address.toJson());
+        if (address!=null)
+            obj.add("address", address.toJson());
         
         JsonArray eventsArray = new JsonArray();
         
