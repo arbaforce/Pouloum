@@ -15,67 +15,122 @@ and open the template in the editor.
     </head>
     <body>
         
-        <div id="search_band_container" class="row border padding10down">
-            
-            <div id="first_row_search_band_container" class="row w-100">
-                <div id="activity_filter_container" class="col-6"> 
-                    <div class="row w-100 justify-content-center">
-                        <div class="col-3 padding10up">
-                            <label for="activity_filter">Activité :</label>
-                        </div>
-                        <div class="col-5 padding10up">
-                            <input type="text" class="form-control" id="activity_filter">
-                        </div>
-                    </div>
-                </div><!--#activity_filter_container -->
-                <div id="localisation_filter_container" class="col-6">
-                    <div class="row w-100 justify-content-center">
-                        <div class="col-3 padding10up">
-                            <label for="localisation_filter">Localisation :</label>
-                        </div>
-                        <div class="col-5 padding10up">
-                            <input type="text" class="form-control" id="localisation_filter">
-                        </div>
-                    </div>
-                </div><!--#localisation_filter_container -->
-            </div><!--#first_row_search_band_container -->
-            
-            <div id="second_row_search_band_container" class="row w-100">
-                <div id="date_filter_container" class="col-6 padding10up"> 
-                    <div class="row w-100 justify-content-center">
-                        <div class="col-3">
-                            <label for="date_filter">Date :</label>
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" id="date_filter">
-                        </div>
-                    </div>
-                </div><!--#date_filter_container -->
-                <div id="friend_filter_container" class="col-6 padding10up">
-                    <div class="row w-100 justify-content-center">
-                        <div class="col-3">
-                            <label for="friend_filter">Ami participant :</label>
-                        </div>
-                        <div class="col-5">
-                            <input type="text" class="form-control" id="friend_filter">
-                        </div>
-                    </div>
-                </div><!--#friend_filter_container -->
-            </div><!--#second_row_search_band_container -->
-            
-        </div><!--#search_band_container -->
+        <div id="wrapper" class="container-fluid">
+            <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
+                <div id="row_containing_navbar" class="row h-50">
+                    <div id="main_navbar" class="navbar navbar-expand-lg navbar-light bg-light h-100 w-100">
+                        <div id="navbar_row_containing_columns" class="row h-100 w-100">
+                            <div id="navbar_brand_column" class="col-2 h-100">
+                                <a class="navbar-brand text-center" href="home_page.html">
+                                    P <!-- TODO replace by company logo -->
+                                </a>
+                            </div><!--#navbar_brand_column-->
+                            <div id="navbar_ul_column" class="col-10 h-100">
+                                <ul class="navbar-nav mx-auto h-100">
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="home_page.html">
+                                            Accueil
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item dropdown active">
+                                        <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Profil
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbar_profile_dropdown_links">
+                                            <a class="dropdown-item font-weight-bold text-center" href="my_profile.html">Mon Profil</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="profile_history.html">Historique</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="profile_relations.html">Relations</a>
+                                        </div>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="events_browser.html">
+                                            Chercher
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">
+                                            Organiser
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="activities_browser.html">
+                                            Activités
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link px-0 py-0 h-100 w-100 text-center" href=" index.html">
+                                            <img id="navbar_img" src="IMG/navbar_logout_icon.png" class="img-fluid align-middle">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!--#navbar_ul_column-->
+                        </div><!--#navbar_row_containing_columns-->
+                    </div>  <!--#main_nabar -->
+                </div> <!--#row_containing_navbar-->
+            </div> <!--#container_navbar_and_alert -->
         
-        <div id="search_result_global_container" class="row h-100">
-            <div id="search_result_list_global_container" class="col-6">
-                
-                
-            </div><!--#search_result_list_global_container -->
-            <div id="search_result_map_global_container" class="col-6">
-                
-            </div><!--#search_result_map_global_container -->
-            
-            
-        </div><!--#search_result_global_container -->
+            <div id="search_band_container" class="row border padding10down">
+
+                <div id="first_row_search_band_container" class="row w-100">
+                    <div id="activity_filter_container" class="col-6"> 
+                        <div class="row w-100 justify-content-center">
+                            <div class="col-3 padding10up">
+                                <label for="activity_filter">Activité :</label>
+                            </div>
+                            <div class="col-5 padding10up">
+                                <input type="text" class="form-control" id="activity_filter">
+                            </div>
+                        </div>
+                    </div><!--#activity_filter_container -->
+                    <div id="localisation_filter_container" class="col-6">
+                        <div class="row w-100 justify-content-center">
+                            <div class="col-3 padding10up">
+                                <label for="localisation_filter">Localisation :</label>
+                            </div>
+                            <div class="col-5 padding10up">
+                                <input type="text" class="form-control" id="localisation_filter">
+                            </div>
+                        </div>
+                    </div><!--#localisation_filter_container -->
+                </div><!--#first_row_search_band_container -->
+
+                <div id="second_row_search_band_container" class="row w-100">
+                    <div id="date_filter_container" class="col-6 padding10up"> 
+                        <div class="row w-100 justify-content-center">
+                            <div class="col-3">
+                                <label for="date_filter">Date :</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="date_filter">
+                            </div>
+                        </div>
+                    </div><!--#date_filter_container -->
+                    <div id="friend_filter_container" class="col-6 padding10up">
+                        <div class="row w-100 justify-content-center">
+                            <div class="col-3">
+                                <label for="friend_filter">Ami participant :</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="text" class="form-control" id="friend_filter">
+                            </div>
+                        </div>
+                    </div><!--#friend_filter_container -->
+                </div><!--#second_row_search_band_container -->
+
+            </div><!--#search_band_container -->
+
+            <div id="search_result_global_container" class="row h-100">
+                <div id="search_result_list_global_container" class="col-6">
+
+
+                </div><!--#search_result_list_global_container -->
+                <div id="search_result_map_global_container" class="col-6">
+
+                </div><!--#search_result_map_global_container -->
+
+
+            </div><!--#search_result_global_container -->
+        </div><!--#wrapper-->
         
         
         

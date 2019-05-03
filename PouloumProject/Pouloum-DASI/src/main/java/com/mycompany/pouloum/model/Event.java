@@ -23,7 +23,7 @@ import javax.persistence.Column;
 public class Event implements Serializable  {
     
     public enum State {
-        ORGANIZED, READY, CANCELLED, COMPLETED;
+        ORGANIZED, READY, CANCELLED, HAPPENING, FINISHED;
     }
     
     // ATTRIBUTES
@@ -38,6 +38,7 @@ public class Event implements Serializable  {
         public String description;
         public Long idUser;
     }
+    
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,13 +47,13 @@ public class Event implements Serializable  {
     // Description
     protected String label;
     protected String description;
+    protected boolean cancelled;
     
     // Time
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name="datetime")
     protected Date start;
     protected int duration;
-    protected State eventState;
     
     // Coordinates
     @OneToOne
@@ -79,11 +80,11 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
+    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
         this.label = label;
         this.description = description;
         this.start = start;
-        this.eventState = State.ORGANIZED;
+        this.cancelled = cancelled;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -93,13 +94,13 @@ public class Event implements Serializable  {
         this.participants = participants;
     }
     
-    public Event(String label, String description, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
+    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
         throws ParseException
     {
         this.label = label;
         this.description = description;
         this.setStart(start);
-        this.eventState = State.ORGANIZED;
+        this.cancelled = cancelled;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -134,26 +135,6 @@ public class Event implements Serializable  {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public State getEventState() {
-        return eventState;
-    }
-    
-    public void setEventState(State eventState) {
-        this.eventState = eventState;
-    }
-    
-    public boolean isFutureEvent() {
-        return (eventState == State.ORGANIZED || eventState == State.READY);
-    }
-    
-    public boolean isCancelled() {
-        return (eventState == State.CANCELLED);
-    }
-    
-    public boolean isCompleted() {
-        return (eventState == State.COMPLETED);
     }
 
     public Date getStart() {
@@ -286,6 +267,15 @@ public class Event implements Serializable  {
     
     public boolean isFinished() {
         return getEnd().before(DateUtil.DateNow());
+    }
+    
+    
+    public State getState() {
+        if (isFinished()) return State.FINISHED;
+        if (cancelled) return State.CANCELLED;
+        if (isStarted()) return State.HAPPENING;
+        if (participants.size() < participants_min) return State.ORGANIZED;
+        return State.READY;
     }
     
     public JsonObject toJson (){
