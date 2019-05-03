@@ -30,11 +30,13 @@ public class ServicesPouloumer {
             throws Exception {
         JpaUtil.createEntityManager();
         
-        Pouloumer p = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
-        
-        JpaUtil.closeEntityManager();
-        
-        return p;
+        try {
+            Pouloumer p = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
+
+            return p;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     
@@ -51,11 +53,13 @@ public class ServicesPouloumer {
             throws Exception {
         JpaUtil.createEntityManager();
         
-        Pouloumer p = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
-        
-        JpaUtil.closeEntityManager();
-        
-        return p;
+        try {
+            Pouloumer p = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
+            
+            return p;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     /**
@@ -104,18 +108,22 @@ public class ServicesPouloumer {
         }
         // nickname available
         
-        JpaUtil.openTransaction();
-        
         try {
-            DAOPouloumer.persist(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            // Registration has failed, return null to let the GUI know
-            JpaUtil.cancelTransaction();
-            throw ex;
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.persist(p);
+                
+                JpaUtil.commitTransaction();
+            } catch (Exception ex) {
+                // Registration has failed, return null to let the GUI know
+                JpaUtil.cancelTransaction();
+                throw ex;
+            }
+            
+        } finally {
+            JpaUtil.closeEntityManager();
         }
-        
-        JpaUtil.closeEntityManager();
         
         return CRE_OK;
     }
@@ -179,17 +187,21 @@ public class ServicesPouloumer {
         p.setPhone_number(phoneNumber);
         p.setAddress(address);
         
-        JpaUtil.openTransaction();
-        
         try {
-            DAOPouloumer.persist(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception ex) {
-            // Registration has failed, return null to let the GUI know
-            JpaUtil.cancelTransaction();
-            throw ex;
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.persist(p);
+                JpaUtil.commitTransaction();
+            } catch (Exception ex) {
+                // Registration has failed, return null to let the GUI know
+                JpaUtil.cancelTransaction();
+                throw ex;
+            }
+            
+        } finally {
+            JpaUtil.closeEntityManager();
         }
-        JpaUtil.closeEntityManager();
         
         return CRE_OK;
     }
@@ -204,11 +216,13 @@ public class ServicesPouloumer {
     public static Pouloumer getPouloumerById(Long id) throws Exception {
         JpaUtil.createEntityManager();
         
-        Pouloumer p = DAOPouloumer.findById(id);
-        
-        JpaUtil.closeEntityManager();
-        
-        return p;
+        try {
+            Pouloumer p = DAOPouloumer.findById(id);
+            
+            return p;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     /**
@@ -221,11 +235,13 @@ public class ServicesPouloumer {
     public static Pouloumer getPouloumerByEmail(String mail) throws Exception {
         JpaUtil.createEntityManager();
         
-        Pouloumer p = DAOPouloumer.findPouloumerByEmail(mail);
-        
-        JpaUtil.closeEntityManager();
-        
-        return p;
+        try {
+            Pouloumer p = DAOPouloumer.findPouloumerByEmail(mail);
+            
+            return p;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     /**
@@ -238,11 +254,13 @@ public class ServicesPouloumer {
     public static Pouloumer getPouloumerByNickname(String nickname) throws Exception {
         JpaUtil.createEntityManager();
         
-        Pouloumer p = DAOPouloumer.findPouloumerByNickname(nickname);
-        
-        JpaUtil.closeEntityManager();
-        
-        return p;
+        try {
+            Pouloumer p = DAOPouloumer.findPouloumerByNickname(nickname);
+            
+            return p;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     public static CRE joinEvent(Pouloumer p, Event event) {
@@ -251,20 +269,22 @@ public class ServicesPouloumer {
         p.setEvents(events);
         
         JpaUtil.createEntityManager();
-        JpaUtil.openTransaction();
         
         try {
-            DAOPouloumer.updatePouloumer(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception e) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.updatePouloumer(p);
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
     }
     
     /**
@@ -279,20 +299,23 @@ public class ServicesPouloumer {
         p.removeEvent(event);
         
         JpaUtil.createEntityManager();
-        JpaUtil.openTransaction();
         
         try {
-            DAOPouloumer.updatePouloumer(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception e) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.updatePouloumer(p);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
     }
     
     /**
@@ -309,20 +332,23 @@ public class ServicesPouloumer {
         p.getInterests().addAll(interests);
         
         JpaUtil.createEntityManager();
-        JpaUtil.openTransaction();
         
         try {
-            DAOPouloumer.updatePouloumer(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception e) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.updatePouloumer(p);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
     }
     
     /**
@@ -337,20 +363,23 @@ public class ServicesPouloumer {
         p.getInterests().remove(interest);
         
         JpaUtil.createEntityManager();
-        JpaUtil.openTransaction();
         
         try {
-            DAOPouloumer.updatePouloumer(p);
-            JpaUtil.commitTransaction();
-        } catch (Exception e) {
-            JpaUtil.cancelTransaction();
+            JpaUtil.openTransaction();
+            
+            try {
+                DAOPouloumer.updatePouloumer(p);
+                
+                JpaUtil.commitTransaction();
+                return CRE_OK;
+            } catch (Exception e) {
+                JpaUtil.cancelTransaction();
+                return CRE_EXC_BD;
+            }
+            
+        } finally {
             JpaUtil.closeEntityManager();
-            return CRE_EXC_BD;
         }
-        
-        JpaUtil.closeEntityManager();
-        
-        return CRE_OK;
     }
     
 }

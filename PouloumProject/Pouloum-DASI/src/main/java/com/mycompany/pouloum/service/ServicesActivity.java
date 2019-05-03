@@ -27,12 +27,14 @@ public class ServicesActivity {
             throws Exception 
     {
         JpaUtil.createEntityManager();
-
-        Activity a = DAOActivity.findById(idActivity);
-
-        JpaUtil.closeEntityManager();
-
-        return a;
+        
+        try {
+            Activity a = DAOActivity.findById(idActivity);
+            
+            return a;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }
     
     /**
@@ -46,11 +48,13 @@ public class ServicesActivity {
     {
         JpaUtil.createEntityManager();
         
-        List<Activity> availableActivites = DAOActivity.findAll();
-        
-        JpaUtil.closeEntityManager();
-
-        return availableActivites;
+        try {
+            List<Activity> availableActivites = DAOActivity.findAll();
+            
+            return availableActivites;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
     }    
     
 }

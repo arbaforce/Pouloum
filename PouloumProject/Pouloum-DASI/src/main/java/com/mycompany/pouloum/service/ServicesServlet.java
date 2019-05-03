@@ -84,7 +84,6 @@ public class ServicesServlet extends HttpServlet {
                 String password = request.getParameter("password");
 
                 Pouloumer p;
-
                 if (mail != null) {
                     p = ServicesPouloumer.loginWithMail(mail, password);
                 } else {
@@ -93,7 +92,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     container.add("Pouloumer", g.toJsonTree(p, Pouloumer.class));
                 } else {
-                    container.addProperty("error", "there is no match for these identifiants");
+                    container.addProperty("error", "There is no match for these identifiants.");
                 }
             }
             //////////
@@ -151,7 +150,21 @@ public class ServicesServlet extends HttpServlet {
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
 
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+
+                if (p != null) {
+                    JsonArray array = new JsonArray();
+                    for (Event e : p.getEvents()) {
+                        if (e.isFinished()) {
+                            array.add(e.toJson());
+                        }
+                    }
+                    container.add("eventsHistory", array);
+                } else {
+                    container.addProperty("error", "id is invalid");
+                }
             } else if ("getUserFriends".equals(sma)) {
 
             } else if ("getUserBlacklist".equals(sma)) {
