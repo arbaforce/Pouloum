@@ -352,15 +352,20 @@ public class ServicesServlet extends HttpServlet {
                 JsonArray array = new JsonArray();
                 
                 List<Activity> activities = ServicesActivity.findAllActivities();
-                
-                
-                
+                                
                 for (Activity a : activities)
                 {
                     array.add(a.toJson());
                 }
                 
-                container.add("activities", array);
+                if (!activities.isEmpty())
+                {
+                    container.add("activities", array);
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to read the database");
+                }
             } else if ("getActivityDetails".equals(sma)) {
 
             } /////////////////
