@@ -40,6 +40,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ServicesServlet", urlPatterns = {"/ServicesServlet"})
 public class ServicesServlet extends HttpServlet {
 
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        JpaUtil.init();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy(); //To change body of generated methods, choose Tools | Templates.
+        JpaUtil.destroy();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -69,9 +81,6 @@ public class ServicesServlet extends HttpServlet {
         Gson g = new Gson();
         JsonObject container = new JsonObject();
         boolean serviceCalled = true;
-
-        //TODO : mettre dans le main
-        JpaUtil.init();
 
         //////////
         ////login
@@ -291,9 +300,6 @@ public class ServicesServlet extends HttpServlet {
         } else {
             serviceCalled = false;
         }
-
-        //TODO : mettre dans le main
-        JpaUtil.destroy();
 
         if (serviceCalled) {
             JsonServletHelper.printJsonOutput(response, container);
