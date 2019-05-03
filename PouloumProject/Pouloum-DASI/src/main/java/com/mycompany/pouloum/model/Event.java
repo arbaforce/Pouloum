@@ -20,11 +20,7 @@ import javax.persistence.Column;
 
 
 @Entity
-public class Event implements Serializable  {
-    
-    public enum State {
-        ORGANIZED, READY, CANCELLED, HAPPENING, FINISHED;
-    }
+public class Event implements Serializable {
     
     // ATTRIBUTES
     class Commentary 
@@ -174,6 +170,14 @@ public class Event implements Serializable  {
     public void setActivity(Activity activity) {
         this.activity = activity;
     }
+    
+    public boolean isCancelled() {
+        return cancelled;
+    }
+    
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
     public Pouloumer getOrganizer() {
         return organizer;
@@ -267,15 +271,6 @@ public class Event implements Serializable  {
     
     public boolean isFinished() {
         return getEnd().before(DateUtil.DateNow());
-    }
-    
-    
-    public State getState() {
-        if (isFinished()) return State.FINISHED;
-        if (cancelled) return State.CANCELLED;
-        if (isStarted()) return State.HAPPENING;
-        if (participants.size() < participants_min) return State.ORGANIZED;
-        return State.READY;
     }
     
     public JsonObject toJson (){
