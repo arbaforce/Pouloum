@@ -57,6 +57,12 @@ public class SetupBD {
         
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                if ((line + "/").charAt(0) == '/') continue;
+                
+                int level = 0;
+                for (String padding = line + " "; line.charAt(level) == '\t'; level++);
+                while (tree.size() > level) tree.pop();
+                
                 Activity parent = tree.isEmpty() ? null : tree.peek();
                 List<Activity> emptylist = new ArrayList<>();
                 String name = line.trim();
@@ -66,8 +72,6 @@ public class SetupBD {
                 List<String> resources = new ArrayList<>();
                 int default_min = 0;
                 int default_max = 0;
-                
-                // int level = ...;
                 
                 try {
                     Activity cur = ServicesActivity.createActivity(parent, emptylist, name, description, badges, rules, resources, default_min, default_max);
@@ -80,7 +84,7 @@ public class SetupBD {
                         }
                     }
                     
-                    // tree.push(cur);
+                    tree.push(cur);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     tree.push(null);
