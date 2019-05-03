@@ -22,8 +22,8 @@ import javax.persistence.Column;
 @Entity
 public class Event implements Serializable  {
     
-    enum State {
-        ORGANIZED, READY, CANCELLED, FINISHED;
+    public enum State {
+        ORGANIZED, READY, CANCELLED, COMPLETED;
     }
     
     // ATTRIBUTES
@@ -52,7 +52,7 @@ public class Event implements Serializable  {
     @Column(name="datetime")
     protected Date start;
     protected int duration;
-    protected State state;
+    protected State eventState;
     
     // Coordinates
     @OneToOne
@@ -83,7 +83,7 @@ public class Event implements Serializable  {
         this.label = label;
         this.description = description;
         this.start = start;
-        this.state = State.ORGANIZED;
+        this.eventState = State.ORGANIZED;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -99,7 +99,7 @@ public class Event implements Serializable  {
         this.label = label;
         this.description = description;
         this.setStart(start);
-        this.state = State.ORGANIZED;
+        this.eventState = State.ORGANIZED;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -136,24 +136,24 @@ public class Event implements Serializable  {
         this.description = description;
     }
 
-    public State getState() {
-        return state;
+    public State getEventState() {
+        return eventState;
     }
     
-    public void setState(State state) {
-        this.state = state;
+    public void setEventState(State eventState) {
+        this.eventState = eventState;
     }
     
     public boolean isFutureEvent() {
-        return (state == State.ORGANIZED || state == State.READY);
+        return (eventState == State.ORGANIZED || eventState == State.READY);
     }
     
     public boolean isCancelled() {
-        return (state == State.CANCELLED);
+        return (eventState == State.CANCELLED);
     }
     
-    public boolean isFinished() {
-        return (state == State.FINISHED);
+    public boolean isCompleted() {
+        return (eventState == State.COMPLETED);
     }
 
     public Date getStart() {
