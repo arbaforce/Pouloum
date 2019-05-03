@@ -20,7 +20,7 @@ import javax.persistence.Column;
 
 
 @Entity
-public class Event implements Serializable  {
+public class Event implements Serializable {
     
     // ATTRIBUTES
     class Commentary 
@@ -34,6 +34,7 @@ public class Event implements Serializable  {
         public String description;
         public Long idUser;
     }
+    
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,11 +76,11 @@ public class Event implements Serializable  {
     
     public Event( ) { }
     
-    public Event(String label, String description, boolean cancelled, Date start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
+    public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants) {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.start = start;
+        this.cancelled = cancelled;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -89,13 +90,13 @@ public class Event implements Serializable  {
         this.participants = participants;
     }
     
-    public Event(String label, String description, boolean cancelled, String start, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
+    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max, List<Pouloumer> participants)
         throws ParseException
     {
         this.label = label;
         this.description = description;
-        this.cancelled = cancelled;
         this.setStart(start);
+        this.cancelled = cancelled;
         this.duration = duration;
         this.location = location;
         this.activity = activity;
@@ -130,14 +131,6 @@ public class Event implements Serializable  {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public boolean getCancelled() {
-        return cancelled;
-    }
-    
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 
     public Date getStart() {
@@ -176,6 +169,14 @@ public class Event implements Serializable  {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+    
+    public boolean isCancelled() {
+        return cancelled;
+    }
+    
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public Pouloumer getOrganizer() {

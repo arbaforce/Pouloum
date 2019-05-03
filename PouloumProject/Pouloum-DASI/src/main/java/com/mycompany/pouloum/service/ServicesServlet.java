@@ -14,6 +14,7 @@ import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Badge;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
+import com.mycompany.pouloum.util.CRE;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.DateUtil;
 import com.mycompany.pouloum.util.JsonServletHelper;
@@ -111,7 +112,7 @@ public class ServicesServlet extends HttpServlet {
                 char gender = request.getParameter("gender").charAt(0);
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
-                
+
                 String addressNumber = request.getParameter("addressNumber");
                 String addressStreet = request.getParameter("addressStreet");
                 String addressPostalCode = request.getParameter("addressPostalCode");
@@ -119,7 +120,8 @@ public class ServicesServlet extends HttpServlet {
                 String addressCountry = request.getParameter("addressCountry");
 
                 ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                //FIXME make use of result
                 container.addProperty("created", true);
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,7 +143,9 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     JsonArray array = new JsonArray();
                     for (Event e : p.getEvents()) {
-                        array.add(e.toJson());
+                        if (!(e.isCancelled() || e.isFinished())) {
+                            array.add(e.toJson());
+                        }
                     }
                     container.add("events", array);
                 } else {
@@ -154,22 +158,6 @@ public class ServicesServlet extends HttpServlet {
             }
         } else if ("getUserBadges".equals(sma)) {
             //TODO when badges are implemented.
-        } else if ("leaveEvent".equals(sma)) {
-            try {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
-
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                Event e = ServicesEvent.getEventById(idEvent);
-
-                ServicesPouloumer.leaveEvent(p, e);
-                ServicesEvent.removeParticipant(p, e);
-
-            } catch (ParseException ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } ///////////
         ////Consult profile
         ///////////
@@ -216,11 +204,39 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.addParticipant(p, e);
-                ServicesPouloumer.joinEvent(p, e);
+                CRE result = ServicesPouloumer.joinEvent(p, e);
+                //FIXME make use of result
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ServiceException ex) {
                 container.addProperty("error", ex.getMessage());
+            } catch (Exception ex) {
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if ("leaveEvent".equals(sma)) {
+            try {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Event e = ServicesEvent.getEventById(idEvent);
+
+                CRE pouloumerResult = ServicesPouloumer.leaveEvent(p, e);
+
+                if (pouloumerResult != CRE.CRE_OK) {
+                    // Throw exception to cancel the rest of the removal
+                    throw new Exception("ERROR: Error when processing the transaction to remove event from user.");
+                }
+
+                CRE eventResult = ServicesEvent.removeParticipant(p, e);
+
+                if (eventResult != CRE.CRE_OK) {
+                    throw new Exception("ERROR: Error when processing the transaction to remove user from event.");
+                }
+                //TODO decide which association to keep between event and user to avoid this double transaction problem
+
+            } catch (ParseException ex) {
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

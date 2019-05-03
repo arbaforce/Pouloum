@@ -1,6 +1,6 @@
 body {
-    min-height:100%;
-    width:100%;
+    min-height:100vh;
+    width:100vw;
 }
 
 .button{
@@ -8,6 +8,10 @@ body {
 }    
 .textAlign{
     text-align:center;
+}
+
+.col-2.nav-item{
+    height:100%;
 }
 
 
@@ -20,7 +24,7 @@ body {
 }
 
 #navbar_img {
-    max-width: 90%;
+    max-width: 5vh;
     max-height: 90%;
 }
    

@@ -36,7 +36,7 @@ public class DAOPouloumer {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            em.merge(u);
+            u = em.merge(u);
         } catch (Exception ex) {
             throw ex;
         }
@@ -51,7 +51,7 @@ public class DAOPouloumer {
         Pouloumer found = null;
 
         try {
-            found = em.find(Pouloumer.class, id);
+            found = (Pouloumer) em.find(Pouloumer.class, id);
         } catch (Exception ex) {
             throw ex;
         }
@@ -71,6 +71,7 @@ public class DAOPouloumer {
             try {
                 found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
+                // no problem
             }
         } catch (Exception ex) {
             throw ex;
@@ -91,6 +92,7 @@ public class DAOPouloumer {
             try {
                 found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
+                // no problem
             }
         } catch (Exception ex) {
             throw ex;
@@ -112,7 +114,7 @@ public class DAOPouloumer {
             try {
                 found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
-                // Do nothing
+                // no problem
             }
         } catch (Exception ex) {
             throw ex;
@@ -134,7 +136,7 @@ public class DAOPouloumer {
             try {
                 found = (Pouloumer) q.getSingleResult();
             } catch (NoResultException nr) {
-                // Do nothing
+                // no problem
             }
         } catch (Exception ex) {
             throw ex;

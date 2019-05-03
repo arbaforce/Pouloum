@@ -7,12 +7,12 @@ import com.mycompany.pouloum.model.Address;
 
 public class DAOAddress {
 
-    public static void persist(Address i)
+    public static void persist(Address a)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
         try {
-            em.persist(i);
+            em.persist(a);
         } catch (Exception ex) {
             throw ex;
         }
@@ -37,7 +37,7 @@ public class DAOAddress {
 
         Address found = null;
         try {
-            found = em.find(Address.class, id);
+            found = (Address) em.find(Address.class, id);
         } catch (Exception ex) {
             throw ex;
         }
@@ -50,7 +50,7 @@ public class DAOAddress {
         EntityManager em = JpaUtil.getEntityManager();
         List<Address> found = null;
         try {
-            Query q = em.createQuery("SELECT e FROM Address e");
+            Query q = em.createQuery("SELECT a FROM Address a");
             found = (List<Address>) q.getResultList();
         } catch (Exception ex) {
             throw ex;

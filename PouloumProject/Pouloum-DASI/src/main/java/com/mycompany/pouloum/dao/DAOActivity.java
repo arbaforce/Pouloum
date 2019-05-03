@@ -51,7 +51,7 @@ public class DAOActivity {
         Activity found = null;
 
         try {
-            found = em.find(Activity.class, id);
+            found = (Activity) em.find(Activity.class, id);
         } catch (Exception ex) {
             throw ex;
         }
