@@ -30,6 +30,7 @@ public class ServicesActivity {
         
         try {
             Activity a = DAOActivity.findById(idActivity);
+            
             return a;
         } finally {
             JpaUtil.closeEntityManager();
@@ -49,6 +50,7 @@ public class ServicesActivity {
         
         try {
             List<Activity> availableActivites = DAOActivity.findAll();
+            
             return availableActivites;
         } finally {
             JpaUtil.closeEntityManager();

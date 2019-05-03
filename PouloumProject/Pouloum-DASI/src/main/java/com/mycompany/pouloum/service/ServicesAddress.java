@@ -29,6 +29,7 @@ public class ServicesAddress {
 
         try {
             Address a = DAOAddress.findById(idAddress);
+            
             return a;
         } finally {
             JpaUtil.closeEntityManager();
