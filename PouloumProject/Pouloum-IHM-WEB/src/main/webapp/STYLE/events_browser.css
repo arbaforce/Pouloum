@@ -6,6 +6,46 @@
     padding-bottom: 10px;
 }
 
-#search_band_container{
-    
+
+/*the following serve for the sliding sidebar*/
+.sidebar {
+  position: absolute;
+  height: 100%;
+  width: 65px;
+  z-index: 1;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
 }
+
+.map_Button_Sidebar {
+  position: absolute;
+  top: 0;
+  right:0;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#search_result_list_global_container {
+  transition: margin-right .5s;
+  padding: 16px;
+  margin-right: 65px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+
