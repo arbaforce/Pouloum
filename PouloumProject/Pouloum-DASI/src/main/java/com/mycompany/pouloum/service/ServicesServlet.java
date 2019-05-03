@@ -150,7 +150,21 @@ public class ServicesServlet extends HttpServlet {
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
+                long idUser = Long.parseLong(request.getParameter("idUser"));
 
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+
+                if (p != null) {
+                    JsonArray array = new JsonArray();
+                    for (Event e : p.getEvents()) {
+                        if (e.isFinished()) {
+                            array.add(e.toJson());
+                        }
+                    }
+                    container.add("eventsHistory", array);
+                } else {
+                    container.addProperty("error", "id is invalid");
+                }
             } else if ("getUserFriends".equals(sma)) {
 
             } else if ("getUserBlacklist".equals(sma)) {
