@@ -140,7 +140,7 @@ public class ServicesServlet extends HttpServlet {
             ////consult home page
             //////////
             else if ("getUserEvents".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
@@ -163,7 +163,7 @@ public class ServicesServlet extends HttpServlet {
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
@@ -186,7 +186,7 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("addInterestsToUser".equals(sma)) {
 
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
                 // TODO : récupérer les ids d'activity
                 List<Long> idActivities = null;
                 /* = request.getParameter("idActivities"); */
@@ -231,7 +231,7 @@ public class ServicesServlet extends HttpServlet {
             } else if ("getUserInterests".equals(sma)) {
 
             } else if ("getUserDetails".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
@@ -264,8 +264,8 @@ public class ServicesServlet extends HttpServlet {
             else if ("simpleSearchForUser".equals(sma)) {
 
             } else if ("joinEvent".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
@@ -279,8 +279,8 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("message", "Error when trying to process the transaction");
                 }
             } else if ("leaveEvent".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
@@ -297,7 +297,7 @@ public class ServicesServlet extends HttpServlet {
             /////Set up an event
             //////////////
             else if ("createEvent".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
                 //long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 //long idAddress = Long.parseLong(request.getParameter("idAddress"));
                 String name = request.getParameter("name");
@@ -318,7 +318,7 @@ public class ServicesServlet extends HttpServlet {
             } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
 
                 Event event = ServicesEvent.getEventById(idEvent);
 
@@ -339,7 +339,7 @@ public class ServicesServlet extends HttpServlet {
                 }
 
             } else if ("getOrganizedEvents".equals(sma)) {
-                long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
 
                 List<Event> organizedEvents = ServicesEvent.getOrganizedEvents(idUser);
 
@@ -383,7 +383,7 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("message", "Error when trying to read the database");
                 }
             } else if ("getActivityDetails".equals(sma)) {
-                long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 
                 Activity a = ServicesActivity.getActivityById(idActivity);
                 
@@ -399,7 +399,7 @@ public class ServicesServlet extends HttpServlet {
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
-                long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
                 
                 Event e = ServicesEvent.getEventById(idEvent);
                 
