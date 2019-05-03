@@ -14,6 +14,7 @@ import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Badge;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
+import com.mycompany.pouloum.util.CRE;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.DateUtil;
 import com.mycompany.pouloum.util.JsonServletHelper;
@@ -119,7 +120,8 @@ public class ServicesServlet extends HttpServlet {
                 String addressCountry = request.getParameter("addressCountry");
 
                 ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
+                //FIXME make use of result
                 container.addProperty("created", true);
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,8 +165,9 @@ public class ServicesServlet extends HttpServlet {
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
-
-                ServicesPouloumer.leaveEvent(p, e);
+                
+                CRE result = ServicesPouloumer.leaveEvent(p, e);
+                //FIXME make use of CRE
                 ServicesEvent.removeParticipant(p, e);
 
             } catch (ParseException ex) {
@@ -218,7 +221,8 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.addParticipant(p, e);
-                ServicesPouloumer.joinEvent(p, e);
+                CRE result = ServicesPouloumer.joinEvent(p,e);
+                //FIXME make use of result
             } catch (ParseException ex) {
                 Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ServiceException ex) {

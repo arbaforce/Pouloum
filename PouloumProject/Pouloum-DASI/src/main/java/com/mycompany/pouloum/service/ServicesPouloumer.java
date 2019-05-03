@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import com.mycompany.pouloum.model.*;
+import com.mycompany.pouloum.util.CRE;
+import static com.mycompany.pouloum.util.CRE.*;
 import com.mycompany.pouloum.util.GeoTest;
 import com.mycompany.pouloum.util.exception.ServiceException;
 
@@ -72,11 +74,12 @@ public class ServicesPouloumer {
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
      * @param address is the address of the user.
-     * @return int, 0 if the registration is successful, 1 if the email is
-     * already used, 2 if the nickname is already used, 3 if there was an error
-     * when trying to process the transaction.
+     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EMAIL if
+     * the email is already used, CRE_ERR_NICKNAME if the nickname is already
+     * used, CRE_EXC_BD if there was an error when trying to process the
+     * transaction.
      */
-    public static int signUp(String lastName, String firstName, String nickname,
+    public static CRE signUp(String lastName, String firstName, String nickname,
             String mail, String password, boolean isModerator, boolean isAdmin, 
             char gender, Date birthdate, String phoneNumber,
             Address address) throws Exception {
@@ -114,7 +117,7 @@ public class ServicesPouloumer {
         
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
     /**
@@ -134,11 +137,12 @@ public class ServicesPouloumer {
      * @param birthdate is the birthdate of the user.
      * @param phoneNumber is the phone number of the user.
      * @param address is the address of the user.
-     * @return int, 0 if the update is successful, 1 if the new email is already
-     * used, 2 if the new nickname is already used, 3 if there was an error when
-     * trying to process the transaction.
+     * @return CRE, CRE_OK if the update is successful, CRE_ERR_EMAIL if the new
+     * email is already used, CRE_ERR_NICKNAME if the new nickname is already
+     * used, CRE_EXC_BD if there was an error when trying to process the
+     * transaction.
      */
-    public static int updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
+    public static CRE updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
             String email, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address) throws Exception {
         
@@ -148,7 +152,7 @@ public class ServicesPouloumer {
             Pouloumer check = DAOPouloumer.findPouloumerByEmail(email);
             if (check != null) // email already used
             {
-                return 1;
+                return CRE_ERR_EMAIL;
             }
             // email available
         }
@@ -157,7 +161,7 @@ public class ServicesPouloumer {
             Pouloumer check = DAOPouloumer.findPouloumerByNickname(nickname);
             if (check != null) // nickname already used
             {
-                return 2;
+                return CRE_ERR_NICKNAME;
             }
             // nickname available
         }
@@ -187,7 +191,7 @@ public class ServicesPouloumer {
         }
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
     /**
@@ -241,7 +245,7 @@ public class ServicesPouloumer {
         return p;
     }
     
-    public static int joinEvent(Pouloumer p, Event event) {
+    public static CRE joinEvent(Pouloumer p, Event event) {
         List<Event> events = p.getEvents();
         events.add(event);
         p.setEvents(events);
@@ -255,12 +259,12 @@ public class ServicesPouloumer {
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
             JpaUtil.closeEntityManager();
-            return 1;
+            return CRE_EXC_BD;
         }
         
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
     /**
@@ -268,10 +272,10 @@ public class ServicesPouloumer {
      *
      * @param p is the user leaving the event.
      * @param event is the event to leave.
-     * @return int, 0 if the update was successful, 1 if there was a problem
-     * updating the database.
+     * @return CRE, CRE_OK if the update was successful, CRE_EXC_BD if there was
+     * a problem updating the database.
      */
-    public static int leaveEvent(Pouloumer p, Event event) {
+    public static CRE leaveEvent(Pouloumer p, Event event) {
         p.removeEvent(event);
         
         JpaUtil.createEntityManager();
@@ -283,12 +287,12 @@ public class ServicesPouloumer {
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
             JpaUtil.closeEntityManager();
-            return 1;
+            return CRE_EXC_BD;
         }
         
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
     /**
@@ -298,10 +302,10 @@ public class ServicesPouloumer {
      *
      * @param p is the user to which we add interests.
      * @param interests is the list of interests to add.
-     * @return 0 if the update was successful, 1 if there was a problem updating
-     * the database.
+     * @return CRE, CRE_OK if the update was successful, CRE_EXC_BD if there
+     * was a problem updating the database.
      */
-    public static int addInterests(Pouloumer p, List<Activity> interests) {
+    public static CRE addInterests(Pouloumer p, List<Activity> interests) {
         p.getInterests().addAll(interests);
         
         JpaUtil.createEntityManager();
@@ -313,12 +317,12 @@ public class ServicesPouloumer {
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
             JpaUtil.closeEntityManager();
-            return 1;
+            return CRE_EXC_BD;
         }
         
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
     /**
@@ -326,10 +330,10 @@ public class ServicesPouloumer {
      *
      * @param p is the user from which we remove the interest.
      * @param interest is the interest to remove.
-     * @return 0 if the update was successful, 1 if there was a problem updating
-     * the database.
+     * @return CRE_OK if the update was successful, CRE_EXC_BD if there was a
+     * problem updating the database.
      */
-    public static int removeInterest(Pouloumer p, Activity interest) {
+    public static CRE removeInterest(Pouloumer p, Activity interest) {
         p.getInterests().remove(interest);
         
         JpaUtil.createEntityManager();
@@ -341,12 +345,12 @@ public class ServicesPouloumer {
         } catch (Exception e) {
             JpaUtil.cancelTransaction();
             JpaUtil.closeEntityManager();
-            return 1;
+            return CRE_EXC_BD;
         }
         
         JpaUtil.closeEntityManager();
         
-        return 0;
+        return CRE_OK;
     }
     
 }
