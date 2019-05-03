@@ -85,24 +85,26 @@ public class ServicesEvent {
      * Add a participant to an event.
      *
      * @param newParticipant is the participant to add to the event.
-     * @param idEvent is the id of the event.
+     * @param event is the event.
      * @return int 0 if the registration is successful, 1 if the event does not
      * exist, 2 if the pouloumer is already participating in the event,
      * 3 if the transaction has been canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static void addParticipant(Pouloumer newParticipant, Event event)
+    public static int addParticipant(Pouloumer newParticipant, Event event)
             throws Exception {
+        //TODO where is the event's existence checked ?
         boolean isAlreadyParticipating = false;
         for (Pouloumer p : event.getParticipants()){
-            if(p.getId()==newParticipant.getId()){
-                isAlreadyParticipating = true;
-                break;
+            if(p.getId().equals(newParticipant.getId())){
+                /*isAlreadyParticipating = true;
+                break;*/
+                return 2;
             }
         }
-        if (isAlreadyParticipating) {
+        /*if (isAlreadyParticipating) {
             throw new ServiceException("ERROR : participant is already attending to this event");
-        }
+        }*/
         event.addParticipant(newParticipant);
         
         JpaUtil.createEntityManager();
@@ -114,9 +116,12 @@ public class ServicesEvent {
             JpaUtil.commitTransaction();
         } catch (Exception ex) {
             JpaUtil.cancelTransaction();
+            return 3;
         } finally {
             JpaUtil.closeEntityManager();
         }
+        
+        return 0;
     }
     
     public static void removeParticipant(Pouloumer participant, Event event)
@@ -180,7 +185,7 @@ public class ServicesEvent {
     /**
      * Update an existing event(should only be updated by the creator of the event).
      * 
-     * @param Event, the event to update.
+     * @param event, the event to update.
      * @param date, the new date of the event.
      * @param duration, the new duration of the event.
      * @param address, the new address of the event.
