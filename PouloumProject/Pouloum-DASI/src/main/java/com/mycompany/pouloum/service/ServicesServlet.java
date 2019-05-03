@@ -214,7 +214,25 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("message", "Error when trying to process the transaction");
                 }
             } else if ("removeInterestsToUser".equals(sma)) {
-
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Activity a = ServicesActivity.getActivityById(idActivity);
+                
+                CRE result;
+                if (p!=null && a!=null)
+                {
+                    result = ServicesPouloumer.removeInterest(p, a);
+                } else {
+                    result = CRE.CRE_ERR_INTEREST;
+                }
+                
+                if (result == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
+                }
             } else if ("getUserInterests".equals(sma)) {
 
             } else if ("getUserDetails".equals(sma)) {
