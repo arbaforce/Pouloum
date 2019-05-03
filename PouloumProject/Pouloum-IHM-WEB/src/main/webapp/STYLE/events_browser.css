@@ -6,6 +6,10 @@
     padding-bottom: 10px;
 }
 
+/*event*/
+.event_container{
+    height:30%;
+}
 
 /*the following serve for the sliding sidebar*/
 .sidebar {
@@ -13,7 +17,7 @@
   height: 100%;
   width: 65px;
   z-index: 1;
-  right: 0;
+  right: 15px;
   background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
@@ -36,10 +40,11 @@
   background-color: #444;
 }
 
-#search_result_list_global_container {
+#search_result_list_global_col {
   transition: margin-right .5s;
   padding: 16px;
   margin-right: 65px;
+  white-space: pre-line;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -47,5 +52,5 @@
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
 }
-
+/*stop for sliding sidebar tools*/
 
