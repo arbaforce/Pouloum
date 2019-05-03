@@ -30,13 +30,26 @@ public class DAOBadge {
         }
     }
 
+    public static Badge updateBadge(Badge b)
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+
+        try {
+            b = em.merge(b);
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+        return b;
+    }
+
     public static Badge findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
         Badge found = null;
         try {
-            found = em.find(Badge.class, id);
+            found = (Badge) em.find(Badge.class, id);
         } catch (Exception ex) {
             throw ex;
         }
