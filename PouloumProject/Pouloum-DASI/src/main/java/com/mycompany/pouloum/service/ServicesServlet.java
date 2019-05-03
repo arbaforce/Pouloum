@@ -383,7 +383,18 @@ public class ServicesServlet extends HttpServlet {
                     container.addProperty("message", "Error when trying to read the database");
                 }
             } else if ("getActivityDetails".equals(sma)) {
-
+                long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                
+                Activity a = ServicesActivity.getActivityById(idActivity);
+                
+                if (a != null)
+                {
+                    container.add("Activity", a.toJson());
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error while trying to access the database");
+                }
             } /////////////////
             //////Consult an event
             /////////////////
