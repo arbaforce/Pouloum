@@ -143,7 +143,7 @@ public class ServicesServlet extends HttpServlet {
                 if (p != null) {
                     JsonArray array = new JsonArray();
                     for (Event e : p.getEvents()) {
-                        if (e.isFutureEvent()) {
+                        if (!e.isStarted()) {
                             array.add(e.toJson());
                         }
                     }
