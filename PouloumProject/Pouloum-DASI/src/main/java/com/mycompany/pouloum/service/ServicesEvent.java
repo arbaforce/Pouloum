@@ -29,14 +29,14 @@ public class ServicesEvent {
      * @param id is the event id.
      * @return Event, the event matching to the id.
      */
-    public static Event getEventById(Long id) {
+    public static Event getEventById(Long id)
+        throws Exception
+    {
         JpaUtil.createEntityManager();
 
         try {
             Event e = DAOEvent.findById(id);
             return e;
-        } catch (Exception e) {
-            return null;
         } finally {
             JpaUtil.closeEntityManager();
         }
@@ -57,7 +57,7 @@ public class ServicesEvent {
      * @throws Exception if there's an error trying to access the database.
      * @return Event, the event matching to the id.
      */
-    public static CRE createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
+    public static Event createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
             int participants_min, int participants_max)
         throws Exception
     {
@@ -72,7 +72,7 @@ public class ServicesEvent {
                 DAOEvent.persist(newEvent);
 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
+                return newEvent;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -88,27 +88,23 @@ public class ServicesEvent {
      *
      * @param newParticipant is the participant to add to the event.
      * @param event is the event.
-     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EVENT if
-     * the event does not exist, CRE_ERR_POULOUMER if the pouloumer is already
-     * participating in the event, CRE_EXC_BD if the transaction has been
-     * canceled.
      * @throws Exception if there's an error trying to access the database.
+     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_POULOUMER
+     * if the pouloumer is already participating in the event.
      */
-    public static CRE addParticipant(Pouloumer newParticipant, Event event)
+    public static CRE addParticipant(Event event, Pouloumer newParticipant)
         throws Exception
     {
-        //TODO where is the event's existence checked ?
-        /*boolean isAlreadyParticipating = false;*/
+        if (event.getParticipants().contains(newParticipant)) {
+            return CRE_ERR_POULOUMER;
+        }
+        /*
         for (Pouloumer p : event.getParticipants()) {
             if (p.getId().equals(newParticipant.getId())) {
-                /*isAlreadyParticipating = true;
-                break;*/
                 return CRE_ERR_POULOUMER;
             }
         }
-        /*if (isAlreadyParticipating) {
-            throw new ServiceException("ERROR : participant is already attending to this event");
-        }*/
+        */
         event.addParticipant(newParticipant);
 
         JpaUtil.createEntityManager();
@@ -131,7 +127,14 @@ public class ServicesEvent {
         }
     }
 
-    public static CRE removeParticipant(Pouloumer participant, Event event)
+    /**
+     * Add a comment to an existing event.
+     *
+     * @param event is the event.
+     * @param participant is the commentor.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public static void removeParticipant(Event event, Pouloumer participant)
         throws Exception
     {
         event.removeParticipant(participant);
@@ -144,7 +147,6 @@ public class ServicesEvent {
             try {
                 DAOEvent.updateEvent(event);
                 JpaUtil.commitTransaction();
-                return CRE.CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -158,22 +160,15 @@ public class ServicesEvent {
     /**
      * Add a comment to an existing event.
      *
+     * @param event is the event.
+     * @param pouloumer is the commentor.
      * @param description is the participant to add to the event.
-     * @param idEvent is the id of the event.
      * @param date is today's date.
-     * @param idPouloumer is the id of the commentor.
-     * @return CRE, CRE_OK if the registration is successful, CRE_ERR_EVENT if
-     * the event does not exist, CRE_EXC_BD if the transaction is canceled.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static CRE addCommentToEvent(String description, Date date, Long idEvent, Long idPouloumer)
+    public static void addCommentToEvent(Event event, Pouloumer pouloumer, String description, Date date)
             throws Exception {
-        Event e = DAOEvent.findById(idEvent);
-        if (e == null) {
-            return CRE_ERR_EVENT;
-        }
-
-        e.addComment(description, date, idPouloumer);
+        event.addComment(description, date, pouloumer.getId());
 
         JpaUtil.createEntityManager();
 
@@ -181,10 +176,9 @@ public class ServicesEvent {
             JpaUtil.openTransaction();
 
             try {
-                DAOEvent.updateEvent(e);
+                DAOEvent.updateEvent(event);
 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -206,39 +200,30 @@ public class ServicesEvent {
      * @param playerMin, the new minimum number of participants of the event.
      * @param playerMax, the new maximum number of participants of the event.
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
-     * event does not exist, CRE_EXC_BD if the transaction is canceled.
      */
-    public static CRE updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
+    public static void updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
             throws Exception {
-
-        Event e = DAOEvent.findById(event.getId());
-
-        if (e != event) {
-            return CRE_ERR_EVENT;
-        }
-
+        
         // Update fields
-        e.setStart(date);
-        e.setDuration(duration);
-        e.setLocation(address);
-        e.setParticipants_min(playerMin);
-        e.setParticipants_max(playerMax);
-
+        event.setStart(date);
+        event.setDuration(duration);
+        event.setLocation(address);
+        event.setParticipants_min(playerMin);
+        event.setParticipants_max(playerMax);
+        
         JpaUtil.createEntityManager();
-
+        
         try {
             JpaUtil.openTransaction();
-
+            
             try {
-                DAOEvent.persist(e);
+                DAOEvent.updateEvent(event);
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-
+            
         } finally {
             JpaUtil.closeEntityManager();
         }
@@ -249,17 +234,9 @@ public class ServicesEvent {
      *
      * @param event is the event to cancel
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
-     * event does not exist, CRE_EXC_BD if the transaction is canceled.
      */
-    public static CRE cancelEvent(Event event) throws Exception {
-        Event e = DAOEvent.findById(event.getId());
-
-        if (e != event) {
-            return CRE_ERR_EVENT;
-        }
-
-        e.setCancelled(true);
+    public static void cancelEvent(Event event) throws Exception {
+        event.setCancelled(true);
         
         //TODO notify participants that event has been cancelled
         
@@ -269,9 +246,8 @@ public class ServicesEvent {
             JpaUtil.openTransaction();
 
             try {
-                DAOEvent.persist(e);
+                DAOEvent.updateEvent(event);
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -321,10 +297,8 @@ public class ServicesEvent {
      *
      * @param id is the id of the event to delete.
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE, CRE_OK if the deletion is successful, CRE_EXC_BD if there
-     * was an error trying to access the database.
      */
-    public static CRE deleteEvent(Long id)
+    public static void deleteEvent(Long id)
         throws Exception
     {
         JpaUtil.createEntityManager();
@@ -336,7 +310,6 @@ public class ServicesEvent {
                 DAOEvent.removeById(id);
 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;

@@ -22,9 +22,9 @@ public class ServicesPouloumer {
      *
      * @param mail is the mail used to login.
      * @param password is the password of the account.
+     * @throws Exception if there's an error trying to access the database.
      * @return Pouloumer, the user matching the credentials or null if they are
      * incorrect.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static Pouloumer loginWithMail(String mail, String password)
         throws Exception
@@ -199,7 +199,7 @@ public class ServicesPouloumer {
                 DAOPouloumer.persist(p);
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
-                // Registration has failed, return null to let the GUI know
+                // Registration has failed
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
@@ -215,9 +215,9 @@ public class ServicesPouloumer {
      * Get a user given their id.
      *
      * @param id is the id of the user.
-     * @throws Exception if there's an error trying to access the database.
-     * @return Pouloumer, the user matching the given id, or null if there is
-     * none.
+     * @throws Exception if there's an error trying to access the database,
+     * or if there is no user with the given id.
+     * @return Pouloumer, the user matching the given id.
      */
     public static Pouloumer getPouloumerById(Long id)
         throws Exception
@@ -237,6 +237,7 @@ public class ServicesPouloumer {
      * Get a user given their e-mail address.
      *
      * @param mail is the e-mail address of the user.
+     * @throws Exception if there's an error trying to access the database.
      * @return Pouloumer, the user matching the given address, or null if there
      * is none.
      */
@@ -276,7 +277,14 @@ public class ServicesPouloumer {
         }
     }
     
-    public static CRE joinEvent(Pouloumer p, Event event)
+    /**
+     * Add an event to a user's event list.
+     *
+     * @param p is the user joining the event.
+     * @param event is the event to join.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public static void joinEvent(Pouloumer p, Event event)
         throws Exception
     {
         List<Event> events = p.getEvents();
@@ -291,7 +299,6 @@ public class ServicesPouloumer {
             try {
                 DAOPouloumer.updatePouloumer(p);
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -308,9 +315,8 @@ public class ServicesPouloumer {
      * @param p is the user leaving the event.
      * @param event is the event to leave.
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE, CRE_OK if the update was successful.
      */
-    public static CRE leaveEvent(Pouloumer p, Event event)
+    public static void leaveEvent(Pouloumer p, Event event)
         throws Exception
     {
         p.removeEvent(event);
@@ -324,7 +330,6 @@ public class ServicesPouloumer {
                 DAOPouloumer.updatePouloumer(p);
                 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -343,9 +348,8 @@ public class ServicesPouloumer {
      * @param p is the user to which we add interests.
      * @param interests is the list of interests to add.
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE, CRE_OK if the update was successful.
      */
-    public static CRE addInterests(Pouloumer p, List<Activity> interests)
+    public static void addInterests(Pouloumer p, List<Activity> interests)
         throws Exception
     {
         p.getInterests().addAll(interests);
@@ -359,7 +363,6 @@ public class ServicesPouloumer {
                 DAOPouloumer.updatePouloumer(p);
                 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
@@ -376,9 +379,8 @@ public class ServicesPouloumer {
      * @param p is the user from which we remove the interest.
      * @param interest is the interest to remove.
      * @throws Exception if there's an error trying to access the database.
-     * @return CRE_OK if the update was successful.
      */
-    public static CRE removeInterest(Pouloumer p, Activity interest)
+    public static void removeInterest(Pouloumer p, Activity interest)
         throws Exception
     {
         p.getInterests().remove(interest);
@@ -392,7 +394,6 @@ public class ServicesPouloumer {
                 DAOPouloumer.updatePouloumer(p);
                 
                 JpaUtil.commitTransaction();
-                return CRE_OK;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;

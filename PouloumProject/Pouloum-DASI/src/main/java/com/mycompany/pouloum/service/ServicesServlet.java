@@ -129,8 +129,6 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This email is already used.";
                     } else if (result == CRE_ERR_NICKNAME) {
                         resultErrorMessage = "This nickname is already used.";
-                    } else {
-                        resultErrorMessage = "Error when trying to persist the new user.";
                     }
                 }
             }
@@ -142,17 +140,13 @@ public class ServicesServlet extends HttpServlet {
                 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 
-                if (p != null) {
-                    JsonArray array = new JsonArray();
-                    for (Event e : p.getEvents()) {
-                        if (!(e.isCancelled() || e.isFinished())) {
-                            array.add(e.toJson());
-                        }
+                JsonArray array = new JsonArray();
+                for (Event e : p.getEvents()) {
+                    if (!(e.isCancelled() || e.isFinished())) {
+                        array.add(e.toJson());
                     }
-                    container.add("events", array);
-                } else {
-                    resultErrorMessage = "Invalid id.";
                 }
+                container.add("events", array);
             }
             ///////////
             ////Consult badges
@@ -168,17 +162,13 @@ public class ServicesServlet extends HttpServlet {
                 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 
-                if (p != null) {
-                    JsonArray array = new JsonArray();
-                    for (Event e : p.getEvents()) {
-                        if (e.isFinished()) {
-                            array.add(e.toJson());
-                        }
+                JsonArray array = new JsonArray();
+                for (Event e : p.getEvents()) {
+                    if (e.isFinished()) {
+                        array.add(e.toJson());
                     }
-                    container.add("eventsHistory", array);
-                } else {
-                    resultErrorMessage = "Invalid id.";
                 }
+                container.add("eventsHistory", array);
             }
             ///////////
             ////Consult friends
@@ -207,11 +197,7 @@ public class ServicesServlet extends HttpServlet {
                     interests.add(ServicesActivity.getActivityById(idAct));
                 }
                 
-                if (p != null) {
-                    ServicesPouloumer.addInterests(p, interests);
-                } else {
-                    resultErrorMessage = "Error when trying to process the transaction";
-                }
+                ServicesPouloumer.addInterests(p, interests);
             }
             ///////////
             ////Remove interest
@@ -222,11 +208,7 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Activity a = ServicesActivity.getActivityById(idActivity);
                 
-                if (p != null && a != null) {
-                    ServicesPouloumer.removeInterest(p, a);
-                } else {
-                    resultErrorMessage = "Error when trying to process the transaction.";
-                }
+                ServicesPouloumer.removeInterest(p, a);
                 
             }
             ///////////
@@ -243,12 +225,7 @@ public class ServicesServlet extends HttpServlet {
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
-                if (p != null) {
-                    container.add("pouloumer", p.toJson());
-                } else {
-                    resultErrorMessage = "Invalid id.";
-                }
-
+                container.add("pouloumer", p.toJson());
             }
             ///////////
             ////Accept friend
@@ -306,11 +283,7 @@ public class ServicesServlet extends HttpServlet {
                 //TODO check that event isn't full
                 //TODO check that user doesn't have other events at the same time
                 
-                CRE result = ServicesPouloumer.joinEvent(p, e);
-
-                if (result != CRE.CRE_OK) {
-                    resultErrorMessage = "Error when trying to process the transaction";
-                }
+                ServicesPouloumer.joinEvent(p, e);
             }
             ///////////
             ////Leave event
@@ -322,11 +295,7 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                CRE eventResult = ServicesEvent.removeParticipant(p, e);
-
-                if (eventResult != CRE.CRE_OK) {
-                    resultErrorMessage = "Error when trying to process the transaction";
-                }
+                ServicesEvent.removeParticipant(e, p);
             }
             //////////////
             /////Set up an event
@@ -369,10 +338,7 @@ public class ServicesServlet extends HttpServlet {
 
                 //TODO only the organizer is allowed to cancel an event
                 
-                CRE result = ServicesEvent.cancelEvent(event);
-                if (result == CRE_OK) {
-                    resultErrorMessage = "Event does not exist.";
-                }
+                ServicesEvent.cancelEvent(event);
                 
             }
             ////////////
@@ -383,33 +349,27 @@ public class ServicesServlet extends HttpServlet {
 
                 List<Event> organizedEvents = ServicesEvent.getOrganizedEvents(idUser);
 
-                if (organizedEvents != null) {
-                    JsonArray organizedEventsArray = new JsonArray();
+                JsonArray organizedEventsArray = new JsonArray();
 
-                    for (Event e : organizedEvents) {
-                        organizedEventsArray.add(e.toJson());
-                    }
-
-                    container.add("organizedEvents", organizedEventsArray);
-                } else { // Return is null
-                    resultErrorMessage = "Error when trying to read the database.";
+                for (Event e : organizedEvents) {
+                    organizedEventsArray.add(e.toJson());
                 }
+
+                container.add("organizedEvents", organizedEventsArray);
             }
             ///////////////
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
-                Date d = DateUtil.DateNow();
+                Date now = DateUtil.DateNow();
                 String description = request.getParameter("description");
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                if (description.isEmpty()) { //FIXME
-                    // why is the comment added only if it is empty?
-                    // what kind of censorship is this...
-                    ServicesEvent.addCommentToEvent(description, d, idEvent, idUser);
-                } else {
-                    resultErrorMessage = "Error when trying to process a transaction.";
-                }
+                
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Event e = ServicesEvent.getEventById(idEvent);
+                
+                ServicesEvent.addCommentToEvent(e, p, description, now);
             }
             ///////////////
             /////Consult an activity
@@ -423,11 +383,7 @@ public class ServicesServlet extends HttpServlet {
                     array.add(a.toJson());
                 }
                 
-                if (!activities.isEmpty()) {
-                    container.add("activities", array);
-                } else {
-                    resultErrorMessage = "Error when trying to read the database";
-                }
+                container.add("activities", array);
             }
             ///////////
             ////Consult activity
@@ -437,11 +393,7 @@ public class ServicesServlet extends HttpServlet {
                 
                 Activity a = ServicesActivity.getActivityById(idActivity);
                 
-                if (a != null) {
-                    container.add("Activity", a.toJson());
-                } else {
-                    resultErrorMessage = "Error while trying to read the database";
-                }
+                container.add("Activity", a.toJson());
             }
             /////////////////
             //////Consult an event
@@ -451,14 +403,7 @@ public class ServicesServlet extends HttpServlet {
                 
                 Event e = ServicesEvent.getEventById(idEvent);
                 
-                if (e != null) {
-                    container.add("event", e.toJson());
-                } else {
-                    resultErrorMessage = "Error when trying to read the database.";
-                }
-                
-                
-                JsonObject obj = new JsonObject(); //FIXME (??)
+                container.add("event", e.toJson());
             }
             /////////////////
             //////Update profile

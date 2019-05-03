@@ -43,7 +43,7 @@ public class ServicesAddress {
      * incorrect.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static Long createAddress(String number, String street, String postal_code, String city, String country)
+    public static Address createAddress(String number, String street, String postal_code, String city, String country)
             throws Exception
     {
         Address newAddress = new Address(number, street, postal_code, city, country);
@@ -57,7 +57,7 @@ public class ServicesAddress {
                 DAOAddress.persist(newAddress);
                 
                 JpaUtil.commitTransaction();
-                return newAddress.getId();
+                return newAddress;
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
