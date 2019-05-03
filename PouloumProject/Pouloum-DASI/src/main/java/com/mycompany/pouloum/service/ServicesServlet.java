@@ -187,8 +187,50 @@ public class ServicesServlet extends HttpServlet {
 
             } else if ("addInterestsToUser".equals(sma)) {
 
-            } else if ("removeInterestFromUser".equals(sma)) {
-
+                long idUser = Long.parseLong(request.getParameter("idUser"));
+                // TODO : récupérer les ids d'activity
+                List<Long> idActivities = null; /* = request.getParameter("idActivities"); */
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                List<Activity> interests = new ArrayList<>();
+                for (Long idAct : idActivities)
+                {
+                    interests.add(ServicesActivity.getActivityById(idAct));
+                }
+                
+                CRE result;
+                if (p != null)
+                {
+                    result = ServicesPouloumer.addInterests(p, interests);
+                } else {
+                    result = CRE.CRE_ERR_INTEREST;
+                }
+                
+                if (result == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
+                }
+            } else if ("removeInterestFromoUser".equals(sma)) {
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                Activity a = ServicesActivity.getActivityById(idActivity);
+                
+                CRE result;
+                if (p!=null && a!=null)
+                {
+                    result = ServicesPouloumer.removeInterest(p, a);
+                } else {
+                    result = CRE.CRE_ERR_INTEREST;
+                }
+                
+                if (result == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
+                }
             } else if ("getUserInterests".equals(sma)) {
 
             } else if ("getUserDetails".equals(sma)) {
@@ -279,7 +321,7 @@ public class ServicesServlet extends HttpServlet {
             } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
-
+                
             } else if ("getOrganizedEvents".equals(sma)) {
                 long idUser = Long.parseLong(request.getParameter("idUser"));
 
