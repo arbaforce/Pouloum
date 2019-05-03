@@ -17,6 +17,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import javax.persistence.Column;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 
 
@@ -68,11 +70,13 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    @OneToOne
+    @ManyToOne
     protected Pouloumer organizer;
+    
     protected int participants_min;
     protected int participants_max;
-    @OneToMany
+    
+    @ManyToMany (mappedBy = "events")
     protected List<Pouloumer> participants;
     
     // Grades

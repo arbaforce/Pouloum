@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -54,7 +55,9 @@ public class Pouloumer implements Serializable {
     protected Address address;
 
     // Links
-    @OneToMany
+    @OneToMany (mappedBy = "organizer")
+    private List<Event> organizedEvents;
+    @ManyToMany
     private List<Event> events;
 
     @OneToMany
