@@ -298,8 +298,12 @@ public class ServicesServlet extends HttpServlet {
             //////////////
             else if ("createEvent".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                //long idActivity = Long.parseLong(request.getParameter("idActivity"));
-                //long idAddress = Long.parseLong(request.getParameter("idAddress"));
+                
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Long idAddress = Long.parseLong(request.getParameter("idAddress"));
+                
+                
+                
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
                 Date startDate = DateUtil.toDate(request.getParameter("date"));
@@ -308,13 +312,11 @@ public class ServicesServlet extends HttpServlet {
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                //Activity activity = ServicesActivity.getActivityById(idActivity);
-                //Address address = ServicesAddress.getAddressById(idAddress);
+                
+                Activity activity = ServicesActivity.getActivityById(idActivity);
+                Address address = ServicesAddress.getAddressById(idAddress);
 
-                ArrayList<Pouloumer> participants = new ArrayList<Pouloumer>();
-                participants.add(p);
-
-                ServicesEvent.createEvent(name, description, startDate, duration, null, null, p, playerMin, playerMax, participants);
+                ServicesEvent.createEvent(name, description, startDate, duration, address, activity, p, playerMin, playerMax);
             } else if ("updateEvent".equals(sma)) {
 
             } else if ("cancelEvent".equals(sma)) {
