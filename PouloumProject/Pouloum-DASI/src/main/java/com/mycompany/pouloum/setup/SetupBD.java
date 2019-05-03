@@ -3,9 +3,20 @@ package com.mycompany.pouloum.setup;
 import com.mycompany.pouloum.dao.*;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.model.*;
+import com.mycompany.pouloum.service.ServicesActivity;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -13,8 +24,20 @@ import java.util.List;
  */
 public class SetupBD {
     
+    protected static BufferedReader getResourceReader(String resourceName) {
+        InputStream resourceStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceName);
+        BufferedReader resReader = new BufferedReader(new InputStreamReader(resourceStream));
+        return resReader;
+    }
+    
     public static void main(String[] args) {
         JpaUtil.init();
+        
+        try {
+            setupActivities();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
         try {
             setupPouloumer();
@@ -23,6 +46,50 @@ public class SetupBD {
         }
         
         JpaUtil.destroy();
+    }
+    
+    protected static void setupActivities()
+        throws IOException
+    {
+        BufferedReader reader = getResourceReader("setup/Activities.txt");
+        
+        Stack<Activity> tree = new Stack<>();
+        
+        try {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                Activity parent = tree.isEmpty() ? null : tree.peek();
+                List<Activity> emptylist = new ArrayList<>();
+                String name = line.trim();
+                String description = "";
+                List<Badge> badges = new ArrayList<>();
+                String rules = "";
+                List<String> resources = new ArrayList<>();
+                int default_min = 0;
+                int default_max = 0;
+                
+                // int level = ...;
+                
+                try {
+                    Activity cur = ServicesActivity.createActivity(parent, emptylist, name, description, badges, rules, resources, default_min, default_max);
+                    
+                    if (parent != null) {
+                        try {
+                            ServicesActivity.addActivityChild(parent, cur);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    
+                    // tree.push(cur);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    tree.push(null);
+                }
+                
+            }
+        } finally {
+            reader.close();
+        }
     }
     
     protected static void setupPouloumer()

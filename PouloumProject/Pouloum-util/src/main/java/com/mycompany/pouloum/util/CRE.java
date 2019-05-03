@@ -6,7 +6,7 @@ public enum CRE {
     CRE_ERR_NICKNAME,
     CRE_ERR_POULOUMER,
     CRE_ERR_EVENT,
-    CRE_ERR_INTEREST,
+    CRE_ERR_ACTIVITY,
     
     CRE_EXC_BD
 }

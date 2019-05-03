@@ -31,7 +31,7 @@ public class DAOActivity {
         }
     }
 
-    public static Activity updateUser(Activity a)
+    public static Activity updateActivity(Activity a)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
