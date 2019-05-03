@@ -8,7 +8,7 @@
 
 /*event*/
 .event_container{
-    height:30%;
+    height:200px;
 }
 
 /*the following serve for the sliding sidebar*/
@@ -44,7 +44,6 @@
   transition: margin-right .5s;
   padding: 16px;
   margin-right: 65px;
-  white-space: pre-line;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

@@ -1,7 +1,5 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * to toggle the map 
  */
 function openNav() {
   document.getElementById("search_result_map_global_col").style.width = "50%";
