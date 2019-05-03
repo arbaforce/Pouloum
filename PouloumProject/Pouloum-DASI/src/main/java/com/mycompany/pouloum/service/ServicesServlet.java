@@ -91,7 +91,7 @@ public class ServicesServlet extends HttpServlet {
             //////////
             if ("login".equals(sma)) {
                 String mail = request.getParameter("mail");
-                String nickName = request.getParameter("nickName");
+                String nickName = request.getParameter("nickname");
                 String password = request.getParameter("password");
 
                 Pouloumer p;
@@ -102,8 +102,10 @@ public class ServicesServlet extends HttpServlet {
                 }
                 if (p != null) {
                     container.add("Pouloumer", g.toJsonTree(p, Pouloumer.class));
+                    container.addProperty("result", "OK");
                 } else {
-                    container.addProperty("error", "There is no match for these identifiants.");
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "There is no match for these identifiants.");
                 }
             }
             //////////
@@ -112,7 +114,7 @@ public class ServicesServlet extends HttpServlet {
             else if ("signUp".equals(sma)) {
                 String lastName = request.getParameter("lastName");
                 String firstName = request.getParameter("firstName");
-                String nickName = request.getParameter("nickName");
+                String nickName = request.getParameter("nickname");
                 String mail = request.getParameter("mail");
                 String password = request.getParameter("password");
                 char gender = request.getParameter("gender").charAt(0);
@@ -129,9 +131,10 @@ public class ServicesServlet extends HttpServlet {
                     ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
                     CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, mail, password, false, false, gender, birthDate, phoneNumber, null);
                     //FIXME make use of result
-                    container.addProperty("created", true);
+                    container.addProperty("result", "OK");
                 } catch (Exception ex) {
-                    container.addProperty("created", false);
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to persist the new user");
                     throw ex;
                 }
             }
@@ -151,8 +154,10 @@ public class ServicesServlet extends HttpServlet {
                         }
                     }
                     container.add("events", array);
+                    container.addProperty("result", "OK");
                 } else {
-                    container.addProperty("error", "id is invalid");
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "invalid id");
                 }
             } else if ("getUserBadges".equals(sma)) {
                 //TODO when badges are implemented.
@@ -173,8 +178,10 @@ public class ServicesServlet extends HttpServlet {
                         }
                     }
                     container.add("eventsHistory", array);
+                    container.addProperty("result", "OK");
                 } else {
-                    container.addProperty("error", "id is invalid");
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "invalid id");
                 }
             } else if ("getUserFriends".equals(sma)) {
 
@@ -227,19 +234,14 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                CRE pouloumerResult = ServicesPouloumer.leaveEvent(p, e);
-
-                if (pouloumerResult != CRE.CRE_OK) {
-                    // Throw exception to cancel the rest of the removal
-                    throw new Exception("ERROR: Error when processing the transaction to remove event from user.");
-                }
-
                 CRE eventResult = ServicesEvent.removeParticipant(p, e);
 
-                if (eventResult != CRE.CRE_OK) {
-                    throw new Exception("ERROR: Error when processing the transaction to remove user from event.");
+                if (eventResult == CRE.CRE_OK) {
+                    container.addProperty("result", "OK");
+                } else {
+                    container.addProperty("result", "KO");
+                    container.addProperty("message", "Error when trying to process the transaction");
                 }
-                //TODO decide which association to keep between event and user to avoid this double transaction problem
             }
             //////////////
             /////Set up an event
