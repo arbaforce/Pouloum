@@ -95,7 +95,31 @@
                 if (userID===""){
                     window.location.href = './index.html'
                 }
-            }); 
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserEvents',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    //TODO
+                })
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserBadges',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    //TODO
+                })
+            });
         </script>
     </body>
 </html>
