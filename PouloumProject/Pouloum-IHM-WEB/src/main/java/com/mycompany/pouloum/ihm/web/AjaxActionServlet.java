@@ -60,20 +60,33 @@ public class AjaxActionServlet extends HttpServlet {
                 String password = request.getParameter("password");
                 
                 if(id.equals("") || password.equals("")){
-                    container.addProperty("error", "ERROR : fill every box");
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : veuillez remplir tous les champs");
                 }
                 else if(isEmailValid(id)){
                     ajaxAction.loginByMail(id, password);
-                    Cookie cookie = new Cookie("userID", container.get("user").getAsString());
-                    cookie.setMaxAge(60*60*24);
-                    response.addCookie(cookie);
+                    if(container.get("user")!=null){
+                        Cookie cookie = new Cookie("userID", container.get("user").getAsString());
+                        cookie.setMaxAge(60*60*24);
+                        response.addCookie(cookie);
+                    }
                 }
                 else {
                     ajaxAction.loginByNickName(id, password);
-                    Cookie cookie = new Cookie("userID", container.get("user").getAsString());
-                    cookie.setMaxAge(60*60*24);
-                    response.addCookie(cookie);
+                    if(container.get("user")!=null){
+                        Cookie cookie = new Cookie("userID", container.get("user").getAsString());
+                        cookie.setMaxAge(60*60*24);
+                        response.addCookie(cookie);
+                    }
                 }
+            }
+            else if ("getUserEvents".equals(action)){
+                String id = request.getParameter("id");
+                ajaxAction.getUserEvents(id);
+            }
+            else if ("getUserBadges".equals(action)){
+                String id = request.getParameter("id");
+                ajaxAction.getUserBadges(id);
             }
             else {
                 actionCalled = false;

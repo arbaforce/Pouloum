@@ -14,6 +14,13 @@
             <h2 class="textAlign">Bienvenue !</h2>
             
             <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-danger text-center collapse" id="errorMessage">
+                    </div><!--#Error message -->
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
                <div class="col-2">
                    <label for="usr">Name:</label>
                </div>
@@ -62,14 +69,15 @@
                     }).done(function (data){
                         var OK = data.result;
                         if(OK){
-                            window.location.href = './home_page.html'
+                            window.location.href = './home_page.html';
                         }
                         else{
-                            $('#usr').val('ERROR');
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
                         }
-                    })
-                })
-            })
+                    });
+                });
+            });
         </script>
     </body>
 </html>
