@@ -13,6 +13,11 @@ body {
 .button{
     padding:20px;
 }    
+
+.buttonEvent{
+    padding:8px;
+    
+}
 .textAlign{
     text-align:center;
 }

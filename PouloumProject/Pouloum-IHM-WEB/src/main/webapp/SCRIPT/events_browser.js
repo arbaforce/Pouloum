@@ -3,7 +3,7 @@
  */
 function openNav() {
   document.getElementById("search_result_map_global_col").style.width = "50%";
-  document.getElementById("search_result_list_global_col").style.marginRight = "50%";
+  document.getElementById("search_result_list_global_col").style.marginRight = "0px";
   document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
 }
 
