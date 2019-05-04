@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,10 +64,15 @@ public class AjaxActionServlet extends HttpServlet {
                 }
                 else if(isEmailValid(id)){
                     ajaxAction.loginByMail(id, password);
+                    Cookie cookie = new Cookie("userID", container.get("user").getAsString());
+                    cookie.setMaxAge(60*60*24);
+                    response.addCookie(cookie);
                 }
                 else {
                     ajaxAction.loginByNickName(id, password);
-                    
+                    Cookie cookie = new Cookie("userID", container.get("user").getAsString());
+                    cookie.setMaxAge(60*60*24);
+                    response.addCookie(cookie);
                 }
             }
             else {

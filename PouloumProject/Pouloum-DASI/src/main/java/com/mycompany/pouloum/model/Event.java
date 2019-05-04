@@ -71,7 +71,7 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    // @ManyToOne //FIXME:
+    @ManyToOne //FIXME:
     /*
 [JpaUtil:Log] Initializing the entity manager factory
 Exception in thread "main" Local Exception Stack: 
@@ -93,7 +93,7 @@ Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-enti
     protected int participants_min;
     protected int participants_max;
     
-    // @ManyToMany(mappedBy = "events") //FIXME:
+    @ManyToMany(mappedBy = "events") //FIXME:
     /*
 [JpaUtil:Log] Initializing the entity manager factory
 Exception in thread "main" Local Exception Stack: 
