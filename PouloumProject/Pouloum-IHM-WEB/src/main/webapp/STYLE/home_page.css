@@ -45,7 +45,7 @@
     padding : 3px;
 }
 
-.users_container{
+.users_row{
     text-overflow: ellipsis;
     overflow: hidden;
     max-height: 35px;
