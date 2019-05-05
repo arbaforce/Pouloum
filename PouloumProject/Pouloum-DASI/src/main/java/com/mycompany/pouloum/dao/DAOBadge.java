@@ -3,11 +3,11 @@ package com.mycompany.pouloum.dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import com.mycompany.pouloum.model.Badge;
+import com.mycompany.pouloum.model.BadgeEvolved;
 
 public class DAOBadge {
 
-    public static void persist(Badge b)
+    public static void persist(BadgeEvolved b)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -18,11 +18,11 @@ public class DAOBadge {
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Badge b = (Badge) em.find(Badge.class, id);
+        BadgeEvolved b = (BadgeEvolved) em.find(BadgeEvolved.class, id);
         em.remove(b);
     }
 
-    public static Badge updateBadge(Badge b)
+    public static BadgeEvolved updateBadge(BadgeEvolved b)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
@@ -30,20 +30,20 @@ public class DAOBadge {
         return b;
     }
 
-    public static Badge findById(Long id)
+    public static BadgeEvolved findById(Long id)
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
 
-        Badge found = (Badge) em.find(Badge.class, id);
+        BadgeEvolved found = (BadgeEvolved) em.find(BadgeEvolved.class, id);
         return found;
     }
 
-    public static List<Badge> findAll()
+    public static List<BadgeEvolved> findAll()
             throws Exception {
         EntityManager em = JpaUtil.getEntityManager();
         
-        Query q = em.createQuery("SELECT e FROM Event e");
-        List<Badge> found = (List<Badge>) q.getResultList();
+        Query q = em.createQuery("SELECT b FROM BadgeEvolved b");
+        List<BadgeEvolved> found = (List<BadgeEvolved>) q.getResultList();
         return found;
     }
 
