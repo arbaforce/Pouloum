@@ -90,24 +90,6 @@ public class Pouloumer implements Serializable {
         this.interests = new ArrayList<>();
     }
 
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
-            throws ParseException {
-        this.nickname = nickname;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.moderator = moderator;
-        this.administrator = administrator;
-        this.gender = gender;
-        this.setBirth_date(birth_date);
-        this.phone_number = phone_number;
-        this.address = address;
-
-        this.events = new ArrayList<>();
-        this.interests = new ArrayList<>();
-    }
-
     // SETTERS AND GETTERS
     public Long getId() {
         return id;
@@ -203,11 +185,6 @@ public class Pouloumer implements Serializable {
 
     public void setBirth_date(Date birth_date) {
         this.birth_date = birth_date;
-    }
-
-    public void setBirth_date(String birth_date)
-            throws ParseException {
-        this.birth_date = DateUtil.toDate(birth_date);
     }
 
     public List<Event> getEvents() {

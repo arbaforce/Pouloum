@@ -32,15 +32,14 @@ public class ServicesAddress {
     }
   
     /**
-     * Try to login with a given (mail, password) pair.
+     * Create an address.
      *
      * @param number is the address number.
      * @param street is the address street.
      * @param postal_code is the address postal code.
      * @param city is the address city.
      * @param country is the address country.
-     * @return id, the user matching the credentials or null if they are
-     * incorrect.
+     * @return Address, the created address.
      * @throws Exception if there's an error trying to access the database.
      */
     public static Address createAddress(String number, String street, String postal_code, String city, String country)

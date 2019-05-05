@@ -55,7 +55,7 @@ public class ServicesEvent {
      * @param participants_min is the event minimum number of participants.
      * @param participants_max is the event maximum number of participants.
      * @throws Exception if there's an error trying to access the database.
-     * @return Event, the event matching to the id.
+     * @return Event, the created event.
      */
     public static Event createEvent(String label, String description, Date startDate, int duration, Address location, Activity activity, Pouloumer organizer,
             int participants_min, int participants_max)
