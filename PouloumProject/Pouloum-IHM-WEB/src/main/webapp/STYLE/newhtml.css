@@ -1,4 +1,9 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+    overflow: scroll;
     min-height:100vh;
     width:100vw;
 }

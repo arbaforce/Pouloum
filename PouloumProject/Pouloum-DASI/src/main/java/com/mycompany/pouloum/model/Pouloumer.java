@@ -23,6 +23,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity

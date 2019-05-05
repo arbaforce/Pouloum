@@ -67,7 +67,13 @@
                 </div> <!--#row_containing_navbar-->
             </div> <!--#container_navbar_and_alert -->
             
-            <div class="row justify-content-center">
+            <div id="row_containing_title" class="row justify-content-center">
+                <div class="col-6">
+                    <h2 class="textAlign">Modifier profil</h2>
+                </div>
+            </div>
+            
+            <div id="row_containing_error" class="row justify-content-center">
                 <div class="col-6">
                     <div class="alert alert-danger text-center collapse" id="errorMessage">
                     </div><!--#Error message -->
@@ -206,7 +212,7 @@
                     </button><!--#validate_button -->
                 </div>
                 <div class="col-2" id ="cancel_button_col">
-                    <button id="cancel_button" type="button" class="btn btn-light button" onclick="window.location.href = 'profile_edition.html';">
+                    <button id="cancel_button" type="button" class="btn btn-light button" onclick="window.location.href = 'my_profile.html';">
                         Annuler
                     </button><!--#cancel_button -->
                 </div>
@@ -270,10 +276,10 @@
             
             $(function () {
                 $("#validate_button").button().on("click", function(){
-                    var genderResult;
+                    var genderResult = null;
                     if (document.getElementById("masculin").checked)
                         genderResult = "M";
-                    else
+                    else if (document.getElementById("feminin").checked)
                         genderResult = "F";
                     $.ajax({
                         url: './AjaxAction',

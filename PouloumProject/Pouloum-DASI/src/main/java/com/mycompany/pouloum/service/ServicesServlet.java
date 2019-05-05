@@ -123,8 +123,9 @@ public class ServicesServlet extends HttpServlet {
                 String addressCity = request.getParameter("addressCity");
                 String addressCountry = request.getParameter("addressCountry");
 
-                ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, email, password, false, false, gender, birthDate, phoneNumber, null);
+                //Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                Address address = new Address(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, email, password, false, false, gender, birthDate, phoneNumber, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
                         resultErrorMessage = "This email is already used.";

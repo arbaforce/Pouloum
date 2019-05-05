@@ -111,7 +111,7 @@ public class ServicesPouloumer {
         }
         // nickname available
         
-        if (password.equals("")) {
+        if (password.length() < 8) {
             // password too weak
             return CRE_ERR_PASSWORD;
         }

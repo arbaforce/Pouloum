@@ -73,26 +73,48 @@ public class AjaxActionServlet extends HttpServlet {
                     }
                 }
             } else if ("signUp".equals(action)) {
-                String nickName = request.getParameter("nickname");
-                String email = request.getParameter("mail");
+                String nickName = request.getParameter("pseudo").trim();
+                String email = request.getParameter("mail").trim();
+                String emailConfirmation = request.getParameter("mailConfirmation").trim();
                 String password = request.getParameter("password");
-                //TODO : check whether other fields should be mandatory
+                String passwordConfirmation = request.getParameter("passwordConfirmation");
+                //TODO see if other fields are mandatory
 
-                if (email.equals("") || password.equals("") || nickName.equals("")) {
+                if (email.equals("") || emailConfirmation.equals("") || password.equals("") || passwordConfirmation.equals("") || nickName.equals("")) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : veuillez remplir tous les champs obligatoires");
-                } else {
-                    String lastName = request.getParameter("lastName");
-                    String firstName = request.getParameter("firstName");
+                } 
+                else if(!isEmailValid(email)){
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : l'addresse mail n'est pas valide");
+                }
+                else if(!email.equals(emailConfirmation)){
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : l'addresse mail de confirmation ne correspond pas");
+                }
+                else if(!password.equals(passwordConfirmation)){
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : le mot de passe de confirmation ne correspond pas");
+                }
+                else {
+                    String lastName = request.getParameter("surname").trim();
+                    String firstName = request.getParameter("name").trim();
                     char gender = request.getParameter("gender").charAt(0);
                     String birthDate = request.getParameter("birthDate");
-                    String phoneNumber = request.getParameter("phoneNumber");
-
-                    String addressNumber = request.getParameter("addressNumber");
-                    String addressStreet = request.getParameter("addressStreet");
-                    String addressPostalCode = request.getParameter("addressPostalCode");
-                    String addressCity = request.getParameter("addressCity");
-                    String addressCountry = request.getParameter("addressCountry");
+                    String phoneNumber = request.getParameter("phoneNumber").trim();
+                    
+                    String address = request.getParameter("address").trim();
+                    String addressPostalCode = request.getParameter("addressPostalCode").trim();
+                    String addressCity = request.getParameter("addressCity").trim();
+                    String addressCountry = request.getParameter("addressCountry").trim();
+                    
+                    String addressNumber ="";
+                    while(Character.isDigit(address.charAt(0))){
+                        addressNumber+=address.charAt(0);
+                        address = address.substring(1);
+                    }
+                    String addressStreet = address.trim();
+                    
                     ajaxAction.signUp(lastName, firstName, nickName, email, password, false,
                             false, gender, birthDate, phoneNumber, addressNumber, addressStreet,
                             addressPostalCode, addressCity, addressCountry);

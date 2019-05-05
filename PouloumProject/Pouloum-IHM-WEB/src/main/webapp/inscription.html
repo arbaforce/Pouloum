@@ -4,39 +4,224 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/inscription.css'>
     </head>
     <body>
-        <div>TODO write content</div>
-
+        <div id="wrapper" class="container-fluid">
+            <div id="title_row" class="row justify-content-center">
+                <div class="col-6">
+                    <h1 class="textAlign">Pouloum</h1>
+                    <h2 class="textAlign">Création d'un profil</h2>
+                </div>
+            </div><!--title_row-->
+            <br>
+            
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-danger text-center collapse" id="errorMessage">
+                    </div><!--#Error message -->
+                </div>
+            </div>
+            
+            <div id="information_row" class="row justify-content-center">
+                <div id="left_information_container" class="col-5 justify-content-between border-right border-dark">
+                    <div id="Gender_row" class="row">
+                        <div class="col-6 text-right">
+                            Genre : 
+                        </div>
+                        <div class="col-5">
+                            <label class="radio-inline"><input type="radio" name="gender"  id="masculin">M</label>
+                            <label class="radio-inline"><input type="radio" name="gender" id="feminin">F</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="surname_row" class="row">
+                        <div class="col-6 text-right">
+                            Nom : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_surname_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="name_row" class="row">
+                        <div class="col-6 text-right">
+                            Prénom : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_name_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="birthdate_row" class="row">
+                        <div class="col-6 text-right">
+                            Date de naissance : 
+                        </div>
+                        <div class="col-5">
+                            <input class="form-control" id="user_birthdate_container" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="country_row" class="row">
+                        <div class="col-6 text-right">
+                            Pays : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_address_country_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="city_row" class="row">
+                        <div class="col-6 text-right">
+                            Ville : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_address_city_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="postal_number_row" class="row">
+                        <div class="col-6 text-right">
+                            Code postal : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_address_postal_number_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="address_row" class="row">
+                        <div class="col-6 text-right">
+                            Adresse : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_address_details_container" class="form-control">
+                        </div>
+                    </div>
+                </div><!--left_information_container -->
+                <div id="right_information_container" class="col-5 justify-content-between">
+                    <div id="phone_number_row" class="row">
+                        <div class="col-6 text-right">
+                            Téléphone : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_phone_number_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="pseudo_row" class="row">
+                        <div class="col-6 text-right">
+                            Pseudonyme <font color="red">*</font> : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_pseudo_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="mail_row" class="row">
+                        <div class="col-6 text-right">
+                            Adresse mail <font color="red">*</font> : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_mail_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="mail_confirmation_row" class="row">
+                        <div class="col-6 text-right">
+                            Confirmation de l'adresse mail <font color="red">*</font> : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="text" id="user_mail_confirmation_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="password_row" class="row">
+                        <div class="col-6 text-right">
+                            Mot de passe <font color="red">*</font> : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="password" id="user_password_container" class="form-control">
+                        </div>
+                    </div><br>
+                    <div id="password_confirmation_row" class="row">
+                        <div class="col-6 text-right">
+                            Confirmation du mot de passe <font color="red">*</font> : 
+                        </div>
+                        <div class="col-5 text-left">
+                            <input type="password" id="user_password_confirmation_container" class="form-control">
+                        </div>
+                    </div>
+                </div><!--right_information_container -->
+            </div><!--information_row -->
+            <div id="row_validation_buttons" class="row justify-content-end">
+                <div class="col-2 mr-5" id ="validate_button_col">
+                    <button id="validate_button" type="button" class="btn btn-light button" >
+                        Valider inscription
+                    </button><!--#validate_button -->
+                </div>
+            </div>
+            <div id="row_have_account_text" class="row justify-content-end">
+                <div class="col-2 mr-5" id ="validate_button_col">
+                    <h6 class="textAlign">Vous avez déjà un compte ? <a href="index.html">Cliquez ici</a> !</h6>
+                </div>
+            </div>
+        </div><!--wrapper -->
+        
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="SCRIPT/util_scripts.js"></script>
+        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        
         <script>
+            $(document).ready(function() {
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                date_input.datepicker({
+                    format: 'dd/mm/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                });
+            });
+            
             $(function () {
-                $("#buttonSignUp").button().on("click", function () {
+                $("#validate_button").button().on("click", function () {
+                    var genderResult = null;
+                    if (document.getElementById("masculin").checked)
+                        genderResult = "M";
+                    else if (document.getElementById("feminin").checked)
+                        genderResult = "F";
                     $.ajax({
                         url: './AjaxAction',
                         type: 'POST',
                         data: {
                             'action': 'signUp',
-                            'mail': $('#mail').val(),
-                            'password': $('#pwd').val(),
-                            'lastName': $('#lastName').val(),
-                            'firstName': $('#firstName').val(),
-                            'nickname': $('#nickname').val(),
-                            'gender': $('#gender').val(), //TODO: might be something else than .val() 
-                            'birthDate': $('#birthDate').val(), // Assuming the birthdate input is a single calendar field 
-                            // (rather than 3 different text fields), otherwise the service 
-                            // should be changed to create the date from the different fields
-                            'phoneNumber': $('#phoneNumber').val(),
-                            'addressNumber': $('#addressNumber').val(),
-                            'addressStreet': $('#addressStreet').val(),
-                            'addressPostalCode': $('#addressPostalCode').val(),
-                            'addressCity': $('#addressCity').val(),
-                            'addressCountry': $('#addressCountry').val()
+                            'mail': $('#user_mail_container').val(),
+                            'mailConfirmation': $('#user_mail_confirmation_container').val(),
+                            'password': $('#user_password_container').val(),
+                            'passwordConfirmation': $('#user_password_confirmation_container').val(),
+                            'surname': $('#user_surname_container').val(),
+                            'name': $('#user_name_container').val(),
+                            'pseudo': $('#user_pseudo_container').val(),
+                            'gender': genderResult,
+                            'birthDate': $('#user_birthdate_container').val(), 
+                            'phoneNumber': $('#user_phone_number_container').val(),
+                            'address': $('#user_address_details_container').val(),
+                            'addressPostalCode': $('#user_address_postal_number_container').val(),
+                            'addressCity': $('#user_address_city_container').val(),
+                            'addressCountry': $('#user_address_country_container').val()
                         },
                         datatype: 'json'
                     }).done(function (data) {
                         var OK = data.result;
                         if (OK) {
-                            window.location.href = './home_page.html';
+                            window.location.href = './index.html';
                         } else {
                             $("#errorMessage").show();
                             $("#errorMessage").text(data.errorMessage);

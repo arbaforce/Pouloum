@@ -139,7 +139,7 @@ public class AjaxAction {
                 // TODO get other fields ?
             } else {
                 this.container.addProperty("result", false);
-                this.container.addProperty("errorMessage", "ERREUR : Les identifiants n'ont pas été trouvés");
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
 
         } catch (IOException ex) {
