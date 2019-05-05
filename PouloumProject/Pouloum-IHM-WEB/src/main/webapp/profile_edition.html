@@ -67,6 +67,13 @@
                 </div> <!--#row_containing_navbar-->
             </div> <!--#container_navbar_and_alert -->
             
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-danger text-center collapse" id="errorMessage">
+                    </div><!--#Error message -->
+                </div>
+            </div>
+            
             <div id="row_containing_modifications" class="row">
                 <div id="avatar_container" class="col-4">
                     <div id="image_avatar_row" class="row justify-content-center">
@@ -106,13 +113,13 @@
                         </div>
                     </div>
                     <br>
-                    <div id="Genre_row" class="row">
+                    <div id="Gender_row" class="row">
                         <div class="col-6 text-right">
                             Genre : 
                         </div>
                         <div class="col-6">
-                            <label class="radio-inline"><input type="radio" id="masculin">M</label>
-                            <label class="radio-inline"><input type="radio" id="feminin">F</label>
+                            <label class="radio-inline"><input type="radio" name="gender"  id="masculin">M</label>
+                            <label class="radio-inline"><input type="radio" name="gender" id="feminin">F</label>
                         </div>
                     </div>
                     <br>
@@ -149,7 +156,16 @@
                             Mot de passe : 
                         </div>
                         <div class="col-6 text-left">
-                            <input type="password" id="user_password_container" value="aaaaaaaaaa" class="form-control">
+                            <input type="password" id="user_password_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="country_row" class="row">
+                        <div class="col-6 text-right">
+                            Pays : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_address_country_container" class="form-control">
                         </div>
                     </div>
                     <br>
@@ -181,8 +197,20 @@
                     </div>
                 </div><!--right_information_container -->
             </div><!--row_containing_modifications -->
-            
-            
+            <br>
+            <br>
+            <div id="row_validation_buttons" class="row justify-content-end">
+                <div class="col-2" id ="validate_button_col">
+                    <button id="validate_button" type="button" class="btn btn-light button" >
+                        Valider modifications
+                    </button><!--#validate_button -->
+                </div>
+                <div class="col-2" id ="cancel_button_col">
+                    <button id="cancel_button" type="button" class="btn btn-light button" onclick="window.location.href = 'profile_edition.html';">
+                        Annuler
+                    </button><!--#cancel_button -->
+                </div>
+            </div>
         </div><!--#wrapper-->
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -218,6 +246,7 @@
                         document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
                         document.getElementById("user_mail_container").value = data.userDetails.email;
                         document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
+                        document.getElementById("user_address_country_container").value = data.userDetails.address.country;
                         document.getElementById("user_address_city_container").value = data.userDetails.address.city;
                         document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
                         document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
@@ -226,17 +255,6 @@
                             document.getElementById("masculin").checked = true;
                             document.getElementById("feminin").checked = false;
                         }
-                        
-                        $("#user_pseudo_container").text(data.userDetails.nickname);
-                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
                     }
                 });
                 
@@ -247,7 +265,48 @@
                     container: container,
                     todayHighlight: true,
                     autoclose: true,
-                })
+                });
+            });
+            
+            $(function () {
+                $("#validate_button").button().on("click", function(){
+                    var genderResult;
+                    if (document.getElementById("masculin").checked)
+                        genderResult = "M";
+                    else
+                        genderResult = "F";
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'updateUserDetails',
+                            'id': userID,
+                            'surname' : $("#user_surname_container").val(),
+                            'name' : $("#user_name_container").val(),
+                            'pseudo' : $("#user_pseudo_container").val(),
+                            'password' : $("#user_password_container").val(),
+                            'birthdate' : $("#user_birthdate_container").val(),
+                            'mail' : $("#user_mail_container").val(),
+                            'phone_number' : $("#user_phone_number_container").val(),
+                            'country' : $("#user_address_country_container").val(),
+                            'city' : $("#user_address_city_container").val(),
+                            'postal_number' : $("#user_address_postal_number_container").val(),
+                            'address' : $("#user_address_details_container").val(),
+                            'gender' : genderResult
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        if(data.result)
+                            window.location.href = './my_profile.html';
+                        else{
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
+                        }
+                    }).fail(function () {
+                        $("#errorMessage").show();
+                        $("#errorMessage").text("Une erreur est survenue, veuillez réessayer plus tard.");
+                    });
+                });
             });
         </script>
     </body>

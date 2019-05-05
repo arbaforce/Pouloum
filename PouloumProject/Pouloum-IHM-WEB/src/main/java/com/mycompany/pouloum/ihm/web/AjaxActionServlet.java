@@ -108,6 +108,36 @@ public class AjaxActionServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 ajaxAction.getUserDetails(id);
             }
+            else if("updateUserDetails".equals(action)){
+                String id = request.getParameter("id");
+                String surname = request.getParameter("surname").trim();
+                String name = request.getParameter("name").trim();
+                String pseudo = request.getParameter("pseudo").trim();
+                String password = request.getParameter("password");
+                String birthdate = request.getParameter("birthdate");
+                String mail = request.getParameter("mail").trim();
+                String phone_number = request.getParameter("phone_number").trim();
+                String country = request.getParameter("country").trim();
+                String city = request.getParameter("city").trim();
+                String postal_number = request.getParameter("postal_number").trim();
+                String address = request.getParameter("address").trim();
+                String gender = request.getParameter("gender");
+                
+                if (!isEmailValid(mail)){
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : l'adresse mail indiquée est invalide");
+                }
+                else{
+                    String street_number ="";
+                    while(Character.isDigit(address.charAt(0))){
+                        street_number+=address.charAt(0);
+                        address = address.substring(1);
+                    }
+                    String street = address.trim();
+                    
+                    ajaxAction.updateUserDetails(id, surname, name, gender, pseudo, password, birthdate, mail, phone_number, country, city, postal_number, street, street_number);
+                }
+            }
             else {
                 actionCalled = false;
             }

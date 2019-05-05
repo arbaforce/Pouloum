@@ -185,7 +185,7 @@ public class ServicesPouloumer {
             // nickname available
         }
         
-        if (password.equals("")) {
+        if (!password.equals("")&&password.length()<8) {
             // password too weak
             return CRE_ERR_PASSWORD;
         }
@@ -208,7 +208,7 @@ public class ServicesPouloumer {
             JpaUtil.openTransaction();
             
             try {
-                DAOPouloumer.persist(p);
+                DAOPouloumer.updatePouloumer(p);
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
                 // Registration has failed

@@ -231,4 +231,43 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
         }
     }
+    
+    public void updateUserDetails(String id, String surname, String name, String gender, String pseudo, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postal_number, String street, String street_number) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "updateUserDetails"),
+                    new JsonHttpClient.Parameter("idUser", id),
+                    new JsonHttpClient.Parameter("lastName", surname),
+                    new JsonHttpClient.Parameter("firstName", name),
+                    new JsonHttpClient.Parameter("nickname", pseudo),
+                    new JsonHttpClient.Parameter("mail", mail),
+                    new JsonHttpClient.Parameter("password", password),
+                    new JsonHttpClient.Parameter("birthDate", birthDate),
+                    new JsonHttpClient.Parameter("phoneNumber", phoneNumber),
+                    new JsonHttpClient.Parameter("addressCountry", country),
+                    new JsonHttpClient.Parameter("addressCity", city),
+                    new JsonHttpClient.Parameter("addressNumber", street_number),
+                    new JsonHttpClient.Parameter("addressStreet", street),
+                    new JsonHttpClient.Parameter("addressPostalCode", postal_number)
+            );
+            
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "updateUserDetails");
+            }
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+            }
+            else{
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+            
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("updateUserDetails", ex);
+        }
+    }
 }
