@@ -11,6 +11,7 @@ import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
+import com.mycompany.pouloum.util.Common;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.DateUtil;
 import com.mycompany.pouloum.util.JsonServletHelper;
@@ -22,6 +23,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -128,6 +130,8 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This email is already used.";
                     } else if (result == CRE_ERR_NICKNAME) {
                         resultErrorMessage = "This nickname is already used.";
+                    } else if (result == CRE_ERR_PASSWORD) {
+                        resultErrorMessage = "This password is too weak.";
                     }
                 }
             } /////////////////
@@ -167,6 +171,8 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This email is already used.";
                     } else if (result == CRE_ERR_NICKNAME) {
                         resultErrorMessage = "This nickname is already used.";
+                    } else if (result == CRE_ERR_PASSWORD) {
+                        resultErrorMessage = "This password is too weak.";
                     }
                 }
             } //////////
@@ -281,7 +287,50 @@ public class ServicesServlet extends HttpServlet {
             /////Search for an event
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
-                //TODO
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                List<Activity> interests = p.getInterests();
+                
+                Map<Event,List<Pouloumer>> availableEvents = ServicesEvent.getEventByInterests(interests);
+                
+                JsonArray events = new JsonArray();
+                
+                for (Event e : availableEvents.keySet())
+                {
+                    // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
+                    JsonObject eventAndPouloumerSimiliarities = new JsonObject();
+                    
+                    List<Pouloumer> participants = availableEvents.get(e);
+                    
+                    int averagePouloumerSimilarity = 0;
+                    
+                    // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
+                    JsonArray currentEventParticipants = new JsonArray();
+                    
+                    for (Pouloumer currentPouloumer : participants)
+                    {
+                        // This object wraps <IdUser,User,int(UserSimilarity)>
+                        JsonObject participantSimilarity = new JsonObject();
+                                                
+                        long PouloumerSimilarity = p.getPouloumerSimilarity(currentPouloumer.getInterests());
+                                                
+                        participantSimilarity.add("pouloumer",currentPouloumer.toJson());
+                        participantSimilarity.addProperty("similarity",PouloumerSimilarity);
+                        
+                        currentEventParticipants.add(participantSimilarity);
+                        
+                        averagePouloumerSimilarity += PouloumerSimilarity;
+                    }
+                    
+                    eventAndPouloumerSimiliarities.add("event", e.toJson());
+                    eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
+                    eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
+                    
+                    events.add(eventAndPouloumerSimiliarities);
+                }
+                
+                container.add("similarEvents", events);
             } ///////////
             ////Join event
             ///////////
@@ -439,15 +488,6 @@ public class ServicesServlet extends HttpServlet {
             resultErrorMessage = "Error when trying to process the transaction.";
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*
-        } catch (ServiceException ex) {
-            container.addProperty("error", ex.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
 
         if (resultErrorMessage.isEmpty()) {
             container.addProperty("result", "OK");

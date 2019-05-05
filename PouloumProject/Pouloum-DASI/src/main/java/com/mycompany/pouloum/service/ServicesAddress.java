@@ -11,11 +11,12 @@ import com.mycompany.pouloum.model.Address;
 public class ServicesAddress {
     
     /**
-     * Try to login with a given (mail, password) pair.
+     * Get an address, given its id.
      *
      * @param idAddress is the id of the Address to find.
+     * @throws Exception if there's an error trying to access the database,
+     * or if there is no address with the given id.
      * @return Address, the matching address.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static Address getAddressById(Long idAddress)
             throws Exception
