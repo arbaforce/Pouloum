@@ -77,10 +77,10 @@ public class ServicesServlet extends HttpServlet {
 
         Gson g = new Gson();
         JsonObject container = new JsonObject();
-        
+
         boolean serviceCalled = true;
         String resultErrorMessage = "";
-        
+
         try {
             //////////
             ////login
@@ -89,21 +89,20 @@ public class ServicesServlet extends HttpServlet {
                 String mail = request.getParameter("mail");
                 String nickName = request.getParameter("nickname");
                 String password = request.getParameter("password");
-                
+
                 Pouloumer p;
                 if (mail != null) {
                     p = ServicesPouloumer.loginWithMail(mail, password);
                 } else {
                     p = ServicesPouloumer.loginWithNickname(nickName, password);
                 }
-                
+
                 if (p != null) {
                     container.addProperty("Pouloumer", p.getId());
                 } else {
                     resultErrorMessage = "There is no match for these identifiants.";
                 }
-            }
-            //////////
+            } //////////
             ////signUp
             //////////
             else if ("signUp".equals(sma)) {
@@ -131,38 +130,37 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This nickname is already used.";
                     }
                 }
-            }
-            /////////////////
+            } /////////////////
             //////Update profile
             /////////////////
             else if ("updateUserDetails".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
+
                 String lastName = request.getParameter("lastName");
                 String firstName = request.getParameter("firstName");
-                
+
                 String nickname = request.getParameter("nickname");
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
                 Date birthdate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phone = request.getParameter("phoneNumber");
-                
+
                 String addressNumber = request.getParameter("addressNumber");
                 String addressStreet = request.getParameter("addressStreet");
                 String addressPostalCode = request.getParameter("addressPostalCode");
                 String addressCity = request.getParameter("addressCity");
                 String addressCountry = request.getParameter("addressCountry");
-                
+
                 Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                
+
                 String temp = request.getParameter("gender");
                 char gender = (temp == null ? p.getGender() : temp.charAt(0));
-                
+
                 boolean isModerator = p.isModerator();
                 boolean isAdministrator = p.isAdministrator();
-                
+
                 CRE result = ServicesPouloumer.updatePouloumer(p, lastName, firstName, nickname, email, password, isModerator, isAdministrator, gender, birthdate, phone, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
@@ -171,15 +169,14 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This nickname is already used.";
                     }
                 }
-            }
-            //////////
+            } //////////
             ////consult home page
             //////////
             else if ("getUserEvents".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
+
                 JsonArray array = new JsonArray();
                 for (Event e : p.getEvents()) {
                     if (!(e.isCancelled() || e.isFinished())) {
@@ -187,21 +184,19 @@ public class ServicesServlet extends HttpServlet {
                     }
                 }
                 container.add("events", array);
-            }
-            ///////////
+            } ///////////
             ////Consult badges
             ///////////
             else if ("getUserBadges".equals(sma)) {
                 //TODO when badges are implemented.
-            }
-            ///////////
+            } ///////////
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
+
                 JsonArray array = new JsonArray();
                 for (Event e : p.getEvents()) {
                     if (e.isFinished()) {
@@ -209,40 +204,36 @@ public class ServicesServlet extends HttpServlet {
                     }
                 }
                 container.add("eventsHistory", array);
-            }
-            ///////////
+            } ///////////
             ////Consult friends
             ///////////
             else if ("getUserFriends".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Consult blacklist
             ///////////
             else if ("getUserBlacklist".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Add interests
             ///////////
             else if ("addInterestsToUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 List<Long> idActivities = new ArrayList<>();
                 String[] values = request.getParameterValues("idActivities");
                 for (String value : values) {
                     idActivities.add(Long.parseLong(value));
                 }
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 List<Activity> interests = new ArrayList<>();
                 for (Long idAct : idActivities) {
                     interests.add(ServicesActivity.getActivityById(idAct));
                 }
-                
+
                 ServicesPouloumer.addInterests(p, interests);
-            }
-            ///////////
+            } ///////////
             ////Remove interest
             ///////////
             else if ("removeInterestFromoUser".equals(sma)) {
@@ -250,16 +241,14 @@ public class ServicesServlet extends HttpServlet {
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Activity a = ServicesActivity.getActivityById(idActivity);
-                
+
                 ServicesPouloumer.removeInterest(p, a);
-            }
-            ///////////
+            } ///////////
             ////Consult interests
             ///////////
             else if ("getUserInterests".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Consult details
             ///////////
             else if ("getUserDetails".equals(sma)) {
@@ -268,50 +257,42 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
                 container.add("pouloumer", p.toJson());
-            }
-            ///////////
+            } ///////////
             ////Accept friend
             ///////////
             else if ("acceptFriend".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Remove friend
             ///////////
             else if ("removeFriend".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Remove blacklist
             ///////////
             else if ("removeFromBlackList".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Add blacklist
             ///////////
             else if ("addToBlacklist".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Request friend
             ///////////
             else if ("sendFriendRequest".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Report
             ///////////
             else if ("reportAbusiveBehaviour".equals(sma)) {
                 //TODO
-            }
-            /////////////
+            } /////////////
             /////Search for an event
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
                 //TODO
-            }
-            ///////////
+            } ///////////
             ////Join event
             ///////////
             else if ("joinEvent".equals(sma)) {
@@ -320,14 +301,12 @@ public class ServicesServlet extends HttpServlet {
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
-                
+
                 //TODO check that event isn't cancelled, already done, ...
                 //TODO check that event isn't full
                 //TODO check that user doesn't have other events at the same time
-                
                 ServicesPouloumer.joinEvent(p, e);
-            }
-            ///////////
+            } ///////////
             ////Leave event
             ///////////
             else if ("leaveEvent".equals(sma)) {
@@ -338,16 +317,28 @@ public class ServicesServlet extends HttpServlet {
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.removeParticipant(e, p);
-            }
-            //////////////
+            } //////////////
             /////Set up an event
             //////////////
             else if ("createEvent".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+                // Get organizer
+                Long idOrganizer = Long.parseLong(request.getParameter("idUser"));
+                Pouloumer organizer = ServicesPouloumer.getPouloumerById(idOrganizer);
+
+                // Get activity
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
-                Long idAddress = Long.parseLong(request.getParameter("idAddress"));
-                
+                Activity activity = ServicesActivity.getActivityById(idActivity);
+
+                // Create the address
+                String addressNumber = request.getParameter("addressNumber");
+                String addressStreet = request.getParameter("addressStreet");
+                String addressPostalCode = request.getParameter("addressPostalCode");
+                String addressCity = request.getParameter("addressCity");
+                String addressCountry = request.getParameter("addressCountry");
+
+                Address a = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+
+                // Create the actual event
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
                 Date startDate = DateUtil.toDate(request.getParameter("date"));
@@ -355,19 +346,13 @@ public class ServicesServlet extends HttpServlet {
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
 
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
-                Activity activity = ServicesActivity.getActivityById(idActivity);
-                Address address = ServicesAddress.getAddressById(idAddress);
-
-                ServicesEvent.createEvent(name, description, startDate, duration, address, activity, p, playerMin, playerMax);
-            }
-            ///////////
+                ServicesEvent.createEvent(name, description, startDate, duration, a, activity, organizer, playerMin, playerMax);
+            } ///////////
             ////Update event
             ///////////
             else if ("updateEvent".equals(sma)) {
                 Long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                
+
                 // TODO maybe allow to update name/description as well
                 // String name = request.getParameter("name");
                 // String description = request.getParameter("description");
@@ -376,14 +361,12 @@ public class ServicesServlet extends HttpServlet {
                 Long idAddress = Long.parseLong(request.getParameter("idAddress"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
-                
+
                 //TODO make sure only the organizer can do this
-                
                 Event event = ServicesEvent.getEventById(idEvent);
                 Address address = ServicesAddress.getAddressById(idAddress);
                 ServicesEvent.updateEvent(event, startDate, duration, address, playerMin, playerMax);
-            }
-            ///////////
+            } ///////////
             ////Cancel event
             ///////////
             else if ("cancelEvent".equals(sma)) {
@@ -392,10 +375,8 @@ public class ServicesServlet extends HttpServlet {
                 Event event = ServicesEvent.getEventById(idEvent);
 
                 //TODO make sure only the organizer can do this
-                
                 ServicesEvent.cancelEvent(event);
-            }
-            ////////////
+            } ////////////
             /////Consult someone else profile
             ////////////
             else if ("getOrganizedEvents".equals(sma)) {
@@ -410,8 +391,7 @@ public class ServicesServlet extends HttpServlet {
                 }
 
                 container.add("organizedEvents", organizedEventsArray);
-            }
-            ///////////////
+            } ///////////////
             /////Consult finished event
             ///////////////
             else if ("addCommentToEvent".equals(sma)) {
@@ -419,47 +399,43 @@ public class ServicesServlet extends HttpServlet {
                 String description = request.getParameter("description");
                 long idUser = Long.parseLong(request.getParameter("idUser"));
                 long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
-                
+
                 ServicesEvent.addCommentToEvent(e, p, description, now);
-            }
-            ///////////////
+            } ///////////////
             /////Consult an activity
             ///////////////
             else if ("findAllActivities".equals(sma)) {
                 JsonArray array = new JsonArray();
-                
+
                 List<Activity> activities = ServicesActivity.findAllActivities();
-                
+
                 for (Activity a : activities) {
                     array.add(a.toJson());
                 }
-                
+
                 container.add("activities", array);
-            }
-            ///////////
+            } ///////////
             ////Consult activity
             ///////////
             else if ("getActivityDetails".equals(sma)) {
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
-                
+
                 Activity a = ServicesActivity.getActivityById(idActivity);
-                
+
                 container.add("Activity", a.toJson());
-            }
-            /////////////////
+            } /////////////////
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
                 Long idEvent = Long.parseLong(request.getParameter("idEvent"));
-                
+
                 Event e = ServicesEvent.getEventById(idEvent);
-                
+
                 container.add("event", e.toJson());
-            }
-            /////////////////
+            } /////////////////
             //////SMA name mistake?
             /////////////////
             else {
@@ -481,15 +457,15 @@ public class ServicesServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
-        
+         */
+
         if (resultErrorMessage.isEmpty()) {
             container.addProperty("result", "OK");
         } else {
             container.addProperty("result", "KO");
             container.addProperty("message", resultErrorMessage);
         }
-        
+
         if (serviceCalled) {
             JsonServletHelper.printJsonOutput(response, container);
         } else {
