@@ -1,195 +1,226 @@
 <!DOCTYPE html>
 <html>
-<head>
-      <title>Profil</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
-      <link rel='stylesheet' type='text/css' href='STYLE/my_profile.css'>
-
-</head>
-<body>
-    <div id="wrapper" class="container-fluid">
-        <div id="container_navbar_and_alert" class="container mt-1" style="height: 15vh">
-            <div id="row_containing_navbar" class="row h-50">
-                <div id="main_navbar" class="navbar navbar-expand-lg navbar-light bg-light h-100 w-100">
-                    <div id="navbar_row_containing_columns" class="row h-100 w-100">
-                        <div id="navbar_brand_column" class="col-2 h-100">
-                            <a class="navbar-brand text-center" href="home_page.html">
-                                P <!-- TODO replace by company logo -->
-                            </a>
-                        </div><!--#navbar_brand_column-->
-                        <div id="navbar_ul_column" class="col-10 h-100">
-                            <ul class="navbar-nav mx-auto h-100">
-                                <li class="col-2 nav-item active">
-                                    <a class="nav-link font-weight-bold text-center" href="home_page.html">
-                                        Accueil
-                                    </a>
-                                </li>
-                                <li class="col-2 nav-item dropdown active">
-                                    <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Profil
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbar_profile_dropdown_links">
-                                        <a class="dropdown-item font-weight-bold text-center" href="my_profile.html">Mon Profil</a>
-                                        <a class="dropdown-item font-weight-bold text-center" href="profile_history.html">Historique</a>
-                                        <a class="dropdown-item font-weight-bold text-center" href="profile_relations.html">Relations</a>
-                                    </div>
-                                </li>
-                                <li class="col-2 nav-item active">
-                                    <a class="nav-link font-weight-bold text-center" href="events_browser.html">
-                                        Chercher
-                                    </a>
-                                </li>
-                                <li class="col-2 nav-item dropdown active">
-                                    <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Organiser
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbar_organize_dropdown_links">
-                                        <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">Nouvel Evènement</a>
-                                        <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=0">Modifier</a>
-                                    </div>
-                                </li>
-                                <li class="col-2 nav-item active">
-                                    <a class="nav-link font-weight-bold text-center" href="activities_browser.html">
-                                        Activités
-                                    </a>
-                                </li>
-                                <li class="col-2 nav-item active">
-                                    <a class="nav-link px-0 py-0 h-100 w-100 text-center" href=" index.html">
-                                        <img id="navbar_img" src="IMG/navbar_logout_icon.png" class="img-fluid align-middle">
-                                    </a>
-                                </li>
-                            </ul>
-                        </div><!--#navbar_ul_column-->
-                    </div><!--#navbar_row_containing_columns-->
-                </div>  <!--#main_nabar -->
-            </div> <!--#row_containing_navbar-->
-        </div> <!--#container_navbar_and_alert -->
-    
-        <div id="my_profile_container" class="container"> 
-            <div id="my_profile_row" class="row">
-                <div id="user_details_global_container" class="col-6 border">
-                    
-                    <div id="image_avatar_container">
-                        <div id="image_avatar_row" class="row justify-content-center">
-                            <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded " />
+    <head>
+        <title>Profil</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/my_profile.css'>
+        
+    </head>
+    <body>
+        <div id="wrapper" class="container-fluid">
+            <div id="container_navbar_and_alert" class="container mt-1" style="height: 15vh">
+                <div id="row_containing_navbar" class="row h-50">
+                    <div id="main_navbar" class="navbar navbar-expand-lg navbar-light bg-light h-100 w-100">
+                        <div id="navbar_row_containing_columns" class="row h-100 w-100">
+                            <div id="navbar_brand_column" class="col-2 h-100">
+                                <a class="navbar-brand text-center" href="home_page.html">
+                                    P <!-- TODO replace by company logo -->
+                                </a>
+                            </div><!--#navbar_brand_column-->
+                            <div id="navbar_ul_column" class="col-10 h-100">
+                                <ul class="navbar-nav mx-auto h-100">
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="home_page.html">
+                                            Accueil
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item dropdown active">
+                                        <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Profil
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbar_profile_dropdown_links">
+                                            <a class="dropdown-item font-weight-bold text-center" href="my_profile.html">Mon Profil</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="profile_history.html">Historique</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="profile_relations.html">Relations</a>
+                                        </div>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="events_browser.html">
+                                            Chercher
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item dropdown active">
+                                        <a class="nav-link dropdown-toggle font-weight-bold text-center" href="#" id="navbar_profile_dropdown_links" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Organiser
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbar_organize_dropdown_links">
+                                            <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">Nouvel Evènement</a>
+                                            <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=0">Modifier</a>
+                                        </div>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link font-weight-bold text-center" href="activities_browser.html">
+                                            Activités
+                                        </a>
+                                    </li>
+                                    <li class="col-2 nav-item active">
+                                        <a class="nav-link px-0 py-0 h-100 w-100 text-center" href=" index.html">
+                                            <img id="navbar_img" src="IMG/navbar_logout_icon.png" class="img-fluid align-middle">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!--#navbar_ul_column-->
+                        </div><!--#navbar_row_containing_columns-->
+                    </div>  <!--#main_nabar -->
+                </div> <!--#row_containing_navbar-->
+            </div> <!--#container_navbar_and_alert -->
+            
+            <div id="my_profile_container" class="container"> 
+                <div id="my_profile_row" class="row">
+                    <div id="user_details_global_container" class="col-6 border">
+                        
+                        <div id="image_avatar_container">
+                            <div id="image_avatar_row" class="row justify-content-center">
+                                <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded " />
+                            </div><!--image_avatar_container -->
                         </div><!--image_avatar_container -->
-                    </div><!--image_avatar_container -->
-                    <div id="user_pseudo_container" class="textAlign">
-                      Gérard
-                    </div><!--user_pseudo_container -->
-                    <div id="user_rank_container" class="textAlign">
-                      Grand pouloumeur
-                    </div><!--user_rank_container -->
-
-                    <div id="user_name_container" class="">
-                      Nom : Lambert
-                    </div><!--user_name_container -->
-                    <div id="user_surname_container" class="">
-                      Prénom : Gerard
-                    </div><!--user_surname_container -->
-                    <div id="user_genre_container" class="">
-                      Genre : M
-                    </div><!--user_genre_container -->
-                    <div id="user_address_city_container" class="">
-                      Ville : St-Jean le Rotrou
-                    </div><!--user_address_container -->
-                    <div id="user_address_postal_number_container" class="">
-                      Code postal : 65000
-                    </div><!--user_address_postal_number_container -->
-                    <div id="user_address_details_container" class="">
-                      Adresse : 18 rue des Olives
-                    </div><!--user_address_details_container -->
-                    <div id="user_birthdate_container" class="">
-                      Date de naissance : 06/08/1992
-                    </div><!--user_birthdate_container -->
-                    <div id="user_phone_number_container" class="">
-                      Téléphone :
-                    </div><!--user_phone_number_container -->
-                    <div id="user_mail_container" class="">
-                      Adresse mail :
-                    </div><!--user_mail_container -->
+                        <div id="user_pseudo_container" class="textAlign">
+                            Gérard
+                        </div><!--user_pseudo_container -->
+                        <div id="user_rank_container" class="textAlign">
+                            Grand pouloumeur
+                        </div><!--user_rank_container -->
+                        
+                        <div id="user_name_container" class="">
+                            Nom : Lambert
+                        </div><!--user_name_container -->
+                        <div id="user_surname_container" class="">
+                            Prénom : Gerard
+                        </div><!--user_surname_container -->
+                        <div id="user_genre_container" class="">
+                            Genre : M
+                        </div><!--user_genre_container -->
+                        <div id="user_address_city_container" class="">
+                            Ville : St-Jean le Rotrou
+                        </div><!--user_address_container -->
+                        <div id="user_address_postal_number_container" class="">
+                            Code postal : 65000
+                        </div><!--user_address_postal_number_container -->
+                        <div id="user_address_details_container" class="">
+                            Adresse : 18 rue des Olives
+                        </div><!--user_address_details_container -->
+                        <div id="user_birthdate_container" class="">
+                            Date de naissance : 06/08/1992
+                        </div><!--user_birthdate_container -->
+                        <div id="user_phone_number_container" class="">
+                            Téléphone :
+                        </div><!--user_phone_number_container -->
+                        <div id="user_mail_container" class="">
+                            Adresse mail :
+                        </div><!--user_mail_container -->
+                        
+                        <div id="button_modify_profil_container" class="container">
+                            <div id="button_modify_profil_row" class="row justify-content-center button">
+                                <button id="button_modify_profil" type="button" class="btn btn-light" onclick="window.location.href = 'profile_edition.html';">
+                                    Modifier le profil
+                                </button>
+                            </div><!--button_modify_profil -->
+                        </div><!--button_modify_profil_container -->
+                    </div><!--user_details_global_container -->
                     
-                    <div id="button_modify_profil_container" class="container">
-                        <div id="button_modify_profil_row" class="row justify-content-center button">
-                            <button id="button_modify_profil" type="button" class="btn btn-light">
-                                Modifier le profil
-                            </button>
-                        </div><!--button_modify_profil -->
-                    </div><!--button_modify_profil_container -->
-                </div><!--user_details_global_container -->
-
-                <div id="interest_pouloumer_global_container" class="col-3 border ">
-                    <div id="interests_header_container" class="container">
-                        <div id="interests_header_row" class="row"> 
-                            <h4>Centre d'intérêt</h4>
-                        </div><!--interests_header_row-->
-                    </div><!--interests_header_container-->
-                    <div id="interest_pouloumer_container" class="">
-                        Sport d'équipe 
-                                Basketball
-                    </div> <!--interest_user_container-->
+                    <div id="interest_pouloumer_global_container" class="col-3 border ">
+                        <div id="interests_header_container" class="container">
+                            <div id="interests_header_row" class="row"> 
+                                <h4>Centre d'intérêt</h4>
+                            </div><!--interests_header_row-->
+                        </div><!--interests_header_container-->
+                        <div id="interest_pouloumer_container" class="">
+                            Sport d'équipe 
+                            Basketball
+                        </div> <!--interest_user_container-->
+                        
+                        <div id="add_interest_button_container" class="container">
+                            <div id="add_interest_button_row" class="row bottom button">
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="interest">
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-light">
+                                        Ajouter
+                                    </button>
+                                </div>
+                            </div><!--add_interest_button_row -->
+                        </div><!--add_interest_button_container -->
+                    </div><!--interest_user_global_container-->
                     
-                    <div id="add_interest_button_container" class="container">
-                        <div id="add_interest_button_row" class="row bottom button">
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="interest">
-                            </div>
-                            <div class="col-4">
-                                <button type="button" class="btn btn-light">
-                                     Ajouter
-                                 </button>
-                            </div>
-                        </div><!--add_interest_button_row -->
-                    </div><!--add_interest_button_container -->
-                </div><!--interest_user_global_container-->
-
-                <div id="badges_pouloumer_global_container" class="col-3 border wrapper">
-                    <div id="badges_header_container">
-                        <div id="badges_header_row" class="row">
-                            <h4>Badges</h4> 
-                        </div><!--badges_header_row-->
-                    </div><!--badges_header_container-->
-                    <div id="badges_pouloumer_container" class="container">
-                        <div id="badges_pouloumer_row" class="row">
-                            <div id="first_row_badges_pouloumer_container" class="container">
-                                <div id="first_row_badges_pouloumer" class="row row_of_badges_my_profile">
-                                    <div id="fire_badge_pouloumer_container" class="col w-50">
-                                        <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
-                                    </div><!--fire_badge_pouloumer_container-->
-                                    <div id="water_badge_pouloumer_container" class="col w-50">
-                                        <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
-                                    </div><!--water_badge_pouloumer_container-->
-                                </div><!--first_row_badges_pouloumer-->
-                            </div><!--first_row_badges_pouloumer_container-->
-                            
-                            <div id="second_row_badges_pouloumer_container" class="container">
-                                <div id="second_row_badges_pouloumer" class="row row_of_badges_my_profile">
-                                    <div id="wind_badge_pouloumer_container" class="col w-50">
-                                        <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
-                                    </div><!--wind_badge_pouloumer_container-->
-                                    <div id="earth_badge_pouloumer_container" class="col w-50">
-                                        <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
-                                    </div><!--earth_badge_pouloumer_container-->
-                                </div><!--second_row_badges_pouloumer-->
-                            </div>
-                        </div> <!--badges_pouloumer_row-->
-                    </div> <!--badges_pouloumer_container-->
-                </div><!--badges_pouloumer_global_container -->
-            </div><!--#my_profile_row-->
-        </div><!--#my_profile_container-->
+                    <div id="badges_pouloumer_global_container" class="col-3 border wrapper">
+                        <div id="badges_header_container">
+                            <div id="badges_header_row" class="row">
+                                <h4>Badges</h4> 
+                            </div><!--badges_header_row-->
+                        </div><!--badges_header_container-->
+                        <div id="badges_pouloumer_container" class="container">
+                            <div id="badges_pouloumer_row" class="row">
+                                <div id="first_row_badges_pouloumer_container" class="container">
+                                    <div id="first_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                                        <div id="fire_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                        </div><!--fire_badge_pouloumer_container-->
+                                        <div id="water_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                        </div><!--water_badge_pouloumer_container-->
+                                    </div><!--first_row_badges_pouloumer-->
+                                </div><!--first_row_badges_pouloumer_container-->
+                                
+                                <div id="second_row_badges_pouloumer_container" class="container">
+                                    <div id="second_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                                        <div id="wind_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                        </div><!--wind_badge_pouloumer_container-->
+                                        <div id="earth_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                        </div><!--earth_badge_pouloumer_container-->
+                                    </div><!--second_row_badges_pouloumer-->
+                                </div>
+                            </div> <!--badges_pouloumer_row-->
+                        </div> <!--badges_pouloumer_container-->
+                    </div><!--badges_pouloumer_global_container -->
+                </div><!--#my_profile_row-->
+            </div><!--#my_profile_container-->
+            
+            
+        </div><!--#wrapper-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="SCRIPT/util_scripts.js"></script>
         
-        
-    </div><!--#wrapper-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-</body>
-
-
-
+        <script>
+            $(document).ready(function() {
+                userID = $.getCookie('userID');
+                
+                if (userID===""){
+                    window.location.href = './index.html'
+                }
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserDetails',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    var OK = data.result;
+                    if(OK){
+                        $("#user_pseudo_container").text(data.userDetails.nickname);
+                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
 
