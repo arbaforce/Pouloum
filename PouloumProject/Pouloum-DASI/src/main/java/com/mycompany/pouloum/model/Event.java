@@ -27,26 +27,6 @@ import javax.persistence.ManyToOne;
 public class Event implements Serializable {
     
     // ATTRIBUTES
-    class Comment 
-    {
-        public Comment(String description, Date date, Long idUser) {
-            this.date = date;
-            this.description = description;
-            this.idUser = idUser;
-        }
-        
-        public JsonObject toJson() {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("idUser", idUser);
-            obj.addProperty("date", DateUtil.toString(date));
-            obj.addProperty("description", description);
-            return obj;
-        }
-        
-        public Date date; 
-        public String description;
-        public Long idUser;
-    }
     
     // Identifier
     @Id
@@ -71,48 +51,17 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    @ManyToOne //FIXME:
-    /*
-[JpaUtil:Log] Initializing the entity manager factory
-Exception in thread "main" Local Exception Stack: 
-Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
-Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
-Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
-Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
-Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
-Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field organizer].
-	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
-	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
-    */
+    @ManyToOne
     protected Pouloumer organizer;
     
     protected int participants_min;
     protected int participants_max;
     
-    @ManyToMany(mappedBy = "events") //FIXME:
-    /*
-[JpaUtil:Log] Initializing the entity manager factory
-Exception in thread "main" Local Exception Stack: 
-Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
-Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
-Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
-Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
-Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
-Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field participants].
-	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
-	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
-    */
+    @ManyToMany
     protected List<Pouloumer> participants;
     
     // Grades
+    @OneToMany
     protected List<Comment> comments;
     // protected double grade_average;
     // map<Pouloumer,int> participants_gradings
@@ -121,7 +70,8 @@ Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-enti
     
     // CONSTRUCTORS
     
-    public Event( ) { }
+    public Event( ) {
+    }
     
     public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max) {
         this.label = label;
@@ -281,9 +231,6 @@ Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-enti
         }
     }
     
-    public void addComment(String description, Date date, Long idPouloumer) {
-        this.comments.add(new Comment(description, date, idPouloumer));
-    }
     
     // ...
     

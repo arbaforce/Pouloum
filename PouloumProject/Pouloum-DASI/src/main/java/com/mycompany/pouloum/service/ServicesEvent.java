@@ -158,38 +158,6 @@ public class ServicesEvent {
     }
 
     /**
-     * Add a comment to an existing event.
-     *
-     * @param event is the event.
-     * @param pouloumer is the commentor.
-     * @param description is the participant to add to the event.
-     * @param date is today's date.
-     * @throws Exception if there's an error trying to access the database.
-     */
-    public static void addCommentToEvent(Event event, Pouloumer pouloumer, String description, Date date)
-            throws Exception {
-        event.addComment(description, date, pouloumer.getId());
-
-        JpaUtil.createEntityManager();
-
-        try {
-            JpaUtil.openTransaction();
-
-            try {
-                DAOEvent.updateEvent(event);
-
-                JpaUtil.commitTransaction();
-            } catch (Exception ex) {
-                JpaUtil.cancelTransaction();
-                throw ex;
-            }
-
-        } finally {
-            JpaUtil.closeEntityManager();
-        }
-    }
-
-    /**
      * Update an existing event (should only be done by its organizer).
      *
      * @param event, the event to update.

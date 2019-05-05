@@ -393,7 +393,7 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                ServicesEvent.addCommentToEvent(e, p, description, now);
+                ServicesComment.createComment(e, p, description, now);
             } ///////////////
             /////Consult an activity
             ///////////////

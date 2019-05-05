@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -26,6 +27,7 @@ import javax.persistence.Table;
 public class Pouloumer implements Serializable {
 
     // ATTRIBUTES
+    
     // Identifier
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,9 +57,9 @@ public class Pouloumer implements Serializable {
     protected Address address;
 
     // Links
-    @OneToMany (mappedBy = "organizer")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="organizer")
     protected List<Event> organizedEvents;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="participants")
     protected List<Event> events;
 
     @OneToMany
@@ -69,7 +71,10 @@ public class Pouloumer implements Serializable {
     // - interests
     // - friends
     // - blacklist
+    
+    
     // CONSTRUCTORS
+    
     public Pouloumer() {
     }
 
@@ -225,8 +230,10 @@ public class Pouloumer implements Serializable {
     public void setInterests(List<Activity> interests) {
         this.interests = interests;
     }
-
+    
+    
     // ...
+    
     public int getAge() {
         Date now = DateUtil.DateNow();
         long ageindays = DateUtil.DateDiff(birth_date, now, TimeUnit.DAYS);
