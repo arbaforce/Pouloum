@@ -137,22 +137,6 @@ Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-enti
         this.participants = new ArrayList<>();
     }
     
-    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max)
-        throws ParseException
-    {
-        this.label = label;
-        this.description = description;
-        this.setStart(start);
-        this.cancelled = cancelled;
-        this.duration = duration;
-        this.location = location;
-        this.activity = activity;
-        this.organizer = organizer;
-        this.participants_min = participants_min;
-        this.participants_max = participants_max;
-        this.participants = new ArrayList<>();
-    }
-    
     
     // SETTERS AND GETTERS
 
@@ -186,12 +170,6 @@ Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-enti
 
     public void setStart(Date start) {
         this.start = start;
-    }
-    
-    public void setStart( String start )
-        throws ParseException
-    {
-        this.start = DateUtil.toDate(start);
     }
     
     public int getDuration() {
