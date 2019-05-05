@@ -28,26 +28,6 @@ import javax.persistence.ManyToOne;
 public class Event implements Serializable {
     
     // ATTRIBUTES
-    class Comment 
-    {
-        public Comment(String description, Date date, Long idUser) {
-            this.date = date;
-            this.description = description;
-            this.idUser = idUser;
-        }
-        
-        public JsonObject toJson() {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("idUser", idUser);
-            obj.addProperty("date", DateUtil.toString(date));
-            obj.addProperty("description", description);
-            return obj;
-        }
-        
-        public Date date; 
-        public String description;
-        public Long idUser;
-    }
     
     // Identifier
     @Id
@@ -73,15 +53,16 @@ public class Event implements Serializable {
     
     // People
     @ManyToOne(fetch=FetchType.LAZY)
-    protected Pouloumer organizer; 
-     
+    protected Pouloumer organizer;
+    
     protected int participants_min;
     protected int participants_max;
     
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany
     protected List<Pouloumer> participants;
     
     // Grades
+    @OneToMany(fetch=FetchType.LAZY,mappedBy="event")
     protected List<Comment> comments;
     // protected double grade_average;
     // map<Pouloumer,int> participants_gradings
@@ -90,7 +71,8 @@ public class Event implements Serializable {
     
     // CONSTRUCTORS
     
-    public Event( ) { }
+    public Event( ) {
+    }
     
     public Event(String label, String description, Date start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max) {
         this.label = label;
@@ -228,9 +210,6 @@ public class Event implements Serializable {
         }
     }
     
-    public void addComment(String description, Date date, Long idPouloumer) {
-        this.comments.add(new Comment(description, date, idPouloumer));
-    }
     
     // ...
     
