@@ -17,7 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -53,7 +55,7 @@ public class Pouloumer implements Serializable {
     protected String phone_number;
 
     // Coordinates
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     protected Address address;
 
     // Links
@@ -88,24 +90,6 @@ public class Pouloumer implements Serializable {
         this.administrator = administrator;
         this.gender = gender;
         this.birth_date = birth_date;
-        this.phone_number = phone_number;
-        this.address = address;
-
-        this.events = new ArrayList<>();
-        this.interests = new ArrayList<>();
-    }
-
-    public Pouloumer(String nickname, String first_name, String last_name, String email, String password, boolean moderator, boolean administrator, char gender, String birth_date, String phone_number, Address address)
-            throws ParseException {
-        this.nickname = nickname;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-        this.moderator = moderator;
-        this.administrator = administrator;
-        this.gender = gender;
-        this.setBirth_date(birth_date);
         this.phone_number = phone_number;
         this.address = address;
 
@@ -210,11 +194,6 @@ public class Pouloumer implements Serializable {
         this.birth_date = birth_date;
     }
 
-    public void setBirth_date(String birth_date)
-            throws ParseException {
-        this.birth_date = DateUtil.toDate(birth_date);
-    }
-
     public List<Event> getEvents() {
         return events;
     }
@@ -261,27 +240,40 @@ public class Pouloumer implements Serializable {
         obj.addProperty("last_name", last_name);
         obj.addProperty("first_name", first_name);
         obj.addProperty("email", email);
-        obj.addProperty("password", password);
-        obj.addProperty("moderator", moderator);
-        obj.addProperty("administrator", administrator);
+        //obj.addProperty("password", password);    //We let the password on the server side
+        //obj.addProperty("moderator", moderator);   //No use for it on the client side
+        //obj.addProperty("administrator", administrator);  //No use for it on the client side
         obj.addProperty("gender", gender);
-        obj.addProperty("birth_date", DateUtil.toString(birth_date));
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+        String strDate = dateFormat.format(birth_date);  
+        obj.addProperty("birth_date", strDate);
+        
         obj.addProperty("phone_number", phone_number);
         if (address!=null)
             obj.add("address", address.toJson());
         
         JsonArray eventsArray = new JsonArray();
         
+        //No need for this, we already have services to get events
+        /*
         for (Event e : events) {
             eventsArray.add(e.toJson());
         }
         
         obj.add("events", eventsArray);
-        JsonArray interestsArray = new JsonArray();
+        */
         
+        JsonArray interestsArray = new JsonArray();
+
         for (Activity a : interests) {
-            interestsArray.add(a.toJson());
+            JsonObject jsonActivity = new JsonObject();
+            jsonActivity.addProperty("id", a.getId());
+            jsonActivity.addProperty("name", a.getName());
+            interestsArray.add(jsonActivity);
         }
+        
+        obj.add("interests", interestsArray);
         
         return obj;
     }

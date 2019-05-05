@@ -9,6 +9,12 @@ import java.util.concurrent.TimeUnit;
 
 public class DateUtil {
     
+   public static String toString(Date date) {
+       DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+       String strDate = dateFormat.format(date);  
+       return strDate;         
+   }
+   
     public static Date toDate( String date )
         throws ParseException
     {
@@ -48,12 +54,6 @@ public class DateUtil {
    public static long DateDiff(Date oldest, Date newest, TimeUnit timeUnit) {
        long diffInMillies = newest.getTime() - oldest.getTime();
        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
-   }
-   
-   public static String toString(Date date) {
-       DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
-       String strDate = dateFormat.format(date);  
-       return strDate;         
    }
    
 }

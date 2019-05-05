@@ -66,16 +66,14 @@ public class AjaxActionServlet extends HttpServlet {
                     container.addProperty("errorMessage", "ERREUR : veuillez remplir tous les champs");
                 } else if (isEmailValid(id)) {
                     ajaxAction.loginByMail(id, password);
-                    if (container.get("user") != null) {
+                    if(container.get("result").getAsBoolean()){
                         Cookie cookie = new Cookie("userID", container.get("user").getAsString());
-                        cookie.setMaxAge(60 * 60 * 24);
                         response.addCookie(cookie);
                     }
                 } else {
                     ajaxAction.loginByNickName(id, password);
-                    if (container.get("user") != null) {
-                        Cookie cookie = new Cookie("userID", container.get("user").getAsString());
-                        cookie.setMaxAge(60 * 60 * 24);
+                    if(container.get("result").getAsBoolean()){
+                        Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
                         response.addCookie(cookie);
                     }
                 }
@@ -110,7 +108,17 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getUserBadges".equals(action)) {
                 String id = request.getParameter("id");
                 ajaxAction.getUserBadges(id);
-            } else {
+            }
+            else if("getUserDetails".equals(action)){
+                String id = request.getParameter("id");
+                ajaxAction.getUserDetails(id);
+                
+                if(container.get("result").getAsBoolean()){
+                    //Cookie cookie = new Cookie("userDetails", container.get("userDetails").getAsString());
+                    //response.addCookie(cookie);
+                }
+            }
+            else {
                 actionCalled = false;
             }
 

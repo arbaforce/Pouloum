@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -51,7 +52,7 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     protected Pouloumer organizer;
     
     protected int participants_min;
@@ -77,22 +78,6 @@ public class Event implements Serializable {
         this.label = label;
         this.description = description;
         this.start = start;
-        this.cancelled = cancelled;
-        this.duration = duration;
-        this.location = location;
-        this.activity = activity;
-        this.organizer = organizer;
-        this.participants_min = participants_min;
-        this.participants_max = participants_max;
-        this.participants = new ArrayList<>();
-    }
-    
-    public Event(String label, String description, String start, boolean cancelled, int duration, Address location, Activity activity, Pouloumer organizer, int participants_min, int participants_max)
-        throws ParseException
-    {
-        this.label = label;
-        this.description = description;
-        this.setStart(start);
         this.cancelled = cancelled;
         this.duration = duration;
         this.location = location;
@@ -136,12 +121,6 @@ public class Event implements Serializable {
 
     public void setStart(Date start) {
         this.start = start;
-    }
-    
-    public void setStart( String start )
-        throws ParseException
-    {
-        this.start = DateUtil.toDate(start);
     }
     
     public int getDuration() {

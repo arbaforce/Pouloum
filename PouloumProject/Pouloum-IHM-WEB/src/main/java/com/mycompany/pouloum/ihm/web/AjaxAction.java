@@ -63,10 +63,11 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("user", smaResultContainer.get("Pouloumer"));
-            } else {
+                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+            }
+            else{
                 this.container.addProperty("result", false);
-                this.container.addProperty("errorMessage", "ERREUR : Les identifiants n'ont pas été trouvés");
+                this.container.addProperty("errorMessage", smaResultContainer.get("message").getAsString());
             }
 
         } catch (IOException ex) {
@@ -91,10 +92,11 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("user", smaResultContainer.get("Pouloumer"));
-            } else {
+                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+            }
+            else{
                 this.container.addProperty("result", false);
-                this.container.addProperty("errorMessage", "ERREUR : Les identifiants n'ont pas été trouvés");
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
 
         } catch (IOException ex) {
@@ -162,7 +164,18 @@ public class AjaxAction {
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserEvents");
             }
-            this.container.add("events", smaResultContainer.get("events"));
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+                this.container.add("events", smaResultContainer.get("events"));
+            }
+            else{
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+            
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserEvents", ex);
         }
@@ -179,9 +192,48 @@ public class AjaxAction {
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserBadges");
             }
-            this.container.add("badges", smaResultContainer.get("badges"));
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+                this.container.add("badges", smaResultContainer.get("badges"));
+            }
+            else{
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+            
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserBadges", ex);
+        }
+    }
+    
+    public void getUserDetails(String id) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "getUserDetails"),
+                    new JsonHttpClient.Parameter("idUser", id)
+            );
+            
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserDetails");
+            }
+            
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if("OK".equals(result)){
+                this.container.addProperty("result", true);
+                this.container.add("userDetails", smaResultContainer.get("pouloumer"));
+            }
+            else{
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+            
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
         }
     }
 }
