@@ -247,7 +247,7 @@ public class Pouloumer implements Serializable {
         int union = this.getInterests().size() + activitiesToCompare.size();
         int intersection = 0;
         
-        if (union == 0)
+        if (this.getInterests().isEmpty())
         {
             return 0;
         }
