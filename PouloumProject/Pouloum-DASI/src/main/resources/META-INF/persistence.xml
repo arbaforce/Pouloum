@@ -8,6 +8,7 @@
     <class>com.mycompany.pouloum.model.Pouloumer</class>
     <class>com.mycompany.pouloum.model.Comment</class>
     <class>com.mycompany.pouloum.model.Event</class>
+    <class>com.mycompany.pouloum.model.Comment</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Pouloum-DB"/>
       <property name="javax.persistence.jdbc.user" value="pouloum"/>

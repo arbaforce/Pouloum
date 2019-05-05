@@ -18,8 +18,9 @@ public class ServicesActivity {
      * Get an activity details
      *
      * @param idActivity is the id of the activity.
+     * @throws Exception if there's an error trying to access the database,
+     * or if there is no activity with the given id.
      * @return Activity, the activity matching the id.
-     * @throws Exception if there's an error trying to access the database.
      */
     public static Activity getActivityById(Long idActivity) 
             throws Exception 

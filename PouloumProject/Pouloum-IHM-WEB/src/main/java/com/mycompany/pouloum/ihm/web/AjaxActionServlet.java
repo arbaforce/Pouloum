@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
- */
 package com.mycompany.pouloum.ihm.web;
 
 import com.google.gson.JsonObject;
@@ -114,8 +109,8 @@ public class AjaxActionServlet extends HttpServlet {
                 ajaxAction.getUserDetails(id);
                 
                 if(container.get("result").getAsBoolean()){
-                    //Cookie cookie = new Cookie("userDetails", container.get("userDetails").getAsString());
-                    //response.addCookie(cookie);
+                    Cookie cookie = new Cookie("userDetails", container.get("userDetails").getAsString());
+                    response.addCookie(cookie);
                 }
             }
             else {
