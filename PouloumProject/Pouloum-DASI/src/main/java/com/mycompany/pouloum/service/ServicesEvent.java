@@ -27,6 +27,8 @@ public class ServicesEvent {
      * Get an event, given its id.
      *
      * @param id is the event id.
+     * @throws Exception if there's an error trying to access the database,
+     * or if there is no event with the given id.
      * @return Event, the event matching to the id.
      */
     public static Event getEventById(Long id)
@@ -105,6 +107,7 @@ public class ServicesEvent {
             }
         }
         */
+        
         event.addParticipant(newParticipant);
 
         JpaUtil.createEntityManager();

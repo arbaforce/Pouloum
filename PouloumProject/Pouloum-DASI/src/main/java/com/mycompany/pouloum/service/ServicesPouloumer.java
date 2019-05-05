@@ -111,6 +111,12 @@ public class ServicesPouloumer {
         }
         // nickname available
         
+        if (password.equals("")) {
+            // password too weak
+            return CRE_ERR_PASSWORD;
+        }
+        // password not too weak
+        
         try {
             JpaUtil.openTransaction();
             
@@ -178,6 +184,12 @@ public class ServicesPouloumer {
             }
             // nickname available
         }
+        
+        if (password.equals("")) {
+            // password too weak
+            return CRE_ERR_PASSWORD;
+        }
+        // password not too weak
         
         // Update fields
         p.setLast_name(lastName);

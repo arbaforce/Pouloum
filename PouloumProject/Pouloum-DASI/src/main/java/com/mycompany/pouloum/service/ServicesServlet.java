@@ -128,6 +128,8 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This email is already used.";
                     } else if (result == CRE_ERR_NICKNAME) {
                         resultErrorMessage = "This nickname is already used.";
+                    } else if (result == CRE_ERR_PASSWORD) {
+                        resultErrorMessage = "This password is too weak.";
                     }
                 }
             } /////////////////
@@ -167,6 +169,8 @@ public class ServicesServlet extends HttpServlet {
                         resultErrorMessage = "This email is already used.";
                     } else if (result == CRE_ERR_NICKNAME) {
                         resultErrorMessage = "This nickname is already used.";
+                    } else if (result == CRE_ERR_PASSWORD) {
+                        resultErrorMessage = "This password is too weak.";
                     }
                 }
             } //////////
@@ -439,15 +443,6 @@ public class ServicesServlet extends HttpServlet {
             resultErrorMessage = "Error when trying to process the transaction.";
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*
-        } catch (ServiceException ex) {
-            container.addProperty("error", ex.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
 
         if (resultErrorMessage.isEmpty()) {
             container.addProperty("result", "OK");
