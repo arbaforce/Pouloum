@@ -25,6 +25,8 @@ public class ServicesComment {
      * Get a comment, given its id.
      *
      * @param id is the comment id.
+     * @throws Exception if there's an error trying to access the database,
+     * or if there is no comment with the given id.
      * @return Comment, the comment matching the id.
      */
     public static Comment getCommentById(Long id)

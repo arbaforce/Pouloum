@@ -6,35 +6,6 @@
     padding-bottom: 10px;
 }
 
-/*the following serve for the sliding sidebar*/
-.sidebar {
-  position: absolute;
-  height: 100%;
-  width: 65px;
-  right: 15px;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding:0px;
-}
-
-.map_Button_Sidebar {
-  position: absolute;
-  top: 0;
-  right:0;
-  font-size: 18px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-.openbtn:hover {
-  background-color: #444;
-}
-/*stop for sliding sidebar tools*/
-
 /*event*/
 .event_container{
 }
@@ -60,10 +31,6 @@
     padding-right: 0px;
 }
 
-.event_status_know_more_no_more_button_badges_container{
-    transition: margin-right .5s;
-}
-
 .event_badges_row{
     direction:rtl;
     padding-right : 15px;
@@ -72,12 +39,11 @@
 #search_result_global_container{
     max-height:100%;
     max-width: 100%;
-    height:70vh;
+    height:84vh;
 }
 
 #search_result_list_global_col {
-    transition: margin-right .5s;
-    margin-right: 50px;
+    margin-right: 0px;
     overflow-x:scroll;
     direction: rtl;
     width: 100%;
@@ -85,4 +51,27 @@
 
 #search_result_list_global_container{
     direction: ltr;
+}
+
+.radio_button_image{
+    max-height:50px;
+    max-width: 50px;
+}
+
+/* HIDE RADIO */
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img {
+  outline: 2px solid #009900;
 }
