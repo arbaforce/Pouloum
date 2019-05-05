@@ -185,11 +185,6 @@ public class ServicesServlet extends HttpServlet {
                 }
                 container.add("events", array);
             } ///////////
-            ////Consult badges
-            ///////////
-            else if ("getUserBadges".equals(sma)) {
-                //TODO when badges are implemented.
-            } ///////////
             ////Consult profile
             ///////////
             else if ("getUserEventsHistory".equals(sma)) {
@@ -236,19 +231,14 @@ public class ServicesServlet extends HttpServlet {
             } ///////////
             ////Remove interest
             ///////////
-            else if ("removeInterestFromoUser".equals(sma)) {
+            else if ("removeInterestFromUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
                 ServicesPouloumer.removeInterest(p, a);
-            } ///////////
-            ////Consult interests
-            ///////////
-            else if ("getUserInterests".equals(sma)) {
-                //TODO
-            } ///////////
+            }  ///////////
             ////Consult details
             ///////////
             else if ("getUserDetails".equals(sma)) {
