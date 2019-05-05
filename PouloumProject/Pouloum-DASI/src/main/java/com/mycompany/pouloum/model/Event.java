@@ -62,7 +62,7 @@ public class Event implements Serializable {
     protected List<Pouloumer> participants;
     
     // Grades
-    @OneToMany
+    @OneToMany(mappedBy="event")
     protected List<Comment> comments;
     // protected double grade_average;
     // map<Pouloumer,int> participants_gradings
