@@ -7,5 +7,43 @@
     </head>
     <body>
         <div>TODO write content</div>
+
+        <script>
+            $(function () {
+                $("#buttonSignUp").button().on("click", function () {
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'signUp',
+                            'mail': $('#mail').val(),
+                            'password': $('#pwd').val(),
+                            'lastName': $('#lastName').val(),
+                            'firstName': $('#firstName').val(),
+                            'nickname': $('#nickname').val(),
+                            'gender': $('#gender').val(), //TODO: might be something else than .val() 
+                            'birthDate': $('#birthDate').val(), // Assuming the birthdate input is a single calendar field 
+                            // (rather than 3 different text fields), otherwise the service 
+                            // should be changed to create the date from the different fields
+                            'phoneNumber': $('#phoneNumber').val(),
+                            'addressNumber': $('#addressNumber').val(),
+                            'addressStreet': $('#addressStreet').val(),
+                            'addressPostalCode': $('#addressPostalCode').val(),
+                            'addressCity': $('#addressCity').val(),
+                            'addressCountry': $('#addressCountry').val()
+                        },
+                        datatype: 'json'
+                    }).done(function (data) {
+                        var OK = data.result;
+                        if (OK) {
+                            window.location.href = './home_page.html';
+                        } else {
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
