@@ -10,6 +10,12 @@
 .event_container{
 }
 
+.little_avatar_image{
+    max-width: 60px;	
+    max-height: 60px;
+    padding : 3px;
+}
+
 /*the following serve for the sliding sidebar*/
 .sidebar {
   position: absolute;
@@ -39,10 +45,25 @@
   background-color: #444;
 }
 
+.users_container{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 35px;
+}
+
+#event_badges_col{
+  right:0px;
+}
+
+#event_status_know_more_no_more_button_badges_container{
+  transition: margin-right .5s;
+}
+
 #search_result_list_global_col {
   transition: margin-right .5s;
   padding: 16px;
   margin-right: 65px;
+  overflow-x:scroll;
 }
 
 
