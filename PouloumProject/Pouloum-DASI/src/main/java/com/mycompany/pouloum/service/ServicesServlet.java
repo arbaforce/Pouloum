@@ -11,6 +11,7 @@ import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
+import com.mycompany.pouloum.util.Common;
 import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.DateUtil;
 import com.mycompany.pouloum.util.JsonServletHelper;
@@ -293,13 +294,36 @@ public class ServicesServlet extends HttpServlet {
                 
                 for (Event e : availableEvents.keySet())
                 {
-                    JsonObject subcontainer = new JsonObject();
+                    // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
+                    JsonObject eventAndPouloumerSimiliarities = new JsonObject();
                     
                     List<Pouloumer> participants = availableEvents.get(e);
                     
+                    int averagePouloumerSimilarity = 0;
                     
+                    // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
+                    JsonArray currentEventParticipants = new JsonArray();
                     
-                    events.add(subcontainer);
+                    for (Pouloumer currentPouloumer : participants)
+                    {
+                        // This object wraps <IdUser,User,int(UserSimilarity)>
+                        JsonObject participantSimilarity = new JsonObject();
+                                                
+                        long PouloumerSimilarity = p.getPouloumerSimilarity(currentPouloumer.getInterests());
+                                                
+                        participantSimilarity.add("pouloumer",currentPouloumer.toJson());
+                        participantSimilarity.addProperty("similarity",PouloumerSimilarity);
+                        
+                        currentEventParticipants.add(participantSimilarity);
+                        
+                        averagePouloumerSimilarity += PouloumerSimilarity;
+                    }
+                    
+                    eventAndPouloumerSimiliarities.add("event", e.toJson());
+                    eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
+                    eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
+                    
+                    events.add(eventAndPouloumerSimiliarities);
                 }
                 
                 container.add("similarEvents", events);

@@ -243,6 +243,29 @@ public class Pouloumer implements Serializable {
         }
     }
     
+    public long getPouloumerSimilarity(List<Activity> activitiesToCompare) {
+        int union = this.getInterests().size() + activitiesToCompare.size();
+        int intersection = 0;
+        
+        if (union == 0)
+        {
+            return 0;
+        }
+        
+        for (Activity a : activitiesToCompare)
+        {
+            if(this.getInterests().contains(a))
+            {
+                intersection += 1;
+                union -= 1;
+            }
+        }
+        
+        long JaccardSimilarity = intersection/union;
+        
+        return JaccardSimilarity;
+    }
+    
     public JsonObject toJson() {
         JsonObject obj = new JsonObject();
         
