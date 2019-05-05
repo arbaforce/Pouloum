@@ -34,7 +34,7 @@ public class Comment implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="author")
-    protected Pouloumer user;
+    protected Pouloumer author;
     
     @ManyToOne
     protected Event event;
@@ -47,7 +47,7 @@ public class Comment implements Serializable {
     public Comment(String description, Date date, Pouloumer user, Event event) {
         this.datetime = date;
         this.text = description;
-        this.user = user;
+        this.author = user;
         this.event = event;
     }
 
@@ -78,12 +78,12 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public Pouloumer getUser() {
-        return user;
+    public Pouloumer getAuthor() {
+        return author;
     }
 
-    public void setUser(Pouloumer user) {
-        this.user = user;
+    public void setAuthor(Pouloumer author) {
+        this.author = author;
     }
     
     public Event getEvent() {
@@ -99,7 +99,7 @@ public class Comment implements Serializable {
     
     public JsonObject toJson() {
         JsonObject obj = new JsonObject();
-        obj.addProperty("idUser", user.getId());
+        obj.addProperty("idUser", author.getId());
         obj.addProperty("idEvent", event.getId());
         obj.addProperty("date", DateUtil.toString(datetime));
         obj.addProperty("description", text);

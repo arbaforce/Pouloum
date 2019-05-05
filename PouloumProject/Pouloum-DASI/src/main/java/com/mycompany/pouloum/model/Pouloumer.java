@@ -63,6 +63,8 @@ public class Pouloumer implements Serializable {
     protected List<Event> organizedEvents;
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="participants")
     protected List<Event> events;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="author")
+    protected List<Comment> comments;
 
     @OneToMany
     protected List<Activity> interests;
@@ -95,6 +97,7 @@ public class Pouloumer implements Serializable {
 
         this.events = new ArrayList<>();
         this.interests = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     // SETTERS AND GETTERS
@@ -210,6 +213,14 @@ public class Pouloumer implements Serializable {
         this.interests = interests;
     }
     
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    
     
     // ...
     
@@ -253,15 +264,22 @@ public class Pouloumer implements Serializable {
         if (address!=null)
             obj.add("address", address.toJson());
         
-        JsonArray eventsArray = new JsonArray();
-        
         //No need for this, we already have services to get events
         /*
+        JsonArray eventsArray = new JsonArray();
+        
         for (Event e : events) {
             eventsArray.add(e.toJson());
         }
         
         obj.add("events", eventsArray);
+        JsonArray commentsArray = new JsonArray();
+        
+        for (Comment c : comments) {
+            commentsArray.add(c.toJson());
+        }
+        
+        obj.add("comments", commentsArray);
         */
         
         JsonArray interestsArray = new JsonArray();
