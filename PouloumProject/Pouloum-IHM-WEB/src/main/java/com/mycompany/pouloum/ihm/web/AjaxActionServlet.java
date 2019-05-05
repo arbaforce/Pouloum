@@ -112,11 +112,6 @@ public class AjaxActionServlet extends HttpServlet {
             else if("getUserDetails".equals(action)){
                 String id = request.getParameter("id");
                 ajaxAction.getUserDetails(id);
-                
-                if(container.get("result").getAsBoolean()){
-                    Cookie cookie = new Cookie("userDetails", container.get("userDetails").getAsString());
-                    response.addCookie(cookie);
-                }
             }
             else {
                 actionCalled = false;

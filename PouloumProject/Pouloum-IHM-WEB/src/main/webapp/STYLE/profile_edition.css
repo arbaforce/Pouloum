@@ -1,0 +1,15 @@
+.stack_from_left{
+    width:33%;
+    float:left
+}
+
+.fit-image{
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
+
+.radio-inline > * {
+   margin-right: 5px;
+   margin-left: 10px;
+}

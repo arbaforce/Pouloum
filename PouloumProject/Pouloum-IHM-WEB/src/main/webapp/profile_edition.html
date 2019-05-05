@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/profile_edition.css'>
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
@@ -66,11 +67,188 @@
                 </div> <!--#row_containing_navbar-->
             </div> <!--#container_navbar_and_alert -->
             
+            <div id="row_containing_modifications" class="row">
+                <div id="avatar_container" class="col-4">
+                    <div id="image_avatar_row" class="row justify-content-center">
+                        <div id="avatar_conainer" class="col-8">
+                            <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded fit-image image-responsive" />
+                        </div>
+                    </div><!--image_avatar_container -->
+                    <div id="modify_avatar_link" class="textAlign">
+                        Modifier avatar
+                    </div><!--modify_avatar_link -->
+                </div><!--avatar_container -->
+                <div id="left_information_container" class="col-4 justify-content-between">
+                    <div id="pseudo_row" class="row">
+                        <div class="col-6 text-right">
+                            Pseudonyme : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_pseudo_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="name_row" class="row">
+                        <div class="col-6 text-right">
+                            Nom : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_name_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="surname_row" class="row">
+                        <div class="col-6 text-right">
+                            Prénom : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_surname_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="Genre_row" class="row">
+                        <div class="col-6 text-right">
+                            Genre : 
+                        </div>
+                        <div class="col-6">
+                            <label class="radio-inline"><input type="radio" id="masculin">M</label>
+                            <label class="radio-inline"><input type="radio" id="feminin">F</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="birthdate_row" class="row">
+                        <div class="col-6 text-right">
+                            Date de naissance : 
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" id="user_birthdate_container" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="phone_number_row" class="row">
+                        <div class="col-6 text-right">
+                            Téléphone : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_phone_number_container" class="form-control">
+                        </div>
+                    </div>
+                </div><!--left_information_container -->
+                <div id="right_information_container" class="col-4 justify-content-between">
+                    <div id="mail_row" class="row">
+                        <div class="col-6 text-right">
+                            Adresse mail : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_mail_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="password_row" class="row">
+                        <div class="col-6 text-right">
+                            Mot de passe : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="password" id="user_password_container" value="aaaaaaaaaa" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="city_row" class="row">
+                        <div class="col-6 text-right">
+                            Ville : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_address_city_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="postal_number_row" class="row">
+                        <div class="col-6 text-right">
+                            Code postal : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_address_postal_number_container" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div id="address_row" class="row">
+                        <div class="col-6 text-right">
+                            Adresse : 
+                        </div>
+                        <div class="col-6 text-left">
+                            <input type="text" id="user_address_details_container" class="form-control">
+                        </div>
+                    </div>
+                </div><!--right_information_container -->
+            </div><!--row_containing_modifications -->
+            
             
         </div><!--#wrapper-->
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="SCRIPT/util_scripts.js"></script>
+        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+                
+        <script>
+            $(document).ready(function() {
+                userID = $.getCookie('userID');
+                
+                if (userID===""){
+                    window.location.href = './index.html'
+                }
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserDetails',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    var OK = data.result;
+                    if(OK){
+                        document.getElementById("user_pseudo_container").value = data.userDetails.nickname;
+                        document.getElementById("user_surname_container").value = data.userDetails.first_name;
+                        document.getElementById("user_name_container").value = data.userDetails.last_name;
+                        document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
+                        document.getElementById("user_mail_container").value = data.userDetails.email;
+                        document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
+                        document.getElementById("user_address_city_container").value = data.userDetails.address.city;
+                        document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
+                        document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
+                        
+                        if(data.userDetails.gender==="M"){
+                            document.getElementById("masculin").checked = true;
+                            document.getElementById("feminin").checked = false;
+                        }
+                        
+                        $("#user_pseudo_container").text(data.userDetails.nickname);
+                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+                    }
+                });
+                
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                date_input.datepicker({
+                    format: 'dd/mm/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                })
+            });
+        </script>
     </body>
 </html>
