@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -281,7 +282,27 @@ public class ServicesServlet extends HttpServlet {
             /////Search for an event
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
-                //TODO
+                Long idUser = Long.parseLong(request.getParameter("idUser"));
+                
+                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
+                List<Activity> interests = p.getInterests();
+                
+                Map<Event,List<Pouloumer>> availableEvents = ServicesEvent.getEventByInterests(interests);
+                
+                JsonArray events = new JsonArray();
+                
+                for (Event e : availableEvents.keySet())
+                {
+                    JsonObject subcontainer = new JsonObject();
+                    
+                    List<Pouloumer> participants = availableEvents.get(e);
+                    
+                    
+                    
+                    events.add(subcontainer);
+                }
+                
+                container.add("similarEvents", events);
             } ///////////
             ////Join event
             ///////////
