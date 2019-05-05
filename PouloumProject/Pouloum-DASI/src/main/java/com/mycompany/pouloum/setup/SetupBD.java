@@ -1,7 +1,6 @@
 package com.mycompany.pouloum.setup;
 
 import com.mycompany.pouloum.dao.*;
-import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.model.*;
 import com.mycompany.pouloum.service.ServicesActivity;
 import java.io.BufferedReader;
@@ -10,12 +9,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**

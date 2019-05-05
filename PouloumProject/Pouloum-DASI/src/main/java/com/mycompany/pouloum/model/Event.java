@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
 import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -71,45 +72,13 @@ public class Event implements Serializable {
     protected Activity activity;
     
     // People
-    @ManyToOne //FIXME:
-    /*
-[JpaUtil:Log] Initializing the entity manager factory
-Exception in thread "main" Local Exception Stack: 
-Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
-Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
-Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
-Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
-Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
-Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field organizer].
-	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
-	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
-    */
-    protected Pouloumer organizer;
-    
+    @ManyToOne(fetch=FetchType.LAZY)
+    protected Pouloumer organizer; 
+     
     protected int participants_min;
     protected int participants_max;
     
-    @ManyToMany(mappedBy = "events") //FIXME:
-    /*
-[JpaUtil:Log] Initializing the entity manager factory
-Exception in thread "main" Local Exception Stack: 
-Exception [EclipseLink-30005] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.PersistenceUnitLoadingException
-Exception Description: An exception was thrown while searching for persistence archives with ClassLoader: sun.misc.Launcher$AppClassLoader@659e0bfd
-Internal Exception: javax.persistence.PersistenceException: Exception [EclipseLink-28018] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.EntityManagerSetupException
-Exception Description: Predeployment of PersistenceUnit [Pouloum-objects] failed.
-Internal Exception: Exception [EclipseLink-7250] (Eclipse Persistence Services - 2.6.4.v20160829-44060b6): org.eclipse.persistence.exceptions.ValidationException
-Exception Description: [class com.mycompany.pouloum.model.Event] uses a non-entity [class com.mycompany.pouloum.model.Pouloumer] as target entity in the relationship attribute [field participants].
-	at org.eclipse.persistence.exceptions.PersistenceUnitLoadingException.exceptionSearchingForPersistenceResources(PersistenceUnitLoadingException.java:127)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactoryImpl(PersistenceProvider.java:115)
-	at org.eclipse.persistence.jpa.PersistenceProvider.createEntityManagerFactory(PersistenceProvider.java:188)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:79)
-	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:54)
-	at com.mycompany.pouloum.dao.JpaUtil.init(JpaUtil.java:78)
-    */
+    @ManyToMany(mappedBy = "events")
     protected List<Pouloumer> participants;
     
     // Grades
