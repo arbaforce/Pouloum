@@ -49,7 +49,7 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("mail", mail),
                     new JsonHttpClient.Parameter("password", password)
             );
-            
+
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByMail");
             }
@@ -59,8 +59,7 @@ public class AjaxAction {
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
                 this.container.add("userID", smaResultContainer.get("Pouloumer"));
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", smaResultContainer.get("message").getAsString());
             }
@@ -88,8 +87,7 @@ public class AjaxAction {
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
                 this.container.add("userID", smaResultContainer.get("Pouloumer"));
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
@@ -102,9 +100,9 @@ public class AjaxAction {
     public void signUp(String lastName, String firstName, String nickname,
             String mail, String password, Boolean isModerator, Boolean isAdmin,
             Character gender, String birthDate, String phoneNumber, String addressNumber,
-            String addressStreet, String addressPostalCode, String addressCity, 
+            String addressStreet, String addressPostalCode, String addressCity,
             String addressCountry) throws ServiceException {
-        
+
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
@@ -124,7 +122,6 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressPostalCode", addressPostalCode),
                     new JsonHttpClient.Parameter("addressCity", addressCity),
                     new JsonHttpClient.Parameter("addressCountry", addressCountry)
-                    
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -135,7 +132,7 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                
+
                 // TODO get other fields ?
             } else {
                 this.container.addProperty("result", false);
@@ -159,18 +156,17 @@ public class AjaxAction {
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserEvents");
             }
-            
+
             String result = smaResultContainer.get("result").getAsString();
-            
-            if("OK".equals(result)){
+
+            if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
                 this.container.add("events", smaResultContainer.get("events"));
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
-            
+
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserEvents", ex);
         }
@@ -187,52 +183,50 @@ public class AjaxAction {
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserBadges");
             }
-            
+
             String result = smaResultContainer.get("result").getAsString();
-            
-            if("OK".equals(result)){
+
+            if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
                 this.container.add("badges", smaResultContainer.get("badges"));
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
-            
+
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserBadges", ex);
         }
     }
-    
-    public void getUserDetails(String id) throws ServiceException{
+
+    public void getUserDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
                     new JsonHttpClient.Parameter("SMA", "getUserDetails"),
                     new JsonHttpClient.Parameter("idUser", id)
             );
-            
+
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getUserDetails");
             }
-            
+
             String result = smaResultContainer.get("result").getAsString();
-            
-            if("OK".equals(result)){
+
+            if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
                 this.container.add("userDetails", smaResultContainer.get("pouloumer"));
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
-            
+
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
         }
     }
-    
-    public void updateUserDetails(String id, String surname, String name, String gender, String pseudo, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postal_number, String street, String street_number) throws ServiceException{
+
+    public void updateUserDetails(String id, String surname, String name, String gender, String pseudo, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postal_number, String street, String street_number) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
@@ -251,21 +245,20 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressStreet", street),
                     new JsonHttpClient.Parameter("addressPostalCode", postal_number)
             );
-            
+
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "updateUserDetails");
             }
-            
+
             String result = smaResultContainer.get("result").getAsString();
-            
-            if("OK".equals(result)){
+
+            if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
-            
+
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("updateUserDetails", ex);
         }
@@ -296,6 +289,60 @@ public class AjaxAction {
             
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
+        }
+    }
+
+    public void getEventDetails(String id) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "getEventDetails"),
+                    new JsonHttpClient.Parameter("eventID", id)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getEventDetails");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                this.container.add("event", smaResultContainer.get("event"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("getEventDetails", ex);
+        }
+    }
+
+    public void getActivityDetails(String id) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "getActivityDetails"),
+                    new JsonHttpClient.Parameter("activityID", id)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "getActivityDetails");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                this.container.add("activity", smaResultContainer.get("activity"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("getActivityDetails", ex);
         }
     }
 }
