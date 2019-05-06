@@ -71,7 +71,7 @@
                         let participantsDiv = document.getElementById("event_participants_container");
                         let participantsArray = data.event.participants;
                         
-                        participants.forEach(function (element) {
+                        participantsArray.forEach(function (element) {
                             let participantDiv = document.createElement("div");
                             let nicknameLink = document.createElement("a");
                             let linkText = document.createTextNode(element.nickname);
