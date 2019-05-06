@@ -113,7 +113,11 @@ public class ServicesServlet extends HttpServlet {
                 String nickName = request.getParameter("nickname");
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
-                char gender = request.getParameter("gender").charAt(0);
+                
+                char gender = Character.MIN_VALUE;
+                if (request.getParameter("gender")==null)
+                    gender= request.getParameter("gender").charAt(0);
+                
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
 
