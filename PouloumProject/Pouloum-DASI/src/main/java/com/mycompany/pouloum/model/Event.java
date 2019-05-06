@@ -255,11 +255,25 @@ public class Event implements Serializable {
         obj.addProperty("cancelled",cancelled );
         obj.addProperty("startDate",DateUtil.toString(start));
         obj.addProperty("duration", duration);
-        obj.add("Address", location.toJson());
-        obj.add("Activity", activity.toJson());
-        obj.add("Pouloumer", organizer.toJson());
+        obj.add("address", location.toJson());
+        obj.add("activity", activity.toJson());
+        obj.add("pouloumer", organizer.toJson());
         obj.addProperty("participants_min", participants_min);
         obj.addProperty("participants_max", participants_max);
+        
+        if (cancelled) {
+            obj.addProperty("status", "cancelled");
+        } else if (isStarted()) {
+            obj.addProperty("status", "started");
+        } else if (isFinished()) {
+            obj.addProperty("status", "finished");
+        } else if (participants.size() == participants_max) {
+            obj.addProperty("status", "full");
+        } else if (participants.size() > participants_min) {
+            obj.addProperty("status", "ready");
+        } else {
+            obj.addProperty("status", "organized");
+        }
         
         JsonArray participantsArray = new JsonArray();
         for (Pouloumer p : participants)
