@@ -90,7 +90,7 @@ public class SetupBD {
                     
                     if (parent != null) {
                         try {
-                            ServicesActivity.addActivityChild(parent, cur);
+                            ServicesActivity.addChildActivity(parent, cur);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }

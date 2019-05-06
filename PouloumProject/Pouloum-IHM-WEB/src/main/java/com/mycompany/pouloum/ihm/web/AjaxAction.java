@@ -285,7 +285,8 @@ public class AjaxAction {
     }
 
     /**
-     * Update a given user's informations. The result is stored into a JSON container.
+     * Update a given user's informations. The result is stored into a JSON
+     * container.
      *
      * @param id is the id of the user.
      * @param lastName is the last name of the user.
@@ -403,6 +404,14 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get all available information about a given activity into a JSON
+     * container.
+     *
+     * @param id is the id of the activity.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getActivityDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
