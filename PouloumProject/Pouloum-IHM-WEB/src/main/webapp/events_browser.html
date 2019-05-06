@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
         <link rel='stylesheet' type='text/css' href='STYLE/events_browser.css'>
     </head>
@@ -497,8 +498,13 @@
                             
                         </div><!--#search_result_list_global_container -->
                     </div><!--#search_result_list_global_col -->
-                    <div id="search_result_map_global_col" class="col sidebar">
-                        <div id="search_result_map_global_container" class="container">
+                    <div id="search_result_map_global_col" class="col sidebar ">
+                        <div id="search_result_map_global_container" class="container h-100 w-100">
+                            <div id="map_container" class="container">
+                                <div id="map" class="h-100 w-100">
+                                
+                                </div>
+                            </div>
                             <button id="map_Button" class="map_Button_Sidebar" onclick="openNav()">
                                 Map
                             </button>  
@@ -509,6 +515,7 @@
             
         </div><!--#wrapper-->
         
+<<<<<<< HEAD
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -518,5 +525,16 @@
 addResultDemo();
         </script>
         
+=======
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script src="SCRIPT/events_browser.js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            initialiseMap();
+        </script>
+>>>>>>> ef044fa4741f7fd1d4971813e58a0308650d4bc4
     </body>
 </html>
