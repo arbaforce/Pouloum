@@ -465,7 +465,7 @@ public class ServicesServlet extends HttpServlet {
 
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
-                container.add("Activity", a.toJson());
+                container.add("activity", a.toJson());
             } /////////////////
             //////Consult an event
             /////////////////
