@@ -20,7 +20,7 @@ import java.util.Stack;
  *
  * @author nmesnard
  */
-public class SetupBD {
+public class SetupDB {
 
     protected static BufferedReader getResourceReader(String resourceName) {
         InputStream resourceStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceName);
