@@ -107,32 +107,32 @@ public class SetupBD {
         
         Date d1 = DateUtil.toDate("16/08/1984");
         Address a1 = new Address("6", "Rue Camille Koechlin", "Villeurbanne", "69100", "France");
-        Pouloumer u1 = new Pouloumer("Momo", "Moez", "WOAGNER", "moez.woagner@proactif.com", "mdpmw", false, false, 'M', d1,"0832205629", a1);
+        Pouloumer u1 = new Pouloumer("Momo", "Moez", "WOAGNER", "moez.woagner@hotmail.fr", "mdpmw", false, false, 'M', d1,"0832205629", a1);
         users.add(u1);
         
         Date d2 = DateUtil.toDate("17/02/1996");
         Address a2 = new Address("9", "Impasse Guillet", "Villeurbanne", "69100", "France");
-        Pouloumer u2 = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@proactif.com", "mdpmh", false, false, 'M', d2,"0482381862", a1);
+        Pouloumer u2 = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@hotmail.fr", "mdpmh", false, false, 'M', d2,"0482381862", a1);
         users.add(u2);
         
         Date d3 = DateUtil.toDate("16/02/1982");
         Address a3 = new Address("20", "Rue Decomberousse", "Villeurbanne", "69100", "France");
-        Pouloumer u3 = new Pouloumer("Keke", "Kevin", "CECCANI", "kevin.ceccani@proactif.com", "mdpkc", false, false, 'M', d3,"0664426037", a3);
+        Pouloumer u3 = new Pouloumer("Keke", "Kevin", "CECCANI", "kevin.ceccani@hotmail.fr", "mdpkc", false, false, 'M', d3,"0664426037", a3);
         users.add(u3);
         
         Date d4 = DateUtil.toDate("13/08/1988");
         Address a4 = new Address("1", "Rue d'Alsace", "Villeurbanne", "69100", "France");
-        Pouloumer u4 = new Pouloumer("Valice", "Alice", "VOYRET", "alice.voyret@proactif.com", "mdpav", false, false, 'F', d4,"0486856520", a4);
+        Pouloumer u4 = new Pouloumer("Valice", "Alice", "VOYRET", "alice.voyret@hotmail.fr", "mdpav", false, false, 'F', d4,"0486856520", a4);
         users.add(u4);
         
         Date d5 = DateUtil.toDate("16/05/1989");
         Address a5 = new Address("4", "Rue de la Jeunesse", "Villeurbanne", "69100", "France");
-        Pouloumer u5 = new Pouloumer("Juju", "Julien", "RINERD", "jrinerd5241@proactif.com", "mdpjr", false, false, 'M', d5,"0727252485", a5);
+        Pouloumer u5 = new Pouloumer("Juju", "Julien", "RINERD", "jrinerd5241@hotmail.fr", "mdpjr", false, false, 'M', d5,"0727252485", a5);
         users.add(u5);
         
         Date d6 = DateUtil.toDate("24/05/1983");
         Address a6 = new Address("7", "Rue de la Cloche", "Villeurbanne", "69100", "France");
-        Pouloumer u6 = new Pouloumer("Olive", "Olivier", "WOSTPHOL", "owostphol@proactif.com", "mdpow", false, false, 'M', d6,"0860680312", a6);
+        Pouloumer u6 = new Pouloumer("Olive", "Olivier", "WOSTPHOL", "owostphol@hotmail.fr", "mdpow", false, false, 'M', d6,"0860680312", a6);
         users.add(u6);
         
         JpaUtil.createEntityManager();
