@@ -47,8 +47,8 @@ public class ServicesServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        super.destroy(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.destroy();
+        super.destroy(); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
