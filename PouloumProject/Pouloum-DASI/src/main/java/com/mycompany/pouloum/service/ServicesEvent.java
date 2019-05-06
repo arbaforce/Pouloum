@@ -8,14 +8,9 @@ import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
-import com.mycompany.pouloum.util.exception.DBException;
-import com.mycompany.pouloum.util.exception.ServiceException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -26,7 +21,7 @@ public class ServicesEvent {
     /**
      * Get an event, given its id.
      *
-     * @param id is the event id.
+     * @param id is the event's id.
      * @throws Exception if there's an error trying to access the database,
      * or if there is no event with the given id.
      * @return Event, the event matching to the id.
@@ -47,15 +42,15 @@ public class ServicesEvent {
     /**
      * Create an event.
      *
-     * @param label is the event name.
-     * @param description is the event description.
-     * @param startDate is the event starting date.
-     * @param duration is the event duration.
-     * @param location is the event address.
-     * @param activity is the event corresponding activity.
-     * @param organizer is the event creator.
-     * @param participants_min is the event minimum number of participants.
-     * @param participants_max is the event maximum number of participants.
+     * @param label is the event's name.
+     * @param description is the event's description.
+     * @param startDate is the event's starting date.
+     * @param duration is the event's duration.
+     * @param location is the event's address.
+     * @param activity is the event's corresponding activity.
+     * @param organizer is the event's creator.
+     * @param participants_min is the event's minimum number of participants.
+     * @param participants_max is the event's maximum number of participants.
      * @throws Exception if there's an error trying to access the database.
      * @return Event, the created event.
      */
@@ -100,13 +95,6 @@ public class ServicesEvent {
         if (event.getParticipants().contains(newParticipant)) {
             return CRE_ERR_POULOUMER;
         }
-        /*
-        for (Pouloumer p : event.getParticipants()) {
-            if (p.getId().equals(newParticipant.getId())) {
-                return CRE_ERR_POULOUMER;
-            }
-        }
-        */
         
         event.addParticipant(newParticipant);
 
@@ -131,10 +119,10 @@ public class ServicesEvent {
     }
 
     /**
-     * Add a comment to an existing event.
+     * Remove a participant from an event.
      *
      * @param event is the event.
-     * @param participant is the commentor.
+     * @param participant is the participant to remove.
      * @throws Exception if there's an error trying to access the database.
      */
     public static void removeParticipant(Event event, Pouloumer participant)
@@ -232,9 +220,8 @@ public class ServicesEvent {
     /**
      * Get all events.
      *
-     * @param interests, the list containing all activities of the search.
      * @throws Exception if there's an error trying to access the database.
-     * @return EventList, a list containing all events corresponding to the
+     * @return List, a list containing all events corresponding to the
      * interests and for each event, the the participants. If the parameter is
      * empty, returns all events.
      */
