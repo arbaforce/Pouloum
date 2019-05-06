@@ -61,13 +61,13 @@ public class AjaxActionServlet extends HttpServlet {
                     container.addProperty("errorMessage", "ERREUR : veuillez remplir tous les champs");
                 } else if (isEmailValid(id)) {
                     ajaxAction.loginByMail(id, password);
-                    if(container.get("result").getAsBoolean()){
+                    if (container.get("result").getAsBoolean()) {
                         Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
                         response.addCookie(cookie);
                     }
                 } else {
                     ajaxAction.loginByNickName(id, password);
-                    if(container.get("result").getAsBoolean()){
+                    if (container.get("result").getAsBoolean()) {
                         Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
                         response.addCookie(cookie);
                     }
@@ -83,38 +83,34 @@ public class AjaxActionServlet extends HttpServlet {
                 if (email.equals("") || emailConfirmation.equals("") || password.equals("") || passwordConfirmation.equals("") || nickName.equals("")) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : veuillez remplir tous les champs obligatoires");
-                } 
-                else if(!isEmailValid(email)){
+                } else if (!isEmailValid(email)) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : l'addresse mail n'est pas valide");
-                }
-                else if(!email.equals(emailConfirmation)){
+                } else if (!email.equals(emailConfirmation)) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : l'addresse mail de confirmation ne correspond pas");
-                }
-                else if(!password.equals(passwordConfirmation)){
+                } else if (!password.equals(passwordConfirmation)) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : le mot de passe de confirmation ne correspond pas");
-                }
-                else {
+                } else {
                     String lastName = request.getParameter("surname").trim();
                     String firstName = request.getParameter("name").trim();
                     char gender = request.getParameter("gender").charAt(0);
                     String birthDate = request.getParameter("birthDate");
                     String phoneNumber = request.getParameter("phoneNumber").trim();
-                    
+
                     String address = request.getParameter("address").trim();
                     String addressPostalCode = request.getParameter("addressPostalCode").trim();
                     String addressCity = request.getParameter("addressCity").trim();
                     String addressCountry = request.getParameter("addressCountry").trim();
-                    
-                    String addressNumber ="";
-                    while(Character.isDigit(address.charAt(0))){
-                        addressNumber+=address.charAt(0);
+
+                    String addressNumber = "";
+                    while (Character.isDigit(address.charAt(0))) {
+                        addressNumber += address.charAt(0);
                         address = address.substring(1);
                     }
                     String addressStreet = address.trim();
-                    
+
                     ajaxAction.signUp(lastName, firstName, nickName, email, password, false,
                             false, gender, birthDate, phoneNumber, addressNumber, addressStreet,
                             addressPostalCode, addressCity, addressCountry);
@@ -125,12 +121,10 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getUserBadges".equals(action)) {
                 String id = request.getParameter("id");
                 ajaxAction.getUserBadges(id);
-            }
-            else if("getUserDetails".equals(action)){
+            } else if ("getUserDetails".equals(action)) {
                 String id = request.getParameter("id");
                 ajaxAction.getUserDetails(id);
-            }
-            else if("updateUserDetails".equals(action)){
+            } else if ("updateUserDetails".equals(action)) {
                 String id = request.getParameter("id");
                 String surname = request.getParameter("surname").trim();
                 String name = request.getParameter("name").trim();
@@ -144,23 +138,24 @@ public class AjaxActionServlet extends HttpServlet {
                 String postal_number = request.getParameter("postal_number").trim();
                 String address = request.getParameter("address").trim();
                 String gender = request.getParameter("gender");
-                
-                if (!isEmailValid(mail)){
+
+                if (!isEmailValid(mail)) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : l'adresse mail indiquée est invalide");
-                }
-                else{
-                    String street_number ="";
-                    while(Character.isDigit(address.charAt(0))){
-                        street_number+=address.charAt(0);
+                } else {
+                    String street_number = "";
+                    while (Character.isDigit(address.charAt(0))) {
+                        street_number += address.charAt(0);
                         address = address.substring(1);
                     }
                     String street = address.trim();
-                    
+
                     ajaxAction.updateUserDetails(id, surname, name, gender, pseudo, password, birthdate, mail, phone_number, country, city, postal_number, street, street_number);
                 }
-            }
-            else {
+            } else if ("getEventDetails".equals(action)) {
+                String eventID = request.getParameter("eventID");
+                ajaxAction.getEventDetails(eventID);
+            } else {
                 actionCalled = false;
             }
 
