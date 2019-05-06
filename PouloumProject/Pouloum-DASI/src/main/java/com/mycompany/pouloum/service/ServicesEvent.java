@@ -238,7 +238,7 @@ public class ServicesEvent {
      * interests and for each event, the the participants. If the parameter is
      * empty, returns all events.
      */
-    public static List<Event> findAll()
+    public static List<Event> findAllEvents()
         throws Exception
     {
         // do magical stuff plz

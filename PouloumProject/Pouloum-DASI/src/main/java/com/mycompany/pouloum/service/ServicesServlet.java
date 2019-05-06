@@ -292,7 +292,7 @@ public class ServicesServlet extends HttpServlet {
                 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 
-                List<Event> availableEvents = ServicesEvent.findAll();
+                List<Event> availableEvents = ServicesEvent.findAllEvents();
                 
                 JsonArray events = new JsonArray();
                 
