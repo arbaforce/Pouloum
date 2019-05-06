@@ -100,7 +100,7 @@ public class ServicesServlet extends HttpServlet {
                 }
 
                 if (p != null) {
-                    container.addProperty("Pouloumer", p.getId());
+                    container.addProperty("pouloumer", p.getId());
                 } else {
                     resultErrorMessage = "There is no match for these identifiants.";
                 }
