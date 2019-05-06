@@ -67,8 +67,8 @@ var htmlcode = `
                     </a>
                 </div>
                 <div>
-                    <div class="nav-link font-weight-bold text-center" href="index.html">
-                        <img src="IMG/navbar_logout_icon.png" style="max-width: 1.5em; max-height: 1.5em;">
+                    <div class="nav-link font-weight-bold text-center">
+                        <a href="index.html"><img href="inde.html" src="IMG/navbar_logout_icon.png" style="max-width: 1.5em; max-height: 1.5em;"/></a>
                     </div>
                 </div>
             </div> <!--#navbar-->
