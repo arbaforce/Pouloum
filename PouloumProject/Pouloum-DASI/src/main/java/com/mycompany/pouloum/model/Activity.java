@@ -148,7 +148,7 @@ public class Activity implements Serializable {
         obj.addProperty("id", id);
         if (parent!=null)
         {
-            obj.add("parent", parent.toJson());
+            obj.addProperty("parent", parent.getName());
         } else {
             obj.addProperty("parent", "");
         }

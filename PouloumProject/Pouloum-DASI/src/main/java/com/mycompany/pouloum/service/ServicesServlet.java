@@ -456,9 +456,10 @@ public class ServicesServlet extends HttpServlet {
                 List<Activity> activities = ServicesActivity.findAllActivities();
 
                 for (Activity a : activities) {
-                    array.add(a.toJson());
+                    if (a.getParent()==null){
+                        array.add(a.toJson());
+                    }
                 }
-                
                 container.add("activities", array);
             } ///////////
             ////Consult activity
