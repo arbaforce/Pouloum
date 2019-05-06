@@ -60,6 +60,11 @@ public class AjaxActionServlet extends HttpServlet {
                 container.addProperty("result", true);
                 container.addProperty("eventID", eventID);
             }
+            else if("getActivityIdSession".equals(action)){
+                String activityID = (String) session.getAttribute("activityID");
+                container.addProperty("result", true);
+                container.addProperty("activityID", activityID);
+            }
             else if ("login".equals(action)) {
                 String id = request.getParameter("id");
                 String password = request.getParameter("password");

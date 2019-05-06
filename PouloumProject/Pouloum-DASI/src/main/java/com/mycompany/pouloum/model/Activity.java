@@ -24,7 +24,8 @@ public class Activity implements Serializable {
     // Hierarchy
     @OneToOne
     protected Activity parent;
-    @OneToMany
+    
+    @OneToMany(mappedBy = "parent")
     protected List<Activity> children;
 
     // Description
@@ -79,6 +80,10 @@ public class Activity implements Serializable {
 
     public void setChildren(List<Activity> children) {
         this.children = children;
+    }
+    
+    public void addChild(Activity child){
+        children.add(child);
     }
 
     public String getName() {
