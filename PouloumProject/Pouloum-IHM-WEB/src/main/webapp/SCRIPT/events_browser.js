@@ -74,10 +74,10 @@ function degresMinutesToDecimal(longDeg, longMin, longDir, latDeg, latMin, latDi
 }
 
 function addResultDemo() {
-    addResult([{name:"Basketball", url:"", level:"débutant"}]);
+    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or");
 }
 
-function addResult(data_activities) {
+function addResult(data_activities, data_organizer, data_place) {
     var results = document.getElementById("search_result_list_global_container");
     
     var div_event_container = document.createElement("div");
@@ -131,22 +131,53 @@ function addResult(data_activities) {
                             div_event_activity_container.appendChild(div_event_activity_row);
                         }
                         
-                        //TODO
-                        /*
-                        </div><!--#event_activity_container -->
-                        <div id="event_organisator_container" class="container">
-                            <div id="event_organisator_row" class="row  mx-0 px-0">
-                                Organisateur : <a href="">Claude</a>
-                            </div><!--#event_organisator_row -->
-                        </div><!--#event_organisator_container -->
-                        <div id="event_place_container" class="container">
-                            <div id="event_place_row" class="row  mx-0 px-0">
-                                Lieu : Tête d'Or
-                            </div><!--#event_place_row -->
-                        </div><!--#event_place_container -->
-                        */
-                        
                         div_event_activity_organisator_place_col.appendChild(div_event_activity_container);
+                        
+                        var div_event_organisator_container = document.createElement("div");
+                        div_event_organisator_container.className = "container";
+                        {
+                            var div_event_organisator_row = document.createElement("div");
+                            div_event_organisator_row.className = "row mx-0 px-0";
+                            {
+                                var txt_organizers = document.createTextNode("Organisateur : ");
+                                
+                                div_event_organisator_row.appendChild(txt_organizers);
+                                
+                                var a_organizer = document.createElement("a");
+                                a_organizer.href = data_organizer.url;
+                                {
+                                    var txt_organizer = document.createTextNode(data_organizer.name);
+                                    
+                                    a_organizer.appendChild(txt_organizer);
+                                }
+                                
+                                div_event_organisator_row.appendChild(a_organizer);
+                            }
+                            
+                            div_event_organisator_container.appendChild(div_event_organisator_row);
+                        }
+                        
+                        div_event_activity_organisator_place_col.appendChild(div_event_organisator_container);
+                        
+                        var div_event_place_container = document.createElement("div");
+                        div_event_place_container.className = "container";
+                        {
+                            var div_event_place_row = document.createElement("div");
+                            div_event_place_row.className = "row mx-0 px-0";
+                            {
+                                var txt_places = document.createTextNode("Lieu : ");
+                                
+                                div_event_place_row.appendChild(txt_places);
+                                
+                                var txt_place = document.createTextNode(data_place);
+                                    
+                                div_event_place_row.appendChild(txt_place);
+                            }
+                            
+                            div_event_place_container.appendChild(div_event_place_row);
+                        }
+                        
+                        div_event_activity_organisator_place_col.appendChild(div_event_place_container);
                     }
                     
                     /*
