@@ -19,7 +19,7 @@ function openNav() {
 
 function closeNav() {
   document.getElementById("search_result_map_global_col").style.width = "65px";
-  document.getElementById("search_result_list_global_col").style.marginRight= "50px";
+  document.getElementById("search_result_list_global_col").style.marginRight= "65px";
   
   var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
   var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");

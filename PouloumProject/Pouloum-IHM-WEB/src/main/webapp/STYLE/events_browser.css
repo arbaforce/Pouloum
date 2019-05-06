@@ -83,7 +83,7 @@
 
 #search_result_list_global_col {
     transition: margin-right .5s;
-    margin-right: 50px;
+    margin-right: 65px;
     overflow-x:scroll;
     direction: rtl;
     width: 100%;
