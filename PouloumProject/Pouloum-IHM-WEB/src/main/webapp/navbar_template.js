@@ -48,7 +48,7 @@ var htmlcode = `
                 </div>
                 <div>
                     <div class="nav-link font-weight-bold text-center" href="index.html">
-                        <img src="IMG/navbar_logout_icon.png" style="max-width: 1.5em; max-height: 1.5em;">
+                        <img src="IMG/navbar_logout_icon.png" style="max-width: 1.5em; max-height: 1.5em;" alt="Se déconnecter">
                     </div>
                 </div>
             </div>
