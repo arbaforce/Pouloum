@@ -331,6 +331,8 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
+                // the GUI should check that the event is not full (so an user
+                // never join a full event)
                 //TODO check that user doesn't have other events at the same time
                 ServicesPouloumer.joinEvent(p, e);
             } ///////////

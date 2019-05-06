@@ -216,10 +216,6 @@ public class Event implements Serializable {
     public int getParticipantsNumber() {
         return participants.size();
     }
-
-    public boolean isFull() {
-        return (participants.size() == participants_max);
-    }
     
     public int getStartHour() {
         SimpleDateFormat h = new SimpleDateFormat("HH:mm");
