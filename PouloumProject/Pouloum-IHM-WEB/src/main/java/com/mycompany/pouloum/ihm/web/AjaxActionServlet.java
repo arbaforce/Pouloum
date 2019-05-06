@@ -62,7 +62,7 @@ public class AjaxActionServlet extends HttpServlet {
                 } else if (isEmailValid(id)) {
                     ajaxAction.loginByMail(id, password);
                     if(container.get("result").getAsBoolean()){
-                        Cookie cookie = new Cookie("userID", container.get("user").getAsString());
+                        Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
                         response.addCookie(cookie);
                     }
                 } else {

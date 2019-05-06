@@ -49,7 +49,7 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("mail", mail),
                     new JsonHttpClient.Parameter("password", password)
             );
-
+            
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByMail");
             }
