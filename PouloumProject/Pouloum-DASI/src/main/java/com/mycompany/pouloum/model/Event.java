@@ -255,9 +255,9 @@ public class Event implements Serializable {
         obj.addProperty("cancelled",cancelled );
         obj.addProperty("startDate",DateUtil.toString(start));
         obj.addProperty("duration", duration);
-        obj.add("Address", location.toJson());
-        obj.add("Activity", activity.toJson());
-        obj.add("Pouloumer", organizer.toJson());
+        obj.add("address", location.toJson());
+        obj.add("activity", activity.toJson());
+        obj.add("pouloumer", organizer.toJson());
         obj.addProperty("participants_min", participants_min);
         obj.addProperty("participants_max", participants_max);
         
