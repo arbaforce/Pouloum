@@ -261,6 +261,18 @@ public class Event implements Serializable {
         obj.addProperty("participants_min", participants_min);
         obj.addProperty("participants_max", participants_max);
         
+        if (cancelled) {
+            obj.addProperty("status", "cancelled");
+        } else if (isStarted()) {
+            obj.addProperty("status", "started");
+        } else if (isFinished()) {
+            obj.addProperty("status", "finished");
+        } else if (participants.size() > participants_min) {
+            obj.addProperty("status", "ready");
+        } else {
+            obj.addProperty("status", "organized");
+        }
+        
         JsonArray participantsArray = new JsonArray();
         for (Pouloumer p : participants)
         {
