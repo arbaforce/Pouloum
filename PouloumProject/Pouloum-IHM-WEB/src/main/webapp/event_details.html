@@ -65,27 +65,82 @@
                     </div>  <!--#main_nabar -->
                 </div> <!--#row_containing_navbar-->
             </div> <!--#container_navbar_and_alert -->
-            
+
             <div id="container_event_details_body" class="container-fluid">
                 <div class='row'>
-                    
+
                 </div>
                 <div id="event_details_row" class="row">
                     <div id="col_data_event_details" class="col">
-                        
+
                     </div>
                     <div id="col_map_event_details" class="col">
-                        
+
                     </div>
                 </div>
-                
+
             </div><!--#container_event_details_body-->
-            
-            
+
+
         </div><!--#wrapper-->
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                userID = $.getCookie('userID');
+                eventID = $.getCookie('eventID');
+                //TODO check if eventID is empty
+
+                if (userID === "") {
+                    window.location.href = './index.html'
+                }
+
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getEventDetails',
+                        'id': eventID
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
+                        document.getElementById("event_name_container").value = data.event.label;
+                        document.getElementById("event_description_container").value = data.event.description;
+                        document.getElementById("event_activity_name_container").value = data.event.activity.name;
+                        let eventAddress = data.event.address;
+                        document.getElementById("event_address_container").value = eventAddress.number + ' ' + eventAddress.street + ', '
+                                + eventAddress.postal_code + ' ' + eventAddress.city + ', ' + eventAddress.country;
+                        document.getElementById("event_date_container").value = data.event.startDate;
+                        document.getElementById("event_duration_container").value = data.event.duration;
+                        document.getElementById("event_participants_number").value = data.event.participants.length;
+                        document.getElementById("event_participants_number_min").value = data.event.participants_min;
+                        document.getElementById("event_participants_number_max").value = data.event.participants_max;
+
+                        //TODO participants
+                        
+                        let status = data.event.status;
+                        
+                        if (status === "cancelled") {
+                            document.getElementById("event_status_container").value = "Annulé";
+                        } else if (status === "started") {
+                            document.getElementById("event_status_container").value = "En cours";
+                        } else if (status === "finished") {
+                            document.getElementById("event_status_container").value = "Terminé";
+                        } else if (status === "full") {
+                            document.getElementById("event_status_container").value = "Plein";
+                        } else if (status === "ready") {
+                            document.getElementById("event_status_container").value = "Prêt";
+                        } else {
+                            document.getElementById("event_status_container").value = "Planifié";
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
