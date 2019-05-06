@@ -74,10 +74,10 @@ function degresMinutesToDecimal(longDeg, longMin, longDir, latDeg, latMin, latDi
 }
 
 function addResultDemo() {
-    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or");
+    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine");
 }
 
-function addResult(data_activities, data_organizer, data_place) {
+function addResult(data_activities, data_organizer, data_place, data_date, data_duration) {
     var results = document.getElementById("search_result_list_global_container");
     
     var div_event_container = document.createElement("div");
@@ -243,21 +243,61 @@ function addResult(data_activities, data_organizer, data_place) {
                 div_event_activity_organisator_place_users_container.appendChild(div_event_activity_organisator_place_users_row);
             }
             
+            div_event_row.appendChild(div_event_activity_organisator_place_users_container);
+            
+            var div_event_date_container = document.createElement("div");
+            div_event_date_container.className = "container";
+            {
+                var div_event_date_row = document.createElement("div");
+                div_event_date_row.className = "row mx-0 px-0";
+                {
+                    var div_event_date_col = document.createElement("div");
+                    div_event_date_col.className = "col-6 mx-0 my-0 px-0 py-0";
+                    {
+                        var txt_dates = document.createTextNode("Date : ");
+                        
+                        div_event_date_col.appendChild(txt_dates);
+                        
+                        var txt_date = document.createTextNode(data_date);
+                            
+                        div_event_date_col.appendChild(txt_date);
+                    }
+                    
+                    div_event_date_row.appendChild(div_event_date_col);
+                }
+                
+                div_event_place_container.appendChild(div_event_date_row);
+            }
+            
+            div_event_row.appendChild(div_event_date_container);
+            
+            var div_event_time_container = document.createElement("div");
+            div_event_time_container.className = "container";
+            {
+                var div_event_time_row = document.createElement("div");
+                div_event_time_row.className = "row mx-0 px-0";
+                {
+                    var div_event_time_col = document.createElement("div");
+                    div_event_time_col.className = "col-6 mx-0 my-0 px-0 py-0";
+                    {
+                        var txt_time = document.createTextNode("Durée : ");
+                        
+                        div_event_time_col.appendChild(txt_time);
+                        
+                        var txt_time = document.createTextNode(data_duration);
+                            
+                        div_event_time_col.appendChild(txt_time);
+                    }
+                    
+                    div_event_time_row.appendChild(div_event_time_col);
+                }
+                
+                div_event_time_container.appendChild(div_event_time_row);
+            }
+            
+            div_event_row.appendChild(div_event_time_container);
+            
             /*
-            <div id="event_date_container" class="container">
-                <div id="event_date_row" class="row mx-0 px-0">
-                    <div id="event_date_col" class="col-6 mx-0 my-0 px-0 py-0">
-                        Date
-                    </div><!--#event_date_col -->
-                </div><!--#event_date_row -->
-            </div><!--#event_date_container -->
-            <div id="event_time_container" class="container">
-                <div id="event_time_row" class="row mx-0 px-0">
-                    <div id="event_time_col" class="col-6 mx-0 my-0 px-0 py-0">
-                        Durée
-                    </div><!--#event_time_col -->
-                </div><!--#event_time_row -->
-            </div><!--#event_time_container -->
             <div id="event_status_know_more_no_more_button_badges_container" class="container event_status_know_more_no_more_button_badges_container">
                 <div id="event_status_know_more_no_more_button_badges_row" class="row mx-0 px-0">
                     
@@ -296,8 +336,6 @@ function addResult(data_activities, data_organizer, data_place) {
                 </div><!--#event_status_know_more_no_more_button_badges_row -->
             </div><!--#event_status_know_more_no_more_button_badges_container -->
             */
-            
-            div_event_row.appendChild(div_event_activity_organisator_place_users_container);
         }
         
         div_event_container.appendChild(div_event_row);
