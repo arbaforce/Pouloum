@@ -66,7 +66,7 @@ public class AjaxActionServlet extends HttpServlet {
                         response.addCookie(cookie);
                     }
                 } else {
-                    ajaxAction.loginByNickName(id, password);
+                    ajaxAction.loginByNickname(id, password);
                     if (container.get("result").getAsBoolean()) {
                         Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
                         response.addCookie(cookie);
@@ -152,12 +152,10 @@ public class AjaxActionServlet extends HttpServlet {
 
                     ajaxAction.updateUserDetails(id, surname, name, gender, pseudo, password, birthdate, mail, phone_number, country, city, postal_number, street, street_number);
                 }
-            }
-            else if("addInterest".equals(action)) {
+            } else if ("addInterest".equals(action)) {
                 String id = request.getParameter("id");
                 String interest = request.getParameter("interest").trim();
-                if (interest.equals(""))
-                {
+                if (interest.equals("")) {
                     container.addProperty("result", false);
                     container.addProperty("errorMessage", "ERREUR : veuillez remplir le champ");
                 } else {
