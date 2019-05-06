@@ -112,11 +112,11 @@ public class SetupDB {
         DataFactory df = new DataFactory();
         Random rand = new Random();
         
-        for(int i = 0; i<200; i++){
+        for(int i = 0; i<100; i++){
             Pouloumer p = new Pouloumer(df.getRandomWord(), df.getFirstName(), df.getLastName(), df.getEmailAddress(), df.getRandomWord(8, 14), false, false, 'F', df.getBirthDate(), "06"+df.getNumberText(6),null);
             int nbInteret = rand.nextInt(6)+3;
             List<Integer> idUsed = new ArrayList<Integer>();
-            for (int j = 0; j<=nbInteret; j++){
+            for (int j = 0; j<nbInteret; j++){
                 try {
                     int id = rand.nextInt(100)+1;
                     if (idUsed.contains(id)){
