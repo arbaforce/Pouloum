@@ -52,10 +52,12 @@ public class AjaxActionServlet extends HttpServlet {
         try {
             if("getUserIdSession".equals(action)){
                 String userID = (String) session.getAttribute("userID");
+                container.addProperty("result", true);
                 container.addProperty("userID", userID);
             }
             else if("getEventIdSession".equals(action)){
                 String eventID = (String) session.getAttribute("eventID");
+                container.addProperty("result", true);
                 container.addProperty("eventID", eventID);
             }
             else if ("login".equals(action)) {
