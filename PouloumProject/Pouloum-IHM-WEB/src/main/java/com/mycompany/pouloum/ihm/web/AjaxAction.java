@@ -438,4 +438,29 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("getActivityDetails", ex);
         }
     }
+    
+    public void findAllActivities() throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "findAllActivities")
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "findAllActivities");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                //this.container.add("activity", smaResultContainer.get("activity"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("findAllActivities", ex);
+        }
+    }
 }

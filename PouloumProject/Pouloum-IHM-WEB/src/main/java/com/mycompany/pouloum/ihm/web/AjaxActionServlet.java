@@ -173,6 +173,8 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getActivityDetails".equals(action)) {
                 String activityID = request.getParameter("activityID");
                 ajaxAction.getActivityDetails(activityID);
+            } else if ("getActivityTree".equals(action)) {
+                ajaxAction.findAllActivities();
             } else {
                 actionCalled = false;
             }
