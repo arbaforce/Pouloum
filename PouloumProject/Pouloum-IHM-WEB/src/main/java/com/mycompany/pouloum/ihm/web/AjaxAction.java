@@ -454,7 +454,7 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                //this.container.add("activity", smaResultContainer.get("activity"));
+                this.container.add("activities", smaResultContainer.get("activities"));
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());

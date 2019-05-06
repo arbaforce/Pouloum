@@ -458,7 +458,7 @@ public class ServicesServlet extends HttpServlet {
                 for (Activity a : activities) {
                     array.add(a.toJson());
                 }
-
+                
                 container.add("activities", array);
             } ///////////
             ////Consult activity
