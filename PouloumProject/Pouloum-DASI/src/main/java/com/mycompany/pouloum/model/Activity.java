@@ -3,6 +3,7 @@ package com.mycompany.pouloum.model;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,9 +44,9 @@ public class Activity implements Serializable {
     public Activity() {
     }
 
-    public Activity(Activity parent, List<Activity> children, String name, String description, List<Badge> badges, String rules, List<String> resources, int default_participants_min, int default_participants_max) {
+    public Activity(Activity parent, String name, String description, List<Badge> badges, String rules, List<String> resources, int default_participants_min, int default_participants_max) {
         this.parent = parent;
-        this.children = children;
+        this.children = new ArrayList<>();
         this.name = name;
         this.description = description;
         this.badges = badges;

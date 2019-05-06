@@ -42,7 +42,7 @@ public class AjaxAction {
     }
 
     /**
-     * Try to login using e-mail address.
+     * Try to login using e-mail address. The result into a JSON container.
      *
      * @param mail is the mail of the user.
      * @param password is the password of the user.
@@ -66,7 +66,7 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+                this.container.add("userID", smaResultContainer.get("pouloumer"));
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", smaResultContainer.get("message").getAsString());
@@ -78,7 +78,7 @@ public class AjaxAction {
     }
 
     /**
-     * Try to login using nickname.
+     * Try to login using nickname. The result is stored into a JSON container.
      *
      * @param nickname is the nickname of the user.
      * @param password is the password of the user.
@@ -102,7 +102,7 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+                this.container.add("userID", smaResultContainer.get("pouloumer"));
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
@@ -114,7 +114,7 @@ public class AjaxAction {
     }
 
     /**
-     * Try to register a new user.
+     * Try to register a new user. The result is stored into a JSON container.
      *
      * @param lastName is the last name of the user.
      * @param firstName is the first name of the user.
@@ -183,7 +183,7 @@ public class AjaxAction {
     }
 
     /**
-     * Get the upcoming events for an user.
+     * Get the upcoming events for an user into a JSON container.
      *
      * @param id is the id of the user.
      * @throws ServiceException if something goes wrong when calling the
@@ -217,7 +217,7 @@ public class AjaxAction {
     }
 
     /**
-     * Get the badges of a given user.
+     * Get the badges of a given user into a JSON container.
      *
      * @param id is the id of the user.
      * @throws ServiceException if something goes wrong when calling the
@@ -251,7 +251,7 @@ public class AjaxAction {
     }
 
     /**
-     * Get all the stored information about an user.
+     * Get all the stored information about an user into a JSON container.
      *
      * @param id is the of the user.
      * @throws ServiceException if something goes wrong when calling the
@@ -285,8 +285,9 @@ public class AjaxAction {
     }
 
     /**
-     * Update a given user's informations.
-     * 
+     * Update a given user's informations. The result is stored into a JSON
+     * container.
+     *
      * @param id is the id of the user.
      * @param lastName is the last name of the user.
      * @param firstName is the first name of the user.
@@ -301,7 +302,8 @@ public class AjaxAction {
      * @param postalCode is the address' postal code of the user.
      * @param street is the address' street of the user.
      * @param streetNumber is the address' number of the user.
-     * @throws ServiceException if something goes wrong when calling the service.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
      */
     public void updateUserDetails(String id, String lastName, String firstName, String gender, String nickname, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postalCode, String street, String streetNumber) throws ServiceException {
         try {
@@ -368,6 +370,13 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get all available information about a given event into a JSON container.
+     *
+     * @param id is the id of the event.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getEventDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -395,6 +404,14 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get all available information about a given activity into a JSON
+     * container.
+     *
+     * @param id is the id of the activity.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getActivityDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
