@@ -291,18 +291,17 @@ public class ServicesServlet extends HttpServlet {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
                 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                List<Activity> interests = p.getInterests();
                 
-                Map<Event,List<Pouloumer>> availableEvents = ServicesEvent.getEventByInterests(interests);
+                List<Event> availableEvents = ServicesEvent.findAllEvents();
                 
                 JsonArray events = new JsonArray();
                 
-                for (Event e : availableEvents.keySet())
+                for (Event e : availableEvents)
                 {
                     // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
                     JsonObject eventAndPouloumerSimiliarities = new JsonObject();
                     
-                    List<Pouloumer> participants = availableEvents.get(e);
+                    List<Pouloumer> participants = e.getParticipants();
                     
                     int averagePouloumerSimilarity = 0;
                     
