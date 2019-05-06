@@ -47,8 +47,8 @@ public class ServicesServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        super.destroy(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.destroy();
+        super.destroy(); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -464,7 +464,7 @@ public class ServicesServlet extends HttpServlet {
 
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
-                container.add("Activity", a.toJson());
+                container.add("activity", a.toJson());
             } /////////////////
             //////Consult an event
             /////////////////
