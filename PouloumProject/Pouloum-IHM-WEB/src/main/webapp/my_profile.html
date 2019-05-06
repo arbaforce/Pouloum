@@ -138,7 +138,7 @@
                                     <input type="text" class="form-control" id="interest">
                                 </div>
                                 <div class="col-4">
-                                    <button type="button" class="btn btn-light">
+                                    <button id="buttonAddInterest" type="button" class="btn btn-light">
                                         Ajouter
                                     </button>
                                 </div>
@@ -218,6 +218,37 @@
                         $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
                         $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
                     }
+                });
+            });
+            
+            $(function () {
+                $("#buttonAddInterest").button().on("click", function(){
+                    
+                    userID = $.getCookie('userID');
+                    if (userID===""){
+                        window.location.href = './index.html'
+                    }
+                    // TODO : récupérer la liste complète des activités
+                    
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'id': userID,
+                            'action': 'addInterest',
+                            'interest': $('#interest').val()
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        var OK = data.result;
+                        if(OK){
+                            window.location.href = './my_profile.html';
+                        }
+                        else{
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
+                        }
+                    });
                 });
             });
         </script>
