@@ -230,14 +230,15 @@ public class ServicesEvent {
     }
 
     /**
-     * Get the events matching a list of interests.
+     * Get all events.
      *
      * @param interests, the list containing all activities of the search.
      * @throws Exception if there's an error trying to access the database.
      * @return EventList, a list containing all events corresponding to the
-     * interests and for each event, the the participants.
+     * interests and for each event, the the participants. If the parameter is
+     * empty, returns all events.
      */
-    public static Map<Event, List<Pouloumer>> getEventByInterests(List<Activity> interests)
+    public static List<Event> findAllEvents()
         throws Exception
     {
         // do magical stuff plz
@@ -245,18 +246,8 @@ public class ServicesEvent {
 
         try {
             List<Event> events = DAOEvent.findAll();
-
-            Map<Event, List<Pouloumer>> interestsEvents = new HashMap<>();
-
-            for (Event e : events) {
-                if (interests.contains(e.getActivity()) || interests.isEmpty()) {
-                    List<Pouloumer> participants = e.getParticipants();
-
-                    interestsEvents.put(e, participants);
-                }
-            }
-
-            return interestsEvents;
+            
+            return events;
         } finally {
             JpaUtil.closeEntityManager();
         }
