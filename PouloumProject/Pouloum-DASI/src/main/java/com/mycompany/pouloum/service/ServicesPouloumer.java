@@ -275,6 +275,36 @@ public class ServicesPouloumer {
     }
 
     /**
+     * Check if the user is going to attend events that overlapse a given event.
+     *
+     * @param p is the user.
+     * @param e is the event prone to creating overlap conflicts.
+     * @return CRE, CRE_OK if everything is fine, CRE_ERR_EVENT_AT_SAME_TIME if
+     * there's an overlapping conflict, CRE_WAR_EVENT_NEAR if the new event is
+     * close to another event the user has already joined.
+     */
+    public static CRE checkForOverlapsingEvents(Pouloumer p, Event e) {
+        List<Event> events = p.getEvents();
+
+        boolean warning = false;
+
+        for (Event pouloumerEvent : events) {
+            if (pouloumerEvent.overlaps(e)) {
+                // There can only be one such conflict at a time as we will immediately demand it to be resolved, so we can return
+                return CRE_ERR_EVENT_AT_SAME_TIME;
+            } else if (pouloumerEvent.isNear(e)) {
+                warning = true;
+            }
+        }
+
+        if (warning) { // If one (or more) other events is less than 2 hours away from the event to join, send a warning
+            return CRE_WAR_EVENT_NEAR;
+        }
+
+        return CRE_OK;
+    }
+
+    /**
      * Add an event to a user's event list.
      *
      * @param p is the user joining the event.
@@ -397,5 +427,4 @@ public class ServicesPouloumer {
             JpaUtil.closeEntityManager();
         }
     }
-
 }

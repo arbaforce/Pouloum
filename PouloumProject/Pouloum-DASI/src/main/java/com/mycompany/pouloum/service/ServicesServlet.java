@@ -105,7 +105,11 @@ public class ServicesServlet extends HttpServlet {
                 String nickName = request.getParameter("nickname");
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
-                char gender = request.getParameter("gender").charAt(0);
+                
+                char gender = Character.MIN_VALUE;
+                if (request.getParameter("gender")==null)
+                    gender= request.getParameter("gender").charAt(0);
+                
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
 
@@ -331,10 +335,20 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                // the GUI should check that the event is not full (so an user
-                // never join a full event)
-                //TODO check that user doesn't have other events at the same time
-                ServicesPouloumer.joinEvent(p, e);
+                CRE checkResult = ServicesPouloumer.checkForOverlapsingEvents(p, e);
+
+                if (checkResult == CRE_ERR_EVENT_AT_SAME_TIME) {
+                    resultErrorMessage = "The user is already participating to an event happening at the same time.";
+                } else {
+                    if (checkResult == CRE_WAR_EVENT_NEAR) {
+                        //TODO notify user
+                    }
+
+                    // the GUI should check that the event is not full (so an user
+                    // never join a full event)
+                    //TODO check that user doesn't have other events at the same time
+                    ServicesPouloumer.joinEvent(p, e);
+                }
             } ///////////
             ////Leave event
             ///////////

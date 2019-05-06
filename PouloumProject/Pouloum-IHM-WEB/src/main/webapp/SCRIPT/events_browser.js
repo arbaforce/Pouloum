@@ -13,6 +13,7 @@ function openNav() {
   for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
       events_status_know_more_no_more_button_badges_container[i].style.marginRight= "50%";
   }
+  setTimeout(function(){map.invalidateSize(); map.setView([45.74,4.84], 13);},500);
   
   document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
 }
@@ -37,10 +38,10 @@ function closeNav() {
 // source : https://leafletjs.com/examples/quick-start/
 function initialiseMap() {
 	map = L.map('map');
-	map.setView([45.74,4.84], 13);
 	var basemap = L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
 	        attribution: '<a href="http://content.stamen.com/dotspotting_toner_cartography_available_for_download">Stamen Toner</a>, <a href="http://www.openstreetmap.org/">OpenStreetMap</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-	        maxZoom: 17
+	        maxZoom: 17,
+                accessToken: 'sk.eyJ1IjoiYXJiYWZvcmNlIiwiYSI6ImNqdmM1OG9pbDAwMDI0ZG82NXl4YWliZm0ifQ.UiSlHm8LYj8QEPSX6EpCyw'
 	});
 	basemap.addTo(map);
         /*document.getElementsByClassName("leaflet-map-pane")[0].style.transform ="translate3d(302px, -4px, 0px)";*/
