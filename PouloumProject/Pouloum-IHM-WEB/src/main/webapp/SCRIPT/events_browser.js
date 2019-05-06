@@ -74,10 +74,20 @@ function degresMinutesToDecimal(longDeg, longMin, longDir, latDeg, latMin, latDi
 }
 
 function addResultDemo() {
-    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine");
+    
+    data_participants = [];
+    for (var i=0; i<14; i++) {
+        data_participants.push({
+            url:"http://localhost:8080/Pouloum-IHM-WEB/my_profile.html",
+            img:"https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg",
+            alt:"Profil"
+        });
+    }
+    
+    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants);
 }
 
-function addResult(data_activities, data_organizer, data_place, data_date, data_duration) {
+function addResult(data_activities, data_organizer, data_place, data_date, data_duration, data_participants) {
     var results = document.getElementById("search_result_list_global_container");
     
     var div_event_container = document.createElement("div");
@@ -90,7 +100,7 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
             div_event_activity_organisator_place_users_container.className = "container";
             {
                 var div_event_activity_organisator_place_users_row = document.createElement("div");
-                event_activity_organisator_place_users_row.className = "row w-100 mx-0";
+                div_event_activity_organisator_place_users_row.className = "row w-100 mx-0";
                 {
                     var div_event_activity_organisator_place_col = document.createElement("div");
                     div_event_activity_organisator_place_col.className = "col mx-0 px-0";
@@ -180,64 +190,59 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
                         div_event_activity_organisator_place_col.appendChild(div_event_place_container);
                     }
                     
-                    /*
-                    <div id="users_col" class="col h-100 w-100 users_col">
-                        <div id="users_title_container" class="container h-100 w-100">
-                            <div id="users_title_row" class="row mx-0 px-0 h-100 w-100">
-                                Participant(s):
-                            </div><!--#users_title_row -->
-                        </div><!--#users_title_container -->
-                        <div id="users_container" class="container">
-                            <div id="users_row" class="row mx-0 px-0 h-100 w-100 users_row">
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                <a href="http://localhost:8080/Pouloum-IHM-WEB/my_profile.html">
-                                    <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="little_avatar_image rounded " /> 
-                                </a>
-                                
-                            </div><!--#users_title_row -->
-                        </div><!--#users_title_container -->
-                    </div><!--#event_activity_organisator_place_col -->
-                    */
-                    
                     div_event_activity_organisator_place_users_row.appendChild(div_event_activity_organisator_place_col);
+                    
+                    var div_users_col = document.createElement("div");
+                    div_users_col.className = "col h-100 w-100 users_col";
+                    {
+                        var div_users_title_container = document.createElement("div");
+                        div_users_title_container.className = "container h-100 w-100";
+                        {
+		                    var div_users_title_row = document.createElement("div");
+		                    div_users_title_row.className = "row mx-0 px-0 h-100 w-100";
+		                    {
+		                        var txt_participants = document.createTextNode("Participant(s) : ");
+		                        
+		                        div_users_title_row.appendChild(txt_participants);
+		                    }
+		                    
+		                    div_users_title_container.appendChild(div_users_title_row);
+                        }
+                        
+                        div_users_col.appendChild(div_users_title_container);
+                        
+                        var div_users_container = document.createElement("div");
+                        div_users_container.className = "container";
+                        {
+		                    var div_users_row = document.createElement("div");
+		                    div_users_row.className = "row mx-0 px-0 h-100 w-100 users_row";
+		                    {
+                                for (var i=0; i<data_participants.length; i++)
+                                {
+                                    var data_participant = data_participants[i];
+                                    
+                                    var a_participant = document.createElement("a");
+                                    a_participant.href = data_participant.url;
+                                    {
+                                        var img_participant = document.createElement("img");
+                                        img_participant.className = "little_avatar_image rounded";
+                                        img_participant.src = data_participant.img;
+                                        img_participant.alt = data_participant.alt;
+                                        
+                                        a_participant.appendChild(img_participant);
+                                    }
+                                    
+                                    div_users_row.appendChild(a_participant);
+                                }
+		                    }
+		                    
+		                    div_users_container.appendChild(div_users_row);
+                        }
+                        
+                        div_users_col.appendChild(div_users_container);
+                    }
+                    
+                    div_event_activity_organisator_place_users_row.appendChild(div_users_col);
                 }
                 
                 div_event_activity_organisator_place_users_container.appendChild(div_event_activity_organisator_place_users_row);
