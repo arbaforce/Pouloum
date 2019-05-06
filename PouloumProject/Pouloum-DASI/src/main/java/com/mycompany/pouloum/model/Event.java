@@ -267,6 +267,8 @@ public class Event implements Serializable {
             obj.addProperty("status", "started");
         } else if (isFinished()) {
             obj.addProperty("status", "finished");
+        } else if (participants.size() == participants_max) {
+            obj.addProperty("status", "full");
         } else if (participants.size() > participants_min) {
             obj.addProperty("status", "ready");
         } else {
