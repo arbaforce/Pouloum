@@ -331,8 +331,6 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                //TODO check that event isn't cancelled, already done, ...
-                //TODO check that event isn't full
                 //TODO check that user doesn't have other events at the same time
                 ServicesPouloumer.joinEvent(p, e);
             } ///////////

@@ -279,10 +279,17 @@ public class ServicesPouloumer {
      *
      * @param p is the user joining the event.
      * @param event is the event to join.
+     * @return CRE, CRE_OK if the update is successful, CRE_ERR_EVENT if the
+     * event to join is already full.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static void joinEvent(Pouloumer p, Event event)
+    public static CRE joinEvent(Pouloumer p, Event event)
             throws Exception {
+
+        if (event.isFull()) {
+            return CRE_ERR_EVENT;
+        }
+
         List<Event> events = p.getEvents();
         events.add(event);
         p.setEvents(events);
@@ -303,6 +310,8 @@ public class ServicesPouloumer {
         } finally {
             JpaUtil.closeEntityManager();
         }
+
+        return CRE_OK;
     }
 
     /**
