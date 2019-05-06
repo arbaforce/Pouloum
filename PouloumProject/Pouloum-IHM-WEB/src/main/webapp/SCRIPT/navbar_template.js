@@ -56,7 +56,7 @@ var htmlcode = `
                         <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">
                             Nouvel Evènement
                         </a>
-                        <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=0">
+                        <a class="dropdown-item font-weight-bold text-center" href="list_modify_event.html">
                             Modifier
                         </a>
                     </div>

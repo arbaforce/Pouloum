@@ -12,12 +12,57 @@
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-            
-            
+
+
         </div><!--#wrapper-->
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
+
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserDetails',
+                        'id': otherUserID
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
+                        $("#user_pseudo_container").text(data.userDetails.nickname);
+                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

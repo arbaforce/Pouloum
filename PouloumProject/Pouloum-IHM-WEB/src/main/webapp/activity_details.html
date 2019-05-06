@@ -12,23 +12,32 @@
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-
-
+            
+            
         </div><!--#wrapper-->
-
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+        
         <script>
-            $(document).ready(function () {
-                userID = $.getCookie('userID');
-                activityID = $.getCookie('activityID');
-                //TODO check if activityID is empty
-
-                if (userID === "") {
-                    window.location.href = './index.html'
-                }
+            $(document).ready(function() {
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
 
                 $.ajax({
                     url: './AjaxAction',
@@ -45,12 +54,38 @@
                         document.getElementById("activity_description_container").value = data.activity.description;
                         document.getElementById("parent_activity_name_container").value = data.activity.parent.name;
 
-                        //TODO children activities
-                        //TODO badges
+                        let childrenActivitiesDiv = document.getElementById("children_activities_container");
+                        let childrenActivitiesArray = data.activity.children;
+
+                        childrenActivitiesArray.forEach(function (element) {
+                            let childrenActivityDiv = document.createElement("div");
+                            let activityText = document.createTextNode(element.name);
+                            childrenActivityDiv.appendChild(activityText);
+                            childrenActivitiesDiv.appendChild(childrenActivityDiv);
+                        });
+
+                        let badgesDiv = document.getElementById("badges_container");
+                        let badgesArray = data.activity.badges;
+
+                        badgesArray.forEach(function (element) {
+                            let badgeDiv = document.createElement("div");
+                            let badgeText = document.createTextNode(element.type);
+                            badgeDiv.appendChild(badgeText);
+                            badgesDiv.appendChild(badgeDiv);
+                        });
 
                         document.getElementById("activity_rules_container").value = data.activity.rules;
 
-                        //TODO resources
+                        let resourcesDiv = document.getElementById("resources_container");
+                        let resourcesArray = data.activity.resources;
+
+                        resourcesArray.forEach(function (element) {
+                            let resourceDiv = document.createElement("div");
+                            let resourceText = document.createTextNode(element);
+                            resourceDiv.appendChild(resourceText);
+                            resourcesDiv.appendChild(resourceDiv);
+                        });
+
                         document.getElementById("activity_default_participants_min_container").value = data.activity.default_participants_min;
                         document.getElementById("activity_default_participants_max_container").value = data.activity.default_participants_max;
                     }

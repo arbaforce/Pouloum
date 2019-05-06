@@ -7,13 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import com.mycompany.pouloum.util.DateUtil;
-import javax.persistence.Column;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 
@@ -28,7 +24,7 @@ public class Comment implements Serializable {
     protected Long id;
     
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    protected Date datetime;
+    protected Date postTime;
     
     protected String text;
     
@@ -45,7 +41,7 @@ public class Comment implements Serializable {
     }
     
     public Comment(String description, Date date, Pouloumer user, Event event) {
-        this.datetime = date;
+        this.postTime = date;
         this.text = description;
         this.author = user;
         this.event = event;
@@ -62,12 +58,12 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public Date getDatetime() {
-        return datetime;
+    public Date getPostTime() {
+        return postTime;
     }
 
-    public void setDatetime(Date datetime) {
-        this.datetime = datetime;
+    public void setPostTime(Date postTime) {
+        this.postTime = postTime;
     }
 
     public String getText() {
@@ -101,7 +97,7 @@ public class Comment implements Serializable {
         JsonObject obj = new JsonObject();
         obj.addProperty("idUser", author.getId());
         obj.addProperty("idEvent", event.getId());
-        obj.addProperty("date", DateUtil.toString(datetime));
+        obj.addProperty("date", DateUtil.toString(postTime));
         obj.addProperty("description", text);
         return obj;
     }

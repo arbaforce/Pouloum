@@ -472,11 +472,22 @@
         
       <script>
             $(document).ready(function() {
-                userID = $.getCookie('userID');
-                
-                if (userID===""){
-                    window.location.href = './index.html'
-                }
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
                 
                 $.ajax({
                     url: './AjaxAction',

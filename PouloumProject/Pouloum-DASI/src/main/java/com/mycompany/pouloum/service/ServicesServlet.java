@@ -6,24 +6,16 @@ import com.google.gson.JsonObject;
 import com.mycompany.pouloum.dao.JpaUtil;
 import com.mycompany.pouloum.model.Activity;
 import com.mycompany.pouloum.model.Address;
-import com.mycompany.pouloum.model.Badge;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
-import com.mycompany.pouloum.util.Common;
-import com.mycompany.pouloum.util.DBConnection;
 import com.mycompany.pouloum.util.DateUtil;
 import com.mycompany.pouloum.util.JsonServletHelper;
-import com.mycompany.pouloum.util.exception.DBException;
-import com.mycompany.pouloum.util.exception.ServiceException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -100,7 +92,7 @@ public class ServicesServlet extends HttpServlet {
                 }
 
                 if (p != null) {
-                    container.addProperty("Pouloumer", p.getId());
+                    container.addProperty("pouloumer", p.getId());
                 } else {
                     resultErrorMessage = "There is no match for these identifiants.";
                 }
@@ -113,7 +105,11 @@ public class ServicesServlet extends HttpServlet {
                 String nickName = request.getParameter("nickname");
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
-                char gender = request.getParameter("gender").charAt(0);
+                
+                char gender = Character.MIN_VALUE;
+                if (request.getParameter("gender")==null)
+                    gender= request.getParameter("gender").charAt(0);
+                
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
 
@@ -245,7 +241,7 @@ public class ServicesServlet extends HttpServlet {
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
                 ServicesPouloumer.removeInterest(p, a);
-            }  ///////////
+            } ///////////
             ////Consult details
             ///////////
             else if ("getUserDetails".equals(sma)) {
@@ -289,47 +285,45 @@ public class ServicesServlet extends HttpServlet {
             /////////////
             else if ("simpleSearchForUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-                
+
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                
+
                 List<Event> availableEvents = ServicesEvent.findAllEvents();
-                
+
                 JsonArray events = new JsonArray();
-                
-                for (Event e : availableEvents)
-                {
+
+                for (Event e : availableEvents) {
                     // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
                     JsonObject eventAndPouloumerSimiliarities = new JsonObject();
-                    
+
                     List<Pouloumer> participants = e.getParticipants();
-                    
+
                     int averagePouloumerSimilarity = 0;
-                    
+
                     // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
                     JsonArray currentEventParticipants = new JsonArray();
-                    
-                    for (Pouloumer currentPouloumer : participants)
-                    {
+
+                    for (Pouloumer currentPouloumer : participants) {
                         // This object wraps <IdUser,User,int(UserSimilarity)>
                         JsonObject participantSimilarity = new JsonObject();
-                                                
+
                         long PouloumerSimilarity = p.getPouloumerSimilarity(currentPouloumer.getInterests());
-                                                
-                        participantSimilarity.add("pouloumer",currentPouloumer.toJson());
-                        participantSimilarity.addProperty("similarity",PouloumerSimilarity);
-                        
+
+                        participantSimilarity.add("pouloumer", currentPouloumer.toJson());
+                        participantSimilarity.addProperty("similarity", PouloumerSimilarity);
+
                         currentEventParticipants.add(participantSimilarity);
-                        
+
                         averagePouloumerSimilarity += PouloumerSimilarity;
                     }
-                    
+
                     eventAndPouloumerSimiliarities.add("event", e.toJson());
                     eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
                     eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
-                    
+
                     events.add(eventAndPouloumerSimiliarities);
                 }
-                
+
                 container.add("similarEvents", events);
             } ///////////
             ////Join event
@@ -341,10 +335,20 @@ public class ServicesServlet extends HttpServlet {
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
-                //TODO check that event isn't cancelled, already done, ...
-                //TODO check that event isn't full
-                //TODO check that user doesn't have other events at the same time
-                ServicesPouloumer.joinEvent(p, e);
+                CRE checkResult = ServicesPouloumer.checkForOverlapsingEvents(p, e);
+
+                if (checkResult == CRE_ERR_EVENT_AT_SAME_TIME) {
+                    resultErrorMessage = "The user is already participating to an event happening at the same time.";
+                } else {
+                    if (checkResult == CRE_WAR_EVENT_NEAR) {
+                        //TODO notify user
+                    }
+
+                    // the GUI should check that the event is not full (so an user
+                    // never join a full event)
+                    //TODO check that user doesn't have other events at the same time
+                    ServicesPouloumer.joinEvent(p, e);
+                }
             } ///////////
             ////Leave event
             ///////////

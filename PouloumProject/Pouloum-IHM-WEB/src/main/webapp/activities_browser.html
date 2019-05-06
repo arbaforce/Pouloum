@@ -43,7 +43,7 @@
                                             D'autres étages de l'arbre selon le meme principe pour représenter les enfants de "Sports de combat".
                                         </div>
                                     </div>
-                                </div>
+                                </div><!--#card_elmt_1_1-->
                                 <div class="card" id="card_elmt_1_2">
                                     <div class="card-header" id="head_elmt_1_2">
                                         <h2 class="mb-0">
@@ -52,10 +52,10 @@
                                             </button>
                                         </h2>
                                     </div>
-                                </div>
+                                </div><!--#card_elmt_1_2-->
                             </div>
                         </div>
-                    </div>
+                    </div><!--#card_elmt_1-->
                     <div class="card" id="card_elmt_2">
                         <div class="card-header" id="head_elmt_2">
                             <h2 class="mb-0">
@@ -71,39 +71,34 @@
                         </div>
                     </div>
                     
-                  </div>
+                </div><!-- "activities_tree-->
                 
-                
-                <!-- <div id="row_activities_tree" class="row pre-scrollable">
-                    <button data-toggle="collapse" data-target="#first_ancester">
-                        Activité physique
-                    </button>
-                    <div id="first_ancester" class="collapse">
-                        <button data-toggle="collapse" data-target="#child_1_1">
-                            Sport de combat
-                        </button>
-                        <div id="child_1_1" class="collapse">
-                            <button data-toggle="collapse" data-target="#child_1_1_1">
-                                Judo
-                            </button>
-                            <button data-toggle="collapse" data-target="#child_1_1_1">
-                                Karate
-                            </button>
-                            <button data-toggle="collapse" data-target="#child_1_1_1">
-                                Taekwendo
-                            </button>
-                            <button data-toggle="collapse" data-target="#child_1_1_1">
-                                Krav Maga
-                            </button>
-                        </div>
-                    </div>
-                       
-                </div> -->
-            </div>
+            
+            </div> <!--#container_activities_tree-->
         </div><!--#wrapper-->
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

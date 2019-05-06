@@ -41,6 +41,14 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Try to login using e-mail address. The result into a JSON container.
+     *
+     * @param mail is the mail of the user.
+     * @param password is the password of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void loginByMail(String mail, String password) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -58,45 +66,74 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+                this.container.add("userID", smaResultContainer.get("pouloumer"));
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", smaResultContainer.get("message").getAsString());
             }
 
         } catch (IOException ex) {
-            throw JsonServletHelper.ActionExecutionException("rechercherClientParNumero", ex);
+            throw JsonServletHelper.ActionExecutionException("loginByMail", ex);
         }
     }
 
-    public void loginByNickName(String nickName, String password) throws ServiceException {
+    /**
+     * Try to login using nickname. The result is stored into a JSON container.
+     *
+     * @param nickname is the nickname of the user.
+     * @param password is the password of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void loginByNickname(String nickname, String password) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
                     new JsonHttpClient.Parameter("SMA", "login"),
-                    new JsonHttpClient.Parameter("nickname", nickName),
+                    new JsonHttpClient.Parameter("nickname", nickname),
                     new JsonHttpClient.Parameter("password", password)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
-                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByNickName");
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "loginByNickname");
             }
 
             String result = smaResultContainer.get("result").getAsString();
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-                this.container.add("userID", smaResultContainer.get("Pouloumer"));
+                this.container.add("userID", smaResultContainer.get("pouloumer"));
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
 
         } catch (IOException ex) {
-            throw JsonServletHelper.ActionExecutionException("loginByNickName", ex);
+            throw JsonServletHelper.ActionExecutionException("loginByNickname", ex);
         }
     }
 
+    /**
+     * Try to register a new user. The result is stored into a JSON container.
+     *
+     * @param lastName is the last name of the user.
+     * @param firstName is the first name of the user.
+     * @param nickname is the nickname of the user.
+     * @param mail is the email address of the user.
+     * @param password is the password of the user.
+     * @param isModerator states whether the new user should be a moderator.
+     * @param isAdmin states whether the new user should be an admin.
+     * @param gender is the gender of the user.
+     * @param birthDate is the birth date of the user.
+     * @param phoneNumber is the phone number of the user.
+     * @param addressNumber is the address' number of the user.
+     * @param addressStreet is the address' street of the user.
+     * @param addressPostalCode is the address' postal code of the user.
+     * @param addressCity is the city of the user.
+     * @param addressCountry is the country of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void signUp(String lastName, String firstName, String nickname,
             String mail, String password, Boolean isModerator, Boolean isAdmin,
             Character gender, String birthDate, String phoneNumber, String addressNumber,
@@ -145,6 +182,13 @@ public class AjaxAction {
 
     }
 
+    /**
+     * Get the upcoming events for an user into a JSON container.
+     *
+     * @param id is the id of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getUserEvents(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -172,6 +216,13 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get the badges of a given user into a JSON container.
+     *
+     * @param id is the id of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getUserBadges(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -199,6 +250,13 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get all the stored information about an user into a JSON container.
+     *
+     * @param id is the of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getUserDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -226,24 +284,45 @@ public class AjaxAction {
         }
     }
 
-    public void updateUserDetails(String id, String surname, String name, String gender, String pseudo, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postal_number, String street, String street_number) throws ServiceException {
+    /**
+     * Update a given user's informations. The result is stored into a JSON
+     * container.
+     *
+     * @param id is the id of the user.
+     * @param lastName is the last name of the user.
+     * @param firstName is the first name of the user.
+     * @param gender is the gender of the user.
+     * @param nickname is the nickname of the user.
+     * @param password is the password of the user.
+     * @param birthDate is the birth date of the user.
+     * @param mail is the e-mail address of the user.
+     * @param phoneNumber is the phone number of the user.
+     * @param country is the country of the user.
+     * @param city is the city of the user.
+     * @param postalCode is the address' postal code of the user.
+     * @param street is the address' street of the user.
+     * @param streetNumber is the address' number of the user.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void updateUserDetails(String id, String lastName, String firstName, String gender, String nickname, String password, String birthDate, String mail, String phoneNumber, String country, String city, String postalCode, String street, String streetNumber) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
                     new JsonHttpClient.Parameter("SMA", "updateUserDetails"),
                     new JsonHttpClient.Parameter("idUser", id),
-                    new JsonHttpClient.Parameter("lastName", surname),
-                    new JsonHttpClient.Parameter("firstName", name),
-                    new JsonHttpClient.Parameter("nickname", pseudo),
+                    new JsonHttpClient.Parameter("lastName", lastName),
+                    new JsonHttpClient.Parameter("firstName", firstName),
+                    new JsonHttpClient.Parameter("nickname", nickname),
                     new JsonHttpClient.Parameter("mail", mail),
                     new JsonHttpClient.Parameter("password", password),
                     new JsonHttpClient.Parameter("birthDate", birthDate),
                     new JsonHttpClient.Parameter("phoneNumber", phoneNumber),
                     new JsonHttpClient.Parameter("addressCountry", country),
                     new JsonHttpClient.Parameter("addressCity", city),
-                    new JsonHttpClient.Parameter("addressNumber", street_number),
+                    new JsonHttpClient.Parameter("addressNumber", streetNumber),
                     new JsonHttpClient.Parameter("addressStreet", street),
-                    new JsonHttpClient.Parameter("addressPostalCode", postal_number)
+                    new JsonHttpClient.Parameter("addressPostalCode", postalCode)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -263,8 +342,8 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("updateUserDetails", ex);
         }
     }
-    
-    public void addInterest(String idUser, String interest) throws ServiceException{
+
+    public void addInterest(String idUser, String interest) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
@@ -272,26 +351,32 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("idUser", idUser),
                     new JsonHttpClient.Parameter("idActivities", idUser)
             );
-            
+
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
                 throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "addInterest");
             }
-            
+
             String result = smaResultContainer.get("result").getAsString();
-            
-            if("OK".equals(result)){
+
+            if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-            }
-            else{
+            } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
             }
-            
+
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
         }
     }
 
+    /**
+     * Get all available information about a given event into a JSON container.
+     *
+     * @param id is the id of the event.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getEventDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -319,6 +404,14 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Get all available information about a given activity into a JSON
+     * container.
+     *
+     * @param id is the id of the activity.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void getActivityDetails(String id) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -343,6 +436,31 @@ public class AjaxAction {
 
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("getActivityDetails", ex);
+        }
+    }
+    
+    public void findAllActivities() throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "findAllActivities")
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "findAllActivities");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                //this.container.add("activity", smaResultContainer.get("activity"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("findAllActivities", ex);
         }
     }
 }
