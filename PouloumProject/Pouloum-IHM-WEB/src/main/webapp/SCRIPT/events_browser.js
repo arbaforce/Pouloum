@@ -86,6 +86,8 @@ function addResultDemo() {
     }
     
     addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
+    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
+    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
 }
 
 function addResult(data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_badges) {
@@ -415,25 +417,6 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
     }
     
     results.appendChild(div_event_container);
-    
-    //EXAMPLE:
-    /*
-    var container = document.createElement("div");
-    consoles.appendChild(container);
-    
-    var checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = resname;
-    checkbox.id = "c_" + resname;
-    checkbox.value = name;
-    checkbox.onchange = filterresults;
-    container.appendChild(checkbox);
-    
-    var label = document.createElement("label");
-    label.htmlFor = "c_" + resname;
-    label.innerText = name;
-    container.appendChild(label);
-    */
     
     return div_event_container;
 }
