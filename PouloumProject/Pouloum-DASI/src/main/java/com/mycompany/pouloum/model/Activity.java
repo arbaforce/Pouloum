@@ -146,7 +146,12 @@ public class Activity implements Serializable {
         JsonObject obj = new JsonObject();
 
         obj.addProperty("id", id);
-        obj.add("parent", parent.toJson());
+        if (parent!=null)
+        {
+            obj.add("parent", parent.toJson());
+        } else {
+            obj.addProperty("parent", "");
+        }
 
         JsonArray childrenArray = new JsonArray();
 
