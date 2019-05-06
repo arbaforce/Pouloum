@@ -63,7 +63,7 @@
                     },
                     datatype: 'json'
                 }).done(function (data) {
-                    var OK = data.result;
+                    let OK = data.result;
                     if (OK) {
                         document.getElementById("event_name_container").value = data.event.label;
                         document.getElementById("event_description_container").value = data.event.description;
@@ -73,11 +73,23 @@
                                 + eventAddress.postal_code + ' ' + eventAddress.city + ', ' + eventAddress.country;
                         document.getElementById("event_date_container").value = data.event.startDate;
                         document.getElementById("event_duration_container").value = data.event.duration;
-                        document.getElementById("event_participants_number").value = data.event.participants.length;
-                        document.getElementById("event_participants_number_min").value = data.event.participants_min;
-                        document.getElementById("event_participants_number_max").value = data.event.participants_max;
-
-                        //TODO participants
+                        document.getElementById("event_participants_number_container").value = data.event.participants.length;
+                        document.getElementById("event_participants_number_min_container").value = data.event.participants_min;
+                        document.getElementById("event_participants_number_max_container").value = data.event.participants_max;
+                        
+                        let participantsDiv = document.getElementById("event_participants_container");
+                        let participantsArray = data.event.participants;
+                        
+                        participantsArray.forEach(function (element) {
+                            let participantDiv = document.createElement("div");
+                            let nicknameLink = document.createElement("a");
+                            let linkText = document.createTextNode(element.nickname);
+                            
+                            nicknameLink.setAttribute("href", ""); //TODO put profile URL
+                            nicknameLink.appendChild(linkText);
+                            
+                            participantsDiv.appendChild(participantDiv);
+                        });
                         
                         let status = data.event.status;
                         

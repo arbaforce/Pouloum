@@ -71,7 +71,7 @@ public class AjaxActionServlet extends HttpServlet {
                         session.setAttribute("userID", container.get("userID").getAsString());
                     }
                 } else {
-                    ajaxAction.loginByNickName(id, password);
+                    ajaxAction.loginByNickname(id, password);
                     if (container.get("result").getAsBoolean()) {
                         session.setAttribute("userID", container.get("userID").getAsString());
                     }
@@ -155,6 +155,15 @@ public class AjaxActionServlet extends HttpServlet {
                     String street = address.trim();
 
                     ajaxAction.updateUserDetails(id, surname, name, gender, pseudo, password, birthdate, mail, phone_number, country, city, postal_number, street, street_number);
+                }
+            } else if ("addInterest".equals(action)) {
+                String id = request.getParameter("id");
+                String interest = request.getParameter("interest").trim();
+                if (interest.equals("")) {
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : veuillez remplir le champ");
+                } else {
+                    ajaxAction.addInterest(id, interest);
                 }
             } else if ("getEventDetails".equals(action)) {
                 String eventID = request.getParameter("eventID");

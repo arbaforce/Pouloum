@@ -3,9 +3,9 @@ html {
 }
 
 body {
-    overflow: scroll;
-    min-height:100vh;
-    width:100vw;
+    overflow: hidden;
+    max-height:100vh;
+    max-width:100vw;
 }
 
 .container{

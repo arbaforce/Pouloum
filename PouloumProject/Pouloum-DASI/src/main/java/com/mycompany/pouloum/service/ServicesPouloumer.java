@@ -1,22 +1,15 @@
 package com.mycompany.pouloum.service;
 
-import com.google.maps.model.LatLng;
-import com.mycompany.pouloum.dao.DAOEvent;
 import com.mycompany.pouloum.dao.DAOPouloumer;
 import com.mycompany.pouloum.dao.JpaUtil;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import com.mycompany.pouloum.model.*;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
-import com.mycompany.pouloum.util.GeoTest;
-import com.mycompany.pouloum.util.exception.ServiceException;
 
 public class ServicesPouloumer {
-    
+
     /**
      * Try to login with a given (mail, password) pair.
      *
@@ -27,10 +20,9 @@ public class ServicesPouloumer {
      * incorrect.
      */
     public static Pouloumer loginWithMail(String mail, String password)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
-        
+
         try {
             Pouloumer p = DAOPouloumer.findPouloumerByEmailAndPassword(mail, password);
 
@@ -39,8 +31,7 @@ public class ServicesPouloumer {
             JpaUtil.closeEntityManager();
         }
     }
-    
-    
+
     /**
      * Try to login with a given (nickname, password) pair.
      *
@@ -51,19 +42,18 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static Pouloumer loginWithNickname(String nickname, String password)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
-        
+
         try {
             Pouloumer p = DAOPouloumer.findPouloumerByNicknameAndPassword(nickname, password);
-            
+
             return p;
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Create a new user account. At this stage, the format and existence of all
      * fields has already been checked by the GUI, so we only need to check if
@@ -86,57 +76,56 @@ public class ServicesPouloumer {
      * used.
      */
     public static CRE signUp(String lastName, String firstName, String nickname,
-            String mail, String password, boolean isModerator, boolean isAdmin, 
+            String mail, String password, boolean isModerator, boolean isAdmin,
             char gender, Date birthdate, String phoneNumber,
             Address address)
-        throws Exception
-    {
-        Pouloumer p = new Pouloumer(nickname, firstName, lastName, mail, 
-                password, isModerator, isAdmin, gender, birthdate, phoneNumber, 
+            throws Exception {
+        Pouloumer p = new Pouloumer(nickname, firstName, lastName, mail,
+                password, isModerator, isAdmin, gender, birthdate, phoneNumber,
                 address);
-        
+
         JpaUtil.createEntityManager();
-        
+
         Pouloumer check = DAOPouloumer.findPouloumerByEmail(mail);
         if (check != null) {
             // email already used
             return CRE_ERR_EMAIL;
         }
         // email available
-        
+
         check = DAOPouloumer.findPouloumerByNickname(nickname);
         if (check != null) {
             // nickname already used
             return CRE_ERR_NICKNAME;
         }
         // nickname available
-        
+
         if (password.length() < 8) {
             // password too weak
             return CRE_ERR_PASSWORD;
         }
         // password not too weak
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.persist(p);
-                
+
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
                 // Registration has failed
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
-        
+
         return CRE_OK;
     }
-    
+
     /**
      * Update an account. At this stage, the format and existence of all fields
      * has already been checked by the GUI, so we only need to check if the
@@ -162,11 +151,10 @@ public class ServicesPouloumer {
     public static CRE updatePouloumer(Pouloumer p, String lastName, String firstName, String nickname,
             String email, String password, boolean isModerator, boolean isAdmin, char gender, Date birthdate, String phoneNumber,
             Address address)
-        throws Exception
-    {
-        
+            throws Exception {
+
         JpaUtil.createEntityManager();
-        
+
         if (!email.equals(p.getEmail())) {
             Pouloumer check = DAOPouloumer.findPouloumerByEmail(email);
             if (check != null) {
@@ -175,7 +163,7 @@ public class ServicesPouloumer {
             }
             // email available
         }
-        
+
         if (!nickname.equals(p.getNickname())) {
             Pouloumer check = DAOPouloumer.findPouloumerByNickname(nickname);
             if (check != null) {
@@ -184,13 +172,13 @@ public class ServicesPouloumer {
             }
             // nickname available
         }
-        
-        if (!password.equals("")&&password.length()<8) {
+
+        if (!password.equals("") && password.length() < 8) {
             // password too weak
             return CRE_ERR_PASSWORD;
         }
         // password not too weak
-        
+
         // Update fields
         p.setLast_name(lastName);
         p.setFirst_name(firstName);
@@ -203,10 +191,10 @@ public class ServicesPouloumer {
         p.setBirth_date(birthdate);
         p.setPhone_number(phoneNumber);
         p.setAddress(address);
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.updatePouloumer(p);
                 JpaUtil.commitTransaction();
@@ -215,36 +203,35 @@ public class ServicesPouloumer {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
-        
+
         return CRE_OK;
     }
-    
+
     /**
      * Get a user given their id.
      *
      * @param id is the id of the user.
-     * @throws Exception if there's an error trying to access the database,
-     * or if there is no user with the given id.
+     * @throws Exception if there's an error trying to access the database, or
+     * if there is no user with the given id.
      * @return Pouloumer, the user matching the given id.
      */
     public static Pouloumer getPouloumerById(Long id)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
-        
+
         try {
             Pouloumer p = DAOPouloumer.findById(id);
-            
+
             return p;
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Get a user given their e-mail address.
      *
@@ -254,19 +241,18 @@ public class ServicesPouloumer {
      * is none.
      */
     public static Pouloumer getPouloumerByEmail(String mail)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
-        
+
         try {
             Pouloumer p = DAOPouloumer.findPouloumerByEmail(mail);
-            
+
             return p;
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Get a user given their nickname.
      *
@@ -276,19 +262,18 @@ public class ServicesPouloumer {
      * is none.
      */
     public static Pouloumer getPouloumerByNickname(String nickname)
-        throws Exception
-    {
+            throws Exception {
         JpaUtil.createEntityManager();
-        
+
         try {
             Pouloumer p = DAOPouloumer.findPouloumerByNickname(nickname);
-            
+
             return p;
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Add an event to a user's event list.
      *
@@ -297,17 +282,17 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static void joinEvent(Pouloumer p, Event event)
-        throws Exception
-    {
+            throws Exception {
+
         List<Event> events = p.getEvents();
         events.add(event);
         p.setEvents(events);
-        
+
         JpaUtil.createEntityManager();
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.updatePouloumer(p);
                 JpaUtil.commitTransaction();
@@ -315,12 +300,12 @@ public class ServicesPouloumer {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Remove an event from a user's event list.
      *
@@ -329,29 +314,28 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static void leaveEvent(Pouloumer p, Event event)
-        throws Exception
-    {
+            throws Exception {
         p.removeEvent(event);
-        
+
         JpaUtil.createEntityManager();
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.updatePouloumer(p);
-                
+
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Add activites to a user's interests. There is no need to check whether
      * the interests to add are already linked to the user's profile as already
@@ -362,29 +346,28 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static void addInterests(Pouloumer p, List<Activity> interests)
-        throws Exception
-    {
+            throws Exception {
         p.getInterests().addAll(interests);
-        
+
         JpaUtil.createEntityManager();
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.updatePouloumer(p);
-                
+
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
     /**
      * Remove an activity from a user's interests.
      *
@@ -393,27 +376,26 @@ public class ServicesPouloumer {
      * @throws Exception if there's an error trying to access the database.
      */
     public static void removeInterest(Pouloumer p, Activity interest)
-        throws Exception
-    {
+            throws Exception {
         p.getInterests().remove(interest);
-        
+
         JpaUtil.createEntityManager();
-        
+
         try {
             JpaUtil.openTransaction();
-            
+
             try {
                 DAOPouloumer.updatePouloumer(p);
-                
+
                 JpaUtil.commitTransaction();
             } catch (Exception ex) {
                 JpaUtil.cancelTransaction();
                 throw ex;
             }
-            
+
         } finally {
             JpaUtil.closeEntityManager();
         }
     }
-    
+
 }
