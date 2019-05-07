@@ -277,8 +277,8 @@ public class ServicesServlet extends HttpServlet {
 
                     List<Pouloumer> participants = e.getParticipants();
 
-                    int averagePouloumerSimilarity = 0;
-
+                    long sumPouloumerSimilarity = 0;
+                    int numberOfPouloumerInEvent=0;
                     // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
                     JsonArray currentEventParticipants = new JsonArray();
 
@@ -293,9 +293,10 @@ public class ServicesServlet extends HttpServlet {
 
                         currentEventParticipants.add(participantSimilarity);
 
-                        averagePouloumerSimilarity += PouloumerSimilarity;
+                        sumPouloumerSimilarity += PouloumerSimilarity;
+                        numberOfPouloumerInEvent+=1;
                     }
-
+                    int averagePouloumerSimilarity=(int) (sumPouloumerSimilarity/numberOfPouloumerInEvent);
                     eventAndPouloumerSimiliarities.add("event", e.toJson());
                     eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
                     eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
@@ -472,7 +473,7 @@ public class ServicesServlet extends HttpServlet {
             ////Consult activity
             ///////////
             else if ("getActivityDetails".equals(sma)) {
-                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Long idActivity = Long.parseLong(request.getParameter("activityID"));
 
                 Activity a = ServicesActivity.getActivityById(idActivity);
 

@@ -1,6 +1,42 @@
 .big_avatar_image{
     max-width: 200px;	
     max-height: 200px;
+    border: 2px solid darkcyan;
+}
+
+.container_align{
+    padding-left:15%;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.border_profil{
+    border: 1px solid cadetblue;
+    margin-right: 0.5%;
+    box-shadow: 0px 2px 4px currentColor;
+    margin-left: 0.5%;
+}
+
+#user_details_global_container{
+    margin-left: 2%;
+}
+
+#badges_pouloumer_global_container{
+    margin-right: 2%;
+}
+
+#add_interest_button_container{
+    padding-left: 6%;
+}
+
+#user_rank_container{
+    padding-bottom: 1%;
+}
+
+#image_avatar_container{
+    padding-top: 4%;
 }
 
 .my_profile_badges{
