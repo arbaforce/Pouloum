@@ -21,9 +21,9 @@ function getSingleActivityDiv(data_activity) {
                         +    '</h2>'
                         +'</div>'
                         +'<div class="col">'
-                        +'<button class="btn btn-link collapsed float-sm-right" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
+                        +'<a href="activity_details.html"><button class="btn btn-link collapsed float-sm-right" type="button" data-toggle="collapse" aria-expanded="false">'
                         +'Détails'
-                        +'</button>'
+                        +'</button></a>'
                         +'</div>\n'
                         +'</div>\n'
                         +'</div>';
