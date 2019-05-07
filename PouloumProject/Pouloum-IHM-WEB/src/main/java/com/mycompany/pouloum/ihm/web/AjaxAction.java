@@ -373,6 +373,33 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
         }
     }
+    
+    public void removeInterest(String idUser, String interest) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "removeInterestFromUser"),
+                    new JsonHttpClient.Parameter("idUser", idUser),
+                    new JsonHttpClient.Parameter("idActivity", interest)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "removeInterest");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+            
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("getUserDetails", ex);
+        }
+    }
 
     /**
      * Create an event.
