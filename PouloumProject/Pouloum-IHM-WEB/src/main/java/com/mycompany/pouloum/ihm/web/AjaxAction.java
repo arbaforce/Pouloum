@@ -438,6 +438,68 @@ public class AjaxAction {
     }
 
     /**
+     * Update an event.
+     *
+     * @param id is the id of the event.
+     * @param name is the name of the event.
+     * @param description is the description of the event.
+     * @param startDate is the date when the event starts.
+     * @param duration is the duration of the event.
+     * @param addressNumber is the address' number of the event.
+     * @param addressStreet is the address' street of the event.
+     * @param addressPostalCode is the address' postal code of the event.
+     * @param addressCity is the address' city of the event.
+     * @param addressCountry is the address' country of the event.
+     *
+     * @param participantsMin is the minimal number of participants for the
+     * event.
+     * @param participantsMax is the maximal number of participants for the
+     * event.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void updateEvent(String id, String name, String description, String startDate,
+            String duration, String addressNumber, String addressStreet,
+            String addressPostalCode, String addressCity, String addressCountry,
+            String participantsMin,
+            String participantsMax) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "updateEvent"),
+                    new JsonHttpClient.Parameter("id", id),
+                    new JsonHttpClient.Parameter("name", name),
+                    new JsonHttpClient.Parameter("description", description),
+                    new JsonHttpClient.Parameter("startDate", startDate),
+                    new JsonHttpClient.Parameter("duration", duration),
+                    new JsonHttpClient.Parameter("addressNumber", addressNumber),
+                    new JsonHttpClient.Parameter("addressStreet", addressStreet),
+                    new JsonHttpClient.Parameter("addressPostalCode", addressPostalCode),
+                    new JsonHttpClient.Parameter("addressCity", addressCity),
+                    new JsonHttpClient.Parameter("addressCountry", addressCountry),
+                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
+                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "updateEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("updateEvent", ex);
+        }
+    }
+
+    /**
      * Get all available information about a given event into a JSON container.
      *
      * @param id is the id of the event.
