@@ -5,24 +5,20 @@ var csscode =  `
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    background-image : url('STYLE/sky-8.png');
-    /*background-color: #f8f9fa;*/
+    background-color: #cce8f3;
+    
 }
 
 .newnavbar a {
     color: black;
 }
 
-.navbar_image{
-    max-height : 20px
-}
-
 `;
 
 var htmlcode = `
-            <div class="newnavbar" id="navbar">
-                <div id="navbar_brand_column" class="col-2 h-100">
-                    <img src="STYLE/logo-1.png" alt="imageLogo" class="navbar_image rounded " /> 
+            <div class="newnavbar w-100" id="navbar">
+                <div id="navbar_brand_column" class="nav-link font-weight-bold text-center">
+                    <img href="inde.html" src="STYLE/logo-1.png" style="max-width: 2em; max-height: 2em;"/>
                 </div> <!--#navbar_brand_column-->
                 <div>
                     <a class="nav-link font-weight-bold text-center" href="home_page.html">
