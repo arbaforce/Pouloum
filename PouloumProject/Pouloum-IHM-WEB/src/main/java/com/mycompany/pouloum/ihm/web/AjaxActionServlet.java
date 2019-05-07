@@ -50,22 +50,19 @@ public class AjaxActionServlet extends HttpServlet {
         boolean actionCalled = true;
 
         try {
-            if("getUserIdSession".equals(action)){
+            if ("getUserIdSession".equals(action)) {
                 String userID = (String) session.getAttribute("userID");
                 container.addProperty("result", true);
                 container.addProperty("userID", userID);
-            }
-            else if("getEventIdSession".equals(action)){
+            } else if ("getEventIdSession".equals(action)) {
                 String eventID = (String) session.getAttribute("eventID");
                 container.addProperty("result", true);
                 container.addProperty("eventID", eventID);
-            }
-            else if("getActivityIdSession".equals(action)){
+            } else if ("getActivityIdSession".equals(action)) {
                 String activityID = (String) session.getAttribute("activityID");
                 container.addProperty("result", true);
                 container.addProperty("activityID", activityID);
-            }
-            else if ("login".equals(action)) {
+            } else if ("login".equals(action)) {
                 String id = request.getParameter("id");
                 String password = request.getParameter("password");
 
@@ -128,7 +125,8 @@ public class AjaxActionServlet extends HttpServlet {
                 }
             } else if ("getUserEvents".equals(action)) {
                 String id = request.getParameter("id");
-                ajaxAction.getUserEvents(id);
+                String history = request.getParameter("history");
+                ajaxAction.getUserEvents(id, history);
             } else if ("getUserBadges".equals(action)) {
                 String id = request.getParameter("id");
                 ajaxAction.getUserBadges(id);

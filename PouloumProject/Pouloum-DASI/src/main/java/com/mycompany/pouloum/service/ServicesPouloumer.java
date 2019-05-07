@@ -7,6 +7,7 @@ import java.util.List;
 import com.mycompany.pouloum.model.*;
 import com.mycompany.pouloum.util.CRE;
 import static com.mycompany.pouloum.util.CRE.*;
+import java.util.ArrayList;
 
 public class ServicesPouloumer {
 
@@ -272,6 +273,21 @@ public class ServicesPouloumer {
         } finally {
             JpaUtil.closeEntityManager();
         }
+    }
+    
+    public static List<Event> getPouloumerEvents(Pouloumer p, boolean history) {
+        List<Event> events = new ArrayList<>();
+        
+        for (Event e : p.getEvents()) {
+            if (history && (e.isFinished())) { // Looking for events history
+                events.add(e);
+            } 
+            if (!history && !(e.isFinished() || e.isCancelled())) {
+                events.add(e);
+            }
+        }
+        
+        return events;
     }
 
     /**
