@@ -17,8 +17,8 @@ Athlétisme |EA
 		Saut en hauteur
 		Saut à la perche
 		Triple saut
-	Décathlon
-	Heptathlon
+	Décathlon |FW
+	Heptathlon |FW
 
 Sports collectifs |E
 //	Balai-ballon sur glace
@@ -34,7 +34,7 @@ Sports collectifs |E
 //	Camogie
 	Cricket
 	Crosse
-	Crosse ancienne
+//	Crosse ancienne
 	Curling
 //	Dodgeball
 //	Double dutch
@@ -85,9 +85,9 @@ Sports collectifs |E
 //	Slamball
 //	Softball
 //	Stoolball
-	Street-hockey
+	Street-hockey |EW
 //	Tchoukball
-	Touch rugby
+//	Touch rugby
 //	Town ball
 	Ultimate |F
 //	Floorball
@@ -107,7 +107,7 @@ Gymnastique |A
 	Tricking
 	Twirling bâton
 
-Épreuves combinées |F
+Épreuves combinées |FW
 	Triathlon
 	Duathlon
 	Aquathlon
@@ -117,81 +117,83 @@ Gymnastique |A
 
 Sports mécaniques |F
 	Compétition automobile
-		WEC
+//		WEC
 		Karting
-		NASCAR
-		DTM
+//		NASCAR
+//		DTM
 		WRC (Rallye)
 		Formule 1
-		Course de côte
-		Rallye-raid
-		WTCC
-		Indy Racing League
-		Fol'Car
+//		Course de côte
+//		Rallye-raid
+//		WTCC
+//		Indy Racing League
+//		Fol'Car
 		Autocross
-		Rallycross
+//		Rallycross
 	Compétition motocycliste
 		Endurance moto
-		Enduro
-		Freestyle motocross
+//		Enduro
+//		Freestyle motocross
 		Motocross
-		Supermotard
-		Trial
-		Speedway
+//		Supermotard
+//		Trial
+//		Speedway
 		Stunt
-		Supercross
-		Vitesse moto
-	Compétition aéronautique
-	Moto-ball
+//		Supercross
+//		Vitesse moto
+	Compétition aéronautique |WA
+//	Moto-ball
 	Motonautisme |FW
 	Motoneige |FW
 
 Sports de raquette |A
 	Badminton
 	Jeu de paume
-	Padel
-	Peloc
+//	Padel
+//	Peloc
 	Pelote basque
-	Racketlon
-	Racquetball
+//	Racketlon
+//	Racquetball
 	Speed Badminton
-	Speed-ball
-	Squash
+//	Speed-ball
+	Squash |WA
 	Tennis
 	Tennis de table
 
 Sports avec animaux |E
 	Agility
 	Cani-cross
-	Corrida
-	Courses de lévriers
-	Course de chameaux
-	Course de chars
-	Course de traîneaux
-	Rodéo
+	Corrida |EF
+	Courses d'animaux
+		Courses de lévriers
+		Course de chameaux
+		Course de chars |EF
+		Course de traîneaux |EW
+	Rodéo |F
 	Sport hippique
-	Sports équestres |EF
-		Amazone
+	Sports équestres
+//		Amazone
 		Attelage
-		Attelage de tradition
-		Concours complet
-		Doma Vaquera
+//		Attelage de tradition
+//		Concours complet
+//		Doma Vaquera
 		Dressage
-		Endurance
-		Équitation Camargue
-		Équitation islandaise
-		Équitation Western
-		Horse-ball
-		Hunter
-		Oulak
+//		Endurance
+		Équitation
+//		Équitation Camargue
+//		Équitation islandaise
+//		Équitation Western
+//		Horse-ball
+//		Hunter
+//		Oulak
 		Polo
-		Polocrosse
+//		Polocrosse
 		Pony games
 		Rodéo chilien
 		Saut d'obstacles
-		Ski joëring
-		TREC
-		Voltige en Cercle
+//		Ski joëring
+//		TREC
+//		Voltige en Cercle
 
 //Sports anciens |A
 //	Barres
@@ -248,23 +250,22 @@ Sports de combat |F
 		Kick-boxing américain
 		Kick-boxing japonais (K1)
 	Canne et Bâton de combat
-	Escrime
+	Escrime |FA
 	Lutte
 //		Brancaille
 		Catch
-		Grappling
-		Gouren (Lutte bretonne)
-		Lutte gréco-romaine
+//		Grappling
+//		Gouren (Lutte bretonne)
+//		Lutte gréco-romaine
 		Lutte libre
-		Lutte sénégalaise
-		Lutte mongole
-		Lutte turque
-		Naban (Lutte birmane)
-		Ssirum
-		Sambo
+//		Lutte sénégalaise
+//		Lutte mongole
+//		Lutte turque
+//		Naban (Lutte birmane)
+//		Ssirum
+//		Sambo
 	Mixed martial art (MMA)
-	Sport chanbara
-	Unifight
+//	Sport chanbara
 
 Sports de glace |W
 //	Bandy
@@ -275,16 +276,16 @@ Sports de glace |W
 	Danse sur glace
 	Patinage artistique
 	Patinage de vitesse
-	Ringuette
-	Short-track
-	Skeleton
+//	Ringuette
+//	Short-track
+//	Skeleton
 
 Sports de force |F
 	Fitness
-	Force basque
+//	Force basque
 	Haltérophilie
-	Highland Games
-	Powerlifting
+//	Highland Games
+//	Powerlifting
 	Tir à la corde
 
 Sports de plein air et de nature |EA
@@ -293,76 +294,76 @@ Sports de plein air et de nature |EA
 	Course d'orientation
 	Descente en rappel
 	Escalade sportive
-	Bloc (escalade)
+//	Bloc (escalade)
 	Grimpe d'arbres
-	Pêche sportive
-	Escalade glaciaire
+	Pêche sportive |W
+	Escalade glaciaire |W
 	Raid nature
 	Randonnée pédestre
 	Spéléologie
 	Ultra-trail
 
-Sports aériens |FA
-	Aéromodélisme
-	Aérostation
+Sports aériens |A
+//	Aéromodélisme
+//	Aérostation
 	Base jump
 	Cerf-volant
 	Deltaplane
 	Parachutisme
 	Parapente
-	ULM
+//	ULM
 	Vol libre
 	Vol à voile
 	Voltige aérienne
 
-Sports de cible |FA
-	Airsoft
+Sports de cible |EA
+	Airsoft |FA
 	Ball-trap
 	Billards
 		Billard français
 		Billard américain
 		Billard anglais
 		Snooker
-	Boule bretonne
-	Boulingrin
+//	Boule bretonne
+//	Boulingrin
 	Boomerang
 	Bowling
 	Croquet
-	Curling
-	Eisstock
-	Fléchettes
+	Curling |WA
+//	Eisstock
+	Fléchettes |FA
 	Golf
-	Jukskei
-	Paintball
+//	Jukskei
+	Paintball |FA
 	Jeux de palets
-	Pétanque
-	Boule de fort
-	Quilles de neuf
-	Sarbacana
-	Sport boule (boule lyonnaise)
-	Tir
-	Tir à l'arc
+	Pétanque |EFA
+//	Boule de fort
+//	Quilles de neuf
+	Sarbacana |FA
+//	Sport boule (boule lyonnaise)
+	Tir |FA
+	Tir à l'arc |FA
 
 Sports nautiques |W
 	Apnée
 	Aviron
-	Barque de Sauvetage
-	Bateau-dragon
+//	Barque de Sauvetage
+	Bateau-dragon |FW
 	Canoë-kayak
 	Canyonisme
-	Char à voile
-	Chasse sous-marine
+	Char à voile |WA
+	Chasse sous-marine |FW
 //	Dragon Boat
 	Hockey subaquatique
-	Motomarine
-	Joutes nautiques
-	Kayak-polo
-	Kitesurf
+	Motomarine |FW
+	Joutes nautiques |FW
+//	Kayak-polo
+	Kitesurf |WA
 	Nage
 		Nage avec palmes
 		Nage en eau libre
 		Nage en eau vive
-	Motonautisme
+	Motonautisme |FW
 	Natation
 		Natation
 		Natation synchronisée
@@ -370,16 +371,16 @@ Sports nautiques |W
 	Planche à voile
 	Plongée sous-marine
 	Plongeon
-	Rafting
+	Rafting |FW
 	Rugby subaquatique
-	Ski nautique
+	Ski nautique |FW
 	Surf
 	Voile
 	Water polo
 	Wakeboard
 	Wakesurf
 
-Sports de glisse
+Sports de glisse |W
 	Ski |EW
 		Biathlon
 		Combiné nordique
@@ -410,21 +411,26 @@ Sports de glisse
 		Longskate
 		Trottinette Freestyle
 
-Autres sports
-	Speedcubing
-	Footbag
-	Danse sportive
-	Main à main
-	Marche nordique
-	Parkour
-	Sport stacking
+Autres sports |A
+//	Speedcubing
+//	Footbag
+	Danse sportive |EA
+//	Main à main
+	Marche nordique |EFA
+	Parkour |FA
+//	Sport stacking
+
+Jeux |A
 	Échecs
 	Go
 	Dames
-	Échecs chinois
+//	Échecs chinois
 	Belote
 	Bridge
 	Poker
 	Sport électronique
 	Scrabble
 
+Activités de groupe |E
+	Barbecue |EF
+	Raclette |EF
