@@ -58,6 +58,11 @@ body {
     max-height: 90%;
     min-width: 2vh;
 }
+
+#container_navbar_and_alert{
+    margin:0px;
+    padding:0px;
+}
   
 .pre-scrollable {
     max-height: 100%;
