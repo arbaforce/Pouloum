@@ -252,7 +252,7 @@ public class SetupDB {
         
         Date d2 = DateUtil.toDate("17/02/1996");
         Address a2 = new Address("9", "Impasse Guillet", "Villeurbanne", "69100", "France");
-        Pouloumer p_Matty = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@hotmail.fr", "mdpmh", false, false, 'M', d2,"0482381862", a1);
+        Pouloumer p_Matty = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@hotmail.fr", "mdpmh", false, false, 'M', d2,"0482381862", a2);
         users.add(p_Matty);
         
         Date d3 = DateUtil.toDate("16/02/1982");
