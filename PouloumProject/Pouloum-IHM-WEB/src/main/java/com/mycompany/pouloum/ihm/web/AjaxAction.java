@@ -350,9 +350,9 @@ public class AjaxAction {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "addInterestsToUser"),
+                    new JsonHttpClient.Parameter("SMA", "addInterestToUser"),
                     new JsonHttpClient.Parameter("idUser", idUser),
-                    new JsonHttpClient.Parameter("idActivities", idUser)
+                    new JsonHttpClient.Parameter("idActivity", interest)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -360,7 +360,7 @@ public class AjaxAction {
             }
 
             String result = smaResultContainer.get("result").getAsString();
-
+            
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
             } else {
