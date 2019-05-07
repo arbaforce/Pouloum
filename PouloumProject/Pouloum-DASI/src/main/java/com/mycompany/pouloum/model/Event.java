@@ -182,6 +182,7 @@ public class Event implements Serializable {
         this.grade_average = grade_average;
     }
      */
+    
     public List<Pouloumer> getParticipants() {
         return participants;
     }
@@ -204,6 +205,7 @@ public class Event implements Serializable {
     }
 
     // ...
+    
     public int getParticipantsNumber() {
         return participants.size();
     }
@@ -219,6 +221,11 @@ public class Event implements Serializable {
     public void setStart(int year, int month, int day, int hour, int minutes) {
         Date date = DateUtil.DateNew(year, month, day, hour, minutes, 0);
         setStart(date);
+    }
+
+    public boolean isFull() {
+        if (participants_max == 0) return false;
+        return (participants.size() == participants_max);
     }
 
     public boolean isStarted() {
