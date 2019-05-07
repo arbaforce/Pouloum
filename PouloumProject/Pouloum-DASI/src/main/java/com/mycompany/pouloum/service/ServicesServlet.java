@@ -121,7 +121,7 @@ public class ServicesServlet extends HttpServlet {
                 String addressCountry = request.getParameter("addressCountry");
 
                 Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                
+
                 CRE result = ServicesPouloumer.signUp(lastName, firstName, nickname, email, password, false, false, gender, birthDate, phoneNumber, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
@@ -178,31 +178,16 @@ public class ServicesServlet extends HttpServlet {
             //////////
             else if ("getUserEvents".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-
+                Boolean history = Boolean.parseBoolean(request.getParameter("history"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
+                List<Event> events = ServicesPouloumer.getPouloumerEvents(p, history);
+
                 JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (!(e.isCancelled() || e.isFinished())) {
-                        array.add(e.toJson());
-                    }
+                for (Event e : events) {
+                    array.add(e.toJson());
                 }
                 container.add("events", array);
-            } ///////////
-            ////Consult profile
-            ///////////
-            else if ("getUserEventsHistory".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-
-                JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (e.isFinished()) {
-                        array.add(e.toJson());
-                    }
-                }
-                container.add("eventsHistory", array);
             } ///////////
             ////Consult friends
             ///////////

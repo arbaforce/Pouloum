@@ -183,18 +183,21 @@ public class AjaxAction {
     }
 
     /**
-     * Get the upcoming events for an user into a JSON container.
+     * Get the events (either past or upcoming) for an user into a JSON container.
      *
      * @param id is the id of the user.
+     * @param history states which events (past or upcoming ones) should be
+     * retrieved.
      * @throws ServiceException if something goes wrong when calling the
      * service.
      */
-    public void getUserEvents(String id) throws ServiceException {
+    public void getUserEvents(String id, String history) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "getUserEvents"),
-                    new JsonHttpClient.Parameter("idUser", id)
+                    new JsonHttpClient.Parameter("SMA", "getUserUpcomingEvents"),
+                    new JsonHttpClient.Parameter("idUser", id),
+                    new JsonHttpClient.Parameter("history", history)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
