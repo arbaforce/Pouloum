@@ -248,6 +248,15 @@ public class Pouloumer implements Serializable {
         }
     }
     
+    public void removeInterest(Activity a) {
+        for (Activity activity : interests) {
+            if (activity.getId() == a.getId()) {
+                interests.remove(activity);
+                break;
+            }
+        }
+    }
+    
     public long getPouloumerSimilarity(List<Activity> activitiesToCompare) {
         int union = this.getInterests().size() + activitiesToCompare.size();
         int intersection = 0;

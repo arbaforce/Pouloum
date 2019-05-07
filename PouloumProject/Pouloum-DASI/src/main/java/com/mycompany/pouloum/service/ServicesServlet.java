@@ -218,7 +218,7 @@ public class ServicesServlet extends HttpServlet {
                 Long idActivity = Long.parseLong(request.getParameter("idActivity"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Activity a = ServicesActivity.getActivityById(idActivity);
-
+                
                 ServicesPouloumer.removeInterest(p, a);
             } ///////////
             ////Consult details
