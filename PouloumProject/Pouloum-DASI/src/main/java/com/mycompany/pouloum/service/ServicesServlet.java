@@ -102,14 +102,15 @@ public class ServicesServlet extends HttpServlet {
             else if ("signUp".equals(sma)) {
                 String lastName = request.getParameter("lastName");
                 String firstName = request.getParameter("firstName");
-                String nickName = request.getParameter("nickname");
+                String nickname = request.getParameter("nickname");
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
-                
+
                 char gender = Character.MIN_VALUE;
-                if (request.getParameter("gender")==null)
-                    gender= request.getParameter("gender").charAt(0);
-                
+                if (request.getParameter("gender") == null) {
+                    gender = request.getParameter("gender").charAt(0);
+                }
+
                 Date birthDate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phoneNumber = request.getParameter("phoneNumber");
 
@@ -119,9 +120,9 @@ public class ServicesServlet extends HttpServlet {
                 String addressCity = request.getParameter("addressCity");
                 String addressCountry = request.getParameter("addressCountry");
 
-                //Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                Address address = new Address(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickName, email, password, false, false, gender, birthDate, phoneNumber, address);
+                Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+
+                CRE result = ServicesPouloumer.signUp(lastName, firstName, nickname, email, password, false, false, gender, birthDate, phoneNumber, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
                         resultErrorMessage = "This email is already used.";
@@ -177,31 +178,16 @@ public class ServicesServlet extends HttpServlet {
             //////////
             else if ("getUserEvents".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-
+                Boolean history = Boolean.parseBoolean(request.getParameter("history"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
+                List<Event> events = ServicesPouloumer.getPouloumerEvents(p, history);
+
                 JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (!(e.isCancelled() || e.isFinished())) {
-                        array.add(e.toJson());
-                    }
+                for (Event e : events) {
+                    array.add(e.toJson());
                 }
                 container.add("events", array);
-            } ///////////
-            ////Consult profile
-            ///////////
-            else if ("getUserEventsHistory".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-
-                JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (e.isFinished()) {
-                        array.add(e.toJson());
-                    }
-                }
-                container.add("eventsHistory", array);
             } ///////////
             ////Consult friends
             ///////////
@@ -456,7 +442,7 @@ public class ServicesServlet extends HttpServlet {
                 List<Activity> activities = ServicesActivity.findAllActivities();
 
                 for (Activity a : activities) {
-                    if (a.getParent()==null){
+                    if (a.getParent() == null) {
                         array.add(a.toJson());
                     }
                 }
