@@ -137,11 +137,22 @@
         
         <script>
             $(document).ready(function() {
-                userID = $.getCookie('userID');
-                
-                if (userID===""){
-                    window.location.href = './index.html'
-                }
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
                 
                 $.ajax({
                     url: './AjaxAction',
@@ -151,9 +162,9 @@
                         'id': userID
                     },
                     datatype: 'json'
-                }).done(function (data){
+                }).done(function (data) {
                     var OK = data.result;
-                    if(OK){
+                    if (OK) {
                         $("#user_pseudo_container").text(data.userDetails.nickname);
                         $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
                         $("#user_name_container").text("Nom : " + data.userDetails.last_name);
@@ -167,16 +178,27 @@
                     }
                 });
             });
-            
+
             $(function () {
-                $("#buttonAddInterest").button().on("click", function(){
-                    
-                    userID = $.getCookie('userID');
-                    if (userID===""){
-                        window.location.href = './index.html'
-                    }
+                $("#buttonAddInterest").button().on("click", function () {
+                    var userID ;
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'getUserIdSession',
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        if(data.result){
+                            userID = data.userID;
+                        }
+                        else {
+                            window.location.href = './index.html';
+                        }
+                    });
                     // TODO : récupérer la liste complète des activités
-                    
+
                     $.ajax({
                         url: './AjaxAction',
                         type: 'POST',
@@ -186,12 +208,11 @@
                             'interest': $('#interest').val()
                         },
                         datatype: 'json'
-                    }).done(function (data){
+                    }).done(function (data) {
                         var OK = data.result;
-                        if(OK){
+                        if (OK) {
                             window.location.href = './my_profile.html';
-                        }
-                        else{
+                        } else {
                             $("#errorMessage").show();
                             $("#errorMessage").text(data.errorMessage);
                         }

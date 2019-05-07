@@ -1,30 +1,18 @@
 package com.mycompany.pouloum.service;
 
 import com.mycompany.pouloum.dao.DAOComment;
-import com.mycompany.pouloum.dao.DAOEvent;
 import com.mycompany.pouloum.dao.JpaUtil;
-import com.mycompany.pouloum.model.Activity;
-import com.mycompany.pouloum.model.Address;
 import com.mycompany.pouloum.model.Comment;
 import com.mycompany.pouloum.model.Event;
 import com.mycompany.pouloum.model.Pouloumer;
-import com.mycompany.pouloum.util.CRE;
-import static com.mycompany.pouloum.util.CRE.*;
-import com.mycompany.pouloum.util.exception.DBException;
-import com.mycompany.pouloum.util.exception.ServiceException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class ServicesComment {
 
     /**
      * Get a comment, given its id.
      *
-     * @param id is the comment id.
+     * @param id is the comment's id.
      * @throws Exception if there's an error trying to access the database,
      * or if there is no comment with the given id.
      * @return Comment, the comment matching the id.
@@ -48,14 +36,14 @@ public class ServicesComment {
      * @param event is the event.
      * @param author is the comment writer.
      * @param text is the comment content.
-     * @param datetime is the comment writing timestamp.
+     * @param timestamp is the comment's timestamp.
      * @throws Exception if there's an error trying to access the database.
      * @return Comment, the created comment.
      */
-    public static Comment createComment(Event event, Pouloumer author, String text, Date datetime)
+    public static Comment createComment(Event event, Pouloumer author, String text, Date timestamp)
         throws Exception
     {
-        Comment newComment = new Comment(text, datetime, author, event);
+        Comment newComment = new Comment(text, timestamp, author, event);
         
         JpaUtil.createEntityManager();
 

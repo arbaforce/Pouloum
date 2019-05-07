@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,8 +50,22 @@ public class AjaxActionServlet extends HttpServlet {
         boolean actionCalled = true;
 
         try {
-
-            if ("login".equals(action)) {
+            if("getUserIdSession".equals(action)){
+                String userID = (String) session.getAttribute("userID");
+                container.addProperty("result", true);
+                container.addProperty("userID", userID);
+            }
+            else if("getEventIdSession".equals(action)){
+                String eventID = (String) session.getAttribute("eventID");
+                container.addProperty("result", true);
+                container.addProperty("eventID", eventID);
+            }
+            else if("getActivityIdSession".equals(action)){
+                String activityID = (String) session.getAttribute("activityID");
+                container.addProperty("result", true);
+                container.addProperty("activityID", activityID);
+            }
+            else if ("login".equals(action)) {
                 String id = request.getParameter("id");
                 String password = request.getParameter("password");
 
@@ -62,14 +75,12 @@ public class AjaxActionServlet extends HttpServlet {
                 } else if (isEmailValid(id)) {
                     ajaxAction.loginByMail(id, password);
                     if (container.get("result").getAsBoolean()) {
-                        Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
-                        response.addCookie(cookie);
+                        session.setAttribute("userID", container.get("userID").getAsString());
                     }
                 } else {
                     ajaxAction.loginByNickname(id, password);
                     if (container.get("result").getAsBoolean()) {
-                        Cookie cookie = new Cookie("userID", container.get("userID").getAsString());
-                        response.addCookie(cookie);
+                        session.setAttribute("userID", container.get("userID").getAsString());
                     }
                 }
             } else if ("signUp".equals(action)) {
@@ -167,6 +178,8 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getActivityDetails".equals(action)) {
                 String activityID = request.getParameter("activityID");
                 ajaxAction.getActivityDetails(activityID);
+            } else if ("getActivityTree".equals(action)) {
+                ajaxAction.findAllActivities();
             } else {
                 actionCalled = false;
             }

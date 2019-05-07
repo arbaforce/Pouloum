@@ -214,6 +214,10 @@ public class Pouloumer implements Serializable {
         this.interests = interests;
     }
     
+    public void addInterest(Activity interest) {
+        interests.add(interest);
+    }
+    
     public List<Comment> getComments() {
         return comments;
     }

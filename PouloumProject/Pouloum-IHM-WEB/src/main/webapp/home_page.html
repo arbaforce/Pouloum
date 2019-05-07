@@ -468,15 +468,26 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="SCRIPT/util_scripts.js"></script>
+        <script src="SCRIPT/events_browser.js"></script>
         
       <script>
             $(document).ready(function() {
-                userID = $.getCookie('userID');
-                
-                if (userID===""){
-                    window.location.href = './index.html'
-                }
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
                 
                 $.ajax({
                     url: './AjaxAction',
@@ -504,6 +515,7 @@
                 })
                 */
             });
+            initialiseMap();
         </script> 
     </body>
 </html>

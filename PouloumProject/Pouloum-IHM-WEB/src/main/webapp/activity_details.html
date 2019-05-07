@@ -6,29 +6,138 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/activity_details.css'>
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-
-
+            
+            <div id="row_containing_title" class="row justify-content-center">
+                <div class="col-12">
+                    <h2 class="text-center" id="activity_name_container">Titre</h2>
+                </div>
+            </div><!--#row_containing_title -->
+            <br>
+            <div id="global_container" class="row">
+                <div id="informations_container" class="col-8">
+                    <div id="description_row" class="row justify-content-center">
+                        <div id="description_title" class="col-3 text-right">
+                            Description :
+                        </div>
+                        <div id="activity_description_container" class="col-9 text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit tempor mi in lacinia. Aenean facilisis mattis arcu a fermentum. Suspendisse potenti. Donec nec dignissim est. Nam consequat congue lorem, condimentum vestibulum nisl convallis eu. Pellentesque feugiat ipsum leo, vitae interdum odio fringilla ut. Vestibulum massa turpis, condimentum ac facilisis sed, interdum a enim. Maecenas nunc ex, pharetra id accumsan eget, auctor vel lorem. Donec at sollicitudin mauris, at vulputate orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam sit amet vulputate enim. Etiam interdum quis justo et sodales. Vestibulum porttitor quam varius orci aliquet, a euismod justo convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                        </div>
+                    </div><!--#description_row -->
+                    <br>
+                    <div id="rules_row" class="row justify-content-center">
+                        <div id="rule_title" class="col-3 text-right">
+                            Règles :
+                        </div>
+                        <div id="activity_rules_container" class="col-9 text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec nisi eu lorem aliquet bibendum. 
+                        </div>
+                    </div><!--#rules_row -->
+                    <br>
+                    <div id="participants_number_row" class="row justify-content-center">
+                        <div id="participants_number_title" class="col-3 text-right">
+                            Nombre de joueurs :
+                        </div>
+                        <div id="activity_participants_number_container" class="col-9 text-justify">
+                            Lorem ipsum.
+                        </div>
+                    </div><!--#participants_number_row -->
+                    <br>
+                    <div id="relation_row" class="row justify-content-center">
+                        <div id="parent_activity" class="col-6">
+                            <div id="parent_activity_row" class="row justify-content-center">
+                                <div id="parent_activity_title" class="col-6 text-right">
+                                    Activité parent :
+                                </div>
+                                <div id="parent_activity_name_container" class="col-6 text-left">
+                                    Lorem ipsum dolor sit. 
+                                </div>
+                            </div><!--#parent_activity_row -->
+                        </div><!--#parent_activity -->
+                        <div id="children_activities" class="col-6 text-justify">
+                            <div id="children_activities_row" class="row justify-content-center">
+                                <div id="children_activities_title" class="col-5 text-right">
+                                    Activités enfants :
+                                </div>
+                                <div id="children_activities_container" class="col-7 text-justify">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In massa justo, dignissim eget tellus in. 
+                                </div>
+                            </div><!--#children_activities_row -->
+                        </div><!--#children_activities -->
+                    </div><!--#relation_row -->
+                </div><!--#informations_container -->
+                <div id="pictures_container" class="col-4">
+                    <div id="img_row" class="row justify-content-center">
+                        <div id="img_container" class="col-10">
+                            <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded fit-image image-responsive" />
+                        </div>
+                    </div><!--#img_row -->
+                    <br>
+                    <div id="badges_row" class="row justify-content-center">
+                        <div id="badges_container" class="col-10">
+                            <div style="height:75px;border:1px solid #000;">Badges ici!</div>
+                        </div>
+                    </div><!--#badges_container -->
+                    <br>
+                    <div id="resource_row" class="row justify-content-left">
+                        <div id="resources_title" class="col-4 text-right">
+                            Ressources :
+                        </div>
+                        <div id="resources_container" class="col-7 text-justify">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In massa justo, dignissim eget tellus in. 
+                        </div>
+                    </div><!--#participants_number_row -->
+                </div><!--#pictures_container -->
+            </div><!--#global_container -->
+            
         </div><!--#wrapper-->
-
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+        
         <script>
-            $(document).ready(function () {
-                userID = $.getCookie('userID');
-                activityID = $.getCookie('activityID');
-                //TODO check if activityID is empty
-
-                if (userID === "") {
-                    window.location.href = './index.html'
-                }
+            $(document).ready(function() {
+                var userID ;
+                var activityID;
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getActivityIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        activityID = data.activityID;
+                    }
+                    else {
+                        window.location.href = './activities_browser.html';
+                    }
+                });
 
                 $.ajax({
                     url: './AjaxAction',
@@ -77,8 +186,8 @@
                             resourcesDiv.appendChild(resourceDiv);
                         });
 
-                        document.getElementById("activity_default_participants_min_container").value = data.activity.default_participants_min;
-                        document.getElementById("activity_default_participants_max_container").value = data.activity.default_participants_max;
+                        document.getElementById("activity_participants_number_container").value = data.activity.default_participants_min + "-" + data.activity.default_participants_max;
+                        //document.getElementById("activity_default_participants_max_container").value = data.activity.default_participants_max;
                     }
                 });
             });

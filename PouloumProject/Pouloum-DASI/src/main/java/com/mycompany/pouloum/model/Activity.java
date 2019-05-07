@@ -24,7 +24,8 @@ public class Activity implements Serializable {
     // Hierarchy
     @OneToOne
     protected Activity parent;
-    @OneToMany
+    
+    @OneToMany(mappedBy = "parent")
     protected List<Activity> children;
 
     // Description
@@ -79,6 +80,10 @@ public class Activity implements Serializable {
 
     public void setChildren(List<Activity> children) {
         this.children = children;
+    }
+    
+    public void addChild(Activity child){
+        children.add(child);
     }
 
     public String getName() {
@@ -141,7 +146,12 @@ public class Activity implements Serializable {
         JsonObject obj = new JsonObject();
 
         obj.addProperty("id", id);
-        obj.add("parent", parent.toJson());
+        if (parent!=null)
+        {
+            obj.addProperty("parent", parent.getName());
+        } else {
+            obj.addProperty("parent", "");
+        }
 
         JsonArray childrenArray = new JsonArray();
 

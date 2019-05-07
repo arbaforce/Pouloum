@@ -13,6 +13,7 @@ function openNav() {
   for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
       events_status_know_more_no_more_button_badges_container[i].style.marginRight= "50%";
   }
+  setTimeout(function(){map.invalidateSize(); map.setView([45.74,4.84], 13);},300);
   
   document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
 }

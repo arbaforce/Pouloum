@@ -30,7 +30,7 @@
             <div id="row_containing_modifications" class="row">
                 <div id="avatar_container" class="col-4">
                     <div id="image_avatar_row" class="row justify-content-center">
-                        <div id="avatar_conainer" class="col-8">
+                        <div id="avatar_container" class="col-8">
                             <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded fit-image image-responsive" />
                         </div>
                     </div><!--image_avatar_container -->
@@ -176,11 +176,22 @@
                 
         <script>
             $(document).ready(function() {
-                userID = $.getCookie('userID');
-                
-                if (userID===""){
-                    window.location.href = './index.html'
-                }
+                var userID ;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
                 
                 $.ajax({
                     url: './AjaxAction',
