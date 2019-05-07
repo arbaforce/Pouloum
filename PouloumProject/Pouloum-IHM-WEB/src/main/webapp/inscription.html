@@ -178,57 +178,57 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var date_input=$('input[name="date"]'); //our date input has the name "date"
-                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-                date_input.datepicker({
-                    format: 'dd/mm/yyyy',
-                    container: container,
-                    todayHighlight: true,
-                    autoclose: true,
-                });
-            });
-            
-            $(function () {
-                $("#validate_button").button().on("click", function () {
-                    var genderResult = null;
-                    if (document.getElementById("masculin").checked)
-                        genderResult = "M";
-                    else if (document.getElementById("feminin").checked)
-                        genderResult = "F";
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'action': 'signUp',
-                            'mail': $('#user_mail_container').val(),
-                            'mailConfirmation': $('#user_mail_confirmation_container').val(),
-                            'password': $('#user_password_container').val(),
-                            'passwordConfirmation': $('#user_password_confirmation_container').val(),
-                            'surname': $('#user_surname_container').val(),
-                            'name': $('#user_name_container').val(),
-                            'pseudo': $('#user_pseudo_container').val(),
-                            'gender': genderResult,
-                            'birthDate': $('#user_birthdate_container').val(), 
-                            'phoneNumber': $('#user_phone_number_container').val(),
-                            'address': $('#user_address_details_container').val(),
-                            'addressPostalCode': $('#user_address_postal_number_container').val(),
-                            'addressCity': $('#user_address_city_container').val(),
-                            'addressCountry': $('#user_address_country_container').val()
-                        },
-                        datatype: 'json'
-                    }).done(function (data) {
-                        var OK = data.result;
-                        if (OK) {
-                            window.location.href = './index.html';
-                        } else {
-                            $("#errorMessage").show();
-                            $("#errorMessage").text(data.errorMessage);
-                        }
-                    });
-                });
-            });
+        <script>
+$(document).ready(function() {
+    var date_input=$('input[name="date"]'); //our date input has the name "date"
+    var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    date_input.datepicker({
+        format: 'dd/mm/yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+    });
+});
+
+$(function () {
+    $("#validate_button").button().on("click", function () {
+        var genderResult = null;
+        if (document.getElementById("masculin").checked)
+            genderResult = "M";
+        else if (document.getElementById("feminin").checked)
+            genderResult = "F";
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'action': 'signUp',
+                'mail': $('#user_mail_container').val(),
+                'mailConfirmation': $('#user_mail_confirmation_container').val(),
+                'password': $('#user_password_container').val(),
+                'passwordConfirmation': $('#user_password_confirmation_container').val(),
+                'surname': $('#user_surname_container').val(),
+                'name': $('#user_name_container').val(),
+                'pseudo': $('#user_pseudo_container').val(),
+                'gender': genderResult,
+                'birthDate': $('#user_birthdate_container').val(), 
+                'phoneNumber': $('#user_phone_number_container').val(),
+                'address': $('#user_address_details_container').val(),
+                'addressPostalCode': $('#user_address_postal_number_container').val(),
+                'addressCity': $('#user_address_city_container').val(),
+                'addressCountry': $('#user_address_country_container').val()
+            },
+            datatype: 'json'
+        }).done(function (data) {
+            var OK = data.result;
+            if (OK) {
+                window.location.href = './index.html';
+            } else {
+                $("#errorMessage").show();
+                $("#errorMessage").text(data.errorMessage);
+            }
+        });
+    });
+});
         </script>
     </body>
 </html>

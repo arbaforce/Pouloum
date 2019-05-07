@@ -1,20 +1,20 @@
-67, rue Banaudon, LYON
-111, rue de la République, LYON
-42, Place Bellecour, LYON
-30, Rue du Sergent Blandan, LYON
-2, Boulevard des Brotteaux, LYON
-50, Grande rue de la Croix-Rousse, LYON
-32, Rue Duquesne, LYON
+67, rue Banaudon,, Lyon, FRANCE
+111, rue de la République,, Lyon, FRANCE
+42, Place Bellecour,, Lyon, FRANCE
+30, Rue du Sergent Blandan,, Lyon, FRANCE
+2, Boulevard des Brotteaux,, Lyon, FRANCE
+50, Grande rue de la Croix-Rousse,, Lyon, FRANCE
+32, Rue Duquesne,, Lyon, FRANCE
 10, Rue Docteur Rebatel ,LYON
-13, Rue Edmond-Locard, LYON
-14, Rue du Fort Saint-Irénée, LYON
-31, Rue de Gadagne, LYON
-8, Rue Grenette, LYON
-45, Grande rue de la Guillotière, LYON
-13, Rue Henri-Germain, LYON
-5, Avenue Jean Jaurès, LYON
-15, Rue Lainerie, LYON
-9, Rue Longue, LYON
-23, Rue Mercière, LYON
-35, Quai Perrache, LYON
-13, Rue de la Quarantaine, LYON
+13, Rue Edmond-Locard,, Lyon, FRANCE
+14, Rue du Fort Saint-Irénée,, Lyon, FRANCE
+31, Rue de Gadagne,, Lyon, FRANCE
+8, Rue Grenette,, Lyon, FRANCE
+45, Grande rue de la Guillotière,, Lyon, FRANCE
+13, Rue Henri-Germain,, Lyon, FRANCE
+5, Avenue Jean Jaurès,, Lyon, FRANCE
+15, Rue Lainerie,, Lyon, FRANCE
+9, Rue Longue,, Lyon, FRANCE
+23, Rue Mercière,, Lyon, FRANCE
+35, Quai Perrache,, Lyon, FRANCE
+13, Rue de la Quarantaine,, Lyon, FRANCE

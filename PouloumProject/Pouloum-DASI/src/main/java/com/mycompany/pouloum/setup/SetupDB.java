@@ -75,25 +75,50 @@ public class SetupDB {
 
         Stack<Activity> tree = new Stack<>();
         
-        Random rand = new Random(); // random badges
-        
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 if ((line + "/").charAt(0) == '/') {
                     continue;
                 }
-
+                
+                String text = line + " ";
+                
                 int level = 0;
-                for (String padding = line + " "; line.charAt(level) == '\t'; level++);
+                for (String padding = text; line.charAt(level) == '\t'; level++);
                 while (tree.size() > level) {
                     tree.pop();
                 }
-
+                
+                String data = "";
+                
+                int pipe;
+                for (pipe = 0; pipe < text.length(); pipe++) if (text.charAt(pipe) == '|') break;
+                if (pipe < text.length()) {
+                    data = text.substring(pipe+1);
+                    text = text.substring(0, pipe);
+                }
+                
                 Activity parent = tree.isEmpty() ? null : tree.peek();
-                String name = line.trim();
+                String name = text.trim();
                 String description = "";
                 List<Badge> badges = new ArrayList<>();
                 
+                // APPROPRIATE BADGES
+                if (!data.isEmpty()) {
+                    if (data.contains("E")) badges.add(Badge.EARTH);
+                    if (data.contains("F")) badges.add(Badge.FIRE);
+                    if (data.contains("W")) badges.add(Badge.WATER);
+                    if (data.contains("A")) badges.add(Badge.WIND);
+                }
+                
+                if (badges.isEmpty()) {
+                    if (parent != null) {
+                        badges.addAll(parent.getBadges());
+                    } else {
+                
+                /*
+                // RANDOM BADGES
+                Random rand = new Random(); // random badges
                 int badgeEarth = rand.nextInt(4);
                 if (badgeEarth == 1) badges.add(Badge.EARTH);
                 int badgeFire = rand.nextInt(4);
@@ -106,6 +131,10 @@ public class SetupDB {
                 if (badges.isEmpty()) {
                     int badgeDef = rand.nextInt(Badge.values().length);
                     badges.add(Badge.values()[badgeDef]);
+                }
+                */
+                
+                    }
                 }
                 
                 String rules = "";
@@ -143,12 +172,8 @@ public class SetupDB {
 
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                // System.out.println(line);
                 String[] parts = line.split(",");
-                // System.out.println("    "+parts[0]);
-                // System.out.println("    "+parts[1]);
-                // System.out.println("    "+parts[2]);
-                Address a = new Address(parts[0], parts[1], null, parts[2], "France");
+                Address a = new Address(parts[0], parts[1], parts[2], parts[3], parts[4]);
                 addresses.add(a);
             }
         } finally {
@@ -227,7 +252,7 @@ public class SetupDB {
         
         Date d2 = DateUtil.toDate("17/02/1996");
         Address a2 = new Address("9", "Impasse Guillet", "Villeurbanne", "69100", "France");
-        Pouloumer p_Matty = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@hotmail.fr", "mdpmh", false, false, 'M', d2,"0482381862", a1);
+        Pouloumer p_Matty = new Pouloumer("Matty", "Matteo", "HONRY", "matteo.honry@hotmail.fr", "mdpmh", false, false, 'M', d2,"0482381862", a2);
         users.add(p_Matty);
         
         Date d3 = DateUtil.toDate("16/02/1982");
