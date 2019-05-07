@@ -172,12 +172,8 @@ public class SetupDB {
 
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                // System.out.println(line);
                 String[] parts = line.split(",");
-                // System.out.println("    "+parts[0]);
-                // System.out.println("    "+parts[1]);
-                // System.out.println("    "+parts[2]);
-                Address a = new Address(parts[0], parts[1], null, parts[2], "France");
+                Address a = new Address(parts[0], parts[1], parts[2], parts[3], parts[4]);
                 addresses.add(a);
             }
         } finally {
