@@ -472,7 +472,7 @@ public class ServicesServlet extends HttpServlet {
             ////Consult activity
             ///////////
             else if ("getActivityDetails".equals(sma)) {
-                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                Long idActivity = Long.parseLong(request.getParameter("activityID"));
 
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
