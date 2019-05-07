@@ -5,18 +5,27 @@
  */
 
 function getSingleActivityDiv(data_activity) {
-    var activity_div = '<div class="card" id="card_elmt_'+data_activity.id+'">'
-                        +'<div class="card-header" id="head_elmt_'+data_activity.id+'">'
+    var activity_div = '<div class="card" id="card_elmt_'+data_activity.id+'">\n'
+                        +'<div class="card-header" id="head_elmt_'+data_activity.id+'">\n'
+                        +'<div class="row w-100">\n'
+                        +'<div class="col">\n'
                         +    '<h2 class="mb-0">';
     if (data_activity.children.length===0)
     {
-        activity_div +=          '<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#" aria-expanded="true" >';
+        activity_div +=          '<button class="btn btn-link disabled" type="button" data-toggle="collapse" data-target="#" aria-expanded="true" >';
     } else {
         activity_div +=          '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
     }
     activity_div +=                data_activity.name
                         +        '</button>'
                         +    '</h2>'
+                        +'</div>'
+                        +'<div class="col">'
+                        +'<a href="activity_details.html"><button class="btn btn-link collapsed float-sm-right" type="button" data-toggle="collapse" aria-expanded="false">'
+                        +'Détails'
+                        +'</button></a>'
+                        +'</div>\n'
+                        +'</div>\n'
                         +'</div>';
                 
     if(data_activity.children.length!==0){

@@ -173,8 +173,10 @@ public class SetupDB {
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 String[] parts = line.split(",");
-                Address a = new Address(parts[0], parts[1], parts[2], parts[3], parts[4]);
-                addresses.add(a);
+                if (parts.length == 5) {
+                    Address a = new Address(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                    addresses.add(a);
+                }
             }
         } finally {
             reader.close();
@@ -384,43 +386,58 @@ public class SetupDB {
     
     protected static void setupEvents()
             throws Exception {
+        JpaUtil.createEntityManager();
+        
         List<Event> events = new ArrayList<>();
-        DataFactory df = new DataFactory();
+        
+        List<Long> idsPouloumers = DAOPouloumer.findAllIDs();
+        int nbPouloumer = idsPouloumers.size();
+        
+        List<Long> idsActivities = DAOActivity.findAllIDs();
+        int nbActivity = idsActivities.size();
+        
+        List<Long> idsAddress = DAOAddress.findAllIDs();
+        int nbAddress = idsAddress.size();
+        
+        JpaUtil.closeEntityManager();
+        
         Random rand = new Random();
+        
+        DataFactory df = new DataFactory();
         Date minDate = df.getDate(2019, 5, 6);
         Date maxDate = df.getDate(2019, 5, 19);
         
-        for (int i = 0; i<50; i++){
+        for (int i = 0; i<200; i++){
             Date date = df.getDateBetween(minDate, maxDate);
-            Pouloumer organizer = ServicesPouloumer.getPouloumerById((long) (rand.nextInt(3)+1)); 
-            Activity activity = ServicesActivity.getActivityById((long)(rand.nextInt(200)+1));
-            Address address = ServicesAddress.getAddressById((long)(rand.nextInt(20)+1));
+            Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
+            Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
+            Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
             Event e = new Event("evenement"+i, df.getRandomText(50, 200), date, false, 60, address, activity, organizer, rand.nextInt(5), rand.nextInt(5)+5);
             events.add(e);
         }
-
+        
         JpaUtil.createEntityManager();
-
+        
         try {
             for (Event e : events) {
                 try {
-
+                    
                     JpaUtil.openTransaction();
-
+                    
                     try {
                         DAOEvent.persist(e);
-
+                        
                         JpaUtil.commitTransaction();
                     } catch (Exception ex) {
                         JpaUtil.cancelTransaction();
                         throw ex;
                     }
-
+                    
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
-
+            
         } finally {
             JpaUtil.closeEntityManager();
         }

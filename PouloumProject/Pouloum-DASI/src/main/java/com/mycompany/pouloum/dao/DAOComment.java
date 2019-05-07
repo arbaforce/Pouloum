@@ -47,4 +47,13 @@ public class DAOComment {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT c.id FROM Comment c");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }
