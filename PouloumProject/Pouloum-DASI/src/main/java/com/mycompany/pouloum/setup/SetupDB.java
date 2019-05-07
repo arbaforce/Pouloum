@@ -399,13 +399,13 @@ public class SetupDB {
         List<Long> idsAddress = DAOAddress.findAllIDs();
         int nbAddress = idsAddress.size();
         
+        JpaUtil.closeEntityManager();
+        
         Random rand = new Random();
         
         DataFactory df = new DataFactory();
         Date minDate = df.getDate(2019, 5, 6);
         Date maxDate = df.getDate(2019, 5, 19);
-        
-        JpaUtil.closeEntityManager();
         
         for (int i = 0; i<200; i++){
             Date date = df.getDateBetween(minDate, maxDate);
