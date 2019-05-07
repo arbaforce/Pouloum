@@ -96,7 +96,6 @@
                 }).done(function (data){
                     var activities = data.activities;
                     var fulldiv = getAllActivityDiv(activities);
-                    //$('#activities_list').append(fulldiv);
                     $('#activities_tree').append(fulldiv);
                 }).fail(function(){
                     $('#message').empty();
