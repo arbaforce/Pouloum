@@ -20,10 +20,7 @@
                 
                 <div class="accordion" id="activities_tree">
                     
-                    <ul id="activities_list">
-                    </ul>
-                    
-                    <div class="card" id="card_elmt_1">
+                    <!--<div class="card" id="card_elmt_1">
                         <div class="card-header" id="head_elmt_1">
                             <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#elmt_1" aria-expanded="true" aria-controls="collapseOne">
@@ -47,7 +44,7 @@
                                             D'autres étages de l'arbre selon le meme principe pour représenter les enfants de "Sports de combat".
                                         </div>
                                     </div>
-                                </div><!--#card_elmt_1_1-->
+                                </div><!--#card_elmt_1_1- ->
                                 <div class="card" id="card_elmt_1_2">
                                     <div class="card-header" id="head_elmt_1_2">
                                         <h2 class="mb-0">
@@ -56,10 +53,10 @@
                                             </button>
                                         </h2>
                                     </div>
-                                </div><!--#card_elmt_1_2-->
+                                </div><!--#card_elmt_1_2- ->
                             </div>
                         </div>
-                    </div><!--#card_elmt_1-->
+                    </div><!--#card_elmt_1- ->
                     <div class="card" id="card_elmt_2">
                         <div class="card-header" id="head_elmt_2">
                             <h2 class="mb-0">
@@ -73,7 +70,7 @@
                                 D'autres étages de l'arbre selon le meme principe pour représenter les enfants de "Activité culturelle".
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                 </div><!-- "activities_tree-->
                 
@@ -99,7 +96,8 @@
                 }).done(function (data){
                     var activities = data.activities;
                     var fulldiv = getAllActivityDiv(activities);
-                    $('#activities_list').append(fulldiv);
+                    //$('#activities_list').append(fulldiv);
+                    $('#activities_tree').append(fulldiv);
                 }).fail(function(){
                     $('#message').empty();
                     $('#message').html('Echec du chargement des activités');
