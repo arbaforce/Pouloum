@@ -399,9 +399,9 @@ public class ServicesPouloumer {
      * @param interests is the list of interests to add.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static void addInterests(Pouloumer p, List<Activity> interests)
+    public static void addInterests(Pouloumer p, Activity interest)
             throws Exception {
-        p.getInterests().addAll(interests);
+        p.getInterests().add(interest);
 
         JpaUtil.createEntityManager();
 
