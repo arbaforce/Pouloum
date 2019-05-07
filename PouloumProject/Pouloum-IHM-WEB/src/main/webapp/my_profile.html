@@ -75,8 +75,7 @@
                             </div><!--interests_header_row-->
                         </div><!--interests_header_container-->
                         <div id="interest_pouloumer_container" class="">
-                            Sport d'équipe 
-                            Basketball
+                            
                         </div> <!--interest_user_container-->
                         
                         <div id="add_interest_button_container" class="container">
@@ -147,36 +146,45 @@
                     datatype: 'json'
                 }).done(function (data){
                     if(data.result){
-                        userID = data.userID;
+                        userID = data.userID;                        
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'getUserDetails',
+                                'id': userID
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                
+                                for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
+                                {
+                                    $("#interest_pouloumer_container").append('<div id="activity_'+data.userDetails.interests[activity_index].id+'">'
+                                                                                    +data.userDetails.interests[activity_index].name
+                                                                            + '</div>');
+                                }
+                                
+                                $("#user_pseudo_container").text(data.userDetails.nickname);
+                                $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                                $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                                $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                                $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                                $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                                $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                                $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                                $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                                $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);                                
+                            }
+                        });
                     }
                     else {
                         window.location.href = './index.html';
                     }
                 });
                 
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserDetails',
-                        'id': userID
-                    },
-                    datatype: 'json'
-                }).done(function (data) {
-                    var OK = data.result;
-                    if (OK) {
-                        $("#user_pseudo_container").text(data.userDetails.nickname);
-                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
-                    }
-                });
+                
             });
 
             $(function () {
@@ -192,31 +200,30 @@
                     }).done(function (data){
                         if(data.result){
                             userID = data.userID;
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'id': userID,
+                                    'action': 'addInterest',
+                                    'interest': $('#interest').val()
+                                },
+                                datatype: 'json'
+                            }).done(function (data) {
+                                var OK = data.result;
+                                if (OK) {
+                                    window.location.href = './my_profile.html';
+                                } else {
+                                    $("#errorMessage").show();
+                                    $("#errorMessage").text(data.errorMessage);
+                                }
+                            });
                         }
                         else {
                             window.location.href = './index.html';
                         }
                     });
-                    // TODO : récupérer la liste complète des activités
-
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'id': userID,
-                            'action': 'addInterest',
-                            'interest': $('#interest').val()
-                        },
-                        datatype: 'json'
-                    }).done(function (data) {
-                        var OK = data.result;
-                        if (OK) {
-                            window.location.href = './my_profile.html';
-                        } else {
-                            $("#errorMessage").show();
-                            $("#errorMessage").text(data.errorMessage);
-                        }
-                    });
+                    
                 });
             });
         </script>

@@ -1,23 +1,288 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>TODO supply a title</title>
+        <title>Pouloum : modifier</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/modify_event.css'>
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-            
-            
+
+
+            <div id="event_global_container" class="container-fluid">
+
+                <div id="title_row" class="container w-100 title_page">
+                    Organiser un nouvel évènement
+                </div><!--#title_row -->
+
+                <div id="event_global_row" class="row mx-0 px-0">
+                    <div id="details_event_col" class="col-6">
+                        <div id="name_event_global_container" class="container holder_event">
+                            <div id="name_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Nom :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_name_container" placeholder="Une excellente activité" class="form-control">
+                                </div>
+                            </div><!--#name_event_row -->
+                        </div><!--#name_event_global_container -->
+                        <div id="description_event_global_container" class="container holder_event">
+                            <div id="description_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Description :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_description_container" placeholder="Décrivez ce que vous allez faire..." class="form-control">
+                                </div>
+                            </div><!--#name_event_row -->
+                        </div><!--#name_event_global_container -->
+                        <div id="activity_event_global_container" class="container holder_event">
+                            <div id="activity_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Activité :
+                                </div>
+                                <div class="col-6 input_event">
+                                    <select class="form-control" id="event_activity_container">
+                                        <option>Basketball</option>
+                                        <option>Football</option>
+                                        <option>Tennis</option>
+                                        <option>Tir à l'arc</option>
+                                    </select>
+                                </div>
+                            </div><!--#activity_event_row -->
+                        </div><!--#activity_event_global_container -->
+                        <div id="date_event_global_container" class="container holder_event">
+                            <div id="date_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Date : 
+                                </div>
+                                <div class="col-6 input_event">
+                                    <input class="form-control" id="date_container" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                                </div>
+                            </div><!--#date_event_row -->
+                        </div><!--#date_event_global_container -->
+                        <div id="duration_event_global_container" class="container holder_event">
+                            <div id="duration_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Durée :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_duration_container" placeholder="durée en heure" class="form-control">
+                                </div>
+                            </div><!--#duration_event_row -->
+                        </div><!--#duration_event_global_container -->
+
+
+
+                        <div id="address_global_container" class="container holder_event">
+                            <div id="address_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Adresse :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_address_details_container" placeholder="Lieu" class="form-control">
+                                </div>
+                            </div><!--#address_event_row -->
+                        </div><!--#address_global_container -->
+                        <div id="city_global_container" class="container holder_event">
+                            <div id="city_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Ville :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_address_city_container" placeholder="Ville" class="form-control">
+                                </div>
+                            </div><!--#city_event_row -->
+                        </div><!--#city_global_container -->
+                        <div id="postal_code_global_container" class="container holder_event">
+                            <div id="postal_code_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Code postal :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_address_postal_code_container" placeholder="Code postal" class="form-control">
+                                </div>
+                            </div><!--#postal_code_event_row -->
+                        </div><!--#postal_code_event_global_container -->
+                        <div id="country_event_global_container" class="container holder_event">
+                            <div id="country_row_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Pays :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_address_country_container" placeholder="Pays" class="form-control">
+                                </div>
+                            </div><!--#country_event_row -->
+                        </div><!--#country_event_global_container -->
+
+
+
+                        <div id="number_player_event_min_global_container" class="container holder_event">
+                            <div id="number_player_min_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Nombre de participants (min) :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_player_min_container" placeholder="min" class="form-control">
+                                </div>
+                            </div><!--#number_player_min_event_row -->
+                        </div><!--#number_player_event_global_container -->
+                        <div id="number_player_max_event_global_container" class="container holder_event">
+                            <div id="number_player_max_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Nombre de participants (max) :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_player_max_container" placeholder="max" class="form-control">
+                                </div>
+                            </div><!--#number_player_min_event_row -->
+                        </div><!--#number_player_event_global_container -->
+                    </div><!--#details_event_col -->
+
+
+                    <div id="badges_and_map_col" class="col-6">
+
+                        <div id="badges_container" class="container">
+                            <div id="badges_row" class="row h-100 w-100 mx-0 px-0"> 
+                                <div id="badge_title" class="text-right text_page">Badge(s) :</div>
+                                <img src="STYLE/Wind.png" alt="image" class="little_avatar_image rounded " /> 
+                                <img src="STYLE/Fire.png" alt="image" class="little_avatar_image rounded " /> 
+                                <img src="STYLE/Earth.png" alt="image" class="little_avatar_image rounded " /> 
+                                <img src="STYLE/Water.png" alt="image" class="little_avatar_image rounded " /> 
+                            </div>
+                        </div>
+
+                        <div id="map_container" class="container h-100 w-100 mx-0 px-0">
+                            <div id="map_row" class="row h-100 w-100 mx-0 px-0">
+                                <div id="map" class="h-100 w-100">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div><!--#badges_and_map_col -->
+                </div><!--#event_global -->
+
+
+
+
+            </div><!--#event_global_container -->
+
+
         </div><!--#wrapper-->
-        
+
+        <script src="SCRIPT/map.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="SCRIPT/util_scripts.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        <script>
+            $(document).ready(function () {
+                var userID;
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    if (data.result) {
+                        userID = data.userID;
+                    } else {
+                        window.location.href = './index.html';
+                    }
+                });
+
+                initialiseMap();
+                var date_input = $('input[name="date"]'); //our date input has the name "date"
+                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                date_input.datepicker({
+                    format: 'dd/mm/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true
+                });
+            });
+
+            $(function () {
+                $("#validate_button").button().on("click", function () {
+
+                    let createEvent = 1; //TODO
+
+                    if (createEvent) {
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'createEvent',
+                                'idOrganizer': userID,
+                                //TODO activity ?
+                                'name': $('#event_name_container').val(),
+                                'startDate': $('#event_start_date_container').val(),
+                                'duration': $('#event_duration_container').val(),
+                                'address': $('#event_address_details_container').val(),
+                                'addressPostalCode': $('#event_address_postal_number_container').val(),
+                                'addressCity': $('#event_address_city_container').val(),
+                                'addressCountry': $('#event_address_country_container').val(),
+                                'playerMin': $('#event_player_min_container').val(),
+                                'playerMax': $('#event_player_max_container').val()
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                window.location.href = './index.html';
+                            } else {
+                                $("#errorMessage").show();
+                                $("#errorMessage").text(data.errorMessage);
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'updateEvent',
+                                //TODO id
+                                'name': $('#event_name_container').val(),
+                                'startDate': $('#event_start_date_container').val(),
+                                'duration': $('#event_duration_container').val(),
+                                'address': $('#event_address_details_container').val(),
+                                'addressPostalCode': $('#event_address_postal_number_container').val(),
+                                'addressCity': $('#event_address_city_container').val(),
+                                'addressCountry': $('#event_address_country_container').val(),
+                                'playerMin': $('#event_player_min_container').val(),
+                                'playerMax': $('#event_player_max_container').val()
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                window.location.href = './index.html';
+                            } else {
+                                $("#errorMessage").show();
+                                $("#errorMessage").text(data.errorMessage);
+                            }
+                        });
+                    }
+
+                });
+            });
+
+        </script>
     </body>
 </html>

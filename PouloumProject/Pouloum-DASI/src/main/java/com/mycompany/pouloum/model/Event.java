@@ -29,7 +29,7 @@ public class Event implements Serializable {
     // ATTRIBUTES
     // Identifier
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     // Description
@@ -182,6 +182,7 @@ public class Event implements Serializable {
         this.grade_average = grade_average;
     }
      */
+    
     public List<Pouloumer> getParticipants() {
         return participants;
     }
@@ -204,6 +205,7 @@ public class Event implements Serializable {
     }
 
     // ...
+    
     public int getParticipantsNumber() {
         return participants.size();
     }
@@ -219,6 +221,11 @@ public class Event implements Serializable {
     public void setStart(int year, int month, int day, int hour, int minutes) {
         Date date = DateUtil.DateNew(year, month, day, hour, minutes, 0);
         setStart(date);
+    }
+
+    public boolean isFull() {
+        if (participants_max == 0) return false;
+        return (participants.size() == participants_max);
     }
 
     public boolean isStarted() {
@@ -276,19 +283,29 @@ public class Event implements Serializable {
         obj.addProperty("participants_min", participants_min);
         obj.addProperty("participants_max", participants_max);
 
+        String status;
+        String statut;
         if (cancelled) {
-            obj.addProperty("status", "cancelled");
-        } else if (isStarted()) {
-            obj.addProperty("status", "started");
+            status = "cancelled";
+            statut = "annulé";
         } else if (isFinished()) {
-            obj.addProperty("status", "finished");
-        } else if (participants.size() == participants_max) {
-            obj.addProperty("status", "full");
-        } else if (participants.size() > participants_min) {
-            obj.addProperty("status", "ready");
+            status = "finished";
+            statut = "terminé";
+        } else if (isStarted()) {
+            status = "started";
+            statut = "commencé";
+        } else if (participants.size() >= participants_max && participants_max != 0) {
+            status = "full";
+            statut = "plein";
+        } else if (participants.size() >= participants_min) {
+            status = "ready";
+            statut = "prêt";
         } else {
-            obj.addProperty("status", "organized");
+            status = "organized";
+            statut = "proposé";
         }
+        obj.addProperty("status", status); // statut pour le code JS
+        obj.addProperty("statut", statut); // status pour l'affichage dans l'IHM
 
         JsonArray participantsArray = new JsonArray();
         for (Pouloumer p : participants) {

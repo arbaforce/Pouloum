@@ -1,2 +1,20 @@
-71, rue de la République, LYON, 69003
-102, rue de la République, LYON, 69001
+67, rue Banaudon, LYON
+111, rue de la République, LYON
+42, Place Bellecour, LYON
+30, Rue du Sergent Blandan, LYON
+2, Boulevard des Brotteaux, LYON
+50, Grande rue de la Croix-Rousse, LYON
+32, Rue Duquesne, LYON
+10, Rue Docteur Rebatel ,LYON
+13, Rue Edmond-Locard, LYON
+14, Rue du Fort Saint-Irénée, LYON
+31, Rue de Gadagne, LYON
+8, Rue Grenette, LYON
+45, Grande rue de la Guillotière, LYON
+13, Rue Henri-Germain, LYON
+5, Avenue Jean Jaurès, LYON
+15, Rue Lainerie, LYON
+9, Rue Longue, LYON
+23, Rue Mercière, LYON
+35, Quai Perrache, LYON
+13, Rue de la Quarantaine, LYON
