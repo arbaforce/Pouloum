@@ -6,12 +6,89 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
+        <link rel='stylesheet' type='text/css' href='STYLE/consult_other_user_profile.css'>
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
+
+            <div id="my_profile_container" class="container"> 
+                <div id="my_profile_row" class="row">
+                    <div id="user_details_global_container" class="col-9 border">
+
+                        <div id="image_avatar_container">
+                            <div id="image_avatar_row" class="row justify-content-center">
+                                <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded" />
+                            </div><!--image_avatar_container -->
+                        </div><!--image_avatar_container -->
+                        <div id="user_pseudo_container" class="textAlign">
+                            Gérard
+                        </div><!--user_pseudo_container -->
+                        <div id="user_rank_container" class="textAlign">
+                            Grand pouloumeur
+                        </div><!--user_rank_container -->
+                        <div id="user_info_container" class="container">
+                            <div id="user_surname_container" class="w-100 mx-0 px-0">
+                                Prénom : Gerard
+                            </div><!--user_surname_container -->
+                            <div id="user_name_container" class="w-100 mx-0 px-0">
+                                Nom : Lambert
+                            </div><!--user_name_container -->
+                            <div id="user_birthdate_container" class="w-100 mx-0 px-0">
+                                Date de naissance : 06/08/1992
+                            </div><!--user_birthdate_container -->
+                        </div><!--user_info_container -->
+
+                        <div id="button_profil_container" class="container">
+                            <div id="button_profil_row" class="row justify-content-center button">
+                                <button id="button_ask_friend_profil" type="button" class="btn btn-light button_relation" onclick="window.location.href = 'profile_relations.html';">
+                                    Demander en ami
+                                </button>
+                                <button id="button_block_profil" type="button" class="btn btn-light button_relation" onclick="window.location.href = 'profile_relations.html';">
+                                    Bloquer
+                                </button>
+                                <button id="button_abusive_behaviour_profil" type="button" class="btn btn-light button_relation" onclick="window.location.href = 'profile_relations.html';">
+                                    Signaler un abus
+                                </button>
+                            </div><!--button_modify_profil -->
+                        </div><!--button_modify_profil_container -->
+                    </div><!--user_details_global_container -->
+                    <div id="badges_pouloumer_global_container" class="col-3 border wrapper">
+                        <div id="badges_header_container">
+                            <div id="badges_header_row" class="row">
+                                <h4>Badges</h4> 
+                            </div><!--badges_header_row-->
+                        </div><!--badges_header_container-->
+                        <div id="badges_pouloumer_container" class="container">
+                            <div id="badges_pouloumer_row" class="row">
+                                <div id="first_row_badges_pouloumer_container" class="container">
+                                    <div id="first_row_badges_pouloumer" class="row row_of_badges">
+                                        <div id="fire_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
+                                        </div><!--fire_badge_pouloumer_container-->
+                                        <div id="water_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
+                                        </div><!--water_badge_pouloumer_container-->
+                                    </div><!--first_row_badges_pouloumer-->
+                                </div><!--first_row_badges_pouloumer_container-->
+
+                                <div id="second_row_badges_pouloumer_container" class="container">
+                                    <div id="second_row_badges_pouloumer" class="row row_of_badges">
+                                        <div id="wind_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
+                                        </div><!--wind_badge_pouloumer_container-->
+                                        <div id="earth_badge_pouloumer_container" class="col w-50">
+                                            <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
+                                        </div><!--earth_badge_pouloumer_container-->
+                                    </div><!--second_row_badges_pouloumer-->
+                                </div>
+                            </div> <!--badges_pouloumer_row-->
+                        </div> <!--badges_pouloumer_container-->
+                    </div><!--badges_pouloumer_global_container -->
+                </div><!--#my_profile_row-->
+            </div><!--#my_profile_container-->
 
 
         </div><!--#wrapper-->
@@ -21,33 +98,29 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
         <script>
-// gets called automatically
-// once the userID is retrieved
-function ready_userID(userID) {
-    $.ajax({
-        url: './AjaxAction',
-        type: 'POST',
-        data: {
-            'action': 'getUserDetails',
-            'id': otherUserID
-        },
-        datatype: 'json'
-    }).done(function (data) {
-        var OK = data.result;
-        if (OK) {
-            $("#user_pseudo_container").text(data.userDetails.nickname);
-            $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-            $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-            $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-            $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-            $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-            $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-            $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-            $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-            $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
-        }
-    });
-}
+                                    function ready_userID(userID) {
+
+                                        // is called automatically
+                                        // once the userID is retrieved
+                                        $.ajax({
+                                            url: './AjaxAction',
+                                            type: 'POST',
+                                            data: {
+                                                'action': 'getUserDetails',
+                                                'id': otherUserID
+                                            },
+                                            datatype: 'json'
+                                        }).done(function (data) {
+                                            var OK = data.result;
+                                            if (OK) {
+                                                $("#user_pseudo_container").text(data.userDetails.nickname);
+                                                $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                                                $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                                                $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                                                $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                                            }
+                                        });
+                                    }
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
