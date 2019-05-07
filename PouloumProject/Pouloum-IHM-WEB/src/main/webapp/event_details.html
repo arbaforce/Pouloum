@@ -53,59 +53,75 @@
                         window.location.href = './index.html';
                     }
                 });
-
+                
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
                     data: {
-                        'action': 'getEventDetails',
-                        'eventID': eventID
+                        'action': 'getEventIdSession',
                     },
                     datatype: 'json'
-                }).done(function (data) {
-                    let OK = data.result;
-                    if (OK) {
-                        document.getElementById("event_name_container").value = data.event.label;
-                        document.getElementById("event_description_container").value = data.event.description;
-                        document.getElementById("event_activity_name_container").value = data.event.activity.name;
-                        let eventAddress = data.event.address;
-                        document.getElementById("event_address_container").value = eventAddress.number + ' ' + eventAddress.street + ', '
-                                + eventAddress.postal_code + ' ' + eventAddress.city + ', ' + eventAddress.country;
-                        document.getElementById("event_date_container").value = data.event.startDate;
-                        document.getElementById("event_duration_container").value = data.event.duration;
-                        document.getElementById("event_participants_number_container").value = data.event.participants.length;
-                        document.getElementById("event_participants_number_min_container").value = data.event.participants_min;
-                        document.getElementById("event_participants_number_max_container").value = data.event.participants_max;
+                }).done(function (data){
+                    if(data.result){
+                        eventID = data.eventID;
                         
-                        let participantsDiv = document.getElementById("event_participants_container");
-                        let participantsArray = data.event.participants;
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'getEventDetails',
+                                'eventID': eventID
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            let OK = data.result;
+                            if (OK) {
+                                document.getElementById("event_name_container").value = data.event.label;
+                                document.getElementById("event_description_container").value = data.event.description;
+                                document.getElementById("event_activity_name_container").value = data.event.activity.name;
+                                let eventAddress = data.event.address;
+                                document.getElementById("event_address_container").value = eventAddress.number + ' ' + eventAddress.street + ', '
+                                        + eventAddress.postal_code + ' ' + eventAddress.city + ', ' + eventAddress.country;
+                                document.getElementById("event_date_container").value = data.event.startDate;
+                                document.getElementById("event_duration_container").value = data.event.duration;
+                                document.getElementById("event_participants_number_container").value = data.event.participants.length;
+                                document.getElementById("event_participants_number_min_container").value = data.event.participants_min;
+                                document.getElementById("event_participants_number_max_container").value = data.event.participants_max;
                         
-                        participantsArray.forEach(function (element) {
-                            let participantDiv = document.createElement("div");
-                            let nicknameLink = document.createElement("a");
-                            let linkText = document.createTextNode(element.nickname);
+                                let participantsDiv = document.getElementById("event_participants_container");
+                                let participantsArray = data.event.participants;
+                        
+                                participantsArray.forEach(function (element) {
+                                    let participantDiv = document.createElement("div");
+                                    let nicknameLink = document.createElement("a");
+                                    let linkText = document.createTextNode(element.nickname);
                             
-                            nicknameLink.setAttribute("href", ""); //TODO put profile URL
-                            nicknameLink.appendChild(linkText);
+                                    nicknameLink.setAttribute("href", ""); //TODO put profile URL
+                                    nicknameLink.appendChild(linkText);
                             
-                            participantsDiv.appendChild(participantDiv);
+                                    participantsDiv.appendChild(participantDiv);
+                                });
+                        
+                                let status = data.event.status;
+                        
+                                if (status === "cancelled") {
+                                    document.getElementById("event_status_container").value = "Annulé";
+                                } else if (status === "started") {
+                                    document.getElementById("event_status_container").value = "En cours";
+                                } else if (status === "finished") {
+                                    document.getElementById("event_status_container").value = "Terminé";
+                                } else if (status === "full") {
+                                    document.getElementById("event_status_container").value = "Plein";
+                                } else if (status === "ready") {
+                                    document.getElementById("event_status_container").value = "Prêt";
+                                } else {
+                                    document.getElementById("event_status_container").value = "Planifié";
+                                }
+                            }
                         });
-                        
-                        let status = data.event.status;
-                        
-                        if (status === "cancelled") {
-                            document.getElementById("event_status_container").value = "Annulé";
-                        } else if (status === "started") {
-                            document.getElementById("event_status_container").value = "En cours";
-                        } else if (status === "finished") {
-                            document.getElementById("event_status_container").value = "Terminé";
-                        } else if (status === "full") {
-                            document.getElementById("event_status_container").value = "Plein";
-                        } else if (status === "ready") {
-                            document.getElementById("event_status_container").value = "Prêt";
-                        } else {
-                            document.getElementById("event_status_container").value = "Planifié";
-                        }
+                    }
+                    else {
+                        history.back();
                     }
                 });
             });

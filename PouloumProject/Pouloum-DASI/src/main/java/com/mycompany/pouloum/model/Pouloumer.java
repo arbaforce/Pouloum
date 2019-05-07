@@ -291,6 +291,13 @@ public class Pouloumer implements Serializable {
         obj.addProperty("phone_number", phone_number);
         if (address!=null)
             obj.add("address", address.toJson());
+        else {
+            obj.addProperty("address.country","");
+            obj.addProperty("address.city","");
+            obj.addProperty("address.postal_code","");
+            obj.addProperty("address.number","");
+            obj.addProperty("address.street","");
+        }
         
         //No need for this, we already have services to get events
         /*
