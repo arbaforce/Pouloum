@@ -119,6 +119,8 @@ initialiseMap();
         </script>
 		
         <script>
+var all_events = [];
+
 // gets called automatically
 // once the userID is retrieved
 function ready_userID(userID) {
@@ -134,9 +136,28 @@ function ready_userID(userID) {
         var OK = data.result;
         if (OK) {
             var events = data.events;
+            
+            all_events = events;
+            console.log(events); //FIXME to remove            
+            
 			page_add_events(events);
         }
     });
+}
+
+function apply_filters() {
+    var some_events = [];
+    
+    for (var ei=0; ei<all_events.length; ei++) {
+        var event = all_events[ei];
+        
+        var keep = true;
+        
+        if (keep) some_events.push(event);
+    }
+    
+    // page_clear_events(); //TODO not coded yet
+    page_add_events(some_events);
 }
         </script>
         <!-- retrieves the userID -->
