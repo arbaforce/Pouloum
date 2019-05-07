@@ -56,21 +56,12 @@
 
                                 <div id="activity_select_container">
                                     <div class="col-8 px-0" id="div_interest">
-                                        <input type="text" class="form-control" id="interest">
+                                        <input id="activity_select" type="text" class="form-control" id="interest">
                                         <div id="suggestions" class="container justify-content-center overflow-auto" style="max-height: 150px">
                                         </div>
                                     </div>
                                 </div><!--activity_select_container -->
 
-                                <!--
-                                <div class="col-6 input_event">
-                                    <select class="form-control" id="event_activity_container">
-                                        <option>Basketball</option>
-                                        <option>Football</option>
-                                        <option>Tennis</option>
-                                        <option>Tir à l'arc</option>
-                                    </select>
-                                </div>-->
                             </div><!--#activity_event_row -->
                         </div><!--#activity_event_global_container -->
                         <div id="date_event_global_container" class="container holder_event">
@@ -308,7 +299,7 @@
                             datatype: 'json'
                         }).done(function (data) {
                             fillSuggestions(data.activities, activitiesSuggestionMap);
-                            autocomplete(document.getElementById("interest"), document.getElementById("suggestions"), activitiesSuggestionMap, function (key) {
+                            autocomplete(document.getElementById("activity_select"), document.getElementById("suggestions"), activitiesSuggestionMap, function (key) {
                                 selectedActivityID = key;
                             });
                         });
@@ -364,7 +355,6 @@
                             data: {
                                 'action': 'updateEvent',
                                 'id': eventID,
-                                //TODO activity ? see with autocompletion
                                 'name': $('#event_name_container').val(),
                                 'startDate': $('#event_start_date_container').val(),
                                 'duration': $('#event_duration_container').val(),
