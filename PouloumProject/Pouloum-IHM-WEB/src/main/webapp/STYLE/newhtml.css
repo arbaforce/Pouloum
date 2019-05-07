@@ -59,10 +59,13 @@ body {
 }
 
 #wrapper {
-    overflow: hidden;
+    overflow: auto;
     width: 100vw;
     height: 100vh;
     position: relative;
+    background-color: #cce8f3;
+    padding:0%;
+    margin:0%;
 }
 
 #navbar_img {
