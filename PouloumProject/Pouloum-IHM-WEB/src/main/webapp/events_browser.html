@@ -55,7 +55,7 @@
                                             <label for="date_filter">Date :</label>
                                         </div>
                                         <div class="col-5">
-                                            <input type="text" class="form-control" id="date_filter">
+                                            <input type="text" name="date" placeholder="JJ/MM/AAAA" class="form-control" id="date_filter">
                                         </div>
                                     </div>
                                 </div><!--#date_filter_container -->
@@ -109,9 +109,26 @@
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        
         <script src="SCRIPT/events_browser.js"></script>
         <script src="SCRIPT/dynamic_json.js"></script>
         
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+            var date_input=$('input[name="date"]'); //our date input has the name "date"
+            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                    format: 'dd/mm/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                });
+            });
+        </script>
         <script>
 initialiseMap();
 
