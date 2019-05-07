@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.fluttercode.datafactory.impl.DataFactory;
 
 /**
@@ -76,7 +74,9 @@ public class SetupDB {
         BufferedReader reader = getResourceReader("setup/Activities.txt");
 
         Stack<Activity> tree = new Stack<>();
-
+        
+        Random rand = new Random(); // random badges
+        
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 if ((line + "/").charAt(0) == '/') {
@@ -93,6 +93,21 @@ public class SetupDB {
                 String name = line.trim();
                 String description = "";
                 List<Badge> badges = new ArrayList<>();
+                
+                int badgeEarth = rand.nextInt(4);
+                if (badgeEarth == 1) badges.add(Badge.EARTH);
+                int badgeFire = rand.nextInt(4);
+                if (badgeFire == 1) badges.add(Badge.FIRE);
+                int badgeWater = rand.nextInt(4);
+                if (badgeWater == 1) badges.add(Badge.WATER);
+                int badgeWind = rand.nextInt(4);
+                if (badgeWind == 1) badges.add(Badge.WIND);
+                
+                if (badges.isEmpty()) {
+                    int badgeDef = rand.nextInt(Badge.values().length);
+                    badges.add(Badge.values()[badgeDef]);
+                }
+                
                 String rules = "";
                 List<String> resources = new ArrayList<>();
                 int default_min = 0;

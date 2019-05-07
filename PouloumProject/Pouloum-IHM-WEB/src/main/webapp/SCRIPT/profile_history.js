@@ -1,42 +1,12 @@
-/* 
- * to toggle the map 
- */
-function openNav() {
-  document.getElementById("search_result_map_global_col").style.width = "49%";
-  document.getElementById("search_result_list_global_col").style.marginRight= "0px";
-    
-  var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
-  var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
-  for (var i = 0; i < events_statut_know_more_col.length; i++){
-      events_statut_know_more_col[i].setAttribute("class", "col event_statut_know_more_col mx-0 px-0");
-  }
-  for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
-      events_status_know_more_no_more_button_badges_container[i].style.marginRight= "50%";
-  }
-  
-  document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
-}
-
-function closeNav() {
-  document.getElementById("search_result_map_global_col").style.width = "65px";
-  document.getElementById("search_result_list_global_col").style.marginRight= "65px";
-  
-  var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
-  var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
-  for (var i = 0; i < events_statut_know_more_col.length; i++){
-      events_statut_know_more_col[i].setAttribute("class", "col-6 event_statut_know_more_col mx-0 px-0");
-  }
-  for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
-      events_status_know_more_no_more_button_badges_container[i].style.marginRight= "0px";
-  }
-  
-  
-  document.getElementById("map_Button").setAttribute("onclick", "openNav()");
-}
-
 
 function addResultDemo() {
     data_badges = ["Wind", "Fire"];
+    data_grades = {
+        sad : "STYLE/sad.png",
+        neutral : "STYLE/pokerface.png",
+        happy : "STYLE/happy.png"
+    };
+    
     
     data_participants = [];
     for (var i=0; i<14; i++) {
@@ -47,22 +17,21 @@ function addResultDemo() {
         });
     }
     
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
 }
 
-
-function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_badges) {
+function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges) {
     var results = document.getElementById("search_result_list_global_container");
     
     //TODO: show event label (parameter data_label) somewhere
     
     var div_event_container = document.createElement("div");
-    div_event_container.className = "event_container container w-100 border";
+    div_event_container.className = "container w-100 border";
     {
         var div_event_row = document.createElement("div");
-        div_event_row.className = "row mx-0 px-0";
+        div_event_row.className = "row mx-1 px-1";
         {
             var div_event_activity_organisator_place_users_container = document.createElement("div");
             div_event_activity_organisator_place_users_container.className = "container";
@@ -244,43 +213,51 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
             
             div_event_row.appendChild(div_event_date_container);
             
-            var div_event_time_container = document.createElement("div");
-            div_event_time_container.className = "container";
+            var div_event_time_evaluation_title_container = document.createElement("div");
+            div_event_time_evaluation_title_container.className = "container";
             {
-                var div_event_time_row = document.createElement("div");
-                div_event_time_row.className = "row mx-0 px-0";
+                var div_event_time_evaluation_title_row = document.createElement("div");
+                div_event_time_evaluation_title_row.className = "row mx-0 px-0";
                 {
                     var div_event_time_col = document.createElement("div");
                     div_event_time_col.className = "col-6 mx-0 my-0 px-0 py-0";
                     {
-                        var txt_time = document.createTextNode("Durée : ");
+                        var txt_duration = document.createTextNode("Durée : ");
+                        div_event_time_col.appendChild(txt_duration);
                         
-                        div_event_time_col.appendChild(txt_time);
+                        var value_duration = document.createTextNode(data_duration);
+                        div_event_time_col.appendChild(value_duration);
                         
-                        var txt_time = document.createTextNode(data_duration);
-                        
-                        div_event_time_col.appendChild(txt_time);
                     }
                     
-                    div_event_time_row.appendChild(div_event_time_col);
-                }
-                
-                div_event_time_container.appendChild(div_event_time_row);
-            }
-            
-            div_event_row.appendChild(div_event_time_container);
-            
-            var div_event_status_know_more_no_more_button_badges_container = document.createElement("div");
-            div_event_status_know_more_no_more_button_badges_container.className = "container event_status_know_more_no_more_button_badges_container";
-            {
-                var div_event_status_know_more_no_more_button_badges_row = document.createElement("div");
-                div_event_status_know_more_no_more_button_badges_row.className = "row mx-0 px-0";
-                {
-                    var div_event_statut_know_more_col = document.createElement("div");
-                    div_event_statut_know_more_col.className = "col-6 event_statut_know_more_col mx-0 px-0";
+                    div_event_time_evaluation_title_row.appendChild(div_event_time_col);
+                    
+					/*
+                    var var_event_evaluation_title_col = document.createElement("div");
+                    var_event_evaluation_title_col.className ="col-6 mx-0 my-0 px-0 py-0";
                     {
-                        var div_event_status_container = document.createElement("div");
-                        div_event_status_container.className = "container";
+                        var txt_evaluation = document.createTextNode("Note : ");
+                        var_event_evaluation_title_col.appendChild(txt_evaluation);
+                    }
+                    div_event_time_evaluation_title_row.appendChild(var_event_evaluation_title_col);
+					*/
+                }
+                div_event_time_evaluation_title_container.appendChild(div_event_time_evaluation_title_row);
+                
+            }
+            div_event_row.appendChild(div_event_time_evaluation_title_container);
+            
+            var div_event_status_know_more_evaluation_button_badges_container = document.createElement("div");
+            div_event_status_know_more_evaluation_button_badges_container.className = "container event_status_know_more_evaluation_button_badges_container";
+            {
+                var div_event_status_know_more_evaluation_button_badges_row = document.createElement("div");
+                div_event_status_know_more_evaluation_button_badges_row.className = "row mx-0 px-0";
+                {
+                    var div_event_status_know_more_col = document.createElement("div");
+                    div_event_status_know_more_col.className = "col-6 event_statut_know_more_col mx-0 px-0";
+                    {
+                        var div_event_status_know_more_container = document.createElement("div");
+                        div_event_status_know_more_container.className = "container";
                         {
                             var div_event_status_row = document.createElement("div");
                             div_event_status_row.className = "row mx-0 px-0";
@@ -294,58 +271,99 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                                 div_event_status_row.appendChild(txt_status);
                             }
                             
-                            div_event_status_container.appendChild(div_event_status_row);
+                            div_event_status_know_more_container.appendChild(div_event_status_row);
                             
-                            var div_event_know_more_container = document.createElement("div");
-                            div_event_know_more_container.className = "container";
+                            var div_event_know_more_row = document.createElement("div");
+                            div_event_know_more_row.className = "row mx-0 px-0";
                             {
-                                var div_event_know_more_row = document.createElement("div");
-                                div_event_know_more_row.className = "row mx-0 px-0";
+                                var a_knowmore = document.createElement("a");
+                                a_knowmore.href = data_eventurl;
                                 {
-                                    var a_knowmore = document.createElement("a");
-                                    a_knowmore.href = data_eventurl;
-                                    {
-                                        var txt_knowmore = document.createTextNode("En savoir plus");
-                                        
-                                        a_knowmore.appendChild(txt_knowmore);
-                                    }
-                                    
-                                    div_event_know_more_row.appendChild(a_knowmore);
+                                    var txt_knowmore = document.createTextNode("En savoir plus");
+
+                                    a_knowmore.appendChild(txt_knowmore);
                                 }
-                                
-                                div_event_know_more_container.appendChild(div_event_know_more_row);
+
+                                div_event_know_more_row.appendChild(a_knowmore);
                             }
-                            
-                            div_event_status_container.appendChild(div_event_know_more_container);
+
+                            div_event_status_know_more_container.appendChild(div_event_know_more_row);
                         }
                         
-                        div_event_statut_know_more_col.appendChild(div_event_status_container);
+                        div_event_status_know_more_col.appendChild(div_event_status_know_more_container);
                     }
                     
-                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_statut_know_more_col);
+                    div_event_status_know_more_evaluation_button_badges_row.appendChild(div_event_status_know_more_col);
                     
-                    var div_event_no_more_button_col = document.createElement("div");
-                    div_event_no_more_button_col.className = "col mx-0 px-0";
+					/*
+                    var div_event_evaluation_button_col = document.createElement("div");
+                    div_event_evaluation_button_col.className = "col mx-0 px-0";
                     {
-                        var button_knowmore = document.createElement("button");
-                        button_knowmore.className = "btn btn-light buttonEvent";
-                        button_knowmore.type = "button";
+                        var radio_button_sad_label = document.createElement("label");
                         {
-                            var txt_knowmore = document.createTextNode("Je ne participe plus.");
-                            
-                            button_knowmore.appendChild(txt_knowmore);
+                           var input_sad = document.createElement("input");
+                           input_sad.setAttribute("type", "radio");
+                           input_sad.setAttribute("name", "test");
+                           input_sad.setAttribute("value", "sad");
+                           
+                           radio_button_sad_label.appendChild(input_sad);
+                           
+                           var img_sad = document.createElement("img");
+                           img_sad.className = "radio_button_image";
+                           img_sad.src = data_grades.sad;
+                           img_sad.alt = ":(";
+                           
+                           radio_button_sad_label.appendChild(img_sad);
                         }
                         
-                        div_event_no_more_button_col.appendChild(button_knowmore);
+                        div_event_evaluation_button_col.appendChild(radio_button_sad_label);
+                        
+                        var radio_button_neutral_label = document.createElement("label");
+                        {
+                           var input_neutral = document.createElement("input");
+                           input_neutral.setAttribute("type", "radio");
+                           input_neutral.setAttribute("name", "test");
+                           input_neutral.setAttribute("value", "neutral");
+                           
+                           radio_button_neutral_label.appendChild(input_neutral);
+                           
+                           var img_neutral = document.createElement("img");
+                           img_neutral.className = "radio_button_image";
+                           img_neutral.src = data_grades.neutral;
+                           img_neutral.alt = ":|";
+                           
+                           radio_button_neutral_label.appendChild(img_neutral);
+                        }
+                        
+                        div_event_evaluation_button_col.appendChild(radio_button_neutral_label);
+                        var radio_button_happy_label = document.createElement("label");
+                        {
+                           var input_happy = document.createElement("input");
+                           input_happy.setAttribute("type", "radio");
+                           input_happy.setAttribute("name", "test");
+                           input_happy.setAttribute("value", "happy");
+                           
+                           radio_button_happy_label.appendChild(input_happy);
+                           
+                           var img_happy = document.createElement("img");
+                           img_happy.className = "radio_button_image";
+                           img_happy.src = data_grades.happy;
+                           img_happy.alt = ":(";
+                           
+                           radio_button_happy_label.appendChild(img_happy);
+                        }
+                        
+                        div_event_evaluation_button_col.appendChild(radio_button_happy_label);
                     }
                     
-                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_no_more_button_col);
+                    div_event_status_know_more_evaluation_button_badges_row.appendChild(div_event_evaluation_button_col);
+                  	*/
                     
                     var div_event_badges_col = document.createElement("div");
                     div_event_badges_col.className = "col mx-0 px-0";
                     {
                         var div_event_badges_container = document.createElement("div");
-                        div_event_status_container.className = "container";
+                        div_event_badges_container.className = "container";
                         {
                             var div_event_badges_row = document.createElement("div");
                             div_event_badges_row.className = "row mx-0 event_badges_row";
@@ -369,13 +387,13 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                         div_event_badges_col.appendChild(div_event_badges_container);
                     }
                     
-                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_badges_col);
+                    div_event_status_know_more_evaluation_button_badges_row.appendChild(div_event_badges_col);
                 }
                 
-                div_event_status_know_more_no_more_button_badges_container.appendChild(div_event_status_know_more_no_more_button_badges_row);
+                div_event_status_know_more_evaluation_button_badges_container.appendChild(div_event_status_know_more_evaluation_button_badges_row);
             }
             
-            div_event_row.appendChild(div_event_status_know_more_no_more_button_badges_container);
+            div_event_row.appendChild(div_event_status_know_more_evaluation_button_badges_container);
         }
         
         div_event_container.appendChild(div_event_row);
@@ -388,5 +406,7 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
     
     return div_event_container;
 }
+
+
 
 

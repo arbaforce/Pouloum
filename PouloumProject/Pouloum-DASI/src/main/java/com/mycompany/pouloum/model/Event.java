@@ -283,19 +283,29 @@ public class Event implements Serializable {
         obj.addProperty("participants_min", participants_min);
         obj.addProperty("participants_max", participants_max);
 
+        String status;
+        String statut;
         if (cancelled) {
-            obj.addProperty("status", "cancelled");
-        } else if (isStarted()) {
-            obj.addProperty("status", "started");
+            status = "cancelled";
+            statut = "annulé";
         } else if (isFinished()) {
-            obj.addProperty("status", "finished");
-        } else if (participants.size() >= participants_max) {
-            obj.addProperty("status", "full");
+            status = "finished";
+            statut = "terminé";
+        } else if (isStarted()) {
+            status = "started";
+            statut = "commencé";
+        } else if (participants.size() >= participants_max && participants_max != 0) {
+            status = "full";
+            statut = "plein";
         } else if (participants.size() >= participants_min) {
-            obj.addProperty("status", "ready");
+            status = "ready";
+            statut = "prêt";
         } else {
-            obj.addProperty("status", "organized");
+            status = "organized";
+            statut = "proposé";
         }
+        obj.addProperty("status", status); // statut pour le code JS
+        obj.addProperty("statut", statut); // status pour l'affichage dans l'IHM
 
         JsonArray participantsArray = new JsonArray();
         for (Pouloumer p : participants) {
