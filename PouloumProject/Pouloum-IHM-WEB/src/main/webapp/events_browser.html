@@ -586,12 +586,19 @@ $(document).ready(function() {
                     url: "./activity_details?id=" + tmp_a.id,
                     level: "débutant" //FIXME
                 }];
-                var data_badges = ["Wind", "Fire"]; //FIXME
+                var tmp_bs = tmp_a.badges;
+                var data_badges = [];
+                for (var i=0; i<tmp_bs.length; i++) {
+                    var tmp_b = tmp_bs[i];
+                    var name = tmp_b.type + " ";
+                    name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+                    data_badges.push(name.trim());
+                }
                 
-                var tmp_participants = event.participants;
+                var tmp_ps = event.participants;
                 var data_participants = [];
-                for (var i=0; i<tmp_participants.length; i++) {
-                    var tmp_p = tmp_participants[i];
+                for (var i=0; i<tmp_ps.length; i++) {
+                    var tmp_p = tmp_ps[i];
                     data_participants.push({
                         url: "./consult_other_user_profile.html?id=" + tmp_p.id,
                         img: "https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg", //FIXME
@@ -608,24 +615,21 @@ $(document).ready(function() {
                 var data_place = event.address;
                 var data_start = event.startDate;
                 var data_duration = event.duration;
-                var data_status = event.status; // cancelled | started | finished | full | ready | organized
+                var data_status = event.statut;
+                // cancelled | finished | started  | full  | ready | organized
+                // annulé    | terminé  | commencé | plein | prêt  | proposé
                 var data_eventurl = "";
                 
-				/*
-                console.log("=== ACTIVITY ===");
-                console.log(event.activity);
-                console.log("=== POULOUMER ===");
-                console.log(event.pouloumer);
-                console.log("=== PARTICIPANTS ===");
-                console.log(event.participants);
+                /*
+                var tmp_cs = event.comments;
                 console.log("=== COMMENTS ===");
-                console.log(event.comments);
-				*/
+                console.log(tmp_cs);
+                */
                 
                 addResult(data_id, data_label, data_activities, data_organizer, data_place, data_start, data_duration, data_participants, data_status, data_eventurl, data_badges);
                 
                 count++;
-				if (count >= 50) break;
+                if (count >= 50) break;
             }
         }
     });
