@@ -170,20 +170,37 @@ public class AjaxActionServlet extends HttpServlet {
                 } else {
                     ajaxAction.addInterest(id, interest);
                 }
+            } else if ("updateEvent".equals(action)) {
+                String id = request.getParameter("id");
+                String name = request.getParameter("name").trim();
+                String description = request.getParameter("description").trim();
+                String startDate = request.getParameter("startDate");
+                String duration = request.getParameter("duration").trim();
+                String addressNumber = request.getParameter("addressNumber").trim();
+                String addressStreet = request.getParameter("addressStreet").trim();
+                String addressPostalCode = request.getParameter("addressPostalCode").trim();
+                String addressCity = request.getParameter("addressCity").trim();
+                String addressCountry = request.getParameter("addressCountry").trim();
+                String participantsMin = request.getParameter("playerMin").trim();
+                String participantsMax = request.getParameter("playerMax").trim();
+
+                ajaxAction.updateEvent(id, name, description, startDate, duration,
+                        addressNumber, addressStreet, addressPostalCode,
+                        addressCity, addressCountry, participantsMin, participantsMax);
             } else if ("createEvent".equals(action)) {
                 String idOrganizer = request.getParameter("idOrganizer");
                 String idActivity = request.getParameter("idActivity");
-                String name = request.getParameter("name");
-                String description = request.getParameter("description");
+                String name = request.getParameter("name").trim();
+                String description = request.getParameter("description").trim();
                 String startDate = request.getParameter("startDate");
-                String duration = request.getParameter("duration");
-                String addressNumber = request.getParameter("addressNumber");
-                String addressStreet = request.getParameter("addressStreet");
-                String addressPostalCode = request.getParameter("addressPostalCode");
-                String addressCity = request.getParameter("addressCity");
-                String addressCountry = request.getParameter("addressCountry");
-                String participantsMin = request.getParameter("playerMin");
-                String participantsMax = request.getParameter("playerMax");
+                String duration = request.getParameter("duration").trim();
+                String addressNumber = request.getParameter("addressNumber").trim();
+                String addressStreet = request.getParameter("addressStreet").trim();
+                String addressPostalCode = request.getParameter("addressPostalCode").trim();
+                String addressCity = request.getParameter("addressCity").trim();
+                String addressCountry = request.getParameter("addressCountry").trim();
+                String participantsMin = request.getParameter("playerMin").trim();
+                String participantsMax = request.getParameter("playerMax").trim();
 
                 ajaxAction.createEvent(name, description, startDate, duration,
                         addressNumber, addressStreet, addressPostalCode,
@@ -197,6 +214,8 @@ public class AjaxActionServlet extends HttpServlet {
                 ajaxAction.getActivityDetails(activityID);
             } else if ("getActivityTree".equals(action)) {
                 ajaxAction.findAllActivities();
+            } else if ("getAllEvents".equals(action)) {
+                ajaxAction.findAllEvents();
             } else {
                 actionCalled = false;
             }
