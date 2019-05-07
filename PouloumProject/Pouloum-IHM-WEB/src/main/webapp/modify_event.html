@@ -190,8 +190,11 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         <script>
+            var userID;
+            var eventID;
+            var createEvent;
+
             $(document).ready(function () {
-                var userID;
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
@@ -207,9 +210,77 @@
                     }
                 });
 
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getEventIdSession',
+                    }, //TODO put event ID into session
+                    datatype: 'json'
+                }).done(function (data) {
+                    if (data.result) {
+                        eventID = data.eventID;
+                        createEvent = false;
+
+                        if (data.result) {
+                            eventID = data.eventID;
+                            
+                            // Fill in the fields with actual event information
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'action': 'getEventDetails',
+                                    'eventID': eventID
+                                },
+                                datatype: 'json'
+                            }).done(function (data) {
+                                let OK = data.result;
+                                if (OK) {
+                                    $("#event_name_container").value = data.event.label;
+                                    $("#event_description_container").value = data.event.description;
+                                    $("#event_activity_name_container").value = data.event.activity.name;
+                                    let eventAddress = data.event.address;
+                                    $("#event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+                                    $("#event_address_postal_code_container").value = eventAddress.postal_code;
+                                    $("#event_address_city_container").value = eventAddress.city;
+                                    $("#event_address_country_container").value = eventAddress.country;
+                                    $("#event_date_container").value = data.event.startDate;
+                                    $("#event_duration_container").value = data.event.duration;
+                                    $("#event_participants_number_min_container").value = data.event.participants_min;
+                                    $("#event_participants_number_max_container").value = data.event.participants_max;
+
+
+                                    //TODO : consider whether to add status when modifying an event
+                                    /*
+                                     
+                                     let status = data.event.status;
+                                     
+                                     if (status === "cancelled") {
+                                     document.getElementById("event_status_container").value = "Annulé";
+                                     } else if (status === "started") {
+                                     document.getElementById("event_status_container").value = "En cours";
+                                     } else if (status === "finished") {
+                                     document.getElementById("event_status_container").value = "Terminé";
+                                     } else if (status === "full") {
+                                     document.getElementById("event_status_container").value = "Plein";
+                                     } else if (status === "ready") {
+                                     document.getElementById("event_status_container").value = "Prêt";
+                                     } else {
+                                     document.getElementById("event_status_container").value = "Planifié";
+                                     }*/
+                                }
+                            });
+                        }
+
+                    } else {
+                        createEvent = true;
+                    }
+                });
+
                 initialiseMap();
-                var date_input = $('input[name="date"]'); //our date input has the name "date"
-                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+                let date_input = $('input[name="date"]'); //our date input has the name "date"
+                let container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
                 date_input.datepicker({
                     format: 'dd/mm/yyyy',
                     container: container,
@@ -220,9 +291,6 @@
 
             $(function () {
                 $("#validate_button").button().on("click", function () {
-
-                    let createEvent = 1; //TODO
-
                     if (createEvent) {
                         $.ajax({
                             url: './AjaxAction',
@@ -230,7 +298,7 @@
                             data: {
                                 'action': 'createEvent',
                                 'idOrganizer': userID,
-                                //TODO activity ?
+                                //TODO activity ? see with autocompletion
                                 'name': $('#event_name_container').val(),
                                 'startDate': $('#event_start_date_container').val(),
                                 'duration': $('#event_duration_container').val(),
@@ -245,7 +313,7 @@
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
-                                window.location.href = './index.html';
+                                window.location.href = './home_page.html';
                             } else {
                                 $("#errorMessage").show();
                                 $("#errorMessage").text(data.errorMessage);
@@ -257,7 +325,7 @@
                             type: 'POST',
                             data: {
                                 'action': 'updateEvent',
-                                //TODO id
+                                'id': eventID,
                                 'name': $('#event_name_container').val(),
                                 'startDate': $('#event_start_date_container').val(),
                                 'duration': $('#event_duration_container').val(),
@@ -272,7 +340,34 @@
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
-                                window.location.href = './index.html';
+                                window.location.href = './home_page.html';
+                            } else {
+                                $("#errorMessage").show();
+                                $("#errorMessage").text(data.errorMessage);
+                            }
+                        });
+                    }
+
+                });
+            });
+            
+            $(function () {
+                $("#cancel_button").button().on("click", function () {
+                    if (createEvent) { // Just get back to the home page
+                        window.location.href = './home_page.html';
+                    } else {
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'cancelEvent',
+                                'eventID': eventID
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                window.location.href = './home_page.html';
                             } else {
                                 $("#errorMessage").show();
                                 $("#errorMessage").text(data.errorMessage);

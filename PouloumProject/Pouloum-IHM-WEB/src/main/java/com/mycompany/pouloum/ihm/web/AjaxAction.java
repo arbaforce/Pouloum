@@ -196,7 +196,7 @@ public class AjaxAction {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "getUserUpcomingEvents"),
+                    new JsonHttpClient.Parameter("SMA", "getUserEvents"),
                     new JsonHttpClient.Parameter("idUser", id),
                     new JsonHttpClient.Parameter("history", history)
             );
@@ -498,6 +498,39 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("updateEvent", ex);
         }
     }
+    
+    /**
+     * Cancel an event.
+     * 
+     * @param id is the id of the event to cancel.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void cancelEvent(String id) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "cancelEvent"),
+                    new JsonHttpClient.Parameter("eventID", id)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "cancelEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("cancelEvent", ex);
+        }
+    }
 
     /**
      * Get all available information about a given event into a JSON container.
@@ -568,6 +601,12 @@ public class AjaxAction {
         }
     }
 
+    /**
+     * Find all activities in the database.
+     * 
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void findAllActivities() throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
@@ -593,6 +632,12 @@ public class AjaxAction {
         }
     }
     
+    /**
+     * Find all events in the database.
+     * 
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
     public void findAllEvents() throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(

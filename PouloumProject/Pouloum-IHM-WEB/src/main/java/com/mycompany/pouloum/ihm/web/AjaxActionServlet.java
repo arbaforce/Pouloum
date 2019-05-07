@@ -222,6 +222,9 @@ public class AjaxActionServlet extends HttpServlet {
                         addressNumber, addressStreet, addressPostalCode,
                         addressCity, addressCountry, idActivity, idOrganizer,
                         participantsMin, participantsMax);
+            } else if ("cancelEvent".equals(action)) {
+                String eventID = request.getParameter("eventID");
+                ajaxAction.cancelEvent(eventID);
             } else if ("getEventDetails".equals(action)) {
                 String eventID = request.getParameter("eventID");
                 ajaxAction.getEventDetails(eventID);
