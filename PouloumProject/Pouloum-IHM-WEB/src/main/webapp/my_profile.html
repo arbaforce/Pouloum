@@ -192,6 +192,7 @@
                             fillSuggestions(data.activities, activitiesSuggestionMap, activitiesInterestMap);
                             autocomplete(document.getElementById("interest"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
                                 selectedActivityId = key;
+                                console.log(selectedActivityId);
                             });
                         });
             
@@ -215,25 +216,30 @@
                 $("#buttonAddInterest").button().on("click", function () {
                     var userID = global_userID;
                     if (userID < 0) return;
-        
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'id': userID,
-                            'action': 'addInterest',
-                            'interest': $('#interest').val()
-                        },
-                        datatype: 'json'
-                    }).done(function (data) {
-                        var OK = data.result;
-                        if (OK) {
-                            window.location.href = './my_profile.html';
-                        } else {
-                            $("#errorMessage").show();
-                            $("#errorMessage").text(data.errorMessage);
-                        }
-                    });
+                    
+                    if(selectedActivityId == null){
+                        document.getElementById("interest").value = "";
+                    }
+                    else{
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'id': userID,
+                                'action': 'addInterest',
+                                'interest': selectedActivityId
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                window.location.href = './my_profile.html';
+                            } else {
+                                $("#errorMessage").show();
+                                $("#errorMessage").text(data.errorMessage);
+                            }
+                        });
+                    }
                 });
             });
 

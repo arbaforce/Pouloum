@@ -19,7 +19,6 @@ function autocomplete(inp, div, arr, rech) {
         div.appendChild(a);
         /*for each item in the array...*/
         for(var[key,value] of arr){
-            console.log(key + " : " + value);
             /*check if the item starts with the same letters as the text field value:*/
             //if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
             var stringIndex = value.toUpperCase().indexOf(val.toUpperCase());
