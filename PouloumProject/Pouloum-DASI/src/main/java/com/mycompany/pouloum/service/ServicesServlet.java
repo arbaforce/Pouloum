@@ -329,11 +329,20 @@ public class ServicesServlet extends HttpServlet {
                     if (checkResult == CRE_WAR_EVENT_NEAR) {
                         //TODO notify user
                     }
-
-                    // the GUI should check that the event is not full (so an user
-                    // never join a full event)
-                    //TODO check that user doesn't have other events at the same time
-                    ServicesPouloumer.joinEvent(p, e);
+                    
+                    checkResult = ServicesPouloumer.joinEvent(p, e);
+                    if (checkResult == CRE_ERR_EVENT) {
+                        resultErrorMessage = "The event is already fully booked.";
+                        
+                        // Il est INDISPENSABLE que le serveur vérifie isFull.
+                        // Supposons qu'il ne reste plus qu'une place à un Event
+                        // et que deux Pouloumeurs consultent cet évènement.
+                        // Leur pages web penseront toutes les deux qu'il
+                        // reste encore une place. Et donc leurs deux codes
+                        // JavaScript leurs permettraient de s'y inscrire !
+                        // Seul le serveur, en vérifiant isFull, peut empêcher
+                        // que trop d'utilisateurs s'inscrivent à un évènement.
+                    }
                 }
             } ///////////
             ////Leave event
