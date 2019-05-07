@@ -13,12 +13,16 @@
 .holder_event{
     margin:0px;
     padding:0px;
-    padding-bottom: 1%;
-    padding-top: 1%;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
+}
+
+#event_global_container{
+    height: 80vh
 }
 
 #map_container{
-    max-height: 385px;
+    max-height: 350px;
 }
 
 #badge_title{
@@ -37,7 +41,7 @@
 }
 
 #event_global_row{
-    height:85vh;
+    height:70vh;
 }
 
 #details_event_col{

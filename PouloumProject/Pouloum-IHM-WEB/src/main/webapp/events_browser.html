@@ -115,46 +115,32 @@
         <script>
 initialiseMap();
 
-$.ajax({
-    url: './AjaxAction',
-    type: 'POST',
-    data: {
-        'action': 'getUserIdSession',
-    },
-    datatype: 'json'
-}).done(function (data){
-    if(data.result){
-        userID = data.userID;
-    }
-    else {
-        window.location.href = './index.html';
-    }
-});
-        </script>
-        <script type="text/javascript">
 // addResultDemo();
-
-$(document).ready(function() {
+        </script>
+		
+        <script>
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
     $.ajax({
         url: './AjaxAction',
         type: 'POST',
         data: {
             'action': 'getAllEvents',
-         // 'id': userID
+            'id': userID
         },
         datatype: 'json'
-    }).fail(function (data) {
-        console.log("*** FAIL ***");
     }).done(function (data) {
         var OK = data.result;
-        if (OK == "false") {
-            console.log("*** FAIL ***");
-        } else {
+        if (OK) {
             var events = data.events;
 			page_add_events(events);
         }
     });
-});
+}
         </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>

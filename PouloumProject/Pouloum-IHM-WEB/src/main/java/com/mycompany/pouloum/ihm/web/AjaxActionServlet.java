@@ -170,6 +170,16 @@ public class AjaxActionServlet extends HttpServlet {
                 } else {
                     ajaxAction.addInterest(id, interest);
                 }
+            } else if ("removeInterest".equals(action)) {
+                String id = request.getParameter("id");
+                String interest = request.getParameter("interest").trim();
+                
+                if (interest.equals("")) {
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : activité à retirer non trouvé");
+                } else {
+                    ajaxAction.removeInterest(id, interest);
+                }                
             } else if ("updateEvent".equals(action)) {
                 String id = request.getParameter("id");
                 String name = request.getParameter("name").trim();

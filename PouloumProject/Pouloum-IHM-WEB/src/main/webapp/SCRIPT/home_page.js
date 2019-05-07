@@ -47,16 +47,17 @@ function addResultDemo() {
         });
     }
     
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
-    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", undefined, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", undefined, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", undefined, data_badges);
 }
 
 
-function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_badges) {
+function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges) {
     var results = document.getElementById("search_result_list_global_container");
     
     //TODO: show event label (parameter data_label) somewhere
+    //TODO: show event grades (parameter data_grades) somewhere
     
     var div_event_container = document.createElement("div");
     div_event_container.className = "event_container container w-100 border";
