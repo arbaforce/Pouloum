@@ -2,6 +2,18 @@ html {
   scroll-behavior: smooth;
 }
 
+
+.row_of_badges{
+    width:100%;
+    height:50%
+}
+
+.profile_badges{
+    max-width: 90%;
+    margin-left:auto;
+    margin-right: auto;
+}
+
 body {
     overflow: hidden;
     max-height:100vh;
