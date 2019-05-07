@@ -48,4 +48,13 @@ public class DAOEvent {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT e.id FROM Event e");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }

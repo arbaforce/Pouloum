@@ -48,4 +48,13 @@ public class DAOActivity {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT a.id FROM Activity a");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }

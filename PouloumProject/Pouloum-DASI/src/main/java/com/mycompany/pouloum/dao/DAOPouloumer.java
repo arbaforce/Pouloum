@@ -114,4 +114,13 @@ public class DAOPouloumer {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT u.id FROM Pouloumer u");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }

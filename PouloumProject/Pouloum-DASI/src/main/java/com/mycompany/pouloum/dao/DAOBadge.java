@@ -47,4 +47,13 @@ public class DAOBadge {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT b.id FROM BadgeEvolved b");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }
