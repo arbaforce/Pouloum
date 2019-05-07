@@ -464,7 +464,7 @@ public class ServicesServlet extends HttpServlet {
 
                 for (Activity a : activities) {
                     if (a.getParent() == null) {
-                        array.add(a.toJson());
+                        array.add(a.toJson(true));
                     }
                 }
                 container.add("activities", array);
@@ -476,7 +476,7 @@ public class ServicesServlet extends HttpServlet {
 
                 Activity a = ServicesActivity.getActivityById(idActivity);
 
-                container.add("activity", a.toJson());
+                container.add("activity", a.toJson(true));
             } /////////////////
             //////Consult an event
             /////////////////

@@ -15,11 +15,10 @@ function autocomplete(inp, div, arr, rech) {
         a = document.createElement("UL");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "list-group list-autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        div.appendChild(a);
         /*for each item in the array...*/
+        var text;
         for(var[key,value] of arr){
-            console.log(key + " : " + value);
+            // console.log(key + " : " + value);
             /*check if the item starts with the same letters as the text field value:*/
             //if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
             var stringIndex = value.toUpperCase().indexOf(val.toUpperCase());
@@ -30,11 +29,12 @@ function autocomplete(inp, div, arr, rech) {
                 b.setAttribute("value", key);
                 b.setAttribute("class", "list-group-item autocomplete-items");
                 /*make the matching letters bold:*/
-                b.innerHTML = value.substring(0, stringIndex);
-                b.innerHTML += "<strong>" + value.substring(stringIndex, stringIndex + val.length) + "</strong>";
-                b.innerHTML += value.substring(stringIndex + val.length);
+                text = value.substring(0, stringIndex) ;
+                text += "<strong>" + value.substring(stringIndex, stringIndex + val.length) + "</strong>";
+                text += value.substring(stringIndex + val.length);
                 /*insert a input field that will hold the current array item's value:*/
-                b.innerHTML += "<input type='hidden' value='" + value + "'>";
+                text += "<input type='hidden' value='" + value + "'>";
+                b.innerHTML = text;
                 /*execute a function when someone clicks on the item value (DIV element):*/
                 b.addEventListener("click", function(e) {
                     /*insert the value for the autocomplete text field and go to the right page:*/
@@ -42,12 +42,14 @@ function autocomplete(inp, div, arr, rech) {
                     rech(this.value);
                     
                     /*close the list of autocompleted values,
-	              (or any other open lists of autocompleted values:*/
+	                or any other open lists of autocompleted values:*/
                     closeAllLists();
                 });
                 a.appendChild(b);
             }
         }
+        /*append the DIV element as a child of the autocomplete container:*/
+        div.appendChild(a);
     });
     
     /*execute a function presses a key on the keyboard:*/

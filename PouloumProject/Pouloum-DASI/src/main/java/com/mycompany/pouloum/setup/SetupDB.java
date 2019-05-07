@@ -392,15 +392,15 @@ public class SetupDB {
         
         List<Long> idsPouloumers = DAOPouloumer.findAllIDs();
         int nbPouloumer = idsPouloumers.size();
-
+        
         List<Long> idsActivities = DAOActivity.findAllIDs();
         int nbActivity = idsActivities.size();
-
+        
         List<Long> idsAddress = DAOAddress.findAllIDs();
         int nbAddress = idsAddress.size();
-            
+        
         Random rand = new Random();
-
+        
         DataFactory df = new DataFactory();
         Date minDate = df.getDate(2019, 5, 6);
         Date maxDate = df.getDate(2019, 5, 19);

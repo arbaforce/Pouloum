@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +23,10 @@ public class Activity implements Serializable {
     protected Long id;
 
     // Hierarchy
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     protected Activity parent;
-    
-    @OneToMany(mappedBy = "parent")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     protected List<Activity> children;
 
     // Description
@@ -142,46 +143,48 @@ public class Activity implements Serializable {
         this.default_participants_max = default_participants_max;
     }
 
-    public JsonObject toJson() {
+    public JsonObject toJson(boolean includeHierarchy) {
         JsonObject obj = new JsonObject();
 
         obj.addProperty("id", id);
-        if (parent!=null)
-        {
-            obj.addProperty("parent", parent.getName());
-        } else {
-            obj.addProperty("parent", "");
+        
+        if (includeHierarchy) {
+            if (parent!=null) {
+                obj.addProperty("parent", parent.getName());
+            } else {
+                obj.addProperty("parent", "");
+            }
+            
+            JsonArray childrenArray = new JsonArray();
+            for (Activity a : children) {
+                childrenArray.add(a.toJson(includeHierarchy));
+            }
+            obj.add("children", childrenArray);
         }
-
-        JsonArray childrenArray = new JsonArray();
-
-        for (Activity a : children) {
-            childrenArray.add(a.toJson());
-        }
-
-        obj.add("children", childrenArray);
+        
         obj.addProperty("name", name);
         obj.addProperty("description", description);
-
+        
         JsonArray badgesArray = new JsonArray();
-
+        
         for (Badge b : badges) {
             badgesArray.add(b.toJson());
         }
-
+        
         obj.add("badges", badgesArray);
         obj.addProperty("rules", rules);
-
+        
         JsonArray resourcesArray = new JsonArray();
-
+        
         for (String s : resources) {
             resourcesArray.add(s);
         }
-
+        
         obj.add("resources", resourcesArray);
+        
         obj.addProperty("default_participants_min", default_participants_min);
         obj.addProperty("default_participants_max", default_participants_max);
-
+        
         return obj;
     }
 }
