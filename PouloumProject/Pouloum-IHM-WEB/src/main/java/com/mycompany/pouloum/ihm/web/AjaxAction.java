@@ -196,7 +196,7 @@ public class AjaxAction {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "getUserUpcomingEvents"),
+                    new JsonHttpClient.Parameter("SMA", "getUserEvents"),
                     new JsonHttpClient.Parameter("idUser", id),
                     new JsonHttpClient.Parameter("history", history)
             );

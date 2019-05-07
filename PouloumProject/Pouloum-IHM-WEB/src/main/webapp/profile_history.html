@@ -32,9 +32,29 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/profile_history.js"></script>
+        <script src="SCRIPT/dynamic_json.js"></script>
         
         <script type="text/javascript">
-            addResultDemo();
+// addResultDemo();
+
+function userIDok(userID) {
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getUserEvents',
+            'history': true,
+            'id': userID
+        },
+        datatype: 'json'
+    }).done(function (data) {
+        var OK = data.result;
+        if (OK) {
+            var events = data.events;
+			page_add_events(events);
+        }
+    });
+}
         </script>
         
         <script>
@@ -50,34 +70,12 @@
                 }).done(function (data) {
                     if (data.result) {
                         userID = data.userID;
+                        userIDok(userID);
                     } else {
                         window.location.href = './index.html';
                     }
                 });
-
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserEvents',
-                        'history': true,
-                        'id': userID
-                    },
-                    datatype: 'json'
-                }).done(function (data) {
-                    var OK = data.result;
-                    if (OK) {
-
-                        let eventsHistoryDiv = $("#events_history_container");
-                        let eventsHistoryArray = data.events;
-
-                        eventsHistoryArray.forEach(function (element) {
-                            //TODO add one div per event
-                        });
-                    }
-                });
             });
-
         </script>
     </body>
 </html>
