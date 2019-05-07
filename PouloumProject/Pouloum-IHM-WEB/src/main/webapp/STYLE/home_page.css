@@ -68,6 +68,12 @@
     direction:rtl;
     padding-right : 15px;
 }
+#map_container{
+    width:100%;
+    height: 100%;
+    padding-right:66px;
+}
+
 
 #search_result_global_container{
     max-height:100%;
