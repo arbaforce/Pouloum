@@ -497,6 +497,7 @@ public class ServicesServlet extends HttpServlet {
         } catch (NumberFormatException ex) {
             // occurs when parseLong on null or String not representing numbers
             resultErrorMessage = "Incorrect id given.";
+            Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             resultErrorMessage = "Error when trying to process the transaction.";
             Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, null, ex);
