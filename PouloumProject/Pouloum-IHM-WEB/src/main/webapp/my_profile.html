@@ -134,144 +134,103 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/util_scripts.js"></script>
         
-        <script>
-            $(document).ready(function() {
-                var userID ;
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserIdSession',
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;                        
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'getUserDetails',
-                                'id': userID
-                            },
-                            datatype: 'json'
-                        }).done(function (data) {
-                            var OK = data.result;
-                            if (OK) {
-                                
-                                for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
-                                {
-                                    $("#interest_pouloumer_container").append('<div id="activity_'+data.userDetails.interests[activity_index].id+'">'
-                                                                                    +data.userDetails.interests[activity_index].name
-                                                                                    +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
-                                                                                    + '-'   
-                                                                                    +'</button>'
-                                                                             +'</div>');
-                                }
-                                
-                                $("#user_pseudo_container").text(data.userDetails.nickname);
-                                $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-                                $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-                                $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-                                $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-                                $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-                                $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-                                $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-                                $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-                                $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);                                
-                            }
-                        });
-                    }
-                    else {
-                        window.location.href = './index.html';
-                    }
-                });
-                
-                
-            });
+        <script type="text/javascript">
+var global_userID = -1;
 
-            $(function () {
-                $("#buttonAddInterest").button().on("click", function () {
-                    var userID ;
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'action': 'getUserIdSession'
-                        },
-                        datatype: 'json'
-                    }).done(function (data){
-                        if(data.result){
-                            userID = data.userID;
-                            $.ajax({
-                                url: './AjaxAction',
-                                type: 'POST',
-                                data: {
-                                    'id': userID,
-                                    'action': 'addInterest',
-                                    'interest': $('#interest').val()
-                                },
-                                datatype: 'json'
-                            }).done(function (data) {
-                                var OK = data.result;
-                                if (OK) {
-                                    window.location.href = './my_profile.html';
-                                } else {
-                                    $("#errorMessage").show();
-                                    $("#errorMessage").text(data.errorMessage);
-                                }
-                            });
-                        }
-                        else {
-                            window.location.href = './index.html';
-                        }
-                    });
-                    
-                });
-            });
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
+    global_userID = userID;
+    
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getUserDetails',
+            'id': userID
+        },
+        datatype: 'json'
+    }).done(function (data) {
+        var OK = data.result;
+        if (OK) {
             
-            $(function () {
-                $(".btn_remove_interest").button().on("click", function () {
-                    var userID ;
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'action': 'getUserIdSession'
-                        },
-                        datatype: 'json'
-                    }).done(function (data){
-                        if(data.result){
-                            userID = data.userID;
-                            var interestId = (this).attr('id');
-                            console.log(interestId);
-                            $.ajax({
-                                url: './AjaxAction',
-                                type: 'POST',
-                                data: {
-                                    'id': userID,
-                                    'action': 'removeInterest',
-                                    'interest': interestId
-                                },
-                                datatype: 'json'
-                            }).done(function (data) {
-                                var OK = data.result;
-                                if (OK) {
-                                    window.location.href = './my_profile.html';
-                                } else {
-                                    $("#errorMessage").show();
-                                    $("#errorMessage").text(data.errorMessage);
-                                }
-                            });
-                        }
-                        else {
-                            window.location.href = './index.html';
-                        }
-                    });
-                    
-                });
-            });
+            for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
+            {
+                $("#interest_pouloumer_container").append('<div id="activity_'+data.userDetails.interests[activity_index].id+'">'
+                                                                +data.userDetails.interests[activity_index].name
+                                                                +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
+                                                                + '-'   
+                                                                +'</button>'
+                                                         +'</div>');
+            }
+            
+            $("#user_pseudo_container").text(data.userDetails.nickname);
+            $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+            $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+            $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+            $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+            $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+            $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+            $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+            $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+            $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);                                
+        }
+    });
+}
 
+$(function () {
+    $("#buttonAddInterest").button().on("click", function () {
+        var userID = global_userID;
+        if (userID < 0) return;
+        
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'id': userID,
+                'action': 'addInterest',
+                'interest': $('#interest').val()
+            },
+            datatype: 'json'
+        }).done(function (data) {
+            var OK = data.result;
+            if (OK) {
+                window.location.href = './my_profile.html';
+            } else {
+                $("#errorMessage").show();
+                $("#errorMessage").text(data.errorMessage);
+            }
+        });
+    });
+});
+
+$(function () {
+    $(".btn_remove_interest").button().on("click", function () {
+        var userID = global_userID;
+        if (userID < 0) return;
+        
+        var interestId = (this).attr('id');
+        console.log(interestId);
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'id': userID,
+                'action': 'removeInterest',
+                'interest': interestId
+            },
+            datatype: 'json'
+        }).done(function (data) {
+            var OK = data.result;
+            if (OK) {
+                window.location.href = './my_profile.html';
+            } else {
+                $("#errorMessage").show();
+                $("#errorMessage").text(data.errorMessage);
+            }
+        });
+    });
+});
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
