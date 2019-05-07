@@ -34,42 +34,30 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/activities_browser.js"></script>
-        <script>
-            $(document).ready(function() {
-                var userID ;
-                
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getActivityTree',
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    var activities = data.activities;
-                    var fulldiv = getAllActivityDiv(activities);
-                    $('#activities_tree').append(fulldiv);
-                }).fail(function(){
-                    $('#message').empty();
-                    $('#message').html('Echec du chargement des activités');
-                });
-                
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserIdSession',
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;
-                    }
-                    else {
-                        window.location.href = './index.html';
-                    }
-                });
-            });
+        
+        <script type="text/javascript">
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getActivityTree',
+        },
+        datatype: 'json'
+    }).done(function (data){
+        var activities = data.activities;
+        var fulldiv = getAllActivityDiv(activities);
+        $('#activities_tree').append(fulldiv);
+    }).fail(function(){
+        $('#message').empty();
+        $('#message').html('Echec du chargement des activités');
+    });
+}
         </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>

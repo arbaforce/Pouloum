@@ -36,8 +36,12 @@
         
         <script type="text/javascript">
 // addResultDemo();
-
-function userIDok(userID) {
+        </script>
+        
+        <script type="text/javascript">
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
     $.ajax({
         url: './AjaxAction',
         type: 'POST',
@@ -56,26 +60,8 @@ function userIDok(userID) {
     });
 }
         </script>
-        
-        <script>
-            $(document).ready(function () {
-                var userID;
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserIdSession',
-                    },
-                    datatype: 'json'
-                }).done(function (data) {
-                    if (data.result) {
-                        userID = data.userID;
-                        userIDok(userID);
-                    } else {
-                        window.location.href = './index.html';
-                    }
-                });
-            });
-        </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>
