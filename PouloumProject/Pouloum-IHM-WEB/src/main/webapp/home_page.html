@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
         <link rel='stylesheet' type='text/css' href='STYLE/home_page.css'>
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
     </head>
@@ -433,19 +434,10 @@
                                                     </div><!--#event_badges_container -->
                                                     
                                                 </div><!--#event_badges_col -->
-                                                
-                                                
-                                                
-                                                
                                             </div><!--#event_status_know_more_no_more_button_badges_row -->
                                         </div><!--#event_status_know_more_no_more_button_badges_container -->
                                     </div><!--#event_row -->
                                 </div><!--#event_container -->
-                                
-                                
-                                
-                                
-                                
                             </div><!--#search_result_list_global_container -->
                         </div><!--#search_result_list_global_col -->
                         <div id="search_result_map_global_col" class="col sidebar">
@@ -455,76 +447,73 @@
                                         
                                     </div>
                                 </div>
-                                <button id="map_Button" class="map_Button_Sidebar" onclick="openNav()">
-                                    Map
-                                </button>  
-                            </div><!--#search_result_map_global_container -->
-                        </div><!--#search_result_map_global_col -->
-                    </div><!--#search_result_global_row -->
-                </div><!--#search_result_global_container -->
-                
-            </div>
-            
-            
-            
+                            </div>
+                            <button id="map_Button" class="map_Button_Sidebar btn" onclick="openNav()">
+                                Map
+                            </button>  
+                        </div><!--#search_result_map_global_container -->
+                    </div><!--#search_result_map_global_col -->
+                </div><!--#search_result_global_row -->
+            </div><!--#search_result_global_container -->
         </div> <!--#wrapper-->
-        
-        <script src="SCRIPT/home_page.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="SCRIPT/events_browser.js"></script>
-        
-        <script>
-            $(document).ready(function() {
-                var userID ;
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserIdSession',
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;
+    
+    <script src="SCRIPT/map.js"></script>
+    <script src="SCRIPT/home_page.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="SCRIPT/events_browser.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            var userID ;
+            $.ajax({
+                url: './AjaxAction',
+                type: 'POST',
+                data: {
+                    'action': 'getUserIdSession',
+                },
+                datatype: 'json'
+            }).done(function (data){
+                if(data.result){
+                    userID = data.userID;
                         
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'getUserEvents',
-                                'history': false,
-                                'id': userID
-                            },
-                            datatype: 'json'
-                        }).done(function (data){
-                            //TODO
-                        })
-                    }
-                    else {
-                        window.location.href = './index.html';
-                    }
-                });
-                
-                
-                
-                /*
-                  $.ajax({
-                      url: './AjaxAction',
-                      type: 'POST',
-                      data: {
-                          'action': 'getUserBadges',
-                          'id': userID
-                      },
-                      datatype: 'json'
-                  }).done(function (data){
-                      //TODO
-                  })
-                 */
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'getUserEvents',
+                            'history': false,
+                            'id': userID
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        //TODO
+                    })
+                }
+                else {
+                    window.location.href = './index.html';
+                }
             });
-            initialiseMap();
-        </script> 
-    </body>
+                
+                
+                
+            /*
+              $.ajax({
+                  url: './AjaxAction',
+                  type: 'POST',
+                  data: {
+                      'action': 'getUserBadges',
+                      'id': userID
+                  },
+                  datatype: 'json'
+              }).done(function (data){
+                  //TODO
+              })
+             */
+        });
+        initialiseMap();
+    </script> 
+</body>
 </html>
