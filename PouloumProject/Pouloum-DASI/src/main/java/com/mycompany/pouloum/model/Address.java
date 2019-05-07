@@ -17,7 +17,7 @@ public class Address implements Serializable {
     
     // Identifier
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     
     // Address components
