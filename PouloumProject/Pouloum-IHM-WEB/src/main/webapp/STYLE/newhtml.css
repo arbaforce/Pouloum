@@ -49,13 +49,26 @@ body {
     padding : 3px;
 }
 
+.row{
+    
+}
+
+button{
+    box-shadow: 0px 2px 6px cadetblue;
+}
+
+input{
+    box-shadow: 0px 1px 3px cadetblue;
+}
 
 .title_page{
     text-align: center;
-    background-color: #f8f9fa;
+    background-color: #5a8ab2;
+    color: white;
     font-size: 25px;
     font-weight: bold;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    border: 1px solid #5a8ab2;
 }
 
 
