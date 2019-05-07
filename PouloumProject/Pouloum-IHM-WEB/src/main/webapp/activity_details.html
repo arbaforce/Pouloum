@@ -111,7 +111,80 @@
 // gets called automatically
 // once the userID is retrieved
 function ready_userID(userID) {
-    load_activityID();
+    //load_activityID();
+    var parameter = window.location.href.split('?')[1].split('=');
+    var parameter_name = parameter[0];
+    if (parameter_name!=="activityID") {
+        $('#message').empty();
+        $('#message').html('Echec du chargement des informations de l\'activitité');
+    } else {
+        var id = parameter[1];
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'action': 'getActivityDetails',
+                'activityID': id
+            },
+            datatype: 'json'
+        }).done(function (data){
+            var OK = data.result;
+            if (OK) {
+
+                $('#activity_name_container').empty();
+                $('#activity_name_container').append(data.activity.name);
+                $('#activity_description_container').empty();
+                $('#activity_description_container').append(data.activity.description);
+                $('#parent_activity_name_container').empty();
+                $('#parent_activity_name_container').append(data.activity.parent);
+
+                $('#children_activities_container').empty();
+                let childrenActivitiesDiv = document.getElementById("children_activities_container");
+                let childrenActivitiesArray = data.activity.children;
+
+                childrenActivitiesArray.forEach(function (element) {
+                    let childrenActivityDiv = document.createElement("div");
+                    let activityText = document.createTextNode(element.name);
+                    childrenActivityDiv.appendChild(activityText);
+                    childrenActivitiesDiv.appendChild(childrenActivityDiv);
+                });
+
+                // TODO : remplir les badges correctement
+                let badgesDiv = document.getElementById("badges_container");
+                let badgesArray = data.activity.badges;
+
+                badgesArray.forEach(function (element) {
+                    let badgeDiv = document.createElement("div");
+                    let badgeText = document.createTextNode(element.type);
+                    badgeDiv.appendChild(badgeText);
+                    badgesDiv.appendChild(badgeDiv);
+                });
+
+                $('#activity_rules_container').empty();
+                $('#activity_rules_container').append(data.activity.rules);
+                //document.getElementById("activity_rules_container").value = data.activity.rules;
+
+                // TODO : gérer les ressources
+                let resourcesDiv = document.getElementById("resources_container");
+                let resourcesArray = data.activity.resources;
+
+                resourcesArray.forEach(function (element) {
+                    let resourceDiv = document.createElement("div");
+                    let resourceText = document.createTextNode(element);
+                    resourceDiv.appendChild(resourceText);
+                    resourcesDiv.appendChild(resourceDiv);
+                });
+
+                $('#activity_participants_number_container').empty();
+                $('#activity_participants_number_container').append(data.activity.default_participants_min + "-" + data.activity.default_participants_max);
+                //document.getElementById("activity_participants_number_container").value = data.activity.default_participants_min + "-" + data.activity.default_participants_max;
+                //document.getElementById("activity_default_participants_max_container").value = data.activity.default_participants_max;
+            }
+        }).fail(function(){
+            $('#message').empty();
+            $('#message').html('Echec du chargement des activités');
+        });
+    }
 }
 
 function ready_activityID(activityID) {
