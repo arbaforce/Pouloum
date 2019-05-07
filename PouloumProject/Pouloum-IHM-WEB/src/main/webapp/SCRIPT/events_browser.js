@@ -95,7 +95,7 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
     var results = document.getElementById("search_result_list_global_container");
     
     var div_event_container = document.createElement("div");
-    div_event_container.className = "event_container container w-100 border";
+    div_event_container.className = "container w-100 border";
     {
         var div_event_row = document.createElement("div");
         div_event_row.className = "row mx-0 px-0";
