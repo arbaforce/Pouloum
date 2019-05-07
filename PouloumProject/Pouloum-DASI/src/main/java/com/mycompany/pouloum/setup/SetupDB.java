@@ -44,7 +44,7 @@ public class SetupDB {
         }
 
         try {
-            setupPouloumer();
+            setupPouloumers();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -108,7 +108,7 @@ public class SetupDB {
         }
     }
 
-    protected static void setupPouloumer()
+    protected static void setupPouloumers()
             throws ParseException {
         List<Pouloumer> users = new ArrayList<>();
         DataFactory df = new DataFactory();
