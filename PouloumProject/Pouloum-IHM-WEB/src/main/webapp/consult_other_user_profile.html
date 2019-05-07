@@ -13,11 +13,11 @@
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-            
+
             <div id="my_profile_container" class="container"> 
                 <div id="my_profile_row" class="row">
                     <div id="user_details_global_container" class="col-9 border">
-                        
+
                         <div id="image_avatar_container">
                             <div id="image_avatar_row" class="row justify-content-center">
                                 <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded" />
@@ -40,7 +40,7 @@
                                 Date de naissance : 06/08/1992
                             </div><!--user_birthdate_container -->
                         </div><!--user_info_container -->
-                            
+
                         <div id="button_profil_container" class="container">
                             <div id="button_profil_row" class="row justify-content-center button">
                                 <button id="button_ask_friend_profil" type="button" class="btn btn-light button_relation" onclick="window.location.href = 'profile_relations.html';">
@@ -73,7 +73,7 @@
                                         </div><!--water_badge_pouloumer_container-->
                                     </div><!--first_row_badges_pouloumer-->
                                 </div><!--first_row_badges_pouloumer_container-->
-                                
+
                                 <div id="second_row_badges_pouloumer_container" class="container">
                                     <div id="second_row_badges_pouloumer" class="row row_of_badges">
                                         <div id="wind_badge_pouloumer_container" class="col w-50">
@@ -98,33 +98,29 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
         <script>
-// gets called automatically
-// once the userID is retrieved
-function ready_userID(userID) {
-    $.ajax({
-        url: './AjaxAction',
-        type: 'POST',
-        data: {
-            'action': 'getUserDetails',
-            'id': otherUserID
-        },
-        datatype: 'json'
-    }).done(function (data) {
-        var OK = data.result;
-        if (OK) {
-            $("#user_pseudo_container").text(data.userDetails.nickname);
-            $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-            $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-            $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-            $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-            $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-            $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-            $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-            $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-            $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
-        }
-    });
-}
+                                    function ready_userID(userID) {
+
+                                        // is called automatically
+                                        // once the userID is retrieved
+                                        $.ajax({
+                                            url: './AjaxAction',
+                                            type: 'POST',
+                                            data: {
+                                                'action': 'getUserDetails',
+                                                'id': otherUserID
+                                            },
+                                            datatype: 'json'
+                                        }).done(function (data) {
+                                            var OK = data.result;
+                                            if (OK) {
+                                                $("#user_pseudo_container").text(data.userDetails.nickname);
+                                                $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                                                $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                                                $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                                                $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                                            }
+                                        });
+                                    }
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
