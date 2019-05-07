@@ -17,13 +17,15 @@ function addResultDemo() {
         });
     }
     
-    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
-    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
-    addResult([{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
+    addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", data_grades, data_badges);
 }
 
-function addResult(data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges) {
+function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges) {
     var results = document.getElementById("search_result_list_global_container");
+    
+    //TODO: show event label (parameter data_label) somewhere
     
     var div_event_container = document.createElement("div");
     div_event_container.className = "container w-100 border";
@@ -230,13 +232,15 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
                     
                     div_event_time_evaluation_title_row.appendChild(div_event_time_col);
                     
+					/*
                     var var_event_evaluation_title_col = document.createElement("div");
                     var_event_evaluation_title_col.className ="col-6 mx-0 my-0 px-0 py-0";
                     {
-                        /*var txt_evaluation = document.createTextNode("Note : ");
-                        var_event_evaluation_title_col.appendChild(txt_evaluation);*/
+                        var txt_evaluation = document.createTextNode("Note : ");
+                        var_event_evaluation_title_col.appendChild(txt_evaluation);
                     }
                     div_event_time_evaluation_title_row.appendChild(var_event_evaluation_title_col);
+					*/
                 }
                 div_event_time_evaluation_title_container.appendChild(div_event_time_evaluation_title_row);
                 
@@ -291,11 +295,10 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
                     
                     div_event_status_know_more_evaluation_button_badges_row.appendChild(div_event_status_know_more_col);
                     
+					/*
                     var div_event_evaluation_button_col = document.createElement("div");
                     div_event_evaluation_button_col.className = "col mx-0 px-0";
-                    {/*
-                        
-                        
+                    {
                         var radio_button_sad_label = document.createElement("label");
                         {
                            var input_sad = document.createElement("input");
@@ -351,10 +354,10 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
                         }
                         
                         div_event_evaluation_button_col.appendChild(radio_button_happy_label);
-                      */  
                     }
                     
                     div_event_status_know_more_evaluation_button_badges_row.appendChild(div_event_evaluation_button_col);
+                  	*/
                     
                     var div_event_badges_col = document.createElement("div");
                     div_event_badges_col.className = "col mx-0 px-0";
@@ -397,6 +400,9 @@ function addResult(data_activities, data_organizer, data_place, data_date, data_
     }
     
     results.appendChild(div_event_container);
+    
+    //TODO: store event id (parameter data_id) somewhere
+    //      to be able to interact with the event later...
     
     return div_event_container;
 }
