@@ -202,22 +202,14 @@ public class ServicesServlet extends HttpServlet {
             } ///////////
             ////Add interests
             ///////////
-            else if ("addInterestsToUser".equals(sma)) {
+            else if ("addInterestToUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-
-                List<Long> idActivities = new ArrayList<>();
-                String[] values = request.getParameterValues("idActivities");
-                for (String value : values) {
-                    idActivities.add(Long.parseLong(value));
-                }
-
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                List<Activity> interests = new ArrayList<>();
-                for (Long idAct : idActivities) {
-                    interests.add(ServicesActivity.getActivityById(idAct));
-                }
+                Activity a = ServicesActivity.getActivityById(idActivity);
 
-                ServicesPouloumer.addInterests(p, interests);
+                ServicesPouloumer.addInterests(p, a);
             } ///////////
             ////Remove interest
             ///////////
