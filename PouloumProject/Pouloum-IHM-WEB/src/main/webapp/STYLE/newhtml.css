@@ -38,6 +38,14 @@ body {
 }
 
 
+.title_page{
+    text-align: center;
+    background-color: #f8f9fa;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
 #wrapper {
     overflow: hidden;
     width: 100vw;

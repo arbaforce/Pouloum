@@ -152,6 +152,8 @@ public class ServicesEvent {
      * Update an existing event (should only be done by its organizer).
      *
      * @param event, the event to update.
+     * @param name, the new name of the event.
+     * @param description, the new description of the event.
      * @param date, the new date of the event.
      * @param duration, the new duration of the event.
      * @param address, the new address of the event.
@@ -159,10 +161,12 @@ public class ServicesEvent {
      * @param playerMax, the new maximum number of participants of the event.
      * @throws Exception if there's an error trying to access the database.
      */
-    public static void updateEvent(Event event, Date date, int duration, Address address, int playerMin, int playerMax)
+    public static void updateEvent(Event event, String name, String description, Date date, int duration, Address address, int playerMin, int playerMax)
             throws Exception {
         
         // Update fields
+        event.setLabel(name);
+        event.setDescription(description);
         event.setStart(date);
         event.setDuration(duration);
         event.setLocation(address);

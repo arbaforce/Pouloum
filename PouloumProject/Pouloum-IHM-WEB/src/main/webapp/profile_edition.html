@@ -173,7 +173,7 @@
         
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-                
+        
         <script>
             $(document).ready(function() {
                 var userID ;
@@ -187,40 +187,41 @@
                 }).done(function (data){
                     if(data.result){
                         userID = data.userID;
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'getUserDetails',
+                                'id': userID
+                            },
+                            datatype: 'json'
+                        }).done(function (data){
+                            var OK = data.result;
+                            if(OK){
+                                document.getElementById("user_pseudo_container").value = data.userDetails.nickname;
+                                document.getElementById("user_surname_container").value = data.userDetails.first_name;
+                                document.getElementById("user_name_container").value = data.userDetails.last_name;
+                                document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
+                                document.getElementById("user_mail_container").value = data.userDetails.email;
+                                document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
+                                document.getElementById("user_address_country_container").value = data.userDetails.address.country;
+                                document.getElementById("user_address_city_container").value = data.userDetails.address.city;
+                                document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
+                                document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
+                        
+                                if(data.userDetails.gender==="M"){
+                                    document.getElementById("masculin").checked = true;
+                                    document.getElementById("feminin").checked = false;
+                                }
+                            }
+                        });
                     }
                     else {
                         window.location.href = './index.html';
                     }
                 });
                 
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserDetails',
-                        'id': userID
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    var OK = data.result;
-                    if(OK){
-                        document.getElementById("user_pseudo_container").value = data.userDetails.nickname;
-                        document.getElementById("user_surname_container").value = data.userDetails.first_name;
-                        document.getElementById("user_name_container").value = data.userDetails.last_name;
-                        document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
-                        document.getElementById("user_mail_container").value = data.userDetails.email;
-                        document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
-                        document.getElementById("user_address_country_container").value = data.userDetails.address.country;
-                        document.getElementById("user_address_city_container").value = data.userDetails.address.city;
-                        document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
-                        document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
-                        
-                        if(data.userDetails.gender==="M"){
-                            document.getElementById("masculin").checked = true;
-                            document.getElementById("feminin").checked = false;
-                        }
-                    }
-                });
+                
                 
                 var date_input=$('input[name="date"]'); //our date input has the name "date"
                 var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";

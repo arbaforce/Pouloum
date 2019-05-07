@@ -18,13 +18,13 @@
 
             <div id="event_global_container" class="container-fluid">
 
-                <div id="title_row" class="row title">
+                <div id="title_row" class="container w-100 title_page">
                     Organiser un nouvel évènement
                 </div><!--#title_row -->
 
-                <div id="event_global_row" class="row h-100 w-100 mx-0 px-0">
-                    <div id="details_event_col" class="col-6 h-100 w-100 mx-0 px-0">
-                        <div id="name_event_global_container" class="container h-100 w-100 mx-0 px-0">
+                <div id="event_global_row" class="row mx-0 px-0">
+                    <div id="details_event_col" class="col-6">
+                        <div id="name_event_global_container" class="container holder_event">
                             <div id="name_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
                                     Nom :
@@ -34,7 +34,7 @@
                                 </div>
                             </div><!--#name_event_row -->
                         </div><!--#name_event_global_container -->
-                        <div id="activity_event_global_container" class="container h-100 w-100 mx-0 px-0">
+                        <div id="activity_event_global_container" class="container holder_event">
                             <div id="activity_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
                                     Activité :
@@ -49,8 +49,8 @@
                                 </div>
                             </div><!--#activity_event_row -->
                         </div><!--#activity_event_global_container -->
-                        <div id="date_event_global_container" class="container">
-                            <div id="date_event_row" class="row">
+                        <div id="date_event_global_container" class="container holder_event">
+                            <div id="date_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
                                     Date : 
                                 </div>
@@ -59,30 +59,66 @@
                                 </div>
                             </div><!--#date_event_row -->
                         </div><!--#date_event_global_container -->
-                        <div id="duration_event_global_container" class="container">
-                            <div id="duration_event_row" class="row">
+                        <div id="duration_event_global_container" class="container holder_event">
+                            <div id="duration_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
-                                    <label for="duration_container">Durée : </label>
+                                    Durée :
                                 </div>
                                 <div class="col-6 text-left input_event">
                                     <input type="text" id="duration_container" placeholder="durée en heure" class="form-control">
                                 </div>
                             </div><!--#duration_event_row -->
                         </div><!--#duration_event_global_container -->
-                        <div id="place_event_global_container" class="container">
-                            <div id="place_event_row" class="row">
+                        
+                        
+                        
+                        <div id="address_global_container" class="container holder_event">
+                            <div id="address_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
-                                    <label for="place_container">Localisation : </label>
+                                    Adresse :
                                 </div>
                                 <div class="col-6 text-left input_event">
                                     <input type="text" id="place_container" placeholder="lieu" class="form-control">
                                 </div>
-                            </div><!--#place_event_row -->
-                        </div><!--#place_event_global_container -->
-                        <div id="number_player_event_global_container" class="container">
-                            <div id="number_player_event_row" class="row">
-                                <div class="col-6 text-right">
-                                    <label for="number_player_container">Nombre de participants : </label>
+                            </div><!--#address_event_row -->
+                        </div><!--#address_global_container -->
+                        <div id="city_global_container" class="container holder_event">
+                            <div id="city_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Ville :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="place_container" placeholder="ville" class="form-control">
+                                </div>
+                            </div><!--#city_event_row -->
+                        </div><!--#city_global_container -->
+                        <div id="postal_code_global_container" class="container holder_event">
+                            <div id="postal_code_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Code postal :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="place_container" placeholder="lieu" class="form-control">
+                                </div>
+                            </div><!--#postal_code_event_row -->
+                        </div><!--#postal_code_event_global_container -->
+                        <div id="country_event_global_container" class="container holder_event">
+                            <div id="country_row_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Pays :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="place_container" placeholder="lieu" class="form-control">
+                                </div>
+                            </div><!--#country_event_row -->
+                        </div><!--#country_event_global_container -->
+                        
+                        
+                        
+                        <div id="number_player_event_global_container" class="container holder_event">
+                            <div id="number_player_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Nombre de participants :
                                 </div>
                                 <div class="col-6 text-left input_event">
                                     <input type="text" id="number_player_container" placeholder="min-max" class="form-control">
@@ -95,7 +131,8 @@
                     <div id="badges_and_map_col" class="col-6">
 
                         <div id="badges_container" class="container">
-                            <div id="badges_row" class="row">
+                            <div id="badges_row" class="row h-100 w-100 mx-0 px-0"> 
+                                <div id="badge_title" class="text-right text_page">Badge(s) :</div>
                                 <img src="STYLE/Wind.png" alt="image" class="little_avatar_image rounded " /> 
                                 <img src="STYLE/Fire.png" alt="image" class="little_avatar_image rounded " /> 
                                 <img src="STYLE/Earth.png" alt="image" class="little_avatar_image rounded " /> 
@@ -104,7 +141,7 @@
                         </div>
                         
                         <div id="map_container" class="container h-100 w-100 mx-0 px-0">
-                            <div id="map_row" class="row h-100 w-100">
+                            <div id="map_row" class="row h-100 w-100 mx-0 px-0">
                                 <div id="map" class="h-100 w-100">
 
                                 </div>
@@ -134,6 +171,22 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         <script>
             $(document).ready(function () {
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserIdSession',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    if(data.result){
+                        userID = data.userID;
+                    }
+                    else {
+                        window.location.href = './index.html';
+                    }
+                });
+                
                 initialiseMap();
                 var date_input = $('input[name="date"]'); //our date input has the name "date"
                 var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
