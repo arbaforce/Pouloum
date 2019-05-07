@@ -53,6 +53,12 @@ function addResultDemo() {
 }
 */
 
+function noResult() {
+    var results = document.getElementById("search_result_list_global_container");
+    
+    results.innerHTML = "";
+}
+
 function addResult(data_id, data_label, data_activities, data_organizer, data_place, data_date, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges) {
     var results = document.getElementById("search_result_list_global_container");
     

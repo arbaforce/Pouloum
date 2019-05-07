@@ -1,4 +1,8 @@
 
+function page_clear_events() {
+    noResult();
+}
+
 function page_add_events(events, limit) {
     var count = 0;
     for (var ei=0; ei<events.length; ei++) {
