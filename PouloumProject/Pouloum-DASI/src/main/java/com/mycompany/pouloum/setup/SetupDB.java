@@ -5,6 +5,8 @@ import com.mycompany.pouloum.model.*;
 import com.mycompany.pouloum.service.ServicesActivity;
 import com.mycompany.pouloum.service.ServicesEvent;
 import com.mycompany.pouloum.service.ServicesPouloumer;
+import com.mycompany.pouloum.util.CRE;
+import static com.mycompany.pouloum.util.CRE.*;
 import com.mycompany.pouloum.util.DateUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -112,60 +114,33 @@ public class SetupDB {
         DataFactory df = new DataFactory();
         Random rand = new Random();
         
-        for(int i = 0; i<200; i++){
-            Pouloumer p = new Pouloumer(df.getRandomWord(), df.getFirstName(), df.getLastName(), df.getEmailAddress(), df.getRandomWord(8, 14), false, false, 'F', df.getBirthDate(), "06"+df.getNumberText(6),null);
-            int nbInteret = rand.nextInt(6)+3;
-            List<Integer> idUsed = new ArrayList<Integer>();
-            for (int j = 0; j<=nbInteret; j++){
-                try {
-                    int id = rand.nextInt(100)+1;
-                    if (idUsed.contains(id)){
-                        j--;
+        for (int i = 0; i<200; i++) {
+            Address address = null;
+
+            String p_nickname = df.getRandomWord();
+            String p_password = df.getRandomWord(8, 14);
+            try {
+                CRE created = ServicesPouloumer.signUp(df.getLastName(), df.getFirstName(), p_nickname, 
+                    df.getRandomWord() + "@" + df.getRandomWord() + "." + df.getRandomWord(2,3),
+                    p_password, false, false, '?', df.getBirthDate(),
+                    "06"+df.getNumberText(6),address);
+                
+                if (created == CRE_OK) {
+                    Pouloumer p = ServicesPouloumer.getPouloumerByNickname(p_nickname);
+                    
+                    int nbInterets = rand.nextInt(6)+3;
+                    List<Long> idInterets = new ArrayList<>();
+                    while (idInterets.size() < nbInterets) {
+                        Long id = new Long(rand.nextInt(100) + 1);
+                        try {
+                            Activity a = ServicesActivity.getActivityById(id);
+                            if (!idInterets.contains(id)) idInterets.add(a.getId());
+                        } catch (Exception ex) {
+                        }
                     }
-                    else{
-                        idUsed.add(id);
-                        p.addInterest(ServicesActivity.getActivityById((long) id));
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(SetupDB.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } catch (Exception ex) {
             }
-            users.add(p);
-        }
-
-        JpaUtil.createEntityManager();
-
-        try {
-            for (Pouloumer u : users) {
-                try {
-                    Pouloumer check;
-                    check = DAOPouloumer.findPouloumerByEmail(u.getEmail());
-                    if (check != null) {
-                        continue;
-                    }
-                    check = DAOPouloumer.findPouloumerByNickname(u.getNickname());
-                    if (check != null) {
-                        continue;
-                    }
-
-                    JpaUtil.openTransaction();
-
-                    try {
-                        DAOPouloumer.persist(u);
-
-                        JpaUtil.commitTransaction();
-                    } catch (Exception ex) {
-                        JpaUtil.cancelTransaction();
-                        throw ex;
-                    }
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        } finally {
-            JpaUtil.closeEntityManager();
         }
     }
 
