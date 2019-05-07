@@ -304,7 +304,7 @@ $(function () {
             }).done(function (data) {
                 var OK = data.result;
                 if (OK) {
-                    window.location.href = './index.html';
+                    window.location.href = './home_page.html';
                 } else {
                     $("#errorMessage").show();
                     $("#errorMessage").text(data.errorMessage);
@@ -317,6 +317,7 @@ $(function () {
                 data: {
                     'action': 'updateEvent',
                     'id': eventID,
+                    //TODO activity ? see with autocompletion
                     'name': $('#event_name_container').val(),
                     'startDate': $('#event_start_date_container').val(),
                     'duration': $('#event_duration_container').val(),
@@ -331,7 +332,33 @@ $(function () {
             }).done(function (data) {
                 var OK = data.result;
                 if (OK) {
-                    window.location.href = './index.html';
+                    window.location.href = './home_page.html';
+                } else {
+                    $("#errorMessage").show();
+                    $("#errorMessage").text(data.errorMessage);
+                }
+            });
+        }
+    });
+});
+
+$(function () {
+    $("#cancel_button").button().on("click", function () {
+        if (createEvent) { // Just get back to the home page
+            window.location.href = './home_page.html';
+        } else {
+            $.ajax({
+                url: './AjaxAction',
+                type: 'POST',
+                data: {
+                    'action': 'cancelEvent',
+                    'eventID': eventID
+                },
+                datatype: 'json'
+            }).done(function (data) {
+                var OK = data.result;
+                if (OK) {
+                    window.location.href = './home_page.html';
                 } else {
                     $("#errorMessage").show();
                     $("#errorMessage").text(data.errorMessage);

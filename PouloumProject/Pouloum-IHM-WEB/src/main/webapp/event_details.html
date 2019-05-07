@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel='stylesheet' type='text/css' href='STYLE/newhtml.css'>
     </head>
+    
+    <!-- TODO : cliquer sur un événement doit permettre de le modifier -->
+    
     <body>
         <div id="wrapper" class="container-fluid">
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
@@ -34,7 +37,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+        
         <script type="text/javascript">
 // gets called automatically
 // once the userID is retrieved
@@ -54,21 +57,21 @@ function ready_eventID(eventID) {
     }).done(function (data) {
         let OK = data.result;
         if (OK) {
-            document.getElementById("event_name_container").value = data.event.label;
-            document.getElementById("event_description_container").value = data.event.description;
-            document.getElementById("event_activity_name_container").value = data.event.activity.name;
+            $("#event_name_container").value = data.event.label;
+            $("#event_description_container").value = data.event.description;
+            $("#event_activity_name_container").value = data.event.activity.name;
             let eventAddress = data.event.address;
-            document.getElementById("event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
-            document.getElementById("event_address_postal_code_container").value = eventAddress.postal_code;
-            document.getElementById("event_address_city_container").value = eventAddress.city; 
-            document.getElementById("event_address_country_container").value = eventAddress.country;
-            document.getElementById("event_date_container").value = data.event.startDate;
-            document.getElementById("event_duration_container").value = data.event.duration;
-            document.getElementById("event_participants_number_container").value = data.event.participants.length;
-            document.getElementById("event_participants_number_min_container").value = data.event.participants_min;
-            document.getElementById("event_participants_number_max_container").value = data.event.participants_max;
+            $("#event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+            $("#event_address_postal_code_container").value = eventAddress.postal_code;
+            $("#event_address_city_container").value = eventAddress.city; 
+            $("#event_address_country_container").value = eventAddress.country;
+            $("#event_date_container").value = data.event.startDate;
+            $("#event_duration_container").value = data.event.duration;
+            $("#event_participants_number_container").value = data.event.participants.length;
+            $("#event_participants_number_min_container").value = data.event.participants_min;
+            $("#event_participants_number_max_container").value = data.event.participants_max;
 
-            let participantsDiv = document.getElementById("event_participants_container");
+            let participantsDiv = $("#event_participants_container");
             let participantsArray = data.event.participants;
 
             participantsArray.forEach(function (element) {
@@ -85,17 +88,17 @@ function ready_eventID(eventID) {
             let status = data.event.status;
 
             if (status === "cancelled") {
-                document.getElementById("event_status_container").value = "Annulé";
+                $("#event_status_container").value = "Annulé";
             } else if (status === "started") {
-                document.getElementById("event_status_container").value = "En cours";
+                $("#event_status_container").value = "En cours";
             } else if (status === "finished") {
-                document.getElementById("event_status_container").value = "Terminé";
+                $("#event_status_container").value = "Terminé";
             } else if (status === "full") {
-                document.getElementById("event_status_container").value = "Plein";
+                $("#event_status_container").value = "Plein";
             } else if (status === "ready") {
-                document.getElementById("event_status_container").value = "Prêt";
+                $("#event_status_container").value = "Prêt";
             } else {
-                document.getElementById("event_status_container").value = "Planifié";
+                $("#event_status_container").value = "Planifié";
             }
         }
     });
