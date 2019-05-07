@@ -5,8 +5,8 @@ var csscode =  `
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    background-image : url('STYLE/sky-8.png');
-    /*background-color: #f8f9fa;*/
+    background-color: #cce8f3;
+    
 }
 
 .newnavbar a {

@@ -89,3 +89,8 @@
 #search_result_list_global_container{
     direction: ltr;
 }
+
+#search_band_row{
+    box-shadow: 2px 4px 4px darkgrey;
+    
+}
