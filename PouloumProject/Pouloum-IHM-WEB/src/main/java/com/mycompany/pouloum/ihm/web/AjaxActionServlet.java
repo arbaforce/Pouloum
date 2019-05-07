@@ -1,8 +1,10 @@
 package com.mycompany.pouloum.ihm.web;
 
 import com.google.gson.JsonObject;
+import com.google.maps.model.LatLng;
 import static com.mycompany.pouloum.util.Common.isEmailValid;
 import com.mycompany.pouloum.util.DateUtil;
+import static com.mycompany.pouloum.util.GeoTest.getLatLng;
 import com.mycompany.pouloum.util.JsonServletHelper;
 import com.mycompany.pouloum.util.exception.ServiceException;
 import java.io.IOException;
@@ -62,7 +64,21 @@ public class AjaxActionServlet extends HttpServlet {
                 String activityID = (String) session.getAttribute("activityID");
                 container.addProperty("result", true);
                 container.addProperty("activityID", activityID);
-            } else if ("login".equals(action)) {
+            } else if ("getLatLng".equals(action)){
+                String country = request.getParameter("country");
+                String city = request.getParameter("city");
+                String postal_code = request.getParameter("postal_code");
+                String street = request.getParameter("street");
+                String number = request.getParameter("number");
+                String label = request.getParameter("label");
+                
+                LatLng point = getLatLng(number + " " + street + " " + postal_code + " " + city + " " + country);
+                
+                container.addProperty("result", true);
+                container.addProperty("lat", point.lat);
+                container.addProperty("lng", point.lng);
+                container.addProperty("label", label);
+            }else if ("login".equals(action)) {
                 String id = request.getParameter("id");
                 String password = request.getParameter("password");
 

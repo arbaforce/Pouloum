@@ -12,8 +12,13 @@
     <body>
         
         <div id="wrapper" class="container-fluid">
-            <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
-                <script src="SCRIPT/navbar_template.js"></script>
+            <div id="container_navbar_and_alert" class="container-fluid" style="max-height: 16vh">
+                <div id="container_navbar_row" class="row mx-0">
+                    <script src="SCRIPT/navbar_template.js"></script>
+                </div>
+                <div id="container_alert_row" class="row mx-0 w-100">
+                    &nbsp;
+                </div>
             </div> <!--#container_navbar_and_alert -->
             
             <div id="search_band_global_container" class="container">
@@ -82,11 +87,11 @@
                 <div id="search_result_global_row" class="row h-100 w-100 mx-0 my-0 px-0 py-0" >
                     <div id="search_result_list_global_col" class="col h-100 w-100 px-0 py-0">
                         <div id="search_result_list_global_container" class="container h-100 w-100">
-                          
+                            
                             
                         </div><!--#search_result_list_global_container -->
                     </div><!--#search_result_list_global_col -->
-                    <div id="search_result_map_global_col" class="col sidebar ">
+                    <div id="search_result_map_global_col" class="col sidebar">
                         <div id="search_result_map_global_container" class="container h-100 w-100">
                             <div id="map_container" class="container">
                                 <div id="map" class="h-100 w-100">
@@ -130,53 +135,72 @@
             });
         </script>
         <script>
-initialiseMap();
+            initialiseMap();
 
-// addResultDemo();
+            // addResultDemo();
         </script>
-		
+        
         <script>
-var all_events = [];
+            var all_events = [];
 
-// gets called automatically
-// once the userID is retrieved
-function ready_userID(userID) {
-    $.ajax({
-        url: './AjaxAction',
-        type: 'POST',
-        data: {
-            'action': 'getAllEvents',
-            'id': userID
-        },
-        datatype: 'json'
-    }).done(function (data) {
-        var OK = data.result;
-        if (OK) {
-            var events = data.events;
+            // gets called automatically
+            // once the userID is retrieved
+            function ready_userID(userID) {
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getAllEvents',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
+                        var events = data.events;
             
-            all_events = events;
-            console.log(events); //FIXME to remove            
+                        all_events = events;
+                        console.log(events); //FIXME to remove            
             
-			page_add_events(events);
-        }
-    });
-}
+                        page_add_events(events);
+                        
+                        for(var index in events){
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'action': 'getLatLng',
+                                    'country': events[index].address.country,
+                                    'city': events[index].address.city,
+                                    'postal_code': events[index].address.postal_code,
+                                    'street': events[index].address.street,
+                                    'number': events[index].address.number,
+                                    'label' : events[index].label
+                                },
+                                datatype: 'json'
+                            }).done(function (data){
+                                addMarqeur(data.label, data.lat,data.lng);
+                            });
+                        }
+                    }
+                });
+            }
 
-function apply_filters() {
-    var some_events = [];
+            function apply_filters() {
+                var some_events = [];
     
-    for (var ei=0; ei<all_events.length; ei++) {
-        var event = all_events[ei];
+                for (var ei=0; ei<all_events.length; ei++) {
+                    var event = all_events[ei];
         
-        var keep = true;
+                    var keep = true;
         
-        if (keep) some_events.push(event);
-    }
+                    if (keep) some_events.push(event);
+                }
     
-    //FIXME hide/show instead of clear/add
-    page_clear_events();
-    page_add_events(some_events);
-}
+                //FIXME hide/show instead of clear/add
+                page_clear_events();
+                page_add_events(some_events);
+            }
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>

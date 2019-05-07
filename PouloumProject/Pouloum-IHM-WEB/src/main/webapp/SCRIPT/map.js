@@ -18,7 +18,13 @@ function setViewMap(longDeg, longMin, longDir, latDeg, latMin, latDir) {
 	map.setView(coordonnes, zoom);
 }
 
-function addMarqeur(nom, url, longDeg, longMin, longDir, latDeg, latMin, latDir) {
+function addMarqeur(name, lat, lng) {
+	var marker = L.marker([lat,lng]).addTo(map);
+
+	marker.bindPopup(name);
+}
+
+/*function addMarqeur(nom, url, longDeg, longMin, longDir, latDeg, latMin, latDir) {
 	var coordonnes = degresMinutesToDecimal(longDeg, longMin, longDir, latDeg, latMin, latDir);
 	var marker = L.marker(coordonnes).addTo(map);
 
@@ -27,7 +33,7 @@ function addMarqeur(nom, url, longDeg, longMin, longDir, latDeg, latMin, latDir)
 	pageUrl = pageUrl.join('/');
 	var capitalUrl = pageUrl + '/capital.html?capitalUrl=' + url;
 	marker.bindPopup('<a href="'+capitalUrl+'">'+nom+'</a>');
-}
+}*/
 
 function degresMinutesToDecimal(longDeg, longMin, longDir, latDeg, latMin, latDir) {
 	var long = parseInt(longDeg, 10) + parseInt(longMin, 10)/60;
