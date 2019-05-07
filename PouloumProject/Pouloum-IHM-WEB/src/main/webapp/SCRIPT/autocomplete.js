@@ -1,6 +1,6 @@
 //Source : https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
-function autocomplete(inp, div, arr) {
+function autocomplete(inp, div, arr, rech) {
     /*the autocomplete function takes two arguments,
 	  the text field element and an array of possible autocompleted values:*/
     var currentFocus;
@@ -12,30 +12,34 @@ function autocomplete(inp, div, arr) {
         if (!val) { return false;}
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
+        a = document.createElement("UL");
         a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
+        a.setAttribute("class", "list-group list-autocomplete-items");
         /*append the DIV element as a child of the autocomplete container:*/
         div.appendChild(a);
         /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
+        for(var[key,value] of arr){
+            console.log(key + " : " + value);
             /*check if the item starts with the same letters as the text field value:*/
             //if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            var stringIndex = arr[i].toUpperCase().indexOf(val.toUpperCase());
+            var stringIndex = value.toUpperCase().indexOf(val.toUpperCase());
             if (stringIndex > -1) {
                 /*create a DIV element for each matching element:*/
-                b = document.createElement("DIV");
+                b = document.createElement("LI");
+                b.setAttribute("id", i + "-list-items");
+                b.setAttribute("value", key);
+                b.setAttribute("class", "list-group-item autocomplete-items");
                 /*make the matching letters bold:*/
-                b.innerHTML = arr[i].substring(0, stringIndex);
-                b.innerHTML += "<strong>" + arr[i].substring(stringIndex, stringIndex + val.length) + "</strong>";
-                b.innerHTML += arr[i].substring(stringIndex + val.length);
+                b.innerHTML = value.substring(0, stringIndex);
+                b.innerHTML += "<strong>" + value.substring(stringIndex, stringIndex + val.length) + "</strong>";
+                b.innerHTML += value.substring(stringIndex + val.length);
                 /*insert a input field that will hold the current array item's value:*/
-                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                b.innerHTML += "<input type='hidden' value='" + value + "'>";
                 /*execute a function when someone clicks on the item value (DIV element):*/
                 b.addEventListener("click", function(e) {
                     /*insert the value for the autocomplete text field and go to the right page:*/
                     inp.value = this.getElementsByTagName("input")[0].value;
-                    //rech();
+                    rech(this.value);
                     
                     /*close the list of autocompleted values,
 	              (or any other open lists of autocompleted values:*/
@@ -90,7 +94,7 @@ function autocomplete(inp, div, arr) {
     function closeAllLists(elmnt) {
         /*close all autocomplete lists in the document,
 	    except the one passed as an argument:*/
-        var x = document.getElementsByClassName("autocomplete-items");
+        var x = document.getElementsByClassName("list-autocomplete-items");
         for (var i = 0; i < x.length; i++) {
             if (elmnt != x[i] && elmnt != inp) {
                 x[i].parentNode.removeChild(x[i]);
