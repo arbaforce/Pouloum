@@ -69,26 +69,25 @@
                     </div><!--user_details_global_container -->
                     
                     <div id="interest_pouloumer_global_container" class="col-3 border ">
-                        <div id="interests_header_container" class="container">
-                            <div id="interests_header_row" class="row"> 
-                                <h4>Centre d'intérêt</h4>
-                            </div><!--interests_header_row-->
-                        </div><!--interests_header_container-->
-                        <div id="interest_pouloumer_container" class="">
-                            
+                        <div id="interests_header_row" class="row"> 
+                            <h4>Centre d'intérêt</h4>
+                        </div><!--interests_header_row-->
+                        <div id="interest_pouloumer_container" class="container justify-content-center overflow-auto" style="max-height: 450px">
+                            <ul class="list-group" id="interest_pouloumer_list">
+                            </ul>
                         </div> <!--interest_user_container-->
-                        
-                        <div id="add_interest_button_container" class="container">
-                            <div id="add_interest_button_row" class="row bottom button">
-                                <div class="col-8 px-0">
-                                    <input type="text" class="form-control" id="interest">
+                        <br>
+                        <div id="add_interest_button_container" class="row bottom">
+                            <div class="col-8 px-0" id="div_interest">
+                                <input type="text" class="form-control" id="interest">
+                                <div id="suggestions" class="container justify-content-center overflow-auto" style="max-height: 150px">
                                 </div>
-                                <div class="col-4 px-0">
-                                    <button id="buttonAddInterest" type="button" class="btn btn-light">
-                                        Ajouter
-                                    </button>
-                                </div>
-                            </div><!--add_interest_button_row -->
+                            </div>
+                            <div class="col-4 px-0">
+                                <button id="buttonAddInterest" type="button" class="btn btn-light">
+                                    Ajouter
+                                </button>
+                            </div>
                         </div><!--add_interest_button_container -->
                     </div><!--interest_user_global_container-->
                     
@@ -133,107 +132,138 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/util_scripts.js"></script>
+        <script src="SCRIPT/autocomplete.js"></script>
         
         <script>
-var global_userID = -1;
 
-// gets called automatically
-// once the userID is retrieved
-function ready_userID(userID) {
-    global_userID = userID;
+            var global_userID = -1;
+            var activitiesInterestMap = new Map();
+            var activitiesSuggestionMap = new Map();
+            var selectedActivityId;
+
+            // gets called automatically
+            // once the userID is retrieved
+            function ready_userID(userID) {
+                global_userID = userID;
     
-    $.ajax({
-        url: './AjaxAction',
-        type: 'POST',
-        data: {
-            'action': 'getUserDetails',
-            'id': userID
-        },
-        datatype: 'json'
-    }).done(function (data) {
-        var OK = data.result;
-        if (OK) {
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getUserDetails',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
             
-            for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
-            {
-                $("#interest_pouloumer_container").append('<div id="activity_'+data.userDetails.interests[activity_index].id+'">'
-                                                                +data.userDetails.interests[activity_index].name
-                                                                +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
-                                                                + '-'
-                                                                +'</button>'
-                                                         +'</div>');
+                        for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
+                        {
+                            $("#interest_pouloumer_list").append('<li id="activity_'+data.userDetails.interests[activity_index].id+'" class="list-group-item">'
+                                    +data.userDetails.interests[activity_index].name
+                                    +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
+                                    + '-'
+                                    +'</button>'
+                                    +'</li>');
+                                                 
+                            activitiesInterestMap.set(data.userDetails.interests[activity_index].id,data.userDetails.interests[activity_index].name);
+                        }
+            
+                        $("#user_pseudo_container").text(data.userDetails.nickname);
+                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+            
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'getActivityTree',
+                            },
+                            datatype: 'json'
+                        }).done(function (data){
+                            fillSuggestions(data.activities, activitiesSuggestionMap, activitiesInterestMap);
+                            autocomplete(document.getElementById("interest"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
+                                selectedActivityId = key;
+                            });
+                        });
+            
+                        var anchors = document.getElementsByClassName('btn_remove_interest');
+                        setup_remove_interest_functions(anchors);
+                    }
+                });
             }
-            
-            $("#user_pseudo_container").text(data.userDetails.nickname);
-            $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-            $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-            $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-            $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-            $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-            $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-            $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-            $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-            $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
-            
-            var anchors = document.getElementsByClassName('btn_remove_interest');
-            setup_remove_interest_functions(anchors);
-        }
-    });
-}
 
-$(function () {
-    $("#buttonAddInterest").button().on("click", function () {
-        var userID = global_userID;
-        if (userID < 0) return;
-        
-        $.ajax({
-            url: './AjaxAction',
-            type: 'POST',
-            data: {
-                'id': userID,
-                'action': 'addInterest',
-                'interest': $('#interest').val()
-            },
-            datatype: 'json'
-        }).done(function (data) {
-            var OK = data.result;
-            if (OK) {
-                window.location.href = './my_profile.html';
-            } else {
-                $("#errorMessage").show();
-                $("#errorMessage").text(data.errorMessage);
-            }
-        });
-    });
-});
-
-function setup_remove_interest_functions(anchors) {
-    for (var anchor_index = 0 ; anchor_index < anchors.length ; anchor_index++) {
-        var anchor = anchors[anchor_index];
-        anchor.onclick = function() {
-            var interestId = $(this).attr('id');
-            var userID = global_userID;
-            $.ajax({
-                url: './AjaxAction',
-                type: 'POST',
-                data: {
-                    'action': 'removeInterest',
-                    'id': userID,
-                    'interest': interestId
-                },
-                datatype: 'json'
-            }).done(function (data) {
-                var OK = data.result;
-                if (OK) {
-                    window.location.href = './my_profile.html';
-                } else {
-                    $("#errorMessage").show();
-                    $("#errorMessage").text(data.errorMessage);
+            function fillSuggestions(activities, activitiesSuggestionMap, alreadyUsedActivities){
+                for(var index in activities){
+                    if(activities[index].children !== []){
+                        fillSuggestions(activities[index].children, activitiesSuggestionMap, alreadyUsedActivities);
+                    }
+                    if(!alreadyUsedActivities.has(activities[index].id))
+                        activitiesSuggestionMap.set(activities[index].id,activities[index].name);
                 }
+            }
+
+            $(function () {
+                $("#buttonAddInterest").button().on("click", function () {
+                    var userID = global_userID;
+                    if (userID < 0) return;
+        
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'id': userID,
+                            'action': 'addInterest',
+                            'interest': $('#interest').val()
+                        },
+                        datatype: 'json'
+                    }).done(function (data) {
+                        var OK = data.result;
+                        if (OK) {
+                            window.location.href = './my_profile.html';
+                        } else {
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
+                        }
+                    });
+                });
             });
-        }
-    }
-}
+
+            function setup_remove_interest_functions(anchors) {
+                for (var anchor_index = 0 ; anchor_index < anchors.length ; anchor_index++) {
+                    var anchor = anchors[anchor_index];
+                    anchor.onclick = function() {
+                        var interestId = $(this).attr('id');
+                        var userID = global_userID;
+                        $.ajax({
+                            url: './AjaxAction',
+                            type: 'POST',
+                            data: {
+                                'action': 'removeInterest',
+                                'id': userID,
+                                'interest': interestId
+                            },
+                            datatype: 'json'
+                        }).done(function (data) {
+                            var OK = data.result;
+                            if (OK) {
+                                window.location.href = './my_profile.html';
+                            } else {
+                                $("#errorMessage").show();
+                                $("#errorMessage").text(data.errorMessage);
+                            }
+                        });
+                    }
+                }
+            }
 
         </script>
         <!-- retrieves the userID -->
