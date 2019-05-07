@@ -5,12 +5,16 @@ var csscode =  `
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    
-    background-color: #f8f9fa;
+    background-image : url('STYLE/sky-8.png');
+    /*background-color: #f8f9fa;*/
 }
 
 .newnavbar a {
     color: black;
+}
+
+.navbar_image{
+    max-height : 20px
 }
 
 `;
@@ -18,9 +22,7 @@ var csscode =  `
 var htmlcode = `
             <div class="newnavbar" id="navbar">
                 <div id="navbar_brand_column" class="col-2 h-100">
-                    <a class="navbar-brand text-center" href="home_page.html">
-                        P <!-- TODO replace by company logo -->
-                    </a>
+                    <img src="STYLE/logo-1.png" alt="imageLogo" class="navbar_image rounded " /> 
                 </div> <!--#navbar_brand_column-->
                 <div>
                     <a class="nav-link font-weight-bold text-center" href="home_page.html">

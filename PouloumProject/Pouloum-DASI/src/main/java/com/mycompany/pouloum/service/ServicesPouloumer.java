@@ -431,8 +431,9 @@ public class ServicesPouloumer {
      */
     public static void removeInterest(Pouloumer p, Activity interest)
             throws Exception {
-        p.getInterests().remove(interest);
-
+                
+        p.removeInterest(interest);
+                
         JpaUtil.createEntityManager();
 
         try {

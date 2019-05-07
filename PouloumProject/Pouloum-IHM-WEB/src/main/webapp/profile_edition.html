@@ -30,7 +30,7 @@
             <div id="row_containing_modifications" class="row">
                 <div id="avatar_container" class="col-4">
                     <div id="image_avatar_row" class="row justify-content-center">
-                        <div id="avatar_container" class="col-8">
+                        <div id="avatar_container_2" class="col-8">
                             <img src="https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg" alt="image" class="big_avatar_image rounded fit-image image-responsive" />
                         </div>
                     </div><!--image_avatar_container -->
@@ -171,108 +171,104 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/util_scripts.js"></script>
         
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         
         <script>
-            $(document).ready(function() {
-                var userID ;
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getUserIdSession',
-                    },
-                    datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'getUserDetails',
-                                'id': userID
-                            },
-                            datatype: 'json'
-                        }).done(function (data){
-                            var OK = data.result;
-                            if(OK){
-                                document.getElementById("user_pseudo_container").value = data.userDetails.nickname;
-                                document.getElementById("user_surname_container").value = data.userDetails.first_name;
-                                document.getElementById("user_name_container").value = data.userDetails.last_name;
-                                document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
-                                document.getElementById("user_mail_container").value = data.userDetails.email;
-                                document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
-                                document.getElementById("user_address_country_container").value = data.userDetails.address.country;
-                                document.getElementById("user_address_city_container").value = data.userDetails.address.city;
-                                document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
-                                document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
-                        
-                                if(data.userDetails.gender==="M"){
-                                    document.getElementById("masculin").checked = true;
-                                    document.getElementById("feminin").checked = false;
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        window.location.href = './index.html';
-                    }
-                });
-                
-                
-                
-                var date_input=$('input[name="date"]'); //our date input has the name "date"
-                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-                date_input.datepicker({
-                    format: 'dd/mm/yyyy',
-                    container: container,
-                    todayHighlight: true,
-                    autoclose: true,
-                });
-            });
-            
-            $(function () {
-                $("#validate_button").button().on("click", function(){
-                    var genderResult = null;
-                    if (document.getElementById("masculin").checked)
-                        genderResult = "M";
-                    else if (document.getElementById("feminin").checked)
-                        genderResult = "F";
-                    $.ajax({
-                        url: './AjaxAction',
-                        type: 'POST',
-                        data: {
-                            'action': 'updateUserDetails',
-                            'id': userID,
-                            'surname' : $("#user_surname_container").val(),
-                            'name' : $("#user_name_container").val(),
-                            'pseudo' : $("#user_pseudo_container").val(),
-                            'password' : $("#user_password_container").val(),
-                            'birthdate' : $("#user_birthdate_container").val(),
-                            'mail' : $("#user_mail_container").val(),
-                            'phone_number' : $("#user_phone_number_container").val(),
-                            'country' : $("#user_address_country_container").val(),
-                            'city' : $("#user_address_city_container").val(),
-                            'postal_number' : $("#user_address_postal_number_container").val(),
-                            'address' : $("#user_address_details_container").val(),
-                            'gender' : genderResult
-                        },
-                        datatype: 'json'
-                    }).done(function (data){
-                        if(data.result)
-                            window.location.href = './my_profile.html';
-                        else{
-                            $("#errorMessage").show();
-                            $("#errorMessage").text(data.errorMessage);
-                        }
-                    }).fail(function () {
-                        $("#errorMessage").show();
-                        $("#errorMessage").text("Une erreur est survenue, veuillez réessayer plus tard.");
-                    });
-                });
-            });
+var date_input=$('input[name="date"]'); //our date input has the name "date"
+var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+date_input.datepicker({
+    format: 'dd/mm/yyyy',
+    container: container,
+    todayHighlight: true,
+    autoclose: true,
+});
         </script>
+        
+        <script>
+var global_userID = -1;
+
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
+    global_userID = userID;
+    
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getUserDetails',
+            'id': userID
+        },
+        datatype: 'json'
+    }).done(function (data){
+        var OK = data.result;
+        if (OK) {
+            document.getElementById("user_pseudo_container").value = data.userDetails.nickname;
+            document.getElementById("user_surname_container").value = data.userDetails.first_name;
+            document.getElementById("user_name_container").value = data.userDetails.last_name;
+            document.getElementById("user_birthdate_container").value = data.userDetails.birth_date;
+            document.getElementById("user_mail_container").value = data.userDetails.email;
+            document.getElementById("user_phone_number_container").value = data.userDetails.phone_number;
+            document.getElementById("user_address_country_container").value = data.userDetails.address.country;
+            document.getElementById("user_address_city_container").value = data.userDetails.address.city;
+            document.getElementById("user_address_postal_number_container").value = data.userDetails.address.postal_code;
+            document.getElementById("user_address_details_container").value = data.userDetails.address.number + " " + data.userDetails.address.street;
+            
+            if (data.userDetails.gender == "M") {
+                document.getElementById("masculin").checked = true;
+                document.getElementById("feminin").checked = false;
+            }
+        }
+    });
+}
+
+$(function () {
+    $("#validate_button").button().on("click", function() {
+        var userID = global_userID;
+        if (userID < 0) return;
+        
+        var genderResult = null;
+        if (document.getElementById("masculin").checked)
+            genderResult = "M";
+        else if (document.getElementById("feminin").checked)
+            genderResult = "F";
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'action': 'updateUserDetails',
+                'id': userID,
+                'surname' : $("#user_surname_container").val(),
+                'name' : $("#user_name_container").val(),
+                'pseudo' : $("#user_pseudo_container").val(),
+                'password' : $("#user_password_container").val(),
+                'birthdate' : $("#user_birthdate_container").val(),
+                'mail' : $("#user_mail_container").val(),
+                'phone_number' : $("#user_phone_number_container").val(),
+                'country' : $("#user_address_country_container").val(),
+                'city' : $("#user_address_city_container").val(),
+                'postal_number' : $("#user_address_postal_number_container").val(),
+                'address' : $("#user_address_details_container").val(),
+                'gender' : genderResult
+            },
+            datatype: 'json'
+        }).done(function (data){
+            if(data.result)
+                window.location.href = './my_profile.html';
+            else{
+                $("#errorMessage").show();
+                $("#errorMessage").text(data.errorMessage);
+            }
+        }).fail(function () {
+            $("#errorMessage").show();
+            $("#errorMessage").text("Une erreur est survenue, veuillez réessayer plus tard.");
+        });
+    });
+});
+        </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>

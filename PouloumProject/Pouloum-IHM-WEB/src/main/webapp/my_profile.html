@@ -78,12 +78,12 @@
                         </div> <!--interest_user_container-->
                         <br>
                         <div id="add_interest_button_container" class="row bottom">
-                            <div class="col-8" id="div_interest">
+                            <div class="col-8 px-0" id="div_interest">
                                 <input type="text" class="form-control" id="interest">
                                 <div id="suggestions" class="container justify-content-center overflow-auto" style="max-height: 150px">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 px-0">
                                 <button id="buttonAddInterest" type="button" class="btn btn-light">
                                     Ajouter
                                 </button>
@@ -100,23 +100,23 @@
                         <div id="badges_pouloumer_container" class="container">
                             <div id="badges_pouloumer_row" class="row">
                                 <div id="first_row_badges_pouloumer_container" class="container">
-                                    <div id="first_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                                    <div id="first_row_badges_pouloumer" class="row row_of_badges">
                                         <div id="fire_badge_pouloumer_container" class="col w-50">
-                                            <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                            <img src="STYLE/Fire.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
                                         </div><!--fire_badge_pouloumer_container-->
                                         <div id="water_badge_pouloumer_container" class="col w-50">
-                                            <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                            <img src="STYLE/Water.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
                                         </div><!--water_badge_pouloumer_container-->
                                     </div><!--first_row_badges_pouloumer-->
                                 </div><!--first_row_badges_pouloumer_container-->
                                 
                                 <div id="second_row_badges_pouloumer_container" class="container">
-                                    <div id="second_row_badges_pouloumer" class="row row_of_badges_my_profile">
+                                    <div id="second_row_badges_pouloumer" class="row row_of_badges">
                                         <div id="wind_badge_pouloumer_container" class="col w-50">
-                                            <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                            <img src="STYLE/Wind.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
                                         </div><!--wind_badge_pouloumer_container-->
                                         <div id="earth_badge_pouloumer_container" class="col w-50">
-                                            <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="my_profile_badges rounded textAlign" />
+                                            <img src="STYLE/Earth.png" alt="STYLE/Fire.png" class="profile_badges rounded textAlign" />
                                         </div><!--earth_badge_pouloumer_container-->
                                     </div><!--second_row_badges_pouloumer-->
                                 </div>
@@ -135,82 +135,72 @@
         <script src="SCRIPT/autocomplete.js"></script>
         
         <script>
-            var userID ;
-            var activitiesInterestMap;
-            var activitiesSuggestionMap;
+
+            var global_userID = -1;
+            var activitiesInterestMap = new Map();
+            var activitiesSuggestionMap = new Map();
             var selectedActivityId;
-            
-            $(document).ready(function() {
-                activitiesInterestMap = new Map();
-                activitiesSuggestionMap = new Map();
+
+            // gets called automatically
+            // once the userID is retrieved
+            function ready_userID(userID) {
+                global_userID = userID;
+    
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
                     data: {
-                        'action': 'getUserIdSession',
+                        'action': 'getUserDetails',
+                        'id': userID
                     },
                     datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;                        
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
+            
+                        for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
+                        {
+                            $("#interest_pouloumer_list").append('<li id="activity_'+data.userDetails.interests[activity_index].id+'" class="list-group-item">'
+                                    +data.userDetails.interests[activity_index].name
+                                    +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
+                                    + '-'
+                                    +'</button>'
+                                    +'</li>');
+                                                 
+                            activitiesInterestMap.set(data.userDetails.interests[activity_index].id,data.userDetails.interests[activity_index].name);
+                        }
+            
+                        $("#user_pseudo_container").text(data.userDetails.nickname);
+                        $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
+                        $("#user_name_container").text("Nom : " + data.userDetails.last_name);
+                        $("#user_gender_container").text("Genre : " + data.userDetails.gender);
+                        $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
+                        $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
+                        $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
+                        $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
+                        $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
+                        $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+            
                         $.ajax({
                             url: './AjaxAction',
                             type: 'POST',
                             data: {
-                                'action': 'getUserDetails',
-                                'id': userID
+                                'action': 'getActivityTree',
                             },
                             datatype: 'json'
-                        }).done(function (data) {
-                            var OK = data.result;
-                            if (OK) {
-                                
-                                for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
-                                {
-                                    $("#interest_pouloumer_list").append('<li id="activity_'+data.userDetails.interests[activity_index].id+'" class="list-group-item">'
-                                            +data.userDetails.interests[activity_index].name
-                                            + '</li>');
-                                    
-                                    activitiesInterestMap.set(data.userDetails.interests[activity_index].id,data.userDetails.interests[activity_index].name);
-                                    
-                                }
-                                
-                                $("#user_pseudo_container").text(data.userDetails.nickname);
-                                $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
-                                $("#user_name_container").text("Nom : " + data.userDetails.last_name);
-                                $("#user_gender_container").text("Genre : " + data.userDetails.gender);
-                                $("#user_birthdate_container").text("Date de naissance : " + data.userDetails.birth_date);
-                                $("#user_mail_container").text("Adresse mail : " + data.userDetails.email);
-                                $("#user_phone_number_container").text("Téléphone : " + data.userDetails.phone_number);
-                                $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
-                                $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
-                                $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
-                                
-                                
-                                
-                                $.ajax({
-                                    url: './AjaxAction',
-                                    type: 'POST',
-                                    data: {
-                                        'action': 'getActivityTree',
-                                    },
-                                    datatype: 'json'
-                                }).done(function (data){
-                                    fillSuggestions(data.activities, activitiesSuggestionMap, activitiesInterestMap);
-                                    autocomplete(document.getElementById("interest"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
-                                        selectedActivityId = key;
-                                    });
-                                });
-                            }
+                        }).done(function (data){
+                            fillSuggestions(data.activities, activitiesSuggestionMap, activitiesInterestMap);
+                            autocomplete(document.getElementById("interest"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
+                                selectedActivityId = key;
+                            });
                         });
-                    }
-                    else {
-                        window.location.href = './index.html';
+            
+                        var anchors = document.getElementsByClassName('btn_remove_interest');
+                        setup_remove_interest_functions(anchors);
                     }
                 });
-                
-            });
-            
+            }
+
             function fillSuggestions(activities, activitiesSuggestionMap, alreadyUsedActivities){
                 for(var index in activities){
                     if(activities[index].children !== []){
@@ -223,23 +213,48 @@
 
             $(function () {
                 $("#buttonAddInterest").button().on("click", function () {
-                    if (selectedActivityId==null){
-                        document.getElementById("interest").value = "";
-                    }
-                    else{
+                    var userID = global_userID;
+                    if (userID < 0) return;
+        
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'id': userID,
+                            'action': 'addInterest',
+                            'interest': $('#interest').val()
+                        },
+                        datatype: 'json'
+                    }).done(function (data) {
+                        var OK = data.result;
+                        if (OK) {
+                            window.location.href = './my_profile.html';
+                        } else {
+                            $("#errorMessage").show();
+                            $("#errorMessage").text(data.errorMessage);
+                        }
+                    });
+                });
+            });
+
+            function setup_remove_interest_functions(anchors) {
+                for (var anchor_index = 0 ; anchor_index < anchors.length ; anchor_index++) {
+                    var anchor = anchors[anchor_index];
+                    anchor.onclick = function() {
+                        var interestId = $(this).attr('id');
+                        var userID = global_userID;
                         $.ajax({
                             url: './AjaxAction',
                             type: 'POST',
                             data: {
+                                'action': 'removeInterest',
                                 'id': userID,
-                                'action': 'addInterest',
-                                'interest': selectedActivityId
+                                'interest': interestId
                             },
                             datatype: 'json'
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
-                                document.getElementById("interest").value = "";
                                 window.location.href = './my_profile.html';
                             } else {
                                 $("#errorMessage").show();
@@ -247,9 +262,13 @@
                             }
                         });
                     }
-                });
-            });
+                }
+            }
+
         </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>
 

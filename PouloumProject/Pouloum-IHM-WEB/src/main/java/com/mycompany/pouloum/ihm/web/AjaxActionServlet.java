@@ -170,14 +170,32 @@ public class AjaxActionServlet extends HttpServlet {
                 } else {
                     ajaxAction.addInterest(id, interest);
                 }
+            } else if ("removeInterest".equals(action)) {
+                String id = request.getParameter("id");
+                String interest = request.getParameter("interest").trim();
+                
+                if (interest.equals("")) {
+                    container.addProperty("result", false);
+                    container.addProperty("errorMessage", "ERREUR : activité à retirer non trouvé");
+                } else {
+                    ajaxAction.removeInterest(id, interest);
+                }                
             } else if ("updateEvent".equals(action)) {
                 String id = request.getParameter("id");
                 String name = request.getParameter("name").trim();
                 String description = request.getParameter("description").trim();
                 String startDate = request.getParameter("startDate");
                 String duration = request.getParameter("duration").trim();
-                String addressNumber = request.getParameter("addressNumber").trim();
-                String addressStreet = request.getParameter("addressStreet").trim();
+                
+                // Get address number and street
+                String address = request.getParameter("address").trim();
+                String addressNumber = "";
+                while (Character.isDigit(address.charAt(0))) {
+                    addressNumber += address.charAt(0);
+                    address = address.substring(1);
+                }
+                String addressStreet = address.trim();
+
                 String addressPostalCode = request.getParameter("addressPostalCode").trim();
                 String addressCity = request.getParameter("addressCity").trim();
                 String addressCountry = request.getParameter("addressCountry").trim();
@@ -194,8 +212,16 @@ public class AjaxActionServlet extends HttpServlet {
                 String description = request.getParameter("description").trim();
                 String startDate = request.getParameter("startDate");
                 String duration = request.getParameter("duration").trim();
-                String addressNumber = request.getParameter("addressNumber").trim();
-                String addressStreet = request.getParameter("addressStreet").trim();
+                
+                // Get address number and street
+                String address = request.getParameter("address").trim();
+                String addressNumber = "";
+                while (Character.isDigit(address.charAt(0))) {
+                    addressNumber += address.charAt(0);
+                    address = address.substring(1);
+                }
+                String addressStreet = address.trim();
+                
                 String addressPostalCode = request.getParameter("addressPostalCode").trim();
                 String addressCity = request.getParameter("addressCity").trim();
                 String addressCountry = request.getParameter("addressCountry").trim();
@@ -206,6 +232,9 @@ public class AjaxActionServlet extends HttpServlet {
                         addressNumber, addressStreet, addressPostalCode,
                         addressCity, addressCountry, idActivity, idOrganizer,
                         participantsMin, participantsMax);
+            } else if ("cancelEvent".equals(action)) {
+                String eventID = request.getParameter("eventID");
+                ajaxAction.cancelEvent(eventID);
             } else if ("getEventDetails".equals(action)) {
                 String eventID = request.getParameter("eventID");
                 ajaxAction.getEventDetails(eventID);

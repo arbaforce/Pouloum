@@ -42,22 +42,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
         <script>
-            $.ajax({
-                url: './AjaxAction',
-                type: 'POST',
-                data: {
-                    'action': 'getUserIdSession',
-                },
-                datatype: 'json'
-            }).done(function (data){
-                if(data.result){
-                    userID = data.userID;
-                }
-                else {
-                    window.location.href = './index.html';
-                }
-            });
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
+}
         </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>

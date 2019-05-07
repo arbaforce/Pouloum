@@ -1,18 +1,18 @@
-Athlétisme
+Athlétisme |EA
 	Marche
 	Marathon
-	Course
+	Course |EFA
 		Course de fond
 		Demi-fond
 		Course de haies
 		Sprint
 		Course de relais
-	Lancer
+	Lancer |FA
 		Lancer du disque
 		Lancer du javelot
 		Lancer du marteau
 		Lancer du poids
-	Saut
+	Saut |EA
 		Saut en longueur
 		Saut en hauteur
 		Saut à la perche
@@ -20,7 +20,7 @@ Athlétisme
 	Décathlon
 	Heptathlon
 
-Sports collectifs
+Sports collectifs |E
 //	Balai-ballon sur glace
 //	Balle au tambourin
 	Ballon au poing
@@ -40,8 +40,8 @@ Sports collectifs
 //	Double dutch
 //	Flag football
 //	Floorball
-	Foot à 5
-	Football
+	Foot à 5 |EF
+	Football |EF
 		Football
 		Football américain
 		Football australien
@@ -51,7 +51,7 @@ Sports collectifs
 		Football universel
 //	Jorkyball
 	Handball
-	Hockey
+	Hockey |EW
 		Hockey en salle
 		Hockey subaquatique
 		Hockey sur gazon
@@ -76,7 +76,7 @@ Sports collectifs
 //	Roller in line hockey
 //	Rollersoccer
 //	Rounders
-	Rugby
+	Rugby |EF
 		Rugby à sept
 		Rugby à XV
 		Rugby à XIII
@@ -89,14 +89,14 @@ Sports collectifs
 //	Tchoukball
 	Touch rugby
 //	Town ball
-	Ultimate
+	Ultimate |F
 //	Floorball
 //	Vigoro
 	Volley-ball
 //	Volata
-	Water polo
+	Water polo |W
 
-Gymnastique
+Gymnastique |A
 	Acrosport
 	Cheerleading
 	Gymnastique aérobique
@@ -107,7 +107,7 @@ Gymnastique
 	Tricking
 	Twirling bâton
 
-Épreuves combinées
+Épreuves combinées |F
 	Triathlon
 	Duathlon
 	Aquathlon
@@ -115,7 +115,7 @@ Gymnastique
 	Micronesian all around
 	Unifight
 
-Sports mécaniques
+Sports mécaniques |F
 	Compétition automobile
 		WEC
 		Karting
@@ -143,10 +143,10 @@ Sports mécaniques
 		Vitesse moto
 	Compétition aéronautique
 	Moto-ball
-	Motonautisme
-	Motoneige
+	Motonautisme |FW
+	Motoneige |FW
 
-Sports de raquette
+Sports de raquette |A
 	Badminton
 	Jeu de paume
 	Padel
@@ -160,7 +160,7 @@ Sports de raquette
 	Tennis
 	Tennis de table
 
-Sports avec animaux
+Sports avec animaux |E
 	Agility
 	Cani-cross
 	Corrida
@@ -170,7 +170,7 @@ Sports avec animaux
 	Course de traîneaux
 	Rodéo
 	Sport hippique
-	Sports équestres
+	Sports équestres |EF
 		Amazone
 		Attelage
 		Attelage de tradition
@@ -193,7 +193,7 @@ Sports avec animaux
 		TREC
 		Voltige en Cercle
 
-//Sports anciens
+//Sports anciens |A
 //	Barres
 //	Calcio florentin
 //	Course de chars
@@ -207,7 +207,7 @@ Sports avec animaux
 //	Town ball
 //	Volata
 
-Cyclisme
+Cyclisme |E
 	BMX
 	Cyclisme artistique
 	Cyclisme sur piste
@@ -215,7 +215,7 @@ Cyclisme
 	Cyclo-cross
 	Vélo tout terrain
 
-Arts martiaux
+Arts martiaux |F
 	Aïkido
 //	Bando et Banshay
 	Capoeira
@@ -238,7 +238,7 @@ Arts martiaux
 //	Viet vu dao
 	Wushu (Kung Fu)
 
-Sports de combat
+Sports de combat |F
 	Boxe
 		Boxe américaine (Full-contact)
 		Boxe anglaise
@@ -266,7 +266,7 @@ Sports de combat
 	Sport chanbara
 	Unifight
 
-Sports de glace
+Sports de glace |W
 //	Bandy
 	Bobsleigh
 	Curling
@@ -279,7 +279,7 @@ Sports de glace
 	Short-track
 	Skeleton
 
-Sports de force
+Sports de force |F
 	Fitness
 	Force basque
 	Haltérophilie
@@ -287,7 +287,7 @@ Sports de force
 	Powerlifting
 	Tir à la corde
 
-Sports de plein air et de nature
+Sports de plein air et de nature |EA
 	Alpinisme
 	Canyonisme
 	Course d'orientation
@@ -302,7 +302,7 @@ Sports de plein air et de nature
 	Spéléologie
 	Ultra-trail
 
-Sports aériens
+Sports aériens |FA
 	Aéromodélisme
 	Aérostation
 	Base jump
@@ -315,7 +315,7 @@ Sports aériens
 	Vol à voile
 	Voltige aérienne
 
-Sports de cible
+Sports de cible |FA
 	Airsoft
 	Ball-trap
 	Billards
@@ -343,7 +343,7 @@ Sports de cible
 	Tir
 	Tir à l'arc
 
-Sports nautiques
+Sports nautiques |W
 	Apnée
 	Aviron
 	Barque de Sauvetage
@@ -366,7 +366,7 @@ Sports nautiques
 	Natation
 		Natation
 		Natation synchronisée
-	Pêche sportive
+	Pêche sportive |FW
 	Planche à voile
 	Plongée sous-marine
 	Plongeon
@@ -380,7 +380,7 @@ Sports nautiques
 	Wakesurf
 
 Sports de glisse
-	Ski
+	Ski |EW
 		Biathlon
 		Combiné nordique
 		Saut à ski
@@ -393,7 +393,7 @@ Sports de glisse
 		Ski de vitesse
 		Ski extrême
 		Ski télémark
-	Nouveaux sports de glisse
+	Nouveaux sports de glisse |WA
 		Bodyboard
 		Freeboard
 		Kayak Surf

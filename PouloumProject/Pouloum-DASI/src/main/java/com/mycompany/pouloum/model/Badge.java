@@ -3,9 +3,10 @@ package com.mycompany.pouloum.model;
 import com.google.gson.JsonObject;
 
 public enum Badge {
+    EARTH,
     FIRE,
     WATER,
-    GRASS;
+    WIND;
     
     public JsonObject toJson() {
         JsonObject obj = new JsonObject();
