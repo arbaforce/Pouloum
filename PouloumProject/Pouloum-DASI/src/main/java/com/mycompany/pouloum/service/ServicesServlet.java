@@ -120,8 +120,8 @@ public class ServicesServlet extends HttpServlet {
                 String addressCity = request.getParameter("addressCity");
                 String addressCountry = request.getParameter("addressCountry");
 
-                //Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                Address address = new Address(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                
                 CRE result = ServicesPouloumer.signUp(lastName, firstName, nickname, email, password, false, false, gender, birthDate, phoneNumber, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
