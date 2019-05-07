@@ -452,4 +452,24 @@ public class ServicesPouloumer {
             JpaUtil.closeEntityManager();
         }
     }
+    
+    /**
+     * Get the full list of pouloumers.
+     *
+     * @return List, a list which contains all the pouloumers.
+     * @throws Exception if there's an error trying to access the database.
+     */
+    public static List<Pouloumer> findAllPouloumers()
+            throws Exception {
+        JpaUtil.createEntityManager();
+
+        try {
+            List<Pouloumer> pouloumers = DAOPouloumer.findAll();
+
+            return pouloumers;
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
+    }
+
 }

@@ -40,4 +40,13 @@ public class DAOAddress {
         return found;
     }
 
+    public static List<Long> findAllIDs()
+            throws Exception {
+        EntityManager em = JpaUtil.getEntityManager();
+        
+        Query q = em.createQuery("SELECT a.id FROM Address a");
+        List<Long> found = (List<Long>) q.getResultList();
+        return found;
+    }
+
 }
