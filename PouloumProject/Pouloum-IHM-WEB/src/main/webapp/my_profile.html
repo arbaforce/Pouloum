@@ -147,8 +147,7 @@
                     datatype: 'json'
                 }).done(function (data){
                     if(data.result){
-                        userID = data.userID;
-                        
+                        userID = data.userID;                        
                         $.ajax({
                             url: './AjaxAction',
                             type: 'POST',
@@ -160,6 +159,14 @@
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
+                                console.log("CHIASSE : ");
+                                console.log(data.userDetails.interests.length);
+                                
+                                for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
+                                {
+                                    $("#interest_pouloumer_container").append(data.userDetails.interests[activity_index].name);
+                                }
+                                
                                 $("#user_pseudo_container").text(data.userDetails.nickname);
                                 $("#user_surname_container").text("Prénom : " + data.userDetails.first_name);
                                 $("#user_name_container").text("Nom : " + data.userDetails.last_name);
@@ -170,6 +177,8 @@
                                 $("#user_address_city_container").text("Ville : " + data.userDetails.address.city);
                                 $("#user_address_postal_number_container").text("Code postal : " + data.userDetails.address.postal_code);
                                 $("#user_address_details_container").text("Adresse : " + data.userDetails.address.number + " " + data.userDetails.address.street);
+                                
+                                
                             }
                         });
                     }
