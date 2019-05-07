@@ -163,7 +163,10 @@
                                 {
                                     $("#interest_pouloumer_container").append('<div id="activity_'+data.userDetails.interests[activity_index].id+'">'
                                                                                     +data.userDetails.interests[activity_index].name
-                                                                            + '</div>');
+                                                                                    +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
+                                                                                    + '-'   
+                                                                                    +'</button>'
+                                                                             +'</div>');
                                 }
                                 
                                 $("#user_pseudo_container").text(data.userDetails.nickname);
@@ -194,7 +197,7 @@
                         url: './AjaxAction',
                         type: 'POST',
                         data: {
-                            'action': 'getUserIdSession',
+                            'action': 'getUserIdSession'
                         },
                         datatype: 'json'
                     }).done(function (data){
@@ -207,6 +210,48 @@
                                     'id': userID,
                                     'action': 'addInterest',
                                     'interest': $('#interest').val()
+                                },
+                                datatype: 'json'
+                            }).done(function (data) {
+                                var OK = data.result;
+                                if (OK) {
+                                    window.location.href = './my_profile.html';
+                                } else {
+                                    $("#errorMessage").show();
+                                    $("#errorMessage").text(data.errorMessage);
+                                }
+                            });
+                        }
+                        else {
+                            window.location.href = './index.html';
+                        }
+                    });
+                    
+                });
+            });
+            
+            $(function () {
+                $(".btn_remove_interest").button().on("click", function () {
+                    var userID ;
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'getUserIdSession'
+                        },
+                        datatype: 'json'
+                    }).done(function (data){
+                        if(data.result){
+                            userID = data.userID;
+                            var interestId = (this).attr('id');
+                            console.log(interestId);
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'id': userID,
+                                    'action': 'removeInterest',
+                                    'interest': interestId
                                 },
                                 datatype: 'json'
                             }).done(function (data) {

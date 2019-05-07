@@ -14,6 +14,11 @@
     height:50%
 }
 
+.btn_remove_interest{
+    width:20px;
+    height:25px;
+}
+
 #interests_header_container{
     height:10%!important;
 }
