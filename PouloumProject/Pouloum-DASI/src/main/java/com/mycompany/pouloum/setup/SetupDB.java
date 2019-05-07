@@ -124,18 +124,17 @@ public class SetupDB {
     protected static void setupAddress() throws IOException{
         BufferedReader reader = getResourceReader("setup/Address.txt");
 
-        ArrayList<Address> addresses = new ArrayList<Address>();
+        ArrayList<Address> addresses = new ArrayList<>();
 
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                System.out.println(line);
+                // System.out.println(line);
                 String[] parts = line.split(",");
-                System.out.println("    "+parts[0]);
-                System.out.println("    "+parts[1]);
-                System.out.println("    "+parts[2]);
-                Address a = new Address(parts[0], parts[1], null, parts[2], "France" );
+                // System.out.println("    "+parts[0]);
+                // System.out.println("    "+parts[1]);
+                // System.out.println("    "+parts[2]);
+                Address a = new Address(parts[0], parts[1], null, parts[2], "France");
                 addresses.add(a);
-                
             }
         } finally {
             reader.close();
@@ -146,7 +145,6 @@ public class SetupDB {
         try {
             for (Address a : addresses) {
                 try {
-
                     JpaUtil.openTransaction();
 
                     try {
@@ -162,7 +160,6 @@ public class SetupDB {
                     ex.printStackTrace();
                 }
             }
-
         } finally {
             JpaUtil.closeEntityManager();
         }

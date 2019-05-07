@@ -106,7 +106,7 @@ public class ServicesServlet extends HttpServlet {
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
 
-                char gender = Character.MIN_VALUE;
+                char gender = '?';
                 if (request.getParameter("gender") == null) {
                     gender = request.getParameter("gender").charAt(0);
                 }
@@ -312,6 +312,19 @@ public class ServicesServlet extends HttpServlet {
                 }
 
                 container.add("similarEvents", events);
+            }  /////////////
+            /////Search for all events
+            /////////////
+            else if ("findAllEvents".equals(sma)) {
+                List<Event> allEvents = ServicesEvent.findAllEvents();
+
+                JsonArray events = new JsonArray();
+
+                for (Event e : allEvents) {
+                    events.add(e.toJson());
+                }
+
+                container.add("events", events);
             } ///////////
             ////Join event
             ///////////

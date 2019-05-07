@@ -528,26 +528,126 @@
         <script src="SCRIPT/events_browser.js"></script>
         
         <script>
-            initialiseMap();
-            
-            $.ajax({
-                url: './AjaxAction',
-                type: 'POST',
-                data: {
-                    'action': 'getUserIdSession',
-                },
-                datatype: 'json'
-            }).done(function (data){
-                if(data.result){
-                    userID = data.userID;
-                }
-                else {
-                    window.location.href = './index.html';
-                }
-            });
+initialiseMap();
+
+$.ajax({
+    url: './AjaxAction',
+    type: 'POST',
+    data: {
+        'action': 'getUserIdSession',
+    },
+    datatype: 'json'
+}).done(function (data){
+    if(data.result){
+        userID = data.userID;
+    }
+    else {
+        window.location.href = './index.html';
+    }
+});
         </script>
         <script type="text/javascript">
-            addResultDemo();
+// addResultDemo();
+
+$(document).ready(function() {
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getAllEvents',
+         // 'id': userID
+        },
+        datatype: 'json'
+    }).fail(function (data) {
+        console.log("*** FAIL ***");
+    }).done(function (data) {
+        var OK = data.result;
+        if (OK == "false") {
+            console.log("*** FAIL ***");
+        } else {
+            var events = data.events;
+            var count = 0;
+            for (var i=0; i<events.length; i++) {
+                var event = events[i];
+                
+                var data_id = event.id;
+                var data_label = event.label;
+                /// data_description = event.description;
+                /// data_p_min = event.participants_min;
+                /// data_p_max = event.participants_max;
+                
+                // var data_cancelled = event.cancelled;
+                // console.log(data_cancelled);
+                // if (data_cancelled) continue;
+                
+                var tmp_a = event.activity;
+                var data_activities = [{
+                    name: tmp_a.name,
+                    url: "./activity_details?id=" + tmp_a.id,
+                    level: "débutant" //FIXME
+                }];
+                var data_badges = ["Wind", "Fire"]; //FIXME
+                
+                var tmp_participants = event.participants;
+                var data_participants = [];
+                for (var i=0; i<tmp_participants.length; i++) {
+                    var tmp_p = tmp_participants[i];
+                    data_participants.push({
+                        url: "./consult_other_user_profile.html?id=" + tmp_p.id,
+                        img: "https://static.lexpress.fr/medias_11568/w_2048,h_1146,c_crop,x_0,y_160/w_480,h_270,c_fill,g_north/v1509975901/panda-chine_5923268.jpg", //FIXME
+                        alt: "Profil de " + tmp_p.nickname
+                    });
+                }
+                
+                var tmp_o = event.pouloumer;
+                var data_organizer = {
+                    name: tmp_o.nickname,
+                    url: "./consult_other_user_profile.html?id=" + tmp_o.id
+                };
+                
+                var data_place = event.address;
+                var data_start = event.startDate;
+                var data_duration = event.duration;
+                var data_status = event.status; // cancelled | started | finished | full | ready | organized
+                var data_eventurl = "";
+                
+				/*
+                console.log("=== ACTIVITY ===");
+                console.log(event.activity);
+                console.log("=== POULOUMER ===");
+                console.log(event.pouloumer);
+                console.log("=== PARTICIPANTS ===");
+                console.log(event.participants);
+                console.log("=== COMMENTS ===");
+                console.log(event.comments);
+				*/
+                
+                addResult(data_id, data_label, data_activities, data_organizer, data_place, data_start, data_duration, data_participants, data_status, data_eventurl, data_badges);
+                
+                count++;
+				if (count >= 50) break;
+            }
+        }
+    });
+});
         </script>
     </body>
+<!--
+        obj.add("activity", activity.toJson());
+        obj.add("pouloumer", organizer.toJson());
+
+        JsonArray participantsArray = new JsonArray();
+        for (Pouloumer p : participants) {
+            participantsArray.add(p.toJson());
+        }
+        obj.add("participants", participantsArray);
+
+        JsonArray commentsArray = new JsonArray();
+        for (Comment c : comments) {
+            commentsArray.add(c.toJson());
+        }
+        obj.add("comments", commentsArray);
+
+        return obj;
+-->
 </html>
