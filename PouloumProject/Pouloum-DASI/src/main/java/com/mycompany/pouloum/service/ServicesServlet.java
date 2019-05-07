@@ -106,7 +106,7 @@ public class ServicesServlet extends HttpServlet {
                 String email = request.getParameter("mail");
                 String password = request.getParameter("password");
 
-                char gender = Character.MIN_VALUE;
+                char gender = '?';
                 if (request.getParameter("gender") == null) {
                     gender = request.getParameter("gender").charAt(0);
                 }
@@ -149,6 +149,7 @@ public class ServicesServlet extends HttpServlet {
                 Date birthdate = DateUtil.toDate(request.getParameter("birthDate"));
                 String phone = request.getParameter("phoneNumber");
 
+                // TODO check if address was actually changed...
                 String addressNumber = request.getParameter("addressNumber");
                 String addressStreet = request.getParameter("addressStreet");
                 String addressPostalCode = request.getParameter("addressPostalCode");
@@ -201,22 +202,14 @@ public class ServicesServlet extends HttpServlet {
             } ///////////
             ////Add interests
             ///////////
-            else if ("addInterestsToUser".equals(sma)) {
+            else if ("addInterestToUser".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-
-                List<Long> idActivities = new ArrayList<>();
-                String[] values = request.getParameterValues("idActivities");
-                for (String value : values) {
-                    idActivities.add(Long.parseLong(value));
-                }
-
+                Long idActivity = Long.parseLong(request.getParameter("idActivity"));
+                
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-                List<Activity> interests = new ArrayList<>();
-                for (Long idAct : idActivities) {
-                    interests.add(ServicesActivity.getActivityById(idAct));
-                }
+                Activity a = ServicesActivity.getActivityById(idActivity);
 
-                ServicesPouloumer.addInterests(p, interests);
+                ServicesPouloumer.addInterests(p, a);
             } ///////////
             ////Remove interest
             ///////////
@@ -311,6 +304,19 @@ public class ServicesServlet extends HttpServlet {
                 }
 
                 container.add("similarEvents", events);
+            }  /////////////
+            /////Search for all events
+            /////////////
+            else if ("findAllEvents".equals(sma)) {
+                List<Event> allEvents = ServicesEvent.findAllEvents();
+
+                JsonArray events = new JsonArray();
+
+                for (Event e : allEvents) {
+                    events.add(e.toJson());
+                }
+
+                container.add("events", events);
             } ///////////
             ////Join event
             ///////////
@@ -391,19 +397,25 @@ public class ServicesServlet extends HttpServlet {
             else if ("updateEvent".equals(sma)) {
                 Long idEvent = Long.parseLong(request.getParameter("idEvent"));
 
-                // TODO maybe allow to update name/description as well
-                // String name = request.getParameter("name");
-                // String description = request.getParameter("description");
+                String name = request.getParameter("name");
+                String description = request.getParameter("description");
                 Date startDate = DateUtil.toDate(request.getParameter("date"));
                 int duration = Integer.parseInt(request.getParameter("duration"));
-                Long idAddress = Long.parseLong(request.getParameter("idAddress"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
 
+                // TODO check if address was actually changed...
+                String addressNumber = request.getParameter("addressNumber");
+                String addressStreet = request.getParameter("addressStreet");
+                String addressPostalCode = request.getParameter("addressPostalCode");
+                String addressCity = request.getParameter("addressCity");
+                String addressCountry = request.getParameter("addressCountry");
+
+                Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
+                
                 //TODO make sure only the organizer can do this
                 Event event = ServicesEvent.getEventById(idEvent);
-                Address address = ServicesAddress.getAddressById(idAddress);
-                ServicesEvent.updateEvent(event, startDate, duration, address, playerMin, playerMax);
+                ServicesEvent.updateEvent(event, name, description, startDate, duration, address, playerMin, playerMax);
             } ///////////
             ////Cancel event
             ///////////

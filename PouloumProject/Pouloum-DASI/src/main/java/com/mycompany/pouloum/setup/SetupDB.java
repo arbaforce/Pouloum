@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.fluttercode.datafactory.impl.DataFactory;
 
 /**
@@ -76,7 +74,9 @@ public class SetupDB {
         BufferedReader reader = getResourceReader("setup/Activities.txt");
 
         Stack<Activity> tree = new Stack<>();
-
+        
+        Random rand = new Random(); // random badges
+        
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 if ((line + "/").charAt(0) == '/') {
@@ -93,6 +93,21 @@ public class SetupDB {
                 String name = line.trim();
                 String description = "";
                 List<Badge> badges = new ArrayList<>();
+                
+                int badgeEarth = rand.nextInt(4);
+                if (badgeEarth == 1) badges.add(Badge.EARTH);
+                int badgeFire = rand.nextInt(4);
+                if (badgeFire == 1) badges.add(Badge.FIRE);
+                int badgeWater = rand.nextInt(4);
+                if (badgeWater == 1) badges.add(Badge.WATER);
+                int badgeWind = rand.nextInt(4);
+                if (badgeWind == 1) badges.add(Badge.WIND);
+                
+                if (badges.isEmpty()) {
+                    int badgeDef = rand.nextInt(Badge.values().length);
+                    badges.add(Badge.values()[badgeDef]);
+                }
+                
                 String rules = "";
                 List<String> resources = new ArrayList<>();
                 int default_min = 0;
@@ -124,18 +139,17 @@ public class SetupDB {
     protected static void setupAddress() throws IOException{
         BufferedReader reader = getResourceReader("setup/Address.txt");
 
-        ArrayList<Address> addresses = new ArrayList<Address>();
+        ArrayList<Address> addresses = new ArrayList<>();
 
         try {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                System.out.println(line);
+                // System.out.println(line);
                 String[] parts = line.split(",");
-                System.out.println("    "+parts[0]);
-                System.out.println("    "+parts[1]);
-                System.out.println("    "+parts[2]);
-                Address a = new Address(parts[0], parts[1], null, parts[2], "France" );
+                // System.out.println("    "+parts[0]);
+                // System.out.println("    "+parts[1]);
+                // System.out.println("    "+parts[2]);
+                Address a = new Address(parts[0], parts[1], null, parts[2], "France");
                 addresses.add(a);
-                
             }
         } finally {
             reader.close();
@@ -146,7 +160,6 @@ public class SetupDB {
         try {
             for (Address a : addresses) {
                 try {
-
                     JpaUtil.openTransaction();
 
                     try {
@@ -162,7 +175,6 @@ public class SetupDB {
                     ex.printStackTrace();
                 }
             }
-
         } finally {
             JpaUtil.closeEntityManager();
         }

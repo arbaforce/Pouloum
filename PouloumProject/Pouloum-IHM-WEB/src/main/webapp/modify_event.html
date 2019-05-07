@@ -30,7 +30,17 @@
                                     Nom :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="name_event_container" placeholder="Une excellente activité" class="form-control">
+                                    <input type="text" id="event_name_container" placeholder="Une excellente activité" class="form-control">
+                                </div>
+                            </div><!--#name_event_row -->
+                        </div><!--#name_event_global_container -->
+                        <div id="description_event_global_container" class="container holder_event">
+                            <div id="description_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Description :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_description_container" placeholder="Décrivez ce que vous allez faire..." class="form-control">
                                 </div>
                             </div><!--#name_event_row -->
                         </div><!--#name_event_global_container -->
@@ -40,7 +50,7 @@
                                     Activité :
                                 </div>
                                 <div class="col-6 input_event">
-                                    <select class="form-control" id="activity_event">
+                                    <select class="form-control" id="event_activity_container">
                                         <option>Basketball</option>
                                         <option>Football</option>
                                         <option>Tennis</option>
@@ -65,20 +75,20 @@
                                     Durée :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="duration_container" placeholder="durée en heure" class="form-control">
+                                    <input type="text" id="event_duration_container" placeholder="durée en heure" class="form-control">
                                 </div>
                             </div><!--#duration_event_row -->
                         </div><!--#duration_event_global_container -->
-                        
-                        
-                        
+
+
+
                         <div id="address_global_container" class="container holder_event">
                             <div id="address_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
                                     Adresse :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="place_container" placeholder="lieu" class="form-control">
+                                    <input type="text" id="event_address_details_container" placeholder="Lieu" class="form-control">
                                 </div>
                             </div><!--#address_event_row -->
                         </div><!--#address_global_container -->
@@ -88,7 +98,7 @@
                                     Ville :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="place_container" placeholder="ville" class="form-control">
+                                    <input type="text" id="event_address_city_container" placeholder="Ville" class="form-control">
                                 </div>
                             </div><!--#city_event_row -->
                         </div><!--#city_global_container -->
@@ -98,7 +108,7 @@
                                     Code postal :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="place_container" placeholder="lieu" class="form-control">
+                                    <input type="text" id="event_address_postal_code_container" placeholder="Code postal" class="form-control">
                                 </div>
                             </div><!--#postal_code_event_row -->
                         </div><!--#postal_code_event_global_container -->
@@ -108,22 +118,32 @@
                                     Pays :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="place_container" placeholder="lieu" class="form-control">
+                                    <input type="text" id="event_address_country_container" placeholder="Pays" class="form-control">
                                 </div>
                             </div><!--#country_event_row -->
                         </div><!--#country_event_global_container -->
-                        
-                        
-                        
-                        <div id="number_player_event_global_container" class="container holder_event">
-                            <div id="number_player_event_row" class="row h-100 w-100 mx-0 px-0">
+
+
+
+                        <div id="number_player_event_min_global_container" class="container holder_event">
+                            <div id="number_player_min_event_row" class="row h-100 w-100 mx-0 px-0">
                                 <div class="col-6 text-right label_event">
-                                    Nombre de participants :
+                                    Nombre de participants (min) :
                                 </div>
                                 <div class="col-6 text-left input_event">
-                                    <input type="text" id="number_player_container" placeholder="min-max" class="form-control">
+                                    <input type="text" id="event_player_min_container" placeholder="min" class="form-control">
                                 </div>
-                            </div><!--#number_player_event_row -->
+                            </div><!--#number_player_min_event_row -->
+                        </div><!--#number_player_event_global_container -->
+                        <div id="number_player_max_event_global_container" class="container holder_event">
+                            <div id="number_player_max_event_row" class="row h-100 w-100 mx-0 px-0">
+                                <div class="col-6 text-right label_event">
+                                    Nombre de participants (max) :
+                                </div>
+                                <div class="col-6 text-left input_event">
+                                    <input type="text" id="event_player_max_container" placeholder="max" class="form-control">
+                                </div>
+                            </div><!--#number_player_min_event_row -->
                         </div><!--#number_player_event_global_container -->
                     </div><!--#details_event_col -->
 
@@ -139,7 +159,7 @@
                                 <img src="STYLE/Water.png" alt="image" class="little_avatar_image rounded " /> 
                             </div>
                         </div>
-                        
+
                         <div id="map_container" class="container h-100 w-100 mx-0 px-0">
                             <div id="map_row" class="row h-100 w-100 mx-0 px-0">
                                 <div id="map" class="h-100 w-100">
@@ -167,36 +187,190 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/util_scripts.js"></script>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        
         <script>
-            $(document).ready(function () {
+initialiseMap();
+
+let date_input = $('input[name="date"]'); //our date input has the name "date"
+let container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+date_input.datepicker({
+    format: 'dd/mm/yyyy',
+    container: container,
+    todayHighlight: true,
+    autoclose: true
+});
+        </script>
+        
+        <script>
+// gets called automatically
+// once the userID is retrieved
+function ready_userID(userID) {
+    var userID;
+    var eventID;
+    var createEvent;
+    
+    $.ajax({
+        url: './AjaxAction',
+        type: 'POST',
+        data: {
+            'action': 'getEventIdSession',
+        }, //TODO put event ID into session
+        datatype: 'json'
+    }).done(function (data) {
+        if (data.result) {
+            eventID = data.eventID;
+            createEvent = false;
+
+            if (data.result) {
+                eventID = data.eventID;
+                
+                // Fill in the fields with actual event information
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
                     data: {
-                        'action': 'getUserIdSession',
+                        'action': 'getEventDetails',
+                        'eventID': eventID
                     },
                     datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
-                        userID = data.userID;
-                    }
-                    else {
-                        window.location.href = './index.html';
+                }).done(function (data) {
+                    let OK = data.result;
+                    if (OK) {
+                        $("#event_name_container").value = data.event.label;
+                        $("#event_description_container").value = data.event.description;
+                        $("#event_activity_name_container").value = data.event.activity.name;
+                        let eventAddress = data.event.address;
+                        $("#event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+                        $("#event_address_postal_code_container").value = eventAddress.postal_code;
+                        $("#event_address_city_container").value = eventAddress.city;
+                        $("#event_address_country_container").value = eventAddress.country;
+                        $("#event_date_container").value = data.event.startDate;
+                        $("#event_duration_container").value = data.event.duration;
+                        $("#event_participants_number_min_container").value = data.event.participants_min;
+                        $("#event_participants_number_max_container").value = data.event.participants_max;
+
+
+                        //TODO : consider whether to add status when modifying an event
+                        /*
+                         
+                         let status = data.event.status;
+                         
+                         if (status === "cancelled") {
+                         document.getElementById("event_status_container").value = "Annulé";
+                         } else if (status === "started") {
+                         document.getElementById("event_status_container").value = "En cours";
+                         } else if (status === "finished") {
+                         document.getElementById("event_status_container").value = "Terminé";
+                         } else if (status === "full") {
+                         document.getElementById("event_status_container").value = "Plein";
+                         } else if (status === "ready") {
+                         document.getElementById("event_status_container").value = "Prêt";
+                         } else {
+                         document.getElementById("event_status_container").value = "Planifié";
+                         }*/
                     }
                 });
-                
-                initialiseMap();
-                var date_input = $('input[name="date"]'); //our date input has the name "date"
-                var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-                date_input.datepicker({
-                    format: 'dd/mm/yyyy',
-                    container: container,
-                    todayHighlight: true,
-                    autoclose: true
-                });
+            }
+
+        } else {
+            createEvent = true;
+        }
+    });
+}
+
+$(function () {
+    $("#validate_button").button().on("click", function () {
+        if (createEvent) {
+            $.ajax({
+                url: './AjaxAction',
+                type: 'POST',
+                data: {
+                    'action': 'createEvent',
+                    'idOrganizer': userID,
+                    //TODO activity ? see with autocompletion
+                    'name': $('#event_name_container').val(),
+                    'startDate': $('#event_start_date_container').val(),
+                    'duration': $('#event_duration_container').val(),
+                    'address': $('#event_address_details_container').val(),
+                    'addressPostalCode': $('#event_address_postal_number_container').val(),
+                    'addressCity': $('#event_address_city_container').val(),
+                    'addressCountry': $('#event_address_country_container').val(),
+                    'playerMin': $('#event_player_min_container').val(),
+                    'playerMax': $('#event_player_max_container').val()
+                },
+                datatype: 'json'
+            }).done(function (data) {
+                var OK = data.result;
+                if (OK) {
+                    window.location.href = './home_page.html';
+                } else {
+                    $("#errorMessage").show();
+                    $("#errorMessage").text(data.errorMessage);
+                }
             });
+        } else {
+            $.ajax({
+                url: './AjaxAction',
+                type: 'POST',
+                data: {
+                    'action': 'updateEvent',
+                    'id': eventID,
+                    //TODO activity ? see with autocompletion
+                    'name': $('#event_name_container').val(),
+                    'startDate': $('#event_start_date_container').val(),
+                    'duration': $('#event_duration_container').val(),
+                    'address': $('#event_address_details_container').val(),
+                    'addressPostalCode': $('#event_address_postal_number_container').val(),
+                    'addressCity': $('#event_address_city_container').val(),
+                    'addressCountry': $('#event_address_country_container').val(),
+                    'playerMin': $('#event_player_min_container').val(),
+                    'playerMax': $('#event_player_max_container').val()
+                },
+                datatype: 'json'
+            }).done(function (data) {
+                var OK = data.result;
+                if (OK) {
+                    window.location.href = './home_page.html';
+                } else {
+                    $("#errorMessage").show();
+                    $("#errorMessage").text(data.errorMessage);
+                }
+            });
+        }
+    });
+});
+
+$(function () {
+    $("#cancel_button").button().on("click", function () {
+        if (createEvent) { // Just get back to the home page
+            window.location.href = './home_page.html';
+        } else {
+            $.ajax({
+                url: './AjaxAction',
+                type: 'POST',
+                data: {
+                    'action': 'cancelEvent',
+                    'eventID': eventID
+                },
+                datatype: 'json'
+            }).done(function (data) {
+                var OK = data.result;
+                if (OK) {
+                    window.location.href = './home_page.html';
+                } else {
+                    $("#errorMessage").show();
+                    $("#errorMessage").text(data.errorMessage);
+                }
+            });
+        }
+
+    });
+});
         </script>
+        <!-- retrieves the userID -->
+        <script src="SCRIPT/userid.js"></script>
+        <!-- this script should be put at the very end -->
     </body>
 </html>
