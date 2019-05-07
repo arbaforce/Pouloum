@@ -121,7 +121,7 @@ public class ServicesServlet extends HttpServlet {
                 String addressCountry = request.getParameter("addressCountry");
 
                 Address address = ServicesAddress.createAddress(addressNumber, addressStreet, addressPostalCode, addressCity, addressCountry);
-                
+
                 CRE result = ServicesPouloumer.signUp(lastName, firstName, nickname, email, password, false, false, gender, birthDate, phoneNumber, address);
                 if (result != CRE_OK) {
                     if (result == CRE_ERR_EMAIL) {
@@ -178,31 +178,16 @@ public class ServicesServlet extends HttpServlet {
             //////////
             else if ("getUserEvents".equals(sma)) {
                 Long idUser = Long.parseLong(request.getParameter("idUser"));
-
+                Boolean history = Boolean.parseBoolean(request.getParameter("history"));
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
 
+                List<Event> events = ServicesPouloumer.getPouloumerEvents(p, history);
+
                 JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (!(e.isCancelled() || e.isFinished())) {
-                        array.add(e.toJson());
-                    }
+                for (Event e : events) {
+                    array.add(e.toJson());
                 }
                 container.add("events", array);
-            } ///////////
-            ////Consult profile
-            ///////////
-            else if ("getUserEventsHistory".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-
-                Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
-
-                JsonArray array = new JsonArray();
-                for (Event e : p.getEvents()) {
-                    if (e.isFinished()) {
-                        array.add(e.toJson());
-                    }
-                }
-                container.add("eventsHistory", array);
             } ///////////
             ////Consult friends
             ///////////
@@ -344,11 +329,20 @@ public class ServicesServlet extends HttpServlet {
                     if (checkResult == CRE_WAR_EVENT_NEAR) {
                         //TODO notify user
                     }
-
-                    // the GUI should check that the event is not full (so an user
-                    // never join a full event)
-                    //TODO check that user doesn't have other events at the same time
-                    ServicesPouloumer.joinEvent(p, e);
+                    
+                    checkResult = ServicesPouloumer.joinEvent(p, e);
+                    if (checkResult == CRE_ERR_EVENT) {
+                        resultErrorMessage = "The event is already fully booked.";
+                        
+                        // Il est INDISPENSABLE que le serveur vérifie isFull.
+                        // Supposons qu'il ne reste plus qu'une place à un Event
+                        // et que deux Pouloumeurs consultent cet évènement.
+                        // Leur pages web penseront toutes les deux qu'il
+                        // reste encore une place. Et donc leurs deux codes
+                        // JavaScript leurs permettraient de s'y inscrire !
+                        // Seul le serveur, en vérifiant isFull, peut empêcher
+                        // que trop d'utilisateurs s'inscrivent à un évènement.
+                    }
                 }
             } ///////////
             ////Leave event

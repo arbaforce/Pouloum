@@ -7,23 +7,32 @@
 function getSingleActivityDiv(data_activity) {
     var activity_div = '<div class="card" id="card_elmt_'+data_activity.id+'">'
                         +'<div class="card-header" id="head_elmt_'+data_activity.id+'">'
-                        +    '<h2 class="mb-0">'
-                        +        '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
-                        +           data_activity.name
+                        +    '<h2 class="mb-0">';
+    if (data_activity.children.length===0)
+    {
+        activity_div +=          '<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#" aria-expanded="true" >';
+    } else {
+        activity_div +=          '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
+    }
+    activity_div +=                data_activity.name
                         +        '</button>'
                         +    '</h2>'
-                        +'</div>'
-                        +'<div id="elmt_'+data_activity.id+'" class="collapse" aria-labelledby="head_elmt_'+data_activity.id+'" data-parent="#card_elmt_'+data_activity.id+'">'
+                        +'</div>';
+                
+    if(data_activity.children.length!==0){
+        activity_div += '<div id="elmt_'+data_activity.id+'" class="collapse" aria-labelledby="head_elmt_'+data_activity.id+'" data-parent="#card_elmt_'+data_activity.id+'">'
                         +    '<div class="card-body">';
-          
-    for (var children_index = 0 ; children_index < data_activity.children.length; children_index++)
-    {
-        activity_div += getSingleActivityDiv(data_activity.children[children_index]);
+                
+        for (var children_index = 0 ; children_index < data_activity.children.length; children_index++)
+        {
+            activity_div += getSingleActivityDiv(data_activity.children[children_index]);
+        }
+
+        activity_div +=      '</div>'
+                       +'</div>';
+                        
     }
-    
-    activity_div +=          '</div>'
-                        +'</div>'
-                    +'</div><!--#card_elmt_'+data_activity.id+'-->';
+    activity_div += '</div><!--#card_elmt_'+data_activity.id+'-->';
     return activity_div;
 }
 
