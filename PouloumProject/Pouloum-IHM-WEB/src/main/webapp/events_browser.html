@@ -44,7 +44,7 @@
                                             <label for="localisation_filter">Localisation :</label>
                                         </div>
                                         <div class="col-5 padding10up">
-                                            <input type="text" class="form-control" id="localisation_filter">
+                                            <input type="text" class="form-control" id="location_filter">
                                         </div>
                                     </div>
                                 </div><!--#localisation_filter_container -->
@@ -185,14 +185,29 @@
                     }
                 });
             }
-
-            function apply_filters() {
+            //TODO implement location and date filters
+            function apply_filters(activity, location, date, friend) {
                 var some_events = [];
     
                 for (var ei=0; ei<all_events.length; ei++) {
                     var event = all_events[ei];
-        
-                    var keep = true;
+                    console.log(event);
+                    console.log(event["participants"]);
+                    var keep = false;
+                    var participants = event["participants"];
+                    for(var pi=0; pi<participants.length; pi++){
+                        console.log(participants[pi]);
+                        //console.log(participant["nickname"]);
+                        var nickname = participants[pi]["nickname"];
+                        if(nickname.indexOf(friend)>=0){
+                            keep = true;
+                            break;
+                        }
+                    }
+                    
+                    if(event["activity"]["name"].indexOf(activity)<0){
+                        keep = false;
+                    }
         
                     if (keep) some_events.push(event);
                 }
@@ -201,6 +216,17 @@
                 page_clear_events();
                 page_add_events(some_events);
             }
+            
+            /*var activity_filter = document.getElementById("activity_filter");
+            var location_filter = document.getElementById("location_filter");
+            var date_filter = document.getElementById("date_filter");
+            var friend_filter = document.getElementById("friend_filter");
+            
+            activity_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
+            location_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
+            date_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
+            friend_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));*/
+            
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
