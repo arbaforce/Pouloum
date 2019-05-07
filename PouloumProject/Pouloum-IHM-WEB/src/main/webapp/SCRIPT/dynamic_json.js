@@ -1,8 +1,8 @@
 
 function page_add_events(events, limit) {
     var count = 0;
-    for (var i=0; i<events.length; i++) {
-        var event = events[i];
+    for (var ei=0; ei<events.length; ei++) {
+        var event = events[ei];
         
         var data_id = event.id;
         var data_label = event.label;
@@ -62,11 +62,11 @@ function page_add_events(events, limit) {
         console.log(tmp_cs);
         */
         
-        var data_grades; //FIXME
+        var data_grades = {}; //FIXME
         
         addResult(data_id, data_label, data_activities, data_organizer, data_place, data_start, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges);
         
         count++;
-        if (count >= 50) break;
-            }
+        if (count >= 100) break;
+    }
 }
