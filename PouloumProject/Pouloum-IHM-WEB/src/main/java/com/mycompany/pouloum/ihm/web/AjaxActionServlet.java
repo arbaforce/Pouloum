@@ -176,8 +176,16 @@ public class AjaxActionServlet extends HttpServlet {
                 String description = request.getParameter("description").trim();
                 String startDate = request.getParameter("startDate");
                 String duration = request.getParameter("duration").trim();
-                String addressNumber = request.getParameter("addressNumber").trim();
-                String addressStreet = request.getParameter("addressStreet").trim();
+                
+                // Get address number and street
+                String address = request.getParameter("address").trim();
+                String addressNumber = "";
+                while (Character.isDigit(address.charAt(0))) {
+                    addressNumber += address.charAt(0);
+                    address = address.substring(1);
+                }
+                String addressStreet = address.trim();
+
                 String addressPostalCode = request.getParameter("addressPostalCode").trim();
                 String addressCity = request.getParameter("addressCity").trim();
                 String addressCountry = request.getParameter("addressCountry").trim();
@@ -194,8 +202,16 @@ public class AjaxActionServlet extends HttpServlet {
                 String description = request.getParameter("description").trim();
                 String startDate = request.getParameter("startDate");
                 String duration = request.getParameter("duration").trim();
-                String addressNumber = request.getParameter("addressNumber").trim();
-                String addressStreet = request.getParameter("addressStreet").trim();
+                
+                // Get address number and street
+                String address = request.getParameter("address").trim();
+                String addressNumber = "";
+                while (Character.isDigit(address.charAt(0))) {
+                    addressNumber += address.charAt(0);
+                    address = address.substring(1);
+                }
+                String addressStreet = address.trim();
+                
                 String addressPostalCode = request.getParameter("addressPostalCode").trim();
                 String addressCity = request.getParameter("addressCity").trim();
                 String addressCountry = request.getParameter("addressCountry").trim();
