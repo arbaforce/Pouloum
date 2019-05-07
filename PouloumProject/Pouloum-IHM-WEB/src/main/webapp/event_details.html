@@ -12,32 +12,32 @@
             <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
                 <script src="SCRIPT/navbar_template.js"></script>
             </div> <!--#container_navbar_and_alert -->
-            
+
             <div id="container_event_details_body" class="container-fluid">
                 <div class='row'>
-                    
+
                 </div>
                 <div id="event_details_row" class="row">
                     <div id="col_data_event_details" class="col">
-                        
+
                     </div>
                     <div id="col_map_event_details" class="col">
-                        
+
                     </div>
                 </div>
-                
+
             </div><!--#container_event_details_body-->
-            
-            
+
+
         </div><!--#wrapper-->
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        
+
         <script>
-            $(document).ready(function() {
-                var userID ;
+            $(document).ready(function () {
+                var userID;
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
@@ -45,15 +45,14 @@
                         'action': 'getUserIdSession',
                     },
                     datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
+                }).done(function (data) {
+                    if (data.result) {
                         userID = data.userID;
-                    }
-                    else {
+                    } else {
                         window.location.href = './index.html';
                     }
                 });
-                
+
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
@@ -61,10 +60,10 @@
                         'action': 'getEventIdSession',
                     },
                     datatype: 'json'
-                }).done(function (data){
-                    if(data.result){
+                }).done(function (data) {
+                    if (data.result) {
                         eventID = data.eventID;
-                        
+
                         $.ajax({
                             url: './AjaxAction',
                             type: 'POST',
@@ -80,30 +79,32 @@
                                 document.getElementById("event_description_container").value = data.event.description;
                                 document.getElementById("event_activity_name_container").value = data.event.activity.name;
                                 let eventAddress = data.event.address;
-                                document.getElementById("event_address_container").value = eventAddress.number + ' ' + eventAddress.street + ', '
-                                        + eventAddress.postal_code + ' ' + eventAddress.city + ', ' + eventAddress.country;
+                                document.getElementById("event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+                                document.getElementById("event_address_postal_code_container").value = eventAddress.postal_code;
+                                document.getElementById("event_address_city_container").value = eventAddress.city; 
+                                document.getElementById("event_address_country_container").value = eventAddress.country;
                                 document.getElementById("event_date_container").value = data.event.startDate;
                                 document.getElementById("event_duration_container").value = data.event.duration;
                                 document.getElementById("event_participants_number_container").value = data.event.participants.length;
                                 document.getElementById("event_participants_number_min_container").value = data.event.participants_min;
                                 document.getElementById("event_participants_number_max_container").value = data.event.participants_max;
-                        
+
                                 let participantsDiv = document.getElementById("event_participants_container");
                                 let participantsArray = data.event.participants;
-                        
+
                                 participantsArray.forEach(function (element) {
                                     let participantDiv = document.createElement("div");
                                     let nicknameLink = document.createElement("a");
                                     let linkText = document.createTextNode(element.nickname);
-                            
+
                                     nicknameLink.setAttribute("href", ""); //TODO put profile URL
                                     nicknameLink.appendChild(linkText);
-                            
+
                                     participantsDiv.appendChild(participantDiv);
                                 });
-                        
+
                                 let status = data.event.status;
-                        
+
                                 if (status === "cancelled") {
                                     document.getElementById("event_status_container").value = "Annulé";
                                 } else if (status === "started") {
@@ -119,8 +120,7 @@
                                 }
                             }
                         });
-                    }
-                    else {
+                    } else {
                         history.back();
                     }
                 });
