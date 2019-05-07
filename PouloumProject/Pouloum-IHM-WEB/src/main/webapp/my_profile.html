@@ -81,7 +81,7 @@
                         
                         <div id="add_interest_button_container" class="container">
                             <div id="add_interest_button_row" class="row bottom button">
-                                <div class="col-8">
+                                <div class="col-8" id="div_interest">
                                     <input type="text" class="form-control" id="interest">
                                 </div>
                                 <div class="col-4">
@@ -134,10 +134,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/util_scripts.js"></script>
+        <script src="SCRIPT/autocomplete.js"></script>
         
         <script>
             $(document).ready(function() {
                 var userID ;
+                var activitiesArray = [];
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
@@ -178,6 +180,21 @@
                     }
                 });
                 
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getActivityTree',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    console.log(data)
+                    var index = 0;
+                    for(var activity in data.activities){
+                        activitiesArray[index] = activity.name;
+                    }
+                    autocomplete(document.getElementById("interest"),document.getElementById("div_interest"),activitiesArray);
+                });
                 
             });
 
