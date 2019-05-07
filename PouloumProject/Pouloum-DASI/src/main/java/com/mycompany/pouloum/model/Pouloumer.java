@@ -33,7 +33,7 @@ public class Pouloumer implements Serializable {
     
     // Identifier
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     // Identity 
@@ -67,7 +67,7 @@ public class Pouloumer implements Serializable {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="author")
     protected List<Comment> comments;
 
-    @OneToMany
+    @ManyToMany
     protected List<Activity> interests;
 
     // To implement later

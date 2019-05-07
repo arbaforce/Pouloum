@@ -3,6 +3,7 @@ package com.mycompany.pouloum.setup;
 import com.mycompany.pouloum.dao.*;
 import com.mycompany.pouloum.model.*;
 import com.mycompany.pouloum.service.ServicesActivity;
+import com.mycompany.pouloum.service.ServicesAddress;
 import com.mycompany.pouloum.service.ServicesEvent;
 import com.mycompany.pouloum.service.ServicesPouloumer;
 import com.mycompany.pouloum.util.CRE;
@@ -42,9 +43,21 @@ public class SetupDB {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        
+        try {
+            setupAddress();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         try {
             setupPouloumers();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            setupPouloumersEvents();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -107,6 +120,53 @@ public class SetupDB {
             reader.close();
         }
     }
+    
+    protected static void setupAddress() throws IOException{
+        BufferedReader reader = getResourceReader("setup/Address.txt");
+
+        ArrayList<Address> addresses = new ArrayList<Address>();
+
+        try {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                System.out.println(line);
+                String[] parts = line.split(",");
+                System.out.println("    "+parts[0]);
+                System.out.println("    "+parts[1]);
+                System.out.println("    "+parts[2]);
+                Address a = new Address(parts[0], parts[1], null, parts[2], "France" );
+                addresses.add(a);
+                
+            }
+        } finally {
+            reader.close();
+        }
+        
+        JpaUtil.createEntityManager();
+
+        try {
+            for (Address a : addresses) {
+                try {
+
+                    JpaUtil.openTransaction();
+
+                    try {
+                        DAOAddress.persist(a);
+
+                        JpaUtil.commitTransaction();
+                    } catch (Exception ex) {
+                        JpaUtil.cancelTransaction();
+                        throw ex;
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
+    }
 
     protected static void setupPouloumers()
             throws ParseException {
@@ -144,12 +204,8 @@ public class SetupDB {
         }
     }
     
-    protected static void setupEvents()
+    protected static void setupPouloumersEvents()
             throws Exception {
-        List<Activity> activities = ServicesActivity.findAllActivities();
-        List<Event> events = new ArrayList<Event>();
-        
-        
         List<Pouloumer> users = new ArrayList<>();
         
         Date d1 = DateUtil.toDate("16/08/1984");
@@ -208,23 +264,26 @@ public class SetupDB {
                     ex.printStackTrace();
                 }
             }
-            
         } finally {
             JpaUtil.closeEntityManager();
         }
         
-        Pouloumer p1 = p_Momo;
+        
+        List<Activity> activities = ServicesActivity.findAllActivities();
+        List<Event> events = new ArrayList<Event>();
+        
+        Pouloumer p1 = ServicesPouloumer.getPouloumerByNickname("Momo");
         Date d01 = new Date();
         Event e1 = new Event("1er evenement", "such description", d01, false, 30, a1, activities.get(0), p1, 1, 10);
         Event e2 = new Event("2er evenement", "wow description", d01, false, 60, a1, activities.get(1), p1, 3000, 9000);
         Event e3 = new Event("3eme evenement", "damn description", d01, false, 80, a1, activities.get(2), p1, 2, 4);
 
-        Pouloumer p2 = p_Keke;
+        Pouloumer p2 = ServicesPouloumer.getPouloumerByNickname("Keke");
         Date d02 = new Date();
         Event e4 = new Event("my keke", "such kek", d02, false, 70, a2, activities.get(4), p2, 1, 10);
         Event e5 = new Event("your keke", "dat kek", d02, false, 40, a2, activities.get(5), p2, 0, 15);
 
-        Pouloumer p3 = p_Matty;
+        Pouloumer p3 = ServicesPouloumer.getPouloumerByNickname("Matty");
         Date d03 = new Date();
         Event e6 = new Event("hehehe", "useless information is useless", d03, false, 150, a3, activities.get(6), p3, 10, 12);
 
@@ -235,17 +294,18 @@ public class SetupDB {
         events.add(e5);
         events.add(e6);
 
-        Pouloumer p4 = p_Valice;
-        Pouloumer p5 = p_Juju;
-        Pouloumer p6 = p_Olive;
-        
+        Pouloumer p4 = ServicesPouloumer.getPouloumerByNickname("Valice");
+        Pouloumer p5 = ServicesPouloumer.getPouloumerByNickname("Juju");
+        Pouloumer p6 = ServicesPouloumer.getPouloumerByNickname("Olive");
+
         JpaUtil.createEntityManager();
 
         try {
             for (Event e : events) {
                 try {
+
                     JpaUtil.openTransaction();
-                    
+
                     try {
                         DAOEvent.persist(e);
 
@@ -254,10 +314,12 @@ public class SetupDB {
                         JpaUtil.cancelTransaction();
                         throw ex;
                     }
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
+
         } finally {
             JpaUtil.closeEntityManager();
         }
@@ -282,5 +344,49 @@ public class SetupDB {
         ServicesEvent.addParticipant(e6, p5);
         ServicesEvent.addParticipant(e6, p6);
     }
+    
+    protected static void setupEvents()
+            throws Exception {
+        List<Event> events = new ArrayList<>();
+        DataFactory df = new DataFactory();
+        Random rand = new Random();
+        Date minDate = df.getDate(2019, 5, 6);
+        Date maxDate = df.getDate(2019, 5, 19);
+        
+        for (int i = 0; i<50; i++){
+            Date date = df.getDateBetween(minDate, maxDate);
+            Pouloumer organizer = ServicesPouloumer.getPouloumerById((long) (rand.nextInt(3)+1)); 
+            Activity activity = ServicesActivity.getActivityById((long)(rand.nextInt(200)+1));
+            Address address = ServicesAddress.getAddressById((long)(rand.nextInt(20)+1));
+            Event e = new Event("evenement"+i, df.getRandomText(50, 200), date, false, 60, address, activity, organizer, rand.nextInt(5), rand.nextInt(5)+5);
+            events.add(e);
+        }
 
+        JpaUtil.createEntityManager();
+
+        try {
+            for (Event e : events) {
+                try {
+
+                    JpaUtil.openTransaction();
+
+                    try {
+                        DAOEvent.persist(e);
+
+                        JpaUtil.commitTransaction();
+                    } catch (Exception ex) {
+                        JpaUtil.cancelTransaction();
+                        throw ex;
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        } finally {
+            JpaUtil.closeEntityManager();
+        }
+    }
+    
 }

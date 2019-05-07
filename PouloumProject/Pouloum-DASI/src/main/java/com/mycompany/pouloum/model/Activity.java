@@ -18,7 +18,7 @@ public class Activity implements Serializable {
     // ATTRIBUTES
     // Identifier
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     // Hierarchy

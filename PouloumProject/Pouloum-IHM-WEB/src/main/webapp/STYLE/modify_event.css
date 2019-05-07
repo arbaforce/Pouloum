@@ -1,0 +1,17 @@
+#map_container{
+    max-height:1000px;
+}
+
+.label_event{
+    margin:0px;
+    padding:0px;
+    width:100%;
+    height:100%;
+}
+
+.input_event{
+    margin:0px;
+    padding:0px;
+    width:100%;
+    height:100%;
+}
