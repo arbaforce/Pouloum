@@ -27,8 +27,8 @@
                                 
                                 
                                    
-                                <script>
-                                    /*
+<script>
+/*
                                 
                                 
                                 <!--One event_container for each event of the research-->
@@ -440,8 +440,8 @@
                                         </div><!--#event_status_know_more_no_more_button_badges_container -->
                                     </div><!--#event_row -->
                                 </div><!--#event_container -->
-                                */
-                                </script>
+*/
+</script>
                             </div><!--#search_result_list_global_container -->
                         </div><!--#search_result_list_global_col -->
                         <div id="search_result_map_global_col" class="col sidebar">
@@ -468,6 +468,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="SCRIPT/events_browser.js"></script>
+        <script src="SCRIPT/dynamic_json.js"></script>
         
         <script>
 initialiseMap();
@@ -489,10 +490,13 @@ function ready_userID(userID) {
         },
         datatype: 'json'
     }).done(function (data){
-        //TODO
-    })
+        var OK = data.result;
+        if (OK) {
+            var events = data.events;
+			page_add_events(events);
+        }
+    });
     
-    /*
     $.ajax({
         url: './AjaxAction',
         type: 'POST',
@@ -503,9 +507,8 @@ function ready_userID(userID) {
         datatype: 'json'
     }).done(function (data) {
         //TODO
-    })
-    */
-});
+    });
+}
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
