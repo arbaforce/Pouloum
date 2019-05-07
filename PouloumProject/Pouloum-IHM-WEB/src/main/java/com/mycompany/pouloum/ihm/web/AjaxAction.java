@@ -183,7 +183,8 @@ public class AjaxAction {
     }
 
     /**
-     * Get the events (either past or upcoming) for an user into a JSON container.
+     * Get the events (either past or upcoming) for an user into a JSON
+     * container.
      *
      * @param id is the id of the user.
      * @param history states which events (past or upcoming ones) should be
@@ -374,6 +375,69 @@ public class AjaxAction {
     }
 
     /**
+     * Create an event.
+     *
+     * @param name is the name of the event.
+     * @param description is the description of the event.
+     * @param startDate is the date when the event starts.
+     * @param duration is the duration of the event.
+     * @param addressNumber is the address' number of the event.
+     * @param addressStreet is the address' street of the event.
+     * @param addressPostalCode is the address' postal code of the event.
+     * @param addressCity is the address' city of the event.
+     * @param addressCountry is the address' country of the event.
+     * @param idActivity is the activity's id of the event.
+     * @param idOrganizer is the organizer's id of the event.
+     * @param participantsMin is the minimal number of participants for the
+     * event.
+     * @param participantsMax is the maximal number of participants for the
+     * event.
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void createEvent(String name, String description, String startDate,
+            String duration, String addressNumber, String addressStreet,
+            String addressPostalCode, String addressCity, String addressCountry,
+            String idActivity, String idOrganizer, String participantsMin,
+            String participantsMax) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "createEvent"),
+                    new JsonHttpClient.Parameter("name", name),
+                    new JsonHttpClient.Parameter("description", description),
+                    new JsonHttpClient.Parameter("startDate", startDate),
+                    new JsonHttpClient.Parameter("duration", duration),
+                    new JsonHttpClient.Parameter("addressNumber", addressNumber),
+                    new JsonHttpClient.Parameter("addressStreet", addressStreet),
+                    new JsonHttpClient.Parameter("addressPostalCode", addressPostalCode),
+                    new JsonHttpClient.Parameter("addressCity", addressCity),
+                    new JsonHttpClient.Parameter("addressCountry", addressCountry),
+                    new JsonHttpClient.Parameter("idActivity", idActivity),
+                    new JsonHttpClient.Parameter("idOrganizer", idOrganizer),
+                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
+                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "createEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("createEvent", ex);
+        }
+    }
+
+    /**
      * Get all available information about a given event into a JSON container.
      *
      * @param id is the id of the event.
@@ -441,7 +505,7 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("getActivityDetails", ex);
         }
     }
-    
+
     public void findAllActivities() throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
