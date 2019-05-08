@@ -71,6 +71,6 @@ function page_add_events(events, limit) {
         addResult(data_id, data_label, data_activities, data_organizer, data_place, data_start, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges);
         
         count++;
-        if (count >= 100) break;
+        if (count >= limit) break;
     }
 }
