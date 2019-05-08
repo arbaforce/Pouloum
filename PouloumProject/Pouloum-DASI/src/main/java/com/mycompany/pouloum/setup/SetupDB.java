@@ -386,9 +386,34 @@ public class SetupDB {
     
     protected static void setupEvents()
             throws Exception {
-        JpaUtil.createEntityManager();
         
         List<Event> events = new ArrayList<>();
+        
+        
+        Random rand = new Random();
+        
+        DataFactory df = new DataFactory();
+        Date minDate = df.getDate(2019, 5, 6);
+        Date maxDate = df.getDate(2019, 5, 19);
+        
+        
+        BufferedReader reader = getResourceReader("setup/Events.txt");
+
+        List<String> names = new ArrayList<>();
+
+        try {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                if (!line.isEmpty()) {
+                    int pos = rand.nextInt(names.size()+1);
+                    names.add(pos, line);
+                }
+            }
+        } finally {
+            reader.close();
+        }
+        
+        
+        JpaUtil.createEntityManager();
         
         List<Long> idsPouloumers = DAOPouloumer.findAllIDs();
         int nbPouloumer = idsPouloumers.size();
@@ -401,18 +426,13 @@ public class SetupDB {
         
         JpaUtil.closeEntityManager();
         
-        Random rand = new Random();
-        
-        DataFactory df = new DataFactory();
-        Date minDate = df.getDate(2019, 5, 6);
-        Date maxDate = df.getDate(2019, 5, 19);
-        
         for (int i = 0; i<200; i++){
             Date date = df.getDateBetween(minDate, maxDate);
             Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
             Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
             Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
-            Event e = new Event("evenement"+i, df.getRandomText(50, 200), date, false, 60, address, activity, organizer, rand.nextInt(5), rand.nextInt(5)+5);
+            String name = names.get(i % names.size()).replaceAll("§", activity.getName());
+            Event e = new Event(name, df.getRandomText(50, 200), date, false, 60, address, activity, organizer, rand.nextInt(5), rand.nextInt(5)+5);
             events.add(e);
         }
         
