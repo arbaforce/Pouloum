@@ -193,12 +193,14 @@ public class ServicesServlet extends HttpServlet {
             ////Consult friends
             ///////////
             else if ("getUserFriends".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: " + sma);
+                serviceCalled = false;
             } ///////////
             ////Consult blacklist
             ///////////
             else if ("getUserBlacklist".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Add interests
             ///////////
@@ -233,32 +235,38 @@ public class ServicesServlet extends HttpServlet {
             ////Accept friend
             ///////////
             else if ("acceptFriend".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Remove friend
             ///////////
             else if ("removeFriend".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Remove blacklist
             ///////////
             else if ("removeFromBlackList".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Add blacklist
             ///////////
             else if ("addToBlacklist".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Request friend
             ///////////
             else if ("sendFriendRequest".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } ///////////
             ////Report
             ///////////
             else if ("reportAbusiveBehaviour".equals(sma)) {
-                //TODO
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unimplemented SMA: {0}", sma);
+                serviceCalled = false;
             } /////////////
             /////Search for an event
             /////////////
@@ -367,7 +375,7 @@ public class ServicesServlet extends HttpServlet {
             //////////////
             else if ("createEvent".equals(sma)) {
                 // Get organizer
-                Long idOrganizer = Long.parseLong(request.getParameter("idUser"));
+                Long idOrganizer = Long.parseLong(request.getParameter("idOrganizer"));
                 Pouloumer organizer = ServicesPouloumer.getPouloumerById(idOrganizer);
 
                 // Get activity
@@ -386,7 +394,7 @@ public class ServicesServlet extends HttpServlet {
                 // Create the actual event
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
-                Date startDate = DateUtil.toDate(request.getParameter("date"));
+                Date startDate = DateUtil.toDate(request.getParameter("startDate"));
                 int duration = Integer.parseInt(request.getParameter("duration"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
@@ -491,7 +499,7 @@ public class ServicesServlet extends HttpServlet {
             //////SMA name mistake?
             /////////////////
             else {
-                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unknown SMA: " + sma);
+                Logger.getLogger(ServicesServlet.class.getName()).log(Level.SEVERE, "Unknown SMA: {0}", sma);
                 serviceCalled = false;
             }
         } catch (NumberFormatException ex) {
