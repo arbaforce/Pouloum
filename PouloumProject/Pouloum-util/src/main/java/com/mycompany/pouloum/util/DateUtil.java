@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class DateUtil {
 
     public static String toString(Date date) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
         return strDate;
     }
