@@ -240,16 +240,18 @@ public class SetupDB {
         DataFactory df = new DataFactory();
         Random rand = new Random();
         
-        for (int i = 0; i<200; i++) {
+        int nbPouloumers = 400;
+        for (int i = 0; i < nbPouloumers; i++) {
             Address address = null;
 
             String p_nickname = df.getRandomWord();
             String p_password = df.getRandomWord(8, 14);
             try {
+                char gender = rand.nextBoolean() ? 'M' : 'F';
                 CRE created = ServicesPouloumer.signUp(df.getLastName(), df.getFirstName(), p_nickname, 
                     df.getRandomWord() + "@" + df.getRandomWord() + "." + df.getRandomWord(2,3),
-                    p_password, false, false, '?', df.getBirthDate(),
-                    "06"+df.getNumberText(6),address);
+                    p_password, false, false, gender, df.getBirthDate(),
+                    "06" + df.getNumberText(6), address);
                 
                 if (created == CRE_OK) {
                     Pouloumer p = ServicesPouloumer.getPouloumerByNickname(p_nickname);
@@ -260,7 +262,10 @@ public class SetupDB {
                         Long id = new Long(rand.nextInt(100) + 1);
                         try {
                             Activity a = ServicesActivity.getActivityById(id);
-                            if (!idInterets.contains(id)) idInterets.add(a.getId());
+                            if (!idInterets.contains(id)) {
+                                idInterets.add(a.getId());
+                                ServicesPouloumer.addInterests(p, a);
+                            }
                         } catch (Exception ex) {
                         }
                     }
@@ -442,18 +447,24 @@ public class SetupDB {
         Date minDate = df.getDate(2019, 5, 6);
         Date maxDate = df.getDate(2019, 5, 19);
         
-        
-        for (int i = 0; i<200; i++){
+        int nbEvents = nbPouloumer / 5;
+        for (int i = 0; i < nbEvents; i++) {
             Date date = df.getDateBetween(minDate, maxDate);
             Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
             Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
             Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
-            String name = names.get(i % names.size()).replaceAll("§", activity.getName());
+            String name = names.get(i % names.size());
             String desc = descs.get(rand.nextInt(descs.size()));
+            name = name.replaceAll("§", activity.getName());
+            desc = desc.replaceAll("§", activity.getName());
             // // 1 chance sur 5 pour que pas de nombre de participants min/max.
-            int nb_min = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10);
+            int nb_min = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + 1;
             int nb_max = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + nb_min;
-            Event e = new Event(name, desc, date, false, 60, address, activity, organizer, nb_min, nb_max);
+            int dur = 10 + rand.nextInt(10) * 10;
+            Event e = new Event(name, desc,
+                    date, false, dur,
+                    address, activity,
+                    organizer, nb_min, nb_max);
             events.add(e);
         }
         
