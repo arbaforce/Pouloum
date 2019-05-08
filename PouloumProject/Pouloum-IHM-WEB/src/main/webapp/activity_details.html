@@ -85,9 +85,7 @@
                     </div><!--#img_row -->
                     <br>
                     <div id="badges_row" class="row justify-content-center">
-                        <div id="badges_container" class="col-10">
-                            <div style="height:75px;border:1px solid #000;">Badges ici!</div>
-                        </div>
+                        <div id="badges_container" class="row" style="height:75px;border:1px solid #000;"></div>
                     </div><!--#badges_container -->
                     <br>
                     <div id="resource_row" class="row justify-content-left">
@@ -155,10 +153,20 @@ function ready_userID(userID) {
 
                 badgesArray.forEach(function (element) {
                     let badgeDiv = document.createElement("div");
+                    badgeDiv.className = "col"
+                    let badgeImg =document.createElement("img");
+                    badgeImg.className = "little_avatar_image rounded";
                     let badgeText = document.createTextNode(element.type);
-                    badgeDiv.appendChild(badgeText);
+                    var badge= element.type.substr(0,1) + element.type.substr(1,element.type.length).toLowerCase();
+                    badgeImg.src = "STYLE/" + badge + ".png";
+                    badgeImg.alt= "STYLE/sad.png";
+                    badgeDiv.appendChild(badgeImg);
                     badgesDiv.appendChild(badgeDiv);
                 });
+                    
+                    badgeDiv.appendChild(badgeDiv);
+                    badgeDiv.appendChild(badgeImg);
+                    badgesDiv.appendChild(badgeDiv);
 
                 $('#activity_rules_container').empty();
                 $('#activity_rules_container').append(data.activity.rules);
@@ -218,8 +226,13 @@ function ready_activityID(activityID) {
 			
             badgesArray.forEach(function (element) {
                 let badgeDiv = document.createElement("div");
+                badgeDiv.className = "col"
+                var badgeImg =document.createElement("img");
+                badgeImg.className = "little_avatar_image rounded";
                 let badgeText = document.createTextNode(element.type);
-                badgeDiv.appendChild(badgeText);
+                var badge= element.type.substr(0,1) + element.type.substr(1,element.type.length).toLowerCase();
+                badgeImg.src = "STYLE/" +badge + ".png";
+                badgeDiv.appendChild(badgeImg);
                 badgesDiv.appendChild(badgeDiv);
             });
 			
