@@ -36,9 +36,11 @@ var htmlcode = `
                         <a class="dropdown-item font-weight-bold text-center" href="profile_history.html">
                             Historique
                         </a>
+                        <!--
                         <a class="dropdown-item font-weight-bold text-center" href="profile_relations.html">
                             Relations  
                         </a>
+                        -->
                     </div>
                 </div>
                 <div>
