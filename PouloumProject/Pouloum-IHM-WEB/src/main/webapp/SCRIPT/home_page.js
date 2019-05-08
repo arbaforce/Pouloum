@@ -197,18 +197,12 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                                     {
                                         var data_participant = data_participants[i];
                                     
-                                        var a_participant = document.createElement("a");
-                                        a_participant.href = data_participant.url;
-                                        {
-                                            var img_participant = document.createElement("img");
-                                            img_participant.className = "little_avatar_image rounded";
-                                            img_participant.src = data_participant.img;
-                                            img_participant.alt = data_participant.alt;
-                                        
-                                            a_participant.appendChild(img_participant);
-                                        }
+                                        var img_participant = document.createElement("img");
+                                        img_participant.className = "little_avatar_image rounded";
+                                        img_participant.src = data_participant.img;
+                                        img_participant.alt = data_participant.alt;
+                                        div_users_row.appendChild(img_participant);
                                     
-                                        div_users_row.appendChild(a_participant);
                                     }
                                 }
                             
