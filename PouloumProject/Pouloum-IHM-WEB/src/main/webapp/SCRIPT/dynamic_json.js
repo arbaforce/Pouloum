@@ -6,7 +6,10 @@ function page_clear_events() {
 function page_add_events(events, limit) {
     var count = 0;
     for (var ei=0; ei<events.length; ei++) {
-        var event = events[ei].event;
+        if (events[ei].event == null)
+            var event = events[ei];
+        else
+            var event = events[ei].event;
         
         var data_id = event.id;
         var data_label = event.label;
