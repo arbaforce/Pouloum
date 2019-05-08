@@ -334,7 +334,7 @@ public class ServicesServlet extends HttpServlet {
                     resultErrorMessage = "The user is already participating to an event happening at the same time.";
                 } else {
                     if (checkResult == CRE_WAR_EVENT_NEAR) {
-                        //TODO notify user
+                        ServicesTools.simulateEmail(p.getEmail(),"ATTENTION : l'évènement que vous venez de rejoindre se déroule à moins de deux heures d'un autre évènement auquel vous participez.");
                     }
                     
                     checkResult = ServicesPouloumer.joinEvent(p, e);
