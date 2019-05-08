@@ -163,8 +163,9 @@
                     var OK = data.result;
                     if (OK) {
                         var events = data.events;
-                        events[153].average_similarity = 1;
-                        all_events_with_similarity = sortEventsBySimilarity(events);
+                        events[153].average_similarity = 1; //FIXME remove this line when DB contains events with non-null similarity.
+                        sortEventsBySimilarity(events)
+                        all_events_with_similarity = events ;
                         console.log(events); //FIXME to remove            
             
                         page_add_events(events);
@@ -224,14 +225,14 @@
             //TODO implement location and date filters
             function apply_filters(activity, location, date, friend) {
                 var some_events = [];
-    
+                console.log(all_events_with_similarity);
                 for (var ei=0; ei<all_events_with_similarity.length; ei++) {
                     var event_with_similarity = all_events_with_similarity[ei];
                     console.log(event_with_similarity);
                     var keep = true;
                     var isFound = false;
-                    if(friend.length>0 && keep){
-                        var participants = event["participants"];
+                    if(/*(friend in document) && */(friend.length>0 && keep)){
+                        var participants = event_with_similarity.event["participants"];
                         for(var pi=0; pi<participants.length; pi++){
                             console.log(participants[pi]);
                             //console.log(participant["nickname"]);
@@ -246,17 +247,17 @@
                         console.log("FRIEND IS NOT DEFINED !!!")
                     }
                     
-                    if(activity.length>0 && keep){
+                    if(/*(activity in document) && */(activity.length>0 && keep)){
                         isFound = false;
-                        if(event["activity"]["name"].indexOf(activity)>=0){
+                        if(event_with_similarity.event["activity"]["name"].indexOf(activity)>=0){
                             isFound = true;
                         }
                         keep = (isFound && keep);
                     } else {
                         console.log("ACTIVITY IS NOT DEFINED !!!")
                     }
-                    if(location.length>0 && keep){
-                        var data_place = event.address.number.trim() + " " + event.address.street.trim() + " " + event.address.city.trim();
+                    if(/*(location in document) &&*/ (location.length>0 && keep)){
+                        var data_place = event_with_similarity.event.address.number.trim() + " " + event_with_similarity.event.address.street.trim() + " " + event_with_similarity.event.address.city.trim();
                         isFound = false;
                         if(data_place.indexOf(location)>=0){
                             isFound = true
@@ -264,23 +265,39 @@
                         keep = (isFound && keep);
                     }
                     
-                    if (keep) some_events.push(event);
+                    if (keep) some_events.push(event_with_similarity);
                 }
     
                 //FIXME hide/show instead of clear/add
                 page_clear_events();
-                page_add_events(some_events);
+                page_add_events(some_events, 100);
             }
             
-            /*var activity_filter = document.getElementById("activity_filter");
+            var activity_filter = document.getElementById("activity_filter");
             var location_filter = document.getElementById("location_filter");
             var date_filter = document.getElementById("date_filter");
             var friend_filter = document.getElementById("friend_filter");
             
-            activity_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
-            location_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
-            date_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));
-            friend_filter.addEventListener("input",apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter));*/
+            activity_filter.addEventListener("input", function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                            }
+                                                    );
+            /*$("#activity_filter").addEventListener("input", function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                            }
+                                                    );
+            $("location_filter").addEventListener("input",function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                            }
+                                                    );
+            $("date_filter").addEventListener("input",function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                            }
+                                                    );
+            $("friend_filter").addEventListener("input",function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                            }
+                                                    );*/
             
         </script>
         <!-- retrieves the userID -->
