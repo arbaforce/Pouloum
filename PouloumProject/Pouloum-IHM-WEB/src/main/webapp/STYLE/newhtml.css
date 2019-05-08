@@ -122,3 +122,10 @@ input{
     width:100%;
     bottom:0;
 }
+
+#loading_div {
+    margin-top: 10%;
+    text-align: center;
+    display: none;
+    width: 100%;
+}
