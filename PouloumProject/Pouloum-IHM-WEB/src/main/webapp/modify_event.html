@@ -254,21 +254,21 @@
                         }).done(function (data) {
                             let OK = data.result;
                             if (OK) {
-                                $("#event_name_container").value = data.event.label;
-                                $("#event_description_container").value = data.event.description;
-                                $("#event_activity_name_container").value = data.event.activity.name;
+                                document.getElementById("event_name_container").value = data.event.label;
+                                document.getElementById("event_description_container").value = data.event.description;
+                                document.getElementById("activity_select").value = data.event.activity.name;
                                 let eventAddress = data.event.address;
-                                $("#event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
-                                $("#event_address_postal_code_container").value = eventAddress.postal_code;
-                                $("#event_address_city_container").value = eventAddress.city;
-                                $("#event_address_country_container").value = eventAddress.country;
-                                $("#event_date_container").value = data.event.startDate;
-                                $("#event_duration_container").value = data.event.duration;
-                                $("#event_participants_number_min_container").value = data.event.participants_min;
-                                $("#event_participants_number_max_container").value = data.event.participants_max;
+                                document.getElementById("event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+                                document.getElementById("event_address_postal_code_container").value = eventAddress.postal_code;
+                                document.getElementById("event_address_city_container").value = eventAddress.city;
+                                document.getElementById("event_address_country_container").value = eventAddress.country;
+                                document.getElementById("date_container").value = data.event.startDate;
+                                document.getElementById("event_duration_container").value = data.event.duration;
+                                document.getElementById("event_player_min_container").value = data.event.participants_min;
+                                document.getElementById("event_player_max_container").value = data.event.participants_max;
                                 
-                                $("#event_name_container").disabled = true;
-                                $("#event_activity_name_container").disabled = true;
+                                document.getElementById("event_name_container").disabled = true;
+                                document.getElementById("activity_select").disabled = true;
 
                                 //TODO : consider whether to add status when modifying an event
                                 /*

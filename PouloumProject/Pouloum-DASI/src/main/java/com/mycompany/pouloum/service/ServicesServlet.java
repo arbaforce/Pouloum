@@ -413,7 +413,7 @@ public class ServicesServlet extends HttpServlet {
 
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
-                Date startDate = DateUtil.toDate(request.getParameter("date"));
+                Date startDate = DateUtil.toDate(request.getParameter("startDate"));
                 int duration = Integer.parseInt(request.getParameter("duration"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
@@ -495,7 +495,7 @@ public class ServicesServlet extends HttpServlet {
             //////Consult an event
             /////////////////
             else if ("getEventDetails".equals(sma)) {
-                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idEvent = Long.parseLong(request.getParameter("eventID"));
 
                 Event e = ServicesEvent.getEventById(idEvent);
 

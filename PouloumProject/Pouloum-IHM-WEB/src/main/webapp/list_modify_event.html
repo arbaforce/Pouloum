@@ -181,12 +181,30 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="SCRIPT/dynamic_json.js"></script>
+        <script src="SCRIPT/list_modify_event.js"></script>
         
         <script>
-// gets called automatically
-// once the userID is retrieved
-function ready_userID(userID) {
-}
+            // gets called automatically
+            // once the userID is retrieved
+            function ready_userID(userID) {
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getOrganizedEvents',
+                        'id': userID
+                    },
+                    datatype: 'json'
+                }).done(function (data) {
+                    var OK = data.result;
+                    if (OK) {
+                        var events = data.organizedEvents;         
+            
+                        page_add_events(events);
+                    }
+                });
+            }
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>

@@ -51,7 +51,7 @@ var htmlcode = `
                         Organiser
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbar_organize_dropdown_links">
-                        <a class="dropdown-item font-weight-bold text-center" href="modify_event.html?create=1&idEvent=null">
+                        <a class="dropdown-item font-weight-bold text-center" href="modify_event.html">
                             Nouvel Evènement
                         </a>
                         <a class="dropdown-item font-weight-bold text-center" href="list_modify_event.html">

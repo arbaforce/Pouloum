@@ -71,7 +71,6 @@
                 }).done(function (data){
                     var OK = data.result;
                     if (OK) {
-                        console.log(data);
                         var events = data.events;
                         page_add_events(events);
                         for(var index in events){

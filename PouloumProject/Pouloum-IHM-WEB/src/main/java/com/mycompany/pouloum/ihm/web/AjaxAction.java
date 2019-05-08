@@ -492,7 +492,7 @@ public class AjaxAction {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
                     new JsonHttpClient.Parameter("SMA", "updateEvent"),
-                    new JsonHttpClient.Parameter("id", id),
+                    new JsonHttpClient.Parameter("idEvent", id),
                     new JsonHttpClient.Parameter("name", name),
                     new JsonHttpClient.Parameter("description", description),
                     new JsonHttpClient.Parameter("startDate", startDate),
@@ -502,8 +502,8 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressPostalCode", addressPostalCode),
                     new JsonHttpClient.Parameter("addressCity", addressCity),
                     new JsonHttpClient.Parameter("addressCountry", addressCountry),
-                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
-                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+                    new JsonHttpClient.Parameter("playerMin", participantsMin),
+                    new JsonHttpClient.Parameter("playerMax", participantsMax)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -687,6 +687,39 @@ public class AjaxAction {
             }
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("findAllEvents", ex);
+        }
+    }
+    
+    /**
+     * Find all the organized events by the user in the database.
+     * 
+     * @param idUser, the current user's id
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void findOrganizedEvents(String idUser) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "getOrganizedEvents"),
+                    new JsonHttpClient.Parameter("idUser", idUser)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "findOrganizedEvents");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                this.container.add("organizedEvents", smaResultContainer.get("organizedEvents"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("findOrganizedEvents", ex);
         }
     }
 }
