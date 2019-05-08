@@ -296,7 +296,12 @@ public class ServicesServlet extends HttpServlet {
                         sumPouloumerSimilarity += PouloumerSimilarity;
                         numberOfPouloumerInEvent+=1;
                     }
-                    double averagePouloumerSimilarity=(double) (sumPouloumerSimilarity/numberOfPouloumerInEvent);
+                    double averagePouloumerSimilarity;
+                    if (numberOfPouloumerInEvent==0){
+                        averagePouloumerSimilarity=0L;
+                    } else {
+                        averagePouloumerSimilarity=(double) (sumPouloumerSimilarity/numberOfPouloumerInEvent);
+                    }
                     eventAndPouloumerSimiliarities.add("event", e.toJson());
                     eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
                     eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
@@ -304,7 +309,7 @@ public class ServicesServlet extends HttpServlet {
                     events.add(eventAndPouloumerSimiliarities);
                 }
 
-                container.add("similarEvents", events);
+                container.add("events", events);
             }  /////////////
             /////Search for all events
             /////////////
