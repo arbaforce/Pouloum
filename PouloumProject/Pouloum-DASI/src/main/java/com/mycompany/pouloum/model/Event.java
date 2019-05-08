@@ -82,6 +82,7 @@ public class Event implements Serializable {
         this.participants_min = participants_min;
         this.participants_max = participants_max;
         this.participants = new ArrayList<>();
+        participants.add(organizer);
     }
 
     // SETTERS AND GETTERS

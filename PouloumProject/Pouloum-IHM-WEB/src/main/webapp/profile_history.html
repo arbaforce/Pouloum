@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>TODO supply a title</title>
+        <title>Historique - Pouloum</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -10,8 +10,13 @@
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
-            <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
-                <script src="SCRIPT/navbar_template.js"></script>
+            <div id="container_navbar_and_alert" class="container-fluid" style="max-height: 16vh">
+                <div id="container_navbar_row" class="row mx-0">
+                    <script src="SCRIPT/navbar_template.js"></script>
+                </div>
+                <div id="container_alert_row" class="row mx-0 w-100">
+                    &nbsp;
+                </div>
             </div> <!--#container_navbar_and_alert -->
 
 
@@ -19,6 +24,9 @@
             <div id="search_result_global_container" class="container w-100">
                 <div id="search_result_global_row" class="row h-100 w-100 mx-0 my-0 px-0 py-0" >
                     <div id="search_result_list_global_col" class="col h-100 w-100 px-0 py-0">
+                        <div id="loading_div">
+                            <img src="IMG/loading.gif">
+                        </div>
                         <div id="search_result_list_global_container" class="container h-100 w-100">
 
                         </div><!--#search_result_list_global_container -->
@@ -42,6 +50,8 @@
 // gets called automatically
 // once the userID is retrieved
 function ready_userID(userID) {
+    document.getElementById("search_result_list_global_container").style.display = "none";
+    document.getElementById("loading_div").style.display = "block";
     $.ajax({
         url: './AjaxAction',
         type: 'POST',
@@ -52,6 +62,8 @@ function ready_userID(userID) {
         },
         datatype: 'json'
     }).done(function (data) {
+        document.getElementById("loading_div").style.display = "none";
+        document.getElementById("search_result_list_global_container").style.display = "block";
         var OK = data.result;
         if (OK) {
             var events = data.events;

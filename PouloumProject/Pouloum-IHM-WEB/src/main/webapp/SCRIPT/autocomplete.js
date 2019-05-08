@@ -18,7 +18,6 @@ function autocomplete(inp, div, arr, rech) {
         /*for each item in the array...*/
         var text;
         for(var[key,value] of arr){
-            // console.log(key + " : " + value);
             /*check if the item starts with the same letters as the text field value:*/
             //if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
             var stringIndex = value.toUpperCase().indexOf(val.toUpperCase());
@@ -27,7 +26,7 @@ function autocomplete(inp, div, arr, rech) {
                 b = document.createElement("LI");
                 b.setAttribute("id", i + "-list-items");
                 b.setAttribute("value", key);
-                b.setAttribute("class", "list-group-item autocomplete-items");
+                b.setAttribute("class", "list-group-item autocomplete-items py-0");
                 /*make the matching letters bold:*/
                 text = value.substring(0, stringIndex) ;
                 text += "<strong>" + value.substring(stringIndex, stringIndex + val.length) + "</strong>";

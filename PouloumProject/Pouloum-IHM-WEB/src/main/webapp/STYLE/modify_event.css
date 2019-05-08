@@ -23,6 +23,8 @@
 
 #map_container{
     max-height: 350px;
+    border:2px solid;
+    margin-top: 2%;
 }
 
 #badge_title{
@@ -30,10 +32,16 @@
     font-size: 15px;
 }
 
+#button_container{
+    padding:4%;
+}
+
 #badges_and_map_col{
     margin:0px;
     padding:0px;
     padding-top: 1%;
+    margin-left: 3%;
+    margin-right: 4%;
 }
 
 #badges_container{
@@ -49,4 +57,13 @@
     width:100%;
     padding-right:1%;
     padding-top: 1%;
+}
+
+.autocomplete-items:hover{
+    background-color: yellow;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }

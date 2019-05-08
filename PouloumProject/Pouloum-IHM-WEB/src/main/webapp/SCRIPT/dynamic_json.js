@@ -6,7 +6,10 @@ function page_clear_events() {
 function page_add_events(events, limit) {
     var count = 0;
     for (var ei=0; ei<events.length; ei++) {
-        var event = events[ei];
+        if (events[ei].event == null)
+            var event = events[ei];
+        else
+            var event = events[ei].event;
         
         var data_id = event.id;
         var data_label = event.label;
@@ -21,7 +24,7 @@ function page_add_events(events, limit) {
         var tmp_a = event.activity;
         var data_activities = [{
             name: tmp_a.name,
-            url: "./activity_details?id=" + tmp_a.id,
+            url: "./activity_details.html?activityID=" + tmp_a.id,
             level: "débutant" //FIXME
         }];
         var tmp_bs = tmp_a.badges;
@@ -46,6 +49,7 @@ function page_add_events(events, limit) {
         
         var tmp_o = event.pouloumer;
         var data_organizer = {
+            id: tmp_o.id,
             name: tmp_o.nickname,
             url: "./consult_other_user_profile.html?id=" + tmp_o.id
         };
@@ -71,6 +75,6 @@ function page_add_events(events, limit) {
         addResult(data_id, data_label, data_activities, data_organizer, data_place, data_start, data_duration, data_participants, data_status, data_eventurl, data_grades, data_badges);
         
         count++;
-        if (count >= 100) break;
+        if (count >= limit) break;
     }
 }

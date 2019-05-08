@@ -5,11 +5,13 @@ html {
 
 .row_of_badges{
     width:100%;
-    height:50%
+    height:50%;
+    margin:0px;
+    padding:0px;
 }
 
 .profile_badges{
-    max-width: 90%;
+    max-width: 100%;
     margin-left:auto;
     margin-right: auto;
 }
@@ -49,20 +51,50 @@ body {
     padding : 3px;
 }
 
+.row{
+    
+}
+
+button{
+    box-shadow: 0px 2px 6px cadetblue;
+}
+
+input{
+    box-shadow: 0px 1px 3px cadetblue;
+}
+
+.little_title_page{
+    margin-left: 1%;
+    margin-top: 2%;
+    font-weight: bold;
+}
+
+
+.border_profil{
+    border: 1px solid cadetblue;
+    margin-right: 0.5%;
+    box-shadow: 0px 2px 4px currentColor;
+    margin-left: 0.5%;
+}
 
 .title_page{
     text-align: center;
-    background-color: #f8f9fa;
+    background-color: #5a8ab2;
+    color: white;
     font-size: 25px;
     font-weight: bold;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    border: 1px solid #5a8ab2;
 }
 
+
 #wrapper {
-    overflow: hidden;
+    overflow: auto;
     width: 100vw;
     height: 100vh;
     position: relative;
+    padding:0%;
+    margin:0%;
 }
 
 #navbar_img {
@@ -75,6 +107,10 @@ body {
     margin:0px;
     padding:0px;
 }
+
+#container_navbar_row{
+    box-shadow: 2px 3px 4px cadetblue;
+}
   
 .pre-scrollable {
     max-height: 100%;
@@ -85,4 +121,11 @@ body {
     position:absolute; 
     width:100%;
     bottom:0;
+}
+
+#loading_div {
+    margin-top: 10%;
+    text-align: center;
+    display: none;
+    width: 100%;
 }

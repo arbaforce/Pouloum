@@ -169,8 +169,6 @@ public class AjaxAction {
 
             if ("OK".equals(result)) {
                 this.container.addProperty("result", true);
-
-                // TODO get other fields ?
             } else {
                 this.container.addProperty("result", false);
                 this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
@@ -415,9 +413,9 @@ public class AjaxAction {
      * @param addressCountry is the address' country of the event.
      * @param idActivity is the activity's id of the event.
      * @param idOrganizer is the organizer's id of the event.
-     * @param participantsMin is the minimal number of participants for the
+     * @param playerMin is the minimal number of participants for the
      * event.
-     * @param participantsMax is the maximal number of participants for the
+     * @param playerMax is the maximal number of participants for the
      * event.
      * @throws ServiceException if something goes wrong when calling the
      * service.
@@ -425,8 +423,8 @@ public class AjaxAction {
     public void createEvent(String name, String description, String startDate,
             String duration, String addressNumber, String addressStreet,
             String addressPostalCode, String addressCity, String addressCountry,
-            String idActivity, String idOrganizer, String participantsMin,
-            String participantsMax) throws ServiceException {
+            String idActivity, String idOrganizer, String playerMin,
+            String playerMax) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
@@ -442,8 +440,8 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressCountry", addressCountry),
                     new JsonHttpClient.Parameter("idActivity", idActivity),
                     new JsonHttpClient.Parameter("idOrganizer", idOrganizer),
-                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
-                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+                    new JsonHttpClient.Parameter("playerMin", playerMin),
+                    new JsonHttpClient.Parameter("playerMax", playerMax)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -494,7 +492,7 @@ public class AjaxAction {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
                     new JsonHttpClient.Parameter("SMA", "updateEvent"),
-                    new JsonHttpClient.Parameter("id", id),
+                    new JsonHttpClient.Parameter("idEvent", id),
                     new JsonHttpClient.Parameter("name", name),
                     new JsonHttpClient.Parameter("description", description),
                     new JsonHttpClient.Parameter("startDate", startDate),
@@ -504,8 +502,8 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressPostalCode", addressPostalCode),
                     new JsonHttpClient.Parameter("addressCity", addressCity),
                     new JsonHttpClient.Parameter("addressCountry", addressCountry),
-                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
-                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+                    new JsonHttpClient.Parameter("playerMin", participantsMin),
+                    new JsonHttpClient.Parameter("playerMax", participantsMax)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -662,14 +660,16 @@ public class AjaxAction {
     /**
      * Find all events in the database.
      * 
+     * @param idUser, the current user's id
      * @throws ServiceException if something goes wrong when calling the
      * service.
      */
-    public void findAllEvents() throws ServiceException {
+    public void findAllEvents(String idUser) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "findAllEvents")
+                    new JsonHttpClient.Parameter("SMA", "simpleSearchForUser"),
+                    new JsonHttpClient.Parameter("idUser", idUser)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
@@ -687,6 +687,91 @@ public class AjaxAction {
             }
         } catch (IOException ex) {
             throw JsonServletHelper.ActionExecutionException("findAllEvents", ex);
+        }
+    }
+    
+    /**
+     * Find all the organized events by the user in the database.
+     * 
+     * @param idUser, the current user's id
+     * @throws ServiceException if something goes wrong when calling the
+     * service.
+     */
+    public void findOrganizedEvents(String idUser) throws ServiceException {
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "getOrganizedEvents"),
+                    new JsonHttpClient.Parameter("idUser", idUser)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "findOrganizedEvents");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+                this.container.add("organizedEvents", smaResultContainer.get("organizedEvents"));
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("findOrganizedEvents", ex);
+        }
+    }
+    
+    public void joinEvent(String userID, String eventID) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "joinEvent"),
+                    new JsonHttpClient.Parameter("userID", userID),
+                    new JsonHttpClient.Parameter("eventID", eventID)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "joinEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("joinEvent", ex);
+        }
+    }
+    
+    public void leaveEvent(String userID, String eventID) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "leaveEvent"),
+                    new JsonHttpClient.Parameter("userID", userID),
+                    new JsonHttpClient.Parameter("eventID", eventID)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "leaveEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("leaveEvent", ex);
         }
     }
 }

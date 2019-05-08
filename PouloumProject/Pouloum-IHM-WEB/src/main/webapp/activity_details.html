@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>TODO supply a title</title>
+        <title>Détails activité - Pouloum</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -10,13 +10,18 @@
     </head>
     <body>
         <div id="wrapper" class="container-fluid">
-            <div id="container_navbar_and_alert" class="container-fluid mt-1" style="height: 15vh">
-                <script src="SCRIPT/navbar_template.js"></script>
+            <div id="container_navbar_and_alert" class="container-fluid" style="max-height: 16vh">
+                <div id="container_navbar_row" class="row mx-0">
+                    <script src="SCRIPT/navbar_template.js"></script>
+                </div>
+                <div id="container_alert_row" class="row mx-0 w-100">
+                    &nbsp;
+                </div>
             </div> <!--#container_navbar_and_alert -->
             
             <div id="row_containing_title" class="row justify-content-center">
                 <div class="col-12">
-                    <h2 class="text-center" id="activity_name_container">Titre</h2>
+                    <h2 class="text-center title_page" id="activity_name_container">Titre</h2>
                 </div>
             </div><!--#row_containing_title -->
             <br>
@@ -26,7 +31,7 @@
                         <div id="description_title" class="col-3 text-right">
                             Description :
                         </div>
-                        <div id="activity_description_container" class="col-9 text-justify">
+                        <div id="activity_description_container" class="col-9 text-justify no_text_outer">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit tempor mi in lacinia. Aenean facilisis mattis arcu a fermentum. Suspendisse potenti. Donec nec dignissim est. Nam consequat congue lorem, condimentum vestibulum nisl convallis eu. Pellentesque feugiat ipsum leo, vitae interdum odio fringilla ut. Vestibulum massa turpis, condimentum ac facilisis sed, interdum a enim. Maecenas nunc ex, pharetra id accumsan eget, auctor vel lorem. Donec at sollicitudin mauris, at vulputate orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam sit amet vulputate enim. Etiam interdum quis justo et sodales. Vestibulum porttitor quam varius orci aliquet, a euismod justo convallis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                         </div>
                     </div><!--#description_row -->
@@ -35,7 +40,7 @@
                         <div id="rule_title" class="col-3 text-right">
                             Règles :
                         </div>
-                        <div id="activity_rules_container" class="col-9 text-justify">
+                        <div id="activity_rules_container" class="col-9 text-justify no_text_outer">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nec nisi eu lorem aliquet bibendum. 
                         </div>
                     </div><!--#rules_row -->
@@ -55,7 +60,7 @@
                                 <div id="parent_activity_title" class="col-6 text-right">
                                     Activité parent :
                                 </div>
-                                <div id="parent_activity_name_container" class="col-6 text-left">
+                                <div id="parent_activity_name_container" class="col-6 text-left no_text_outer">
                                     Lorem ipsum dolor sit. 
                                 </div>
                             </div><!--#parent_activity_row -->
@@ -65,7 +70,7 @@
                                 <div id="children_activities_title" class="col-5 text-right">
                                     Activités enfants :
                                 </div>
-                                <div id="children_activities_container" class="col-7 text-justify">
+                                <div id="children_activities_container" class="col-7 text-justify no_text_outer">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In massa justo, dignissim eget tellus in. 
                                 </div>
                             </div><!--#children_activities_row -->
@@ -80,16 +85,14 @@
                     </div><!--#img_row -->
                     <br>
                     <div id="badges_row" class="row justify-content-center">
-                        <div id="badges_container" class="col-10">
-                            <div style="height:75px;border:1px solid #000;">Badges ici!</div>
-                        </div>
+                        <div id="badges_container" class="row" style="height:75px;border:1px solid #000;"></div>
                     </div><!--#badges_container -->
                     <br>
                     <div id="resource_row" class="row justify-content-left">
                         <div id="resources_title" class="col-4 text-right">
                             Ressources :
                         </div>
-                        <div id="resources_container" class="col-7 text-justify">
+                        <div id="resources_container" class="col-7 text-justify no_text_outer">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In massa justo, dignissim eget tellus in. 
                         </div>
                     </div><!--#participants_number_row -->
@@ -106,7 +109,90 @@
 // gets called automatically
 // once the userID is retrieved
 function ready_userID(userID) {
-    load_activityID();
+    //load_activityID();
+    var parameter = window.location.href.split('?')[1].split('=');
+    var parameter_name = parameter[0];
+    if (parameter_name!=="activityID") {
+        $('#message').empty();
+        $('#message').html('Echec du chargement des informations de l\'activitité');
+    } else {
+        var id = parameter[1];
+        $.ajax({
+            url: './AjaxAction',
+            type: 'POST',
+            data: {
+                'action': 'getActivityDetails',
+                'activityID': id
+            },
+            datatype: 'json'
+        }).done(function (data){
+            var OK = data.result;
+            if (OK) {
+
+                $('#activity_name_container').empty();
+                $('#activity_name_container').append(data.activity.name);
+                $('#activity_description_container').empty();
+                $('#activity_description_container').append(data.activity.description);
+                $('#parent_activity_name_container').empty();
+                $('#parent_activity_name_container').append(data.activity.parent);
+
+                $('#children_activities_container').empty();
+                let childrenActivitiesDiv = document.getElementById("children_activities_container");
+                let childrenActivitiesArray = data.activity.children;
+
+                childrenActivitiesArray.forEach(function (element) {
+                    let childrenActivityDiv = document.createElement("div");
+                    let activityText = document.createTextNode(element.name);
+                    childrenActivityDiv.appendChild(activityText);
+                    childrenActivitiesDiv.appendChild(childrenActivityDiv);
+                });
+
+                // TODO : remplir les badges correctement
+                let badgesDiv = document.getElementById("badges_container");
+                let badgesArray = data.activity.badges;
+
+                badgesArray.forEach(function (element) {
+                    let badgeDiv = document.createElement("div");
+                    badgeDiv.className = "col"
+                    let badgeImg =document.createElement("img");
+                    badgeImg.className = "little_avatar_image rounded";
+                    let badgeText = document.createTextNode(element.type);
+                    var badge= element.type.substr(0,1) + element.type.substr(1,element.type.length).toLowerCase();
+                    badgeImg.src = "STYLE/" + badge + ".png";
+                    badgeImg.alt= "STYLE/sad.png";
+                    badgeDiv.appendChild(badgeImg);
+                    badgesDiv.appendChild(badgeDiv);
+                });
+                    
+                    badgeDiv.appendChild(badgeDiv);
+                    badgeDiv.appendChild(badgeImg);
+                    badgesDiv.appendChild(badgeDiv);
+
+                $('#activity_rules_container').empty();
+                $('#activity_rules_container').append(data.activity.rules);
+                //document.getElementById("activity_rules_container").value = data.activity.rules;
+
+                // TODO : gérer les ressources
+                let resourcesDiv = document.getElementById("resources_container");
+                let resourcesArray = data.activity.resources;
+
+                resourcesArray.forEach(function (element) {
+                    let resourceDiv = document.createElement("div");
+                    let resourceText = document.createTextNode(element);
+                    resourceDiv.appendChild(resourceText);
+                    resourcesDiv.appendChild(resourceDiv);
+                });
+
+                $('#activity_participants_number_container').empty();
+                $('#activity_participants_number_container').append(data.activity.default_participants_min + "-" + data.activity.default_participants_max);
+                //document.getElementById("activity_participants_number_container").value = data.activity.default_participants_min + "-" + data.activity.default_participants_max;
+                //document.getElementById("activity_default_participants_max_container").value = data.activity.default_participants_max;
+            }
+        }).fail(function(){
+            $('#message').empty();
+            $('#message').html('Echec du chargement des activités');
+        });
+    }
 }
 
 function ready_activityID(activityID) {
@@ -140,8 +226,13 @@ function ready_activityID(activityID) {
 			
             badgesArray.forEach(function (element) {
                 let badgeDiv = document.createElement("div");
+                badgeDiv.className = "col"
+                var badgeImg =document.createElement("img");
+                badgeImg.className = "little_avatar_image rounded";
                 let badgeText = document.createTextNode(element.type);
-                badgeDiv.appendChild(badgeText);
+                var badge= element.type.substr(0,1) + element.type.substr(1,element.type.length).toLowerCase();
+                badgeImg.src = "STYLE/" +badge + ".png";
+                badgeDiv.appendChild(badgeImg);
                 badgesDiv.appendChild(badgeDiv);
             });
 			
