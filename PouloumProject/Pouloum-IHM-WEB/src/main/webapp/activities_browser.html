@@ -27,6 +27,9 @@
                 
                 <div class="row pre-scrollable" id="row_activities_tree">
                     
+                    <div id="loading_div">
+                        <img src="IMG/loading.gif">
+                    </div>
                     <div class="accordion w-100" id="activities_tree">
 
                     </div><!-- "activities_tree-->
@@ -44,6 +47,9 @@
 // gets called automatically
 // once the userID is retrieved
 function ready_userID(userID) {
+    
+    document.getElementById("activities_tree").style.display = "none";
+    document.getElementById("loading_div").style.display = "block";
     $.ajax({
         url: './AjaxAction',
         type: 'POST',
@@ -52,14 +58,18 @@ function ready_userID(userID) {
         },
         datatype: 'json'
     }).done(function (data){
+        document.getElementById("loading_div").style.display = "none";
+        document.getElementById("activities_tree").style.display = "block";
         var activities = data.activities;
         var fulldiv = getAllActivityDiv(activities);
         $('#activities_tree').append(fulldiv);
     }).fail(function(){
+        document.getElementById("loading_div").style.display = "none";
         $('#message').empty();
         $('#message').html('Echec du chargement des activités');
     });
 }
+
         </script>
         <!-- retrieves the userID -->
         <script src="SCRIPT/userid.js"></script>
