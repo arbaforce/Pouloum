@@ -49,6 +49,17 @@
     max-height: 35px;
 }
 
+#search_result_global_row{
+    border: 1px solid aliceblue;
+}
+
+.event_container{
+    background-color:white;
+    padding-top: 0.5%;
+    padding-left: 1%;
+    padding-bottom: 0.5%;
+}
+
 .event_badges_col{
     right:0px;
 }
