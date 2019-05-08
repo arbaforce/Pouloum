@@ -33,6 +33,33 @@ public class SetupDB {
         return resReader;
     }
 
+    protected static List<String> getResourceLines(String resourceName, boolean shuffle)
+        throws IOException
+    {
+        Random rand = new Random();
+        
+        BufferedReader reader = getResourceReader(resourceName);
+        
+        List<String> lines = new ArrayList<>();
+        
+        try {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                if (!line.isEmpty()) {
+                    if (shuffle) {
+                        int pos = rand.nextInt(lines.size()+1);
+                        lines.add(pos, line);
+                    } else {
+                        lines.add(line);
+                    }
+                }
+            }
+        } finally {
+            reader.close();
+        }
+        
+        return lines;
+    }
+    
     public static void main(String[] args) {
         JpaUtil.init();
 
@@ -390,27 +417,9 @@ public class SetupDB {
         List<Event> events = new ArrayList<>();
         
         
-        Random rand = new Random();
+        List<String> names = getResourceLines("setup/EventsName.txt", true);
         
-        DataFactory df = new DataFactory();
-        Date minDate = df.getDate(2019, 5, 6);
-        Date maxDate = df.getDate(2019, 5, 19);
-        
-        
-        BufferedReader reader = getResourceReader("setup/EventsName.txt");
-
-        List<String> names = new ArrayList<>();
-
-        try {
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                if (!line.isEmpty()) {
-                    int pos = rand.nextInt(names.size()+1);
-                    names.add(pos, line);
-                }
-            }
-        } finally {
-            reader.close();
-        }
+        List<String> descs = getResourceLines("setup/EventsDesc.txt", false);
         
         
         JpaUtil.createEntityManager();
@@ -426,13 +435,25 @@ public class SetupDB {
         
         JpaUtil.closeEntityManager();
         
+        
+        Random rand = new Random();
+        
+        DataFactory df = new DataFactory();
+        Date minDate = df.getDate(2019, 5, 6);
+        Date maxDate = df.getDate(2019, 5, 19);
+        
+        
         for (int i = 0; i<200; i++){
             Date date = df.getDateBetween(minDate, maxDate);
             Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
             Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
             Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
             String name = names.get(i % names.size()).replaceAll("§", activity.getName());
-            Event e = new Event(name, df.getRandomText(50, 200), date, false, 60, address, activity, organizer, rand.nextInt(5), rand.nextInt(5)+5);
+            String desc = descs.get(rand.nextInt(descs.size()));
+            // // 1 chance sur 5 pour que pas de nombre de participants min/max.
+            int nb_min = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10);
+            int nb_max = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + nb_min;
+            Event e = new Event(name, desc, date, false, 60, address, activity, organizer, nb_min, nb_max);
             events.add(e);
         }
         
