@@ -227,51 +227,53 @@
             var createEvent;
             var userID;
             var eventID;
+            
+            function processEvent(){
+                var parameters = location.search.substring(1).split("&");
+
+                var temp = parameters[0].split("=");
+                eventID = unescape(temp[1]);
+            }
 
             function ready_userID(id) {
                 userID = id;
-                $.ajax({
-                    url: './AjaxAction',
-                    type: 'POST',
-                    data: {
-                        'action': 'getEventIdSession',
-                    }, //TODO put event ID into session
-                    datatype: 'json'
-                }).done(function (data) {
-                    if (data.result) {
-                        eventID = data.eventID;
-                        createEvent = false;
+                processEvent();
+                if (eventID != null) {
+                    createEvent = false;
 
-                        // Fill in the fields with actual event information
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'getEventDetails',
-                                'eventID': eventID
-                            },
-                            datatype: 'json'
-                        }).done(function (data) {
-                            let OK = data.result;
-                            if (OK) {
-                                document.getElementById("event_name_container").value = data.event.label;
-                                document.getElementById("event_description_container").value = data.event.description;
-                                document.getElementById("activity_select").value = data.event.activity.name;
-                                let eventAddress = data.event.address;
-                                document.getElementById("event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
-                                document.getElementById("event_address_postal_code_container").value = eventAddress.postal_code;
-                                document.getElementById("event_address_city_container").value = eventAddress.city;
-                                document.getElementById("event_address_country_container").value = eventAddress.country;
-                                document.getElementById("date_container").value = data.event.startDate;
-                                document.getElementById("event_duration_container").value = data.event.duration;
-                                document.getElementById("event_player_min_container").value = data.event.participants_min;
-                                document.getElementById("event_player_max_container").value = data.event.participants_max;
+                    // Fill in the fields with actual event information
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'getEventDetails',
+                            'eventID': eventID
+                        },
+                        datatype: 'json'
+                    }).done(function (data) {
+                        let OK = data.result;
+                        if (OK) {
+                            if(data.event.pouloumer.id != userID){
+                                window.location.href = './home_page.html';
+                            }
+                            else {
+                            document.getElementById("event_name_container").value = data.event.label;
+                            document.getElementById("event_description_container").value = data.event.description;
+                            document.getElementById("activity_select").value = data.event.activity.name;
+                            let eventAddress = data.event.address;
+                            document.getElementById("event_address_details_container").value = eventAddress.number + ' ' + eventAddress.street;
+                            document.getElementById("event_address_postal_code_container").value = eventAddress.postal_code;
+                            document.getElementById("event_address_city_container").value = eventAddress.city;
+                            document.getElementById("event_address_country_container").value = eventAddress.country;
+                            document.getElementById("date_container").value = data.event.startDate;
+                            document.getElementById("event_duration_container").value = data.event.duration;
+                            document.getElementById("event_player_min_container").value = data.event.participants_min;
+                            document.getElementById("event_player_max_container").value = data.event.participants_max;
                                 
-                                document.getElementById("event_name_container").disabled = true;
-                                document.getElementById("activity_select").disabled = true;
-
-                                //TODO : consider whether to add status when modifying an event
-                                /*
+                            document.getElementById("event_name_container").disabled = true;
+                            document.getElementById("activity_select").disabled = true;
+                            //TODO : consider whether to add status when modifying an event
+                            /*
                                  
                                  let status = data.event.status;
                                  
@@ -289,27 +291,27 @@
                                  document.getElementById("event_status_container").value = "Planifié";
                                  }*/
                             }
-                        });
+                        }
+                    });
                         
-                    } else {
-                        createEvent = true;
+                } else {
+                    createEvent = true;
                         
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'getActivityTree',
-                            },
-                            datatype: 'json'
-                        }).done(function (data) {
-                            fillSuggestions(data.activities, activitiesSuggestionMap);
-                            autocomplete(document.getElementById("activity_select"), document.getElementById("suggestions"), activitiesSuggestionMap, function (key) {
-                                selectedActivityID = key;
-                            });
+                    $.ajax({
+                        url: './AjaxAction',
+                        type: 'POST',
+                        data: {
+                            'action': 'getActivityTree',
+                        },
+                        datatype: 'json'
+                    }).done(function (data) {
+                        fillSuggestions(data.activities, activitiesSuggestionMap);
+                        autocomplete(document.getElementById("activity_select"), document.getElementById("suggestions"), activitiesSuggestionMap, function (key) {
+                            selectedActivityID = key;
                         });
+                    });
 
-                    }
-                });
+                }
             }
 
             function fillSuggestions(activities, activitiesSuggestionMap) {
@@ -376,14 +378,6 @@
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
-                                $.ajax({
-                                    url: './AjaxAction',
-                                    type: 'POST',
-                                    data: {
-                                        'action': 'removeEventIdSession',
-                                    },
-                                    datatype: 'json'
-                                })
                                 window.location.href = './home_page.html';
                             } else {
                                 $("#errorMessage").show();
@@ -399,23 +393,7 @@
                     if (createEvent) { // Just get back to the home page
                         window.location.href = './home_page.html';
                     } else {
-                        $.ajax({
-                            url: './AjaxAction',
-                            type: 'POST',
-                            data: {
-                                'action': 'cancelEvent',
-                                'eventID': eventID
-                            },
-                            datatype: 'json'
-                        }).done(function (data) {
-                            var OK = data.result;
-                            if (OK) {
-                                window.location.href = './home_page.html';
-                            } else {
-                                $("#errorMessage").show();
-                                $("#errorMessage").text(data.errorMessage);
-                            }
-                        });
+                        window.location.href = './list_modify_event.html';
                     }
 
                 });
