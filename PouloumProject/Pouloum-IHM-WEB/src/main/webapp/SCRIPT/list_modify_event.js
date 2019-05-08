@@ -276,24 +276,14 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                     
                     div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_statut_know_more_col);
                     
-                    var div_event_no_more_button_col = document.createElement("div");
-                    div_event_no_more_button_col.className = "col mx-0 px-0";
+                    var div_event_modify_button_col = document.createElement("div");
+                    div_event_modify_button_col.className = "col-2 mx-0 px-0";
                     {
                         var button_modify = document.createElement("button");
                         button_modify.className = "btn btn-light buttonEvent";
                         button_modify.type = "button";
                         button_modify.onclick = function(){
-                            $.ajax({
-                                url: './AjaxAction',
-                                type: 'POST',
-                                data: {
-                                    'action': 'setEventIdSession',
-                                    'eventID': data_id
-                                },
-                                datatype: 'json'
-                            }).done(function (data) {
-                                window.location.href = "./modify_event.html";
-                            });
+                            window.location.href = "./modify_event.html?id="+data_id;
                         };
                         
                         {
@@ -302,10 +292,41 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                             button_modify.appendChild(txt_modify);
                         }
                         
-                        div_event_no_more_button_col.appendChild(button_modify);
+                        div_event_modify_button_col.appendChild(button_modify);
                     }
                     
-                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_no_more_button_col);
+                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_modify_button_col);
+                    
+                    var div_event_delete_button_col = document.createElement("div");
+                    div_event_delete_button_col.className = "col-2 mx-0 px-0";
+                    {
+                        var button_delete = document.createElement("button");
+                        button_delete.className = "btn btn-light buttonEvent";
+                        button_delete.type = "button";
+                        button_delete.onclick = function(){
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'action': 'cancelEvent',
+                                    'eventID': data_id
+                                },
+                                datatype: 'json'
+                            }).done(function (data) {
+                                window.location.href = "./list_modify_event.html";
+                            });
+                        };
+                        
+                        {
+                            var txt_delete = document.createTextNode("Supprimer");
+                            
+                            button_delete.appendChild(txt_delete);
+                        }
+                        
+                        div_event_delete_button_col.appendChild(button_delete);
+                    }
+                    
+                    div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_delete_button_col);
                     
                     var div_event_badges_col = document.createElement("div");
                     div_event_badges_col.className = "col mx-0 px-0";
