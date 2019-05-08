@@ -288,9 +288,6 @@ public class Pouloumer implements Serializable {
         obj.addProperty("last_name", last_name);
         obj.addProperty("first_name", first_name);
         obj.addProperty("email", email);
-        //obj.addProperty("password", password);    //We let the password on the server side
-        //obj.addProperty("moderator", moderator);   //No use for it on the client side
-        //obj.addProperty("administrator", administrator);  //No use for it on the client side
         obj.addProperty("gender", gender);
         
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
