@@ -33,6 +33,8 @@
                                         </div>
                                         <div class="col-5 padding10up">
                                             <input type="text" class="form-control" id="activity_filter">
+                                            <div id="suggestions" class="container justify-content-center overflow-auto" style="max-height: 150px">
+                                            </div>
                                         </div>
                                     </div>
                                 </div><!--#activity_filter_container -->
@@ -120,13 +122,14 @@
         
         <script src="SCRIPT/events_browser.js"></script>
         <script src="SCRIPT/dynamic_json.js"></script>
+        <script src="SCRIPT/autocomplete.js"></script>
         
         
         <script type="text/javascript">
             $(document).ready(function() {
-            var date_input=$('input[name="date"]'); //our date input has the name "date"
-            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                date_input.datepicker({
                     format: 'dd/mm/yyyy',
                     container: container,
                     todayHighlight: true,
@@ -142,6 +145,8 @@
         
         <script>
             var all_events = [];
+            var activitiesSuggestionMap = new Map();
+            var selectedActivityId;
 
             // gets called automatically
             // once the userID is retrieved
@@ -184,7 +189,31 @@
                         }
                     }
                 });
+                
+                $.ajax({
+                    url: './AjaxAction',
+                    type: 'POST',
+                    data: {
+                        'action': 'getActivityTree',
+                    },
+                    datatype: 'json'
+                }).done(function (data){
+                    fillSuggestions(data.activities, activitiesSuggestionMap);
+                    autocomplete(document.getElementById("activity_filter"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
+                        selectedActivityId = key;
+                    });
+                });
             }
+            
+            function fillSuggestions(activities, activitiesSuggestionMap){
+                for(var index in activities){
+                    if(activities[index].children !== []){
+                        fillSuggestions(activities[index].children, activitiesSuggestionMap);
+                    }
+                    activitiesSuggestionMap.set(activities[index].id,activities[index].name);
+                }
+            }
+            
             //TODO implement location and date filters
             function apply_filters(activity, location, date, friend) {
                 var some_events = [];
