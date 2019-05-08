@@ -14,10 +14,6 @@ import javax.persistence.RollbackException;
  * @author DASI Team
  */
 public class JpaUtil {
-
-    // *************************************************************************************
-    // * TODO: IMPORTANT -- Adapter le nom de l'Unité de Persistance (cf. persistence.xml) *
-    // *************************************************************************************
     
     /**
      * Nom de l'unité de persistance utilisée par la Factory de Entity Manager.

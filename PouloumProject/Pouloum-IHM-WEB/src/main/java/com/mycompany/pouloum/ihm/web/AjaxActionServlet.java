@@ -58,8 +58,15 @@ public class AjaxActionServlet extends HttpServlet {
                 container.addProperty("userID", userID);
             } else if ("getEventIdSession".equals(action)) {
                 String eventID = (String) session.getAttribute("eventID");
-                container.addProperty("result", true);
-                container.addProperty("eventID", eventID);
+                if(eventID == null){
+                    container.addProperty("result", false);
+                }
+                else {
+                    container.addProperty("result", true);
+                    container.addProperty("eventID", eventID);
+                }
+            } else if ("removeEventIdSession".equals(action)){
+                session.removeAttribute("eventID");
             } else if ("getActivityIdSession".equals(action)) {
                 String activityID = (String) session.getAttribute("activityID");
                 container.addProperty("result", true);
@@ -260,7 +267,8 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getActivityTree".equals(action)) {
                 ajaxAction.findAllActivities();
             } else if ("getAllEvents".equals(action)) {
-                ajaxAction.findAllEvents();
+                String id = request.getParameter("id");
+                ajaxAction.findAllEvents(id);
             } else {
                 actionCalled = false;
             }

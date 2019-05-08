@@ -12,9 +12,9 @@ function getSingleActivityDiv(data_activity) {
                         +    '<h2 class="mb-0">';
     if (data_activity.children.length===0)
     {
-        activity_div +=          '<button class="btn btn-link disabled" type="button" data-toggle="collapse" data-target="#" aria-expanded="true" >';
+        activity_div +=          '<button class="btn btn-link disabled button_activity" type="button" data-toggle="collapse" data-target="#" aria-expanded="true" >';
     } else {
-        activity_div +=          '<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
+        activity_div +=          '<button class="btn btn-link collapsed button_activity" type="button" data-toggle="collapse" data-target="#elmt_'+data_activity.id+'" aria-expanded="false" aria-controls="elmt_'+data_activity.id+'">'
     }
     activity_div +=                data_activity.name
                         +        '</button>'
@@ -22,7 +22,7 @@ function getSingleActivityDiv(data_activity) {
                         +'</div>'
                         +'<div class="col">'
                         +'<a href="activity_details.html?activityID='+data_activity.id+'">'
-                        +'<button class="btn btn-link collapsed float-sm-right" type="button" data-toggle="collapse" aria-expanded="false">'
+                        +'<button class="btn btn-link collapsed float-sm-right button_activity" type="button" data-toggle="collapse" aria-expanded="false">'
                         +'Détails'
                         +'</button></a>'
                         +'</div>\n'
