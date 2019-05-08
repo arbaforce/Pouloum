@@ -144,7 +144,7 @@
         </script>
         
         <script>
-            var all_events = [];
+            var all_events_with_similarity = [];
             var activitiesSuggestionMap = new Map();
             var selectedActivityId;
 
@@ -163,8 +163,8 @@
                     var OK = data.result;
                     if (OK) {
                         var events = data.events;
-            
-                        all_events = events;
+                        events[153].average_similarity = 1;
+                        all_events_with_similarity = sortEventsBySimilarity(events);
                         console.log(events); //FIXME to remove            
             
                         page_add_events(events);
@@ -175,12 +175,12 @@
                                 type: 'POST',
                                 data: {
                                     'action': 'getLatLng',
-                                    'country': events[index].address.country,
-                                    'city': events[index].address.city,
-                                    'postal_code': events[index].address.postal_code,
-                                    'street': events[index].address.street,
-                                    'number': events[index].address.number,
-                                    'label' : events[index].label
+                                    'country': events[index].event.address.country,
+                                    'city': events[index].event.address.city,
+                                    'postal_code': events[index].event.address.postal_code,
+                                    'street': events[index].event.address.street,
+                                    'number': events[index].event.address.number,
+                                    'label' : events[index].event.label
                                 },
                                 datatype: 'json'
                             }).done(function (data){
@@ -214,14 +214,20 @@
                 }
             }
             
+            function sortEventsBySimilarity(events_with_similarity){
+                events_with_similarity.sort(function(event_with_similarity_A, event_with_similarity_B){
+                                                return event_with_similarity_B.average_similarity - event_with_similarity_A.average_similarity;
+                                                }
+                                            );
+            }
+            
             //TODO implement location and date filters
             function apply_filters(activity, location, date, friend) {
                 var some_events = [];
     
-                for (var ei=0; ei<all_events.length; ei++) {
-                    var event = all_events[ei];
-                    console.log(event);
-                    console.log(event["participants"]);
+                for (var ei=0; ei<all_events_with_similarity.length; ei++) {
+                    var event_with_similarity = all_events_with_similarity[ei];
+                    console.log(event_with_similarity);
                     var keep = true;
                     var isFound = false;
                     if(friend.length>0 && keep){
