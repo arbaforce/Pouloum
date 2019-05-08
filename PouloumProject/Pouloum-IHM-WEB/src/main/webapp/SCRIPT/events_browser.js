@@ -338,7 +338,7 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                         button_knowmore.className = "btn btn-light buttonEvent";
                         button_knowmore.type = "button";
                         {
-                            var txt_knowmore = document.createTextNode("Je ne participe plus.");
+                            var txt_knowmore = document.createTextNode("Je participe.");
                             
                             button_knowmore.appendChild(txt_knowmore);
                         }

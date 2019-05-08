@@ -660,14 +660,16 @@ public class AjaxAction {
     /**
      * Find all events in the database.
      * 
+     * @param idUser, the current user's id
      * @throws ServiceException if something goes wrong when calling the
      * service.
      */
-    public void findAllEvents() throws ServiceException {
+    public void findAllEvents(String idUser) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
-                    new JsonHttpClient.Parameter("SMA", "findAllEvents")
+                    new JsonHttpClient.Parameter("SMA", "simpleSearchForUser"),
+                    new JsonHttpClient.Parameter("idUser", idUser)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
