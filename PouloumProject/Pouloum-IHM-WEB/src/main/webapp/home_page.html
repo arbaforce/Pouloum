@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title>Pouloum - Home Page</title>
+        <title>Accueil - Pouloum</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -71,6 +71,7 @@
                 }).done(function (data){
                     var OK = data.result;
                     if (OK) {
+                        console.log(data);
                         var events = data.events;
                         page_add_events(events);
                         for(var index in events){
