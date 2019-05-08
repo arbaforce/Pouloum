@@ -1,4 +1,6 @@
 // source : https://leafletjs.com/examples/quick-start/
+var listMarkers = new Map();
+
 function initialiseMap() {
 	map = L.map('map');
 	map.setView([45.74,4.84], 13);
@@ -18,10 +20,23 @@ function setViewMap(longDeg, longMin, longDir, latDeg, latMin, latDir) {
 	map.setView(coordonnes, zoom);
 }
 
-function addMarqeur(name, lat, lng) {
-	var marker = L.marker([lat,lng]).addTo(map);
+function initializeMarker(id, name, lat, lng) {
+	var marker = L.marker([lat,lng]);
+        map.addLayer(marker);
 
 	marker.bindPopup(name);
+        
+        listMarkers.set(id.toString(), marker);
+}
+
+function addMarker(id) {
+	map.addLayer(listMarkers.get(id.toString()));
+}
+
+function clearMarker() {
+        for(var object of listMarkers.values()){
+            map.removeLayer(object);
+        }
 }
 
 /*function addMarqeur(nom, url, longDeg, longMin, longDir, latDeg, latMin, latDir) {

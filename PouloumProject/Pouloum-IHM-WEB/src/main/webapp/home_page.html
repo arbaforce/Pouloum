@@ -91,11 +91,12 @@
                                     'postal_code': events[index].address.postal_code,
                                     'street': events[index].address.street,
                                     'number': events[index].address.number,
-                                    'label' : events[index].label
+                                    'label' : events[index].label,
+                                    'id' : events[index].id
                                 },
                                 datatype: 'json'
                             }).done(function (data){
-                                addMarqeur(data.label, data.lat,data.lng);
+                                initializeMarker(data.id, data.label, data.lat,data.lng);
                             });
                         }
                     }

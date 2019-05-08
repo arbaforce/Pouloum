@@ -230,15 +230,22 @@
             
             function processEvent(){
                 var parameters = location.search.substring(1).split("&");
-
-                var temp = parameters[0].split("=");
-                eventID = unescape(temp[1]);
+                console.log(parameters);
+                
+                if(parameters[0]==""){
+                    eventID = null;
+                } 
+                else {
+                    var temp = parameters[0].split("=");
+                    eventID = unescape(temp[1]);
+                }
             }
 
             function ready_userID(id) {
                 userID = id;
                 processEvent();
-                if (eventID != null) {
+                
+                if (eventID !== null) {
                     createEvent = false;
 
                     // Fill in the fields with actual event information

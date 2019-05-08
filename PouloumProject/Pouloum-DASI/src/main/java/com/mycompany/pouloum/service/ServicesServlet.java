@@ -416,7 +416,8 @@ public class ServicesServlet extends HttpServlet {
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));
 
-                ServicesEvent.createEvent(name, description, startDate, duration, a, activity, organizer, playerMin, playerMax);
+                Event e = ServicesEvent.createEvent(name, description, startDate, duration, a, activity, organizer, playerMin, playerMax);
+                ServicesPouloumer.joinEvent(organizer, e);
             } ///////////
             ////Update event
             ///////////

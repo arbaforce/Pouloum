@@ -81,6 +81,27 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                         var div_event_activity_organisator_place_col = document.createElement("div");
                         div_event_activity_organisator_place_col.className = "col mx-0 px-0";
                         {
+                            
+                            var div_event_label_container = document.createElement("div");
+                            div_event_label_container.className = "container";
+                            {
+                                var div_event_label_row = document.createElement("div");
+                                div_event_label_row.className = "row mx-0 px-0";
+                                {
+                                    var txt_places = document.createTextNode("Nom : ");
+                                
+                                    div_event_label_row.appendChild(txt_places);
+                                
+                                    var txt_place = document.createTextNode(data_label);
+                                    
+                                    div_event_label_row.appendChild(txt_place);
+                                }
+                            
+                                div_event_label_container.appendChild(div_event_label_row);
+                            }
+                        
+                            div_event_activity_organisator_place_col.appendChild(div_event_label_container);
+                            
                             var div_event_activity_container = document.createElement("div");
                             div_event_activity_container.className = "container";
                             {

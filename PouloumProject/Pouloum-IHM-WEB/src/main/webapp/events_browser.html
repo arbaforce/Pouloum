@@ -166,10 +166,10 @@
                     var OK = data.result;
                     if (OK) {
                         var events = data.events;
-                        events[153].average_similarity = 1; //FIXME remove this line when DB contains events with non-null similarity.
+                        events[1].average_similarity = 1; //FIXME remove this line when DB contains events with non-null similarity.
                         sortEventsBySimilarity(events);
                         all_events_with_similarity = events ;
-                        console.log(events); //FIXME to remove    
+                        //console.log(events); //FIXME to remove    
             
                         page_add_events(events);
                         document.getElementById("loading_div").style.display = "none";
@@ -186,11 +186,12 @@
                                     'postal_code': events[index].event.address.postal_code,
                                     'street': events[index].event.address.street,
                                     'number': events[index].event.address.number,
+                                    'id' : events[index].event.id,
                                     'label' : events[index].event.label
                                 },
                                 datatype: 'json'
                             }).done(function (data){
-                                addMarqeur(data.label, data.lat,data.lng);
+                                initializeMarker(data.id, data.label, data.lat,data.lng);
                             });
                         }
                     }
@@ -205,8 +206,9 @@
                     datatype: 'json'
                 }).done(function (data){
                     fillSuggestions(data.activities, activitiesSuggestionMap);
-                    autocomplete(document.getElementById("activity_filter"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key){
+                    autocomplete(document.getElementById("activity_filter"),document.getElementById("suggestions"),activitiesSuggestionMap, function(key, activity){
                         selectedActivityId = key;
+                        apply_filters(document.getElementById("activity_filter").value, "", "", "");
                     });
                 });
             }
@@ -273,6 +275,13 @@
                 //FIXME hide/show instead of clear/add
                 page_clear_events();
                 page_add_events(some_events, 100);
+                
+                console.log(some_events);
+                
+                clearMarker();
+                for(var index in some_events){
+                    addMarker(some_events[index].event.id);
+                }
             }
             
             var activity_filter = document.getElementById("activity_filter");

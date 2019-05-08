@@ -81,6 +81,7 @@ public class AjaxActionServlet extends HttpServlet {
                 String street = request.getParameter("street");
                 String number = request.getParameter("number");
                 String label = request.getParameter("label");
+                String id = request.getParameter("id");
                 
                 LatLng point = getLatLng(number + " " + street + " " + postal_code + " " + city + " " + country);
                 
@@ -88,6 +89,7 @@ public class AjaxActionServlet extends HttpServlet {
                 container.addProperty("lat", point.lat);
                 container.addProperty("lng", point.lng);
                 container.addProperty("label", label);
+                container.addProperty("id", id);
             }else if ("login".equals(action)) {
                 String id = request.getParameter("id");
                 String password = request.getParameter("password");
