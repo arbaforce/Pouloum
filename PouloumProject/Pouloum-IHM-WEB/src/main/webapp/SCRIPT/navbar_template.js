@@ -61,7 +61,7 @@ var htmlcode = `
                 </div>
                 <div>
                     <a class="nav-link font-weight-bold text-center" href="activities_browser.html">
-                        Activité
+                        Activités
                     </a>
                 </div>
                 <div>
