@@ -139,8 +139,6 @@
         </script>
         <script>
             initialiseMap();
-
-            // addResultDemo();
         </script>
         
         <script>
@@ -224,17 +222,18 @@
             
             //TODO implement location and date filters
             function apply_filters(activity, location, date, friend) {
+                console.log(friend);
                 var some_events = [];
-                console.log(all_events_with_similarity);
+                //console.log(all_events_with_similarity);
                 for (var ei=0; ei<all_events_with_similarity.length; ei++) {
                     var event_with_similarity = all_events_with_similarity[ei];
-                    console.log(event_with_similarity);
+                    //console.log(event_with_similarity);
                     var keep = true;
                     var isFound = false;
-                    if(/*(friend in document) && */(friend.length>0 && keep)){
+                    if(friend.length>0 && keep){
                         var participants = event_with_similarity.event["participants"];
                         for(var pi=0; pi<participants.length; pi++){
-                            console.log(participants[pi]);
+                            //console.log(participants[pi]);
                             //console.log(participant["nickname"]);
                             var nickname = participants[pi]["nickname"];
                             if(nickname.indexOf(friend)>=0){
@@ -243,20 +242,16 @@
                             }
                         }
                         keep = (isFound && keep);
-                    } else {
-                        console.log("FRIEND IS NOT DEFINED !!!")
-                    }
+                    } 
                     
-                    if(/*(activity in document) && */(activity.length>0 && keep)){
+                    if(activity.length>0 && keep){
                         isFound = false;
                         if(event_with_similarity.event["activity"]["name"].indexOf(activity)>=0){
                             isFound = true;
                         }
                         keep = (isFound && keep);
-                    } else {
-                        console.log("ACTIVITY IS NOT DEFINED !!!")
-                    }
-                    if(/*(location in document) &&*/ (location.length>0 && keep)){
+                    } 
+                    if(location.length>0 && keep){
                         var data_place = event_with_similarity.event.address.number.trim() + " " + event_with_similarity.event.address.street.trim() + " " + event_with_similarity.event.address.city.trim();
                         isFound = false;
                         if(data_place.indexOf(location)>=0){
@@ -279,25 +274,21 @@
             var friend_filter = document.getElementById("friend_filter");
             
             activity_filter.addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
                                                             }
                                                     );
-            /*$("#activity_filter").addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+            location_filter.addEventListener("input", function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
                                                             }
                                                     );
-            $("location_filter").addEventListener("input",function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+            date_filter.addEventListener("input", function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
                                                             }
                                                     );
-            $("date_filter").addEventListener("input",function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
+            friend_filter.addEventListener("input", function(e){
+                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
                                                             }
                                                     );
-            $("friend_filter").addEventListener("input",function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter, friend_filter);
-                                                            }
-                                                    );*/
             
         </script>
         <!-- retrieves the userID -->
