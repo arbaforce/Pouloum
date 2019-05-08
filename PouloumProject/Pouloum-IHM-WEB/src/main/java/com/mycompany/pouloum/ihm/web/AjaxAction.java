@@ -415,9 +415,9 @@ public class AjaxAction {
      * @param addressCountry is the address' country of the event.
      * @param idActivity is the activity's id of the event.
      * @param idOrganizer is the organizer's id of the event.
-     * @param participantsMin is the minimal number of participants for the
+     * @param playerMin is the minimal number of participants for the
      * event.
-     * @param participantsMax is the maximal number of participants for the
+     * @param playerMax is the maximal number of participants for the
      * event.
      * @throws ServiceException if something goes wrong when calling the
      * service.
@@ -425,8 +425,8 @@ public class AjaxAction {
     public void createEvent(String name, String description, String startDate,
             String duration, String addressNumber, String addressStreet,
             String addressPostalCode, String addressCity, String addressCountry,
-            String idActivity, String idOrganizer, String participantsMin,
-            String participantsMax) throws ServiceException {
+            String idActivity, String idOrganizer, String playerMin,
+            String playerMax) throws ServiceException {
         try {
             JsonObject smaResultContainer = this.jsonHttpClient.post(
                     this.smaUrl,
@@ -442,8 +442,8 @@ public class AjaxAction {
                     new JsonHttpClient.Parameter("addressCountry", addressCountry),
                     new JsonHttpClient.Parameter("idActivity", idActivity),
                     new JsonHttpClient.Parameter("idOrganizer", idOrganizer),
-                    new JsonHttpClient.Parameter("participantsMin", participantsMin),
-                    new JsonHttpClient.Parameter("participantsMax", participantsMax)
+                    new JsonHttpClient.Parameter("playerMin", playerMin),
+                    new JsonHttpClient.Parameter("playerMax", playerMax)
             );
 
             if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
