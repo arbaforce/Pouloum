@@ -166,7 +166,7 @@ public class SetupDB {
     }
     
     protected static void setupAddress() throws IOException{
-        BufferedReader reader = getResourceReader("setup/Address.txt");
+        BufferedReader reader = getResourceReader("setup/Addresses.txt");
 
         ArrayList<Address> addresses = new ArrayList<>();
 
@@ -397,7 +397,7 @@ public class SetupDB {
         Date maxDate = df.getDate(2019, 5, 19);
         
         
-        BufferedReader reader = getResourceReader("setup/Events.txt");
+        BufferedReader reader = getResourceReader("setup/EventsName.txt");
 
         List<String> names = new ArrayList<>();
 
