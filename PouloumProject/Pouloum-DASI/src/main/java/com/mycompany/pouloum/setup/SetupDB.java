@@ -235,44 +235,60 @@ public class SetupDB {
     }
 
     protected static void setupPouloumers()
-            throws ParseException {
+        throws Exception
+    {
         List<Pouloumer> users = new ArrayList<>();
+        List<String> nicknames = new ArrayList<>();
         
         DataFactory df = new DataFactory();
         
         Random rand = new Random();
         
+        List<Activity> activities = ServicesActivity.findAllActivities();
+        int nbActivity = activities.size();
+        
         int nbPouloumers = 400;
         for (int i = 0; i < nbPouloumers; i++) {
             Address address = null;
-
+            
             String p_nickname = df.getRandomWord();
+            if (nicknames.contains(p_nickname)) {
+                int t; for (t=1; nicknames.contains(p_nickname + t); t++);
+                p_nickname += t;
+            }
+            
             String p_password = df.getRandomWord(8, 14);
+            
             try {
                 char gender = rand.nextBoolean() ? 'M' : 'F';
                 CRE created = ServicesPouloumer.signUp(df.getLastName(), df.getFirstName(), p_nickname, 
                     df.getRandomWord() + "@" + df.getRandomWord() + "." + df.getRandomWord(2,3),
                     p_password, false, false, gender, df.getBirthDate(),
                     "06" + df.getNumberText(6), address);
+                if (created == CRE_ERR_EMAIL) System.out.println("CRE_ERR_EMAIL");
+                if (created == CRE_ERR_NICKNAME) System.out.println("CRE_ERR_NICKNAME");
                 
                 if (created == CRE_OK) {
+                    nicknames.add(p_nickname);
+                    
                     Pouloumer p = ServicesPouloumer.getPouloumerByNickname(p_nickname);
                     
-                    int nbInterets = rand.nextInt(6)+3;
+                    int nbInterets = rand.nextInt(6)+2;
                     List<Long> idInterets = new ArrayList<>();
                     while (idInterets.size() < nbInterets) {
-                        Long id = new Long(rand.nextInt(100) + 1);
-                        try {
-                            Activity a = ServicesActivity.getActivityById(id);
-                            if (!idInterets.contains(id)) {
-                                idInterets.add(a.getId());
+                        Activity a = activities.get(rand.nextInt(nbActivity));
+                        Long id = a.getId();
+                        if (!idInterets.contains(id)) {
+                            try {
                                 ServicesPouloumer.addInterests(p, a);
+                                idInterets.add(id);
+                            } catch (Exception ex) {
                             }
-                        } catch (Exception ex) {
                         }
                     }
                 }
             } catch (Exception ex) {
+                System.err.println(ex.getMessage());
             }
         }
     }
