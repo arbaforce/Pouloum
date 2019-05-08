@@ -434,7 +434,7 @@ public class ServicesServlet extends HttpServlet {
             ////Cancel event
             ///////////
             else if ("cancelEvent".equals(sma)) {
-                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idEvent = Long.parseLong(request.getParameter("eventID"));
 
                 Event event = ServicesEvent.getEventById(idEvent);
 

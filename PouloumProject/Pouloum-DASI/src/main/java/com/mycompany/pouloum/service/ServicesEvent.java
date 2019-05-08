@@ -289,7 +289,7 @@ public class ServicesEvent {
             List<Event> allEvents = DAOEvent.findAll();
 
             for (Event e : allEvents) {
-                if (e.getOrganizer().getId().equals(idPouloumer)) {
+                if (e.getOrganizer().getId().equals(idPouloumer) && !e.isCancelled() && !e.isFinished()) {
                     answer.add(e);
                 }
             }
