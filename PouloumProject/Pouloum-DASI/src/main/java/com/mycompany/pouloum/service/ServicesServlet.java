@@ -278,46 +278,56 @@ public class ServicesServlet extends HttpServlet {
                 List<Event> availableEvents = ServicesEvent.findAllEvents();
 
                 JsonArray events = new JsonArray();
+                
+                ArrayList<Long> idEvents = new ArrayList<Long>();
+                
+                for (Event e : p.getEvents()){
+                    idEvents.add(e.getId());
+                }
 
                 for (Event e : availableEvents) {
                     // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
-                    JsonObject eventAndPouloumerSimiliarities = new JsonObject();
+                    if (!e.isFinished() && !e.isCancelled() && !idEvents.contains(e.getId())) {
+                        System.out.println(DateUtil.toString(e.getStart()));
+                        JsonObject eventAndPouloumerSimiliarities = new JsonObject();
 
-                    List<Pouloumer> participants = e.getParticipants();
+                        List<Pouloumer> participants = e.getParticipants();
 
-                    double sumPouloumerSimilarity = 0;
-                    int numberOfPouloumerInEvent=0;
-                    // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
-                    JsonArray currentEventParticipants = new JsonArray();
+                        double sumPouloumerSimilarity = 0;
+                        int numberOfPouloumerInEvent=0;
+                        // This array corresponds to the list<IdUser,User,int(UserSimilarity)>
+                        JsonArray currentEventParticipants = new JsonArray();
 
-                    for (Pouloumer currentPouloumer : participants) {
-                        // This object wraps <IdUser,User,int(UserSimilarity)>
-                        JsonObject participantSimilarity = new JsonObject();
+                        for (Pouloumer currentPouloumer : participants) {
+                            // This object wraps <IdUser,User,int(UserSimilarity)>
+                            JsonObject participantSimilarity = new JsonObject();
 
-                        long PouloumerSimilarity = p.getPouloumerSimilarity(currentPouloumer.getInterests());
+                            long PouloumerSimilarity = p.getPouloumerSimilarity(currentPouloumer.getInterests());
 
-                        participantSimilarity.add("pouloumer", currentPouloumer.toJson());
-                        participantSimilarity.addProperty("similarity", PouloumerSimilarity);
+                            participantSimilarity.add("pouloumer", currentPouloumer.toJson());
+                            participantSimilarity.addProperty("similarity", PouloumerSimilarity);
 
-                        currentEventParticipants.add(participantSimilarity);
+                            currentEventParticipants.add(participantSimilarity);
 
-                        sumPouloumerSimilarity += PouloumerSimilarity;
-                        numberOfPouloumerInEvent+=1;
+                            sumPouloumerSimilarity += PouloumerSimilarity;
+                            numberOfPouloumerInEvent+=1;
+                        }
+                        double averagePouloumerSimilarity;
+                        if (numberOfPouloumerInEvent==0){
+                            averagePouloumerSimilarity=0L;
+                        } else {
+                            averagePouloumerSimilarity=(double) (sumPouloumerSimilarity/numberOfPouloumerInEvent);
+                        }
+                        eventAndPouloumerSimiliarities.add("event", e.toJson());
+                        eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
+                        eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
+
+                        events.add(eventAndPouloumerSimiliarities);
+                        
+                        container.add("events", events);
+
                     }
-                    double averagePouloumerSimilarity;
-                    if (numberOfPouloumerInEvent==0){
-                        averagePouloumerSimilarity=0L;
-                    } else {
-                        averagePouloumerSimilarity=(double) (sumPouloumerSimilarity/numberOfPouloumerInEvent);
-                    }
-                    eventAndPouloumerSimiliarities.add("event", e.toJson());
-                    eventAndPouloumerSimiliarities.add("participants", currentEventParticipants);
-                    eventAndPouloumerSimiliarities.addProperty("average_similarity", averagePouloumerSimilarity);
-
-                    events.add(eventAndPouloumerSimiliarities);
                 }
-
-                container.add("events", events);
             }  /////////////
             /////Search for all events
             /////////////
@@ -335,8 +345,8 @@ public class ServicesServlet extends HttpServlet {
             ////Join event
             ///////////
             else if ("joinEvent".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idUser = Long.parseLong(request.getParameter("userID"));
+                Long idEvent = Long.parseLong(request.getParameter("eventID"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
@@ -350,7 +360,8 @@ public class ServicesServlet extends HttpServlet {
                         ServicesTools.simulateEmail(p.getEmail(),"ATTENTION : l'évènement que vous venez de rejoindre se déroule à moins de deux heures d'un autre évènement auquel vous participez.");
                     }
                     
-                    checkResult = ServicesPouloumer.joinEvent(p, e);
+                    checkResult = ServicesEvent.addParticipant(e,p);
+                    checkResult = ServicesPouloumer.joinEvent(p,e);
                     if (checkResult == CRE_ERR_EVENT) {
                         resultErrorMessage = "The event is already fully booked.";
                         
@@ -368,13 +379,14 @@ public class ServicesServlet extends HttpServlet {
             ////Leave event
             ///////////
             else if ("leaveEvent".equals(sma)) {
-                Long idUser = Long.parseLong(request.getParameter("idUser"));
-                Long idEvent = Long.parseLong(request.getParameter("idEvent"));
+                Long idUser = Long.parseLong(request.getParameter("userID"));
+                Long idEvent = Long.parseLong(request.getParameter("eventID"));
 
                 Pouloumer p = ServicesPouloumer.getPouloumerById(idUser);
                 Event e = ServicesEvent.getEventById(idEvent);
 
                 ServicesEvent.removeParticipant(e, p);
+                ServicesPouloumer.leaveEvent(p, e);
             } //////////////
             /////Set up an event
             //////////////

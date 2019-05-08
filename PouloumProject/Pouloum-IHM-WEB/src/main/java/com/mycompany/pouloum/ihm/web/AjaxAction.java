@@ -722,4 +722,56 @@ public class AjaxAction {
             throw JsonServletHelper.ActionExecutionException("findOrganizedEvents", ex);
         }
     }
+    
+    public void joinEvent(String userID, String eventID) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "joinEvent"),
+                    new JsonHttpClient.Parameter("userID", userID),
+                    new JsonHttpClient.Parameter("eventID", eventID)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "joinEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("joinEvent", ex);
+        }
+    }
+    
+    public void leaveEvent(String userID, String eventID) throws ServiceException{
+        try {
+            JsonObject smaResultContainer = this.jsonHttpClient.post(
+                    this.smaUrl,
+                    new JsonHttpClient.Parameter("SMA", "leaveEvent"),
+                    new JsonHttpClient.Parameter("userID", userID),
+                    new JsonHttpClient.Parameter("eventID", eventID)
+            );
+
+            if (!JsonHttpClient.checkJsonObject(smaResultContainer)) {
+                throw JsonServletHelper.ServiceMetierCallException(this.smaUrl, "leaveEvent");
+            }
+
+            String result = smaResultContainer.get("result").getAsString();
+
+            if ("OK".equals(result)) {
+                this.container.addProperty("result", true);
+            } else {
+                this.container.addProperty("result", false);
+                this.container.addProperty("errorMessage", "ERROR : " + smaResultContainer.get("message").getAsString());
+            }
+        } catch (IOException ex) {
+            throw JsonServletHelper.ActionExecutionException("leaveEvent", ex);
+        }
+    }
 }

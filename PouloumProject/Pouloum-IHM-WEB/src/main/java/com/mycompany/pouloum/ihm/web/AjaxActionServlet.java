@@ -275,6 +275,14 @@ public class AjaxActionServlet extends HttpServlet {
             } else if ("getOrganizedEvents".equals(action)) {
                 String id = request.getParameter("id");
                 ajaxAction.findOrganizedEvents(id);
+            }  else if ("joinEvent".equals(action)) {
+                String userID = request.getParameter("userID");
+                String eventID = request.getParameter("eventID");
+                ajaxAction.joinEvent(userID, eventID);
+            } else if ("leaveEvent".equals(action)) {
+                String userID = request.getParameter("userID");
+                String eventID = request.getParameter("eventID");
+                ajaxAction.leaveEvent(userID, eventID);
             } else {
                 actionCalled = false;
             }

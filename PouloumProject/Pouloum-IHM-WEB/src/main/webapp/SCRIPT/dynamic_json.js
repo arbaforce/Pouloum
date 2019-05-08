@@ -49,6 +49,7 @@ function page_add_events(events, limit) {
         
         var tmp_o = event.pouloumer;
         var data_organizer = {
+            id: tmp_o.id,
             name: tmp_o.nickname,
             url: "./consult_other_user_profile.html?id=" + tmp_o.id
         };

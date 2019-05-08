@@ -2,36 +2,36 @@
  * to toggle the map 
  */
 function openNav() {
-  document.getElementById("search_result_map_global_col").style.width = "49%";
-  document.getElementById("search_result_list_global_col").style.marginRight= "0px";
+    document.getElementById("search_result_map_global_col").style.width = "49%";
+    document.getElementById("search_result_list_global_col").style.marginRight= "0px";
     
-  var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
-  var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
-  for (var i = 0; i < events_statut_know_more_col.length; i++){
-      events_statut_know_more_col[i].setAttribute("class", "col event_statut_know_more_col mx-0 px-0");
-  }
-  for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
-      events_status_know_more_no_more_button_badges_container[i].style.marginRight= "50%";
-  }
-  setTimeout(function(){map.invalidateSize(); map.setView([45.74,4.84], 13);},300);
+    var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
+    var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
+    for (var i = 0; i < events_statut_know_more_col.length; i++){
+        events_statut_know_more_col[i].setAttribute("class", "col event_statut_know_more_col mx-0 px-0");
+    }
+    for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
+        events_status_know_more_no_more_button_badges_container[i].style.marginRight= "50%";
+    }
+    setTimeout(function(){map.invalidateSize(); map.setView([45.74,4.84], 13);},300);
   
-  document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
+    document.getElementById("map_Button").setAttribute("onclick", "closeNav()");
 }
 
 function closeNav() {
-  document.getElementById("search_result_map_global_col").style.width = "65px";
-  document.getElementById("search_result_list_global_col").style.marginRight= "65px";
+    document.getElementById("search_result_map_global_col").style.width = "65px";
+    document.getElementById("search_result_list_global_col").style.marginRight= "65px";
   
-  var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
-  var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
-  for (var i = 0; i < events_statut_know_more_col.length; i++){
-      events_statut_know_more_col[i].setAttribute("class", "col-6 event_statut_know_more_col mx-0 px-0");
-  }
-  for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
-      events_status_know_more_no_more_button_badges_container[i].style.marginRight= "0px";
-  }
+    var events_statut_know_more_col = document.getElementsByClassName("event_statut_know_more_col");
+    var events_status_know_more_no_more_button_badges_container = document.getElementsByClassName("event_status_know_more_no_more_button_badges_container");
+    for (var i = 0; i < events_statut_know_more_col.length; i++){
+        events_statut_know_more_col[i].setAttribute("class", "col-6 event_statut_know_more_col mx-0 px-0");
+    }
+    for(var i = 0; i < events_status_know_more_no_more_button_badges_container.length; i++){
+        events_status_know_more_no_more_button_badges_container[i].style.marginRight= "0px";
+    }
   
-  document.getElementById("map_Button").setAttribute("onclick", "openNav()");
+    document.getElementById("map_Button").setAttribute("onclick", "openNav()");
 }
 
 /*
@@ -51,7 +51,7 @@ function addResultDemo() {
     addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", undefined, data_badges);
     addResult(0,"",[{name:"Basketball", url:"", level:"débutant"}], {name:"Claude", url:""}, "Tête d'Or", "aujourd'hui", "une semaine", data_participants, "rempli", "", undefined, data_badges);
 }
-*/
+ */
 
 function noResult() {
     var results = document.getElementById("search_result_list_global_container");
@@ -334,16 +334,39 @@ function addResult(data_id, data_label, data_activities, data_organizer, data_pl
                     var div_event_no_more_button_col = document.createElement("div");
                     div_event_no_more_button_col.className = "col mx-0 px-0";
                     {
-                        var button_knowmore = document.createElement("button");
-                        button_knowmore.className = "btn btn-light buttonEvent";
-                        button_knowmore.type = "button";
+                        var button_join = document.createElement("button");
+                        button_join.className = "btn btn-light buttonEvent";
+                        button_join.type = "button";
+                        button_join.onclick = function(){
+                            $.ajax({
+                                url: './AjaxAction',
+                                type: 'POST',
+                                data: {
+                                    'action': 'getUserIdSession',
+                                },
+                                datatype: 'json'
+                            }).done(function (data){
+                                $.ajax({
+                                    url: './AjaxAction',
+                                    type: 'POST',
+                                    data: {
+                                        'action': 'joinEvent',
+                                        'userID': data.userID,
+                                        'eventID': data_id
+                                    },
+                                    datatype: 'json'
+                                }).done(function (data){
+                                    window.location.href = "events_browser.html";
+                                });
+                            });
+                        };
                         {
                             var txt_knowmore = document.createTextNode("Je participe.");
                             
-                            button_knowmore.appendChild(txt_knowmore);
+                            button_join.appendChild(txt_knowmore);
                         }
                         
-                        div_event_no_more_button_col.appendChild(button_knowmore);
+                        div_event_no_more_button_col.appendChild(button_join);
                     }
                     
                     div_event_status_know_more_no_more_button_badges_row.appendChild(div_event_no_more_button_col);

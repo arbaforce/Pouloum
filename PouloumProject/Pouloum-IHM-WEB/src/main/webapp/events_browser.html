@@ -162,7 +162,7 @@
                     if (OK) {
                         var events = data.events;
                         events[153].average_similarity = 1; //FIXME remove this line when DB contains events with non-null similarity.
-                        sortEventsBySimilarity(events)
+                        sortEventsBySimilarity(events);
                         all_events_with_similarity = events ;
                         console.log(events); //FIXME to remove    
             
@@ -215,9 +215,9 @@
             
             function sortEventsBySimilarity(events_with_similarity){
                 events_with_similarity.sort(function(event_with_similarity_A, event_with_similarity_B){
-                                                return event_with_similarity_B.average_similarity - event_with_similarity_A.average_similarity;
-                                                }
-                                            );
+                    return event_with_similarity_B.average_similarity - event_with_similarity_A.average_similarity;
+                }
+                        );
             }
             
             //TODO implement location and date filters
@@ -274,21 +274,20 @@
             var friend_filter = document.getElementById("friend_filter");
             
             activity_filter.addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
-                                                            }
-                                                    );
+                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
+            }
+                    );
             location_filter.addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
-                                                            }
-                                                    );
+                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
+            }
+                    );
             date_filter.addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
-                                                            }
-                                                    );
+                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
+            }
+                    );
             friend_filter.addEventListener("input", function(e){
-                                                                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
-                                                            }
-                                                    );
+                apply_filters(activity_filter.value, location_filter.value, date_filter.value, friend_filter.value);
+            });
             
         </script>
         <!-- retrieves the userID -->

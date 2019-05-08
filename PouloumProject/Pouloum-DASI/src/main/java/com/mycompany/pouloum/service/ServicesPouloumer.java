@@ -336,10 +336,10 @@ public class ServicesPouloumer {
             return CRE_ERR_EVENT;
         }
 
-        List<Event> events = p.getEvents();
-        events.add(event);
-        p.setEvents(events);
-
+        p.addEvent(event);
+        
+        System.out.println(event.getId());
+        
         JpaUtil.createEntityManager();
 
         try {
