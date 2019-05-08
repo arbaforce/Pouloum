@@ -12,3 +12,21 @@
 .button{
     width: 100%;
 }
+
+#validate_button_col{
+    padding-left:15%;
+    padding-right:15%;
+}
+
+#cancel_button_col{
+    padding-left:15%;
+    padding-right:15%;
+}
+
+#row_validation_buttons{
+    padding-top:2%;
+}
+
+#global_container{
+    padding-top:2%;
+}
