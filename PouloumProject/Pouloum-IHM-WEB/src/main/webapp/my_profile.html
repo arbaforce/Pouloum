@@ -165,11 +165,13 @@
             
                         for (var activity_index = 0 ; activity_index < data.userDetails.interests.length ; activity_index++)
                         {
-                            $("#interest_pouloumer_list").append('<li id="activity_'+data.userDetails.interests[activity_index].id+'" class="list-group-item">'
+                            $("#interest_pouloumer_list").append('<div class="button_remove_interest_container" >'
+                                    +'<li id="activity_'+data.userDetails.interests[activity_index].id+'" class="list-group-item">'
                                     +data.userDetails.interests[activity_index].name
                                     +'<button type="button" class="btn btn-danger btn_remove_interest" id="'+data.userDetails.interests[activity_index].id+'">'
                                     + '-'
                                     +'</button>'
+                                    +'</div>'
                                     +'</li>');
                                                  
                             activitiesInterestMap.set(data.userDetails.interests[activity_index].id,data.userDetails.interests[activity_index].name);

@@ -4,6 +4,18 @@
     border: 2px solid darkcyan;
 }
 
+.btn_remove_interest{
+    padding:1%;
+    height: 5px;
+    width:15px;
+    right: 10px;
+    top: 20px;
+    position:absolute;
+}
+
+.button_remove_interest_container{
+}
+
 .container_align{
     padding-left:15%;
 }
