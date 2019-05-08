@@ -3,3 +3,10 @@
     width: 100%;
     height: 200px;
 }
+
+.no_text_outer{
+    overflow:hidden;
+    max-height:300px;
+    border:1px solid black;
+    box-shadow: 1px 1px 3px cadetblue;
+}
