@@ -375,7 +375,7 @@ public class ServicesServlet extends HttpServlet {
             //////////////
             else if ("createEvent".equals(sma)) {
                 // Get organizer
-                Long idOrganizer = Long.parseLong(request.getParameter("idUser"));
+                Long idOrganizer = Long.parseLong(request.getParameter("idOrganizer"));
                 Pouloumer organizer = ServicesPouloumer.getPouloumerById(idOrganizer);
 
                 // Get activity
@@ -394,7 +394,7 @@ public class ServicesServlet extends HttpServlet {
                 // Create the actual event
                 String name = request.getParameter("name");
                 String description = request.getParameter("description");
-                Date startDate = DateUtil.toDate(request.getParameter("date"));
+                Date startDate = DateUtil.toDate(request.getParameter("startDate"));
                 int duration = Integer.parseInt(request.getParameter("duration"));
                 int playerMin = Integer.parseInt(request.getParameter("playerMin"));
                 int playerMax = Integer.parseInt(request.getParameter("playerMax"));

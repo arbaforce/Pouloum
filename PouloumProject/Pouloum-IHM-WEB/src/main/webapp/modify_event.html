@@ -224,12 +224,12 @@
             // once the userID is retrieved
             var activitiesSuggestionMap = new Map();
             var selectedActivityID;
+            var createEvent;
+            var userID;
+            var eventID;
 
-            function ready_userID(userID) {
-                var userID;
-                var eventID;
-                var createEvent;
-
+            function ready_userID(id) {
+                userID = id;
                 $.ajax({
                     url: './AjaxAction',
                     type: 'POST',
@@ -266,7 +266,9 @@
                                 $("#event_duration_container").value = data.event.duration;
                                 $("#event_participants_number_min_container").value = data.event.participants_min;
                                 $("#event_participants_number_max_container").value = data.event.participants_max;
-
+                                
+                                $("#event_name_container").disabled = true;
+                                $("#event_activity_name_container").disabled = true;
 
                                 //TODO : consider whether to add status when modifying an event
                                 /*
@@ -289,6 +291,9 @@
                             }
                         });
                         
+                    } else {
+                        createEvent = true;
+                        
                         $.ajax({
                             url: './AjaxAction',
                             type: 'POST',
@@ -302,12 +307,6 @@
                                 selectedActivityID = key;
                             });
                         });
-
-                    } else {
-                        createEvent = true;
-                        // Setup autocompletion for activities
-
-                        
 
                     }
                 });
@@ -325,6 +324,7 @@
 
             $(function () {
                 $("#validate_button").button().on("click", function () {
+                    console.log(createEvent);
                     if (createEvent) {
                         $.ajax({
                             url: './AjaxAction',
@@ -334,10 +334,11 @@
                                 'idOrganizer': userID,
                                 'idActivity': selectedActivityID,
                                 'name': $('#event_name_container').val(),
-                                'startDate': $('#event_start_date_container').val(),
+                                'description': $('#event_description_container').val(),
+                                'startDate': $('#date_container').val(),
                                 'duration': $('#event_duration_container').val(),
                                 'address': $('#event_address_details_container').val(),
-                                'addressPostalCode': $('#event_address_postal_number_container').val(),
+                                'addressPostalCode': $('#event_address_postal_code_container').val(),
                                 'addressCity': $('#event_address_city_container').val(),
                                 'addressCountry': $('#event_address_country_container').val(),
                                 'playerMin': $('#event_player_min_container').val(),
@@ -361,10 +362,11 @@
                                 'action': 'updateEvent',
                                 'id': eventID,
                                 'name': $('#event_name_container').val(),
-                                'startDate': $('#event_start_date_container').val(),
+                                'description': $('#event_description_container').val(),
+                                'startDate': $('#date_container').val(),
                                 'duration': $('#event_duration_container').val(),
                                 'address': $('#event_address_details_container').val(),
-                                'addressPostalCode': $('#event_address_postal_number_container').val(),
+                                'addressPostalCode': $('#event_address_postal_code_container').val(),
                                 'addressCity': $('#event_address_city_container').val(),
                                 'addressCountry': $('#event_address_country_container').val(),
                                 'playerMin': $('#event_player_min_container').val(),
@@ -374,6 +376,14 @@
                         }).done(function (data) {
                             var OK = data.result;
                             if (OK) {
+                                $.ajax({
+                                    url: './AjaxAction',
+                                    type: 'POST',
+                                    data: {
+                                        'action': 'removeEventIdSession',
+                                    },
+                                    datatype: 'json'
+                                })
                                 window.location.href = './home_page.html';
                             } else {
                                 $("#errorMessage").show();
