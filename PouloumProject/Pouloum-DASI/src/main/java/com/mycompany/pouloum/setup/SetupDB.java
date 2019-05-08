@@ -62,7 +62,7 @@ public class SetupDB {
     
     public static void main(String[] args) {
         JpaUtil.init();
-
+        
         try {
             setupActivities();
         } catch (Exception ex) {
@@ -80,19 +80,19 @@ public class SetupDB {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        try {
-            setupPouloumersEvents();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+        
         try {
             setupEvents();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
+        
+        try {
+            setupPouloumersEvents();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
         JpaUtil.destroy();
     }
 
@@ -235,48 +235,170 @@ public class SetupDB {
     }
 
     protected static void setupPouloumers()
-            throws ParseException {
+        throws Exception
+    {
         List<Pouloumer> users = new ArrayList<>();
+        List<String> nicknames = new ArrayList<>();
+        
         DataFactory df = new DataFactory();
+        
         Random rand = new Random();
+        
+        List<Activity> activities = ServicesActivity.findAllActivities();
+        int nbActivity = activities.size();
         
         int nbPouloumers = 400;
         for (int i = 0; i < nbPouloumers; i++) {
             Address address = null;
-
+            
             String p_nickname = df.getRandomWord();
+            if (nicknames.contains(p_nickname)) {
+                int t; for (t=1; nicknames.contains(p_nickname + t); t++);
+                p_nickname += t;
+            }
+            
             String p_password = df.getRandomWord(8, 14);
+            
             try {
                 char gender = rand.nextBoolean() ? 'M' : 'F';
                 CRE created = ServicesPouloumer.signUp(df.getLastName(), df.getFirstName(), p_nickname, 
                     df.getRandomWord() + "@" + df.getRandomWord() + "." + df.getRandomWord(2,3),
                     p_password, false, false, gender, df.getBirthDate(),
                     "06" + df.getNumberText(6), address);
+                if (created == CRE_ERR_EMAIL) System.out.println("CRE_ERR_EMAIL");
+                if (created == CRE_ERR_NICKNAME) System.out.println("CRE_ERR_NICKNAME");
                 
                 if (created == CRE_OK) {
+                    nicknames.add(p_nickname);
+                    
                     Pouloumer p = ServicesPouloumer.getPouloumerByNickname(p_nickname);
                     
-                    int nbInterets = rand.nextInt(6)+3;
+                    int nbInterets = rand.nextInt(6)+2;
                     List<Long> idInterets = new ArrayList<>();
                     while (idInterets.size() < nbInterets) {
-                        Long id = new Long(rand.nextInt(100) + 1);
-                        try {
-                            Activity a = ServicesActivity.getActivityById(id);
-                            if (!idInterets.contains(id)) {
-                                idInterets.add(a.getId());
+                        Activity a = activities.get(rand.nextInt(nbActivity));
+                        Long id = a.getId();
+                        if (!idInterets.contains(id)) {
+                            try {
                                 ServicesPouloumer.addInterests(p, a);
+                                idInterets.add(id);
+                            } catch (Exception ex) {
                             }
-                        } catch (Exception ex) {
                         }
                     }
                 }
             } catch (Exception ex) {
+                System.err.println(ex.getMessage());
             }
+        }
+    }
+    
+    protected static void setupEvents()
+            throws Exception {
+        
+        List<Event> events = new ArrayList<>();
+        
+        
+        List<String> names = getResourceLines("setup/EventsName.txt", true);
+        
+        List<String> descs = getResourceLines("setup/EventsDesc.txt", false);
+        
+        
+        JpaUtil.createEntityManager();
+        
+        List<Long> idsPouloumers = DAOPouloumer.findAllIDs();
+        int nbPouloumer = idsPouloumers.size();
+        
+        List<Long> idsActivities = DAOActivity.findAllIDs();
+        int nbActivity = idsActivities.size();
+        
+        List<Long> idsAddress = DAOAddress.findAllIDs();
+        int nbAddress = idsAddress.size();
+        
+        JpaUtil.closeEntityManager();
+        
+        
+        Random rand = new Random();
+        
+        DataFactory df = new DataFactory();
+        Date minDate = df.getDate(2019, 5, 6);
+        Date maxDate = df.getDate(2019, 5, 19);
+        
+        int nbEvents = nbPouloumer / 5;
+        for (int i = 0; i < nbEvents; i++) {
+            Date date = df.getDateBetween(minDate, maxDate);
+            Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
+            Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
+            Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
+            String name = names.get(i % names.size());
+            String desc = descs.get(rand.nextInt(descs.size()));
+            name = name.replaceAll("§", activity.getName());
+            desc = desc.replaceAll("§", activity.getName());
+            // // 1 chance sur 5 pour que pas de nombre de participants min/max.
+            int nb_min = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + 1;
+            int nb_max = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + nb_min;
+            int dur = 10 + rand.nextInt(10) * 10;
+            Event e = new Event(name, desc,
+                    date, false, dur,
+                    address, activity,
+                    organizer, nb_min, nb_max);
+            events.add(e);
+        }
+        
+        JpaUtil.createEntityManager();
+        
+        try {
+            for (Event e : events) {
+                try {
+                    
+                    JpaUtil.openTransaction();
+                    
+                    try {
+                        DAOEvent.persist(e);
+                        
+                        JpaUtil.commitTransaction();
+                    } catch (Exception ex) {
+                        JpaUtil.cancelTransaction();
+                        throw ex;
+                    }
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
+        } finally {
+            JpaUtil.closeEntityManager();
         }
     }
     
     protected static void setupPouloumersEvents()
             throws Exception {
+        
+        List<Pouloumer> pouloumers = ServicesPouloumer.findAllPouloumers();
+        int nbPouloumer = pouloumers.size();
+        
+        List<Event> events = ServicesEvent.findAllEvents();
+        int nbEvent = events.size();
+        
+        Random rand = new Random();
+        
+        for (int j=0; j<4; j++) {
+            for (int i=0; i<nbPouloumer; i++) {
+                Pouloumer pouloumer = pouloumers.get(i);
+                try {
+                    Event event = events.get(rand.nextInt(nbEvent));
+                    ServicesEvent.addParticipant(event, pouloumer);
+                } catch (Exception ex) {
+                }
+            }
+        }
+    }
+    
+    /*
+    protected static void setupHardcodedPouloumersEvents()
+            throws Exception {
+        
         List<Pouloumer> users = new ArrayList<>();
         
         Date d1 = DateUtil.toDate("16/08/1984");
@@ -415,84 +537,6 @@ public class SetupDB {
         ServicesEvent.addParticipant(e6, p5);
         ServicesEvent.addParticipant(e6, p6);
     }
-    
-    protected static void setupEvents()
-            throws Exception {
-        
-        List<Event> events = new ArrayList<>();
-        
-        
-        List<String> names = getResourceLines("setup/EventsName.txt", true);
-        
-        List<String> descs = getResourceLines("setup/EventsDesc.txt", false);
-        
-        
-        JpaUtil.createEntityManager();
-        
-        List<Long> idsPouloumers = DAOPouloumer.findAllIDs();
-        int nbPouloumer = idsPouloumers.size();
-        
-        List<Long> idsActivities = DAOActivity.findAllIDs();
-        int nbActivity = idsActivities.size();
-        
-        List<Long> idsAddress = DAOAddress.findAllIDs();
-        int nbAddress = idsAddress.size();
-        
-        JpaUtil.closeEntityManager();
-        
-        
-        Random rand = new Random();
-        
-        DataFactory df = new DataFactory();
-        Date minDate = df.getDate(2019, 5, 6);
-        Date maxDate = df.getDate(2019, 5, 19);
-        
-        int nbEvents = nbPouloumer / 5;
-        for (int i = 0; i < nbEvents; i++) {
-            Date date = df.getDateBetween(minDate, maxDate);
-            Pouloumer organizer = ServicesPouloumer.getPouloumerById(idsPouloumers.get(rand.nextInt(nbPouloumer))); 
-            Activity activity = ServicesActivity.getActivityById(idsActivities.get(rand.nextInt(nbActivity)));
-            Address address = ServicesAddress.getAddressById(idsAddress.get(rand.nextInt(nbAddress)));
-            String name = names.get(i % names.size());
-            String desc = descs.get(rand.nextInt(descs.size()));
-            name = name.replaceAll("§", activity.getName());
-            desc = desc.replaceAll("§", activity.getName());
-            // // 1 chance sur 5 pour que pas de nombre de participants min/max.
-            int nb_min = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + 1;
-            int nb_max = /* rand.nextInt(5) == 0 ? 0 : */ rand.nextInt(10) + nb_min;
-            int dur = 10 + rand.nextInt(10) * 10;
-            Event e = new Event(name, desc,
-                    date, false, dur,
-                    address, activity,
-                    organizer, nb_min, nb_max);
-            events.add(e);
-        }
-        
-        JpaUtil.createEntityManager();
-        
-        try {
-            for (Event e : events) {
-                try {
-                    
-                    JpaUtil.openTransaction();
-                    
-                    try {
-                        DAOEvent.persist(e);
-                        
-                        JpaUtil.commitTransaction();
-                    } catch (Exception ex) {
-                        JpaUtil.cancelTransaction();
-                        throw ex;
-                    }
-                    
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            
-        } finally {
-            JpaUtil.closeEntityManager();
-        }
-    }
+    */
     
 }

@@ -88,14 +88,14 @@ public class ServicesPouloumer {
         JpaUtil.createEntityManager();
 
         Pouloumer check = DAOPouloumer.findPouloumerByEmail(mail);
-        if (check != null) {
+        if (check != null || mail.isEmpty()) {
             // email already used
             return CRE_ERR_EMAIL;
         }
         // email available
 
         check = DAOPouloumer.findPouloumerByNickname(nickname);
-        if (check != null) {
+        if (check != null || nickname.isEmpty()) {
             // nickname already used
             return CRE_ERR_NICKNAME;
         }
@@ -158,7 +158,7 @@ public class ServicesPouloumer {
 
         if (!email.equals(p.getEmail())) {
             Pouloumer check = DAOPouloumer.findPouloumerByEmail(email);
-            if (check != null) {
+            if (check != null || email.isEmpty()) {
                 // email already used
                 return CRE_ERR_EMAIL;
             }
@@ -167,14 +167,14 @@ public class ServicesPouloumer {
 
         if (!nickname.equals(p.getNickname())) {
             Pouloumer check = DAOPouloumer.findPouloumerByNickname(nickname);
-            if (check != null) {
+            if (check != null || nickname.isEmpty()) {
                 // nickname already used
                 return CRE_ERR_NICKNAME;
             }
             // nickname available
         }
 
-        if (!password.equals("") && password.length() < 8) {
+        if (password.length() < 8) {
             // password too weak
             return CRE_ERR_PASSWORD;
         }
