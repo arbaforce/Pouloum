@@ -21,7 +21,7 @@ function page_add_events(events, limit) {
         var tmp_a = event.activity;
         var data_activities = [{
             name: tmp_a.name,
-            url: "./activity_details?id=" + tmp_a.id,
+            url: "./activity_details.html?activityID=" + tmp_a.id,
             level: "débutant" //FIXME
         }];
         var tmp_bs = tmp_a.badges;

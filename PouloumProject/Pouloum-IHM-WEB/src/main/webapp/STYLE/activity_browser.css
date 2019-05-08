@@ -2,3 +2,7 @@
     overflow-x:hidden!important;
     width: 100%;
 }
+
+.button_activity{
+    box-shadow: none;
+}
