@@ -222,22 +222,42 @@
                     var event = all_events[ei];
                     console.log(event);
                     console.log(event["participants"]);
-                    var keep = false;
-                    var participants = event["participants"];
-                    for(var pi=0; pi<participants.length; pi++){
-                        console.log(participants[pi]);
-                        //console.log(participant["nickname"]);
-                        var nickname = participants[pi]["nickname"];
-                        if(nickname.indexOf(friend)>=0){
-                            keep = true;
-                            break;
+                    var keep = true;
+                    var isFound = false;
+                    if(friend.length>0 && keep){
+                        var participants = event["participants"];
+                        for(var pi=0; pi<participants.length; pi++){
+                            console.log(participants[pi]);
+                            //console.log(participant["nickname"]);
+                            var nickname = participants[pi]["nickname"];
+                            if(nickname.indexOf(friend)>=0){
+                                isFound = true;
+                                break;
+                            }
                         }
+                        keep = (isFound && keep);
+                    } else {
+                        console.log("FRIEND IS NOT DEFINED !!!")
                     }
                     
-                    if(event["activity"]["name"].indexOf(activity)<0){
-                        keep = false;
+                    if(activity.length>0 && keep){
+                        isFound = false;
+                        if(event["activity"]["name"].indexOf(activity)>=0){
+                            isFound = true;
+                        }
+                        keep = (isFound && keep);
+                    } else {
+                        console.log("ACTIVITY IS NOT DEFINED !!!")
                     }
-        
+                    if(location.length>0 && keep){
+                        var data_place = event.address.number.trim() + " " + event.address.street.trim() + " " + event.address.city.trim();
+                        isFound = false;
+                        if(data_place.indexOf(location)>=0){
+                            isFound = true
+                        }
+                        keep = (isFound && keep);
+                    }
+                    
                     if (keep) some_events.push(event);
                 }
     
