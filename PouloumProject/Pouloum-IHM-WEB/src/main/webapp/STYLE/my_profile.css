@@ -24,13 +24,6 @@
     font-weight: bold;
 }
 
-.border_profil{
-    border: 1px solid cadetblue;
-    margin-right: 0.5%;
-    box-shadow: 0px 2px 4px currentColor;
-    margin-left: 0.5%;
-}
-
 #user_details_global_container{
     margin-left: 2%;
 }
