@@ -6,10 +6,16 @@
     padding-bottom: 10px;
 }
 
+#search_result_map_global_col{
+    height:  70vh;
+}
+  
+    
+
 /*the following serve for the sliding sidebar*/
 .sidebar {
   position: absolute;
-  height: 100%;
+  height:  100%;
   width: 65px;
   right: 0px;
   background-color: #111;

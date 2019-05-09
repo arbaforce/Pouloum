@@ -81,10 +81,14 @@
 }
 
 
+#search_result_map_global_col{
+    max-height:88vh;
+}
+
 #search_result_global_container{
     max-height:100%;
     max-width: 100%;
-    height:84vh;
+    height:88vh;
 }
 
 #search_result_list_global_col {
