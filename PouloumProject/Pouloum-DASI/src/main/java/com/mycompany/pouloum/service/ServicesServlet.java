@@ -287,7 +287,7 @@ public class ServicesServlet extends HttpServlet {
 
                 for (Event e : availableEvents) {
                     // This object wraps <idEvent, Event, list<IdUser, User,int(UserSimilarity)>,int(UserSimilarity)>
-                    if (!e.isFinished() && !e.isCancelled() && !idEvents.contains(e.getId())) {
+                    if (!e.isFinished() && !e.isCancelled() && !idEvents.contains(e.getId()) &&!e.isFull()) {
                         System.out.println(DateUtil.toString(e.getStart()));
                         JsonObject eventAndPouloumerSimiliarities = new JsonObject();
 

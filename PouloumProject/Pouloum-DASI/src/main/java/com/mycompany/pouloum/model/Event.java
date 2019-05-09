@@ -226,7 +226,7 @@ public class Event implements Serializable {
 
     public boolean isFull() {
         if (participants_max == 0) return false;
-        return (participants.size() == participants_max);
+        return (participants.size() >= participants_max);
     }
 
     public boolean isStarted() {

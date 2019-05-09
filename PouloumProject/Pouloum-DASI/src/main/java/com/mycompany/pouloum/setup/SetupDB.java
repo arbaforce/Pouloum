@@ -383,7 +383,7 @@ public class SetupDB {
         
         Random rand = new Random();
         
-        for (int j=0; j<4; j++) {
+        for (int j=0; j<2; j++) {
             for (int i=0; i<nbPouloumer; i++) {
                 Pouloumer pouloumer = pouloumers.get(i);
                 try {
