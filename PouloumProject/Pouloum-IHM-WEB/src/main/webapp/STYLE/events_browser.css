@@ -9,7 +9,7 @@
 /*the following serve for the sliding sidebar*/
 .sidebar {
   position: absolute;
-  height: 100%;
+  height:  70vh;
   width: 65px;
   right: 0px;
   background-color: #111;
